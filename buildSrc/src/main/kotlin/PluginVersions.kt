@@ -8,4 +8,5 @@ object PluginVersions {
     const val ALLOPEN_VERSION = "1.6.21"
     const val MOCKK_VERSION = "1.13.2"
     const val DETEKT_VERSION = "1.21.0"
+    const val JVM_TARGET_VERSION = "11"
 }
