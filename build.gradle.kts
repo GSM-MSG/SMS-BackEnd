@@ -10,7 +10,7 @@ repositories {
 subprojects {
 	apply {
 		plugin("org.jetbrains.kotlin.jvm")
-		version = "1.6.21"
+		version = PluginVersions.JVM_VERSION
 	}
 
 	dependencies {
@@ -34,7 +34,7 @@ allprojects {
 		compileKotlin {
 			kotlinOptions {
 				freeCompilerArgs = listOf("-Xjsr305=strict")
-				jvmTarget = "11"
+				jvmTarget = PluginVersions.JVM_TARGET_VERSION
 			}
 		}
 		compileJava {
