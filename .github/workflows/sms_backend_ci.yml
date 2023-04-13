@@ -28,7 +28,6 @@ jobs:
 
       - name: Create application.yml
         run: |
-          rm ./src/main/resources/application.yml
           touch ./src/main/resources/application.yml
           echo "${{ secrets.SMS_BACKEND_ENV }}" >> ./src/main/resources/application.yml
         shell: bash
