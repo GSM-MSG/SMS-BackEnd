@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class SmsApplication
 
 fun main(args: Array<String>) {
-	runApplication<SmsApplication>(*args)
+    runApplication<SmsApplication>(*args)
 }
