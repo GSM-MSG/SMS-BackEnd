@@ -19,6 +19,9 @@ subprojects {
 		implementation(Dependencies.KOTLIN_JDK)
 		implementation(Dependencies.JACKSON)
 
+		//servlet
+		implementation(Dependencies.JAVA_SERVLET)
+
 		// test
 		implementation(Dependencies.SPRING_TEST)
 		implementation(Dependencies.MOCKK)
