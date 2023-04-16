@@ -4,4 +4,5 @@ object DependencyVersions {
     const val REDIS_VERSION = "2.7.2"
     const val MYSQL = "8.0.28"
     const val MOCKK_VERSION = "1.13.2"
+    const val SERVLET_VERSION = "4.0.1"
 }
