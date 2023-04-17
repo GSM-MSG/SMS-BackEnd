@@ -1,7 +1,6 @@
 package team.msg.sms.global.error
 
 import org.springframework.validation.BindingResult
-import org.springframework.validation.FieldError
 import team.msg.sms.common.error.ErrorProperty
 
 data class ErrorResponse(
@@ -15,11 +14,7 @@ data class ErrorResponse(
         )
 
         fun of(e: BindingResult): ValidationErrorResponse {
-            val errorMap = HashMap<String, String?>()
-
-            for (error: FieldError in e.fieldErrors) {
-                errorMap[error.field] = error.defaultMessage
-            }
+            val errorMap = e.fieldErrors.associate { it.field to it.defaultMessage }
 
             return ValidationErrorResponse(
                 status = GlobalErrorCode.BAD_REQUEST.status(),
