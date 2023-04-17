@@ -17,7 +17,7 @@ class ExceptionFilter(
     private val objectMapper: ObjectMapper
 ) : OncePerRequestFilter() {
 
-    private val log = LoggerFactory.getLogger(this.javaClass.simpleName)
+    private val log by lazy { LoggerFactory.getLogger(this.javaClass.simpleName) }
 
     override fun doFilterInternal(
         request: HttpServletRequest,
