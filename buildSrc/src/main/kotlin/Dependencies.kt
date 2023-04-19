@@ -26,7 +26,11 @@ object Dependencies {
     // jwt
     const val JWT = "io.jsonwebtoken:jjwt:${DependencyVersions.JWT_VERSION}"
 
+    // gauth
     const val GAUTH = "com.github.GSM-MSG:GAuth-SDK-Java:v${DependencyVersions.GAUTH_VERSION}"
+
+    // transaction
+    const val SPRING_TRANSACTION = "org.springframework:spring-tx:${DependencyVersions.SPRING_TRANSACTION}"
 
     // test
     const val SPRING_TEST = "org.springframework.boot:spring-boot-starter-test:${PluginVersions.SPRING_BOOT_VERSION}"

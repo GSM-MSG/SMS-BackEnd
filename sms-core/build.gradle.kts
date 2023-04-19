@@ -8,8 +8,15 @@ repositories {
 }
 
 dependencies {
+    // transaction
+    implementation(Dependencies.SPRING_TRANSACTION)
+
+    // gauth
     implementation(Dependencies.GAUTH)
 }
 
 allOpen {
+    annotation("team.msg.sms.common.annotation.UseCase")
+    annotation("team.msg.sms.common.annotation.ReadOnlyUseCase")
+    annotation("team.msg.sms.common.annotation.Service")
 }
