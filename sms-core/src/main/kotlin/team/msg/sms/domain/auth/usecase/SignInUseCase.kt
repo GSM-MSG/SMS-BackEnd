@@ -4,7 +4,9 @@ import team.msg.sms.domain.auth.dto.request.SignInData
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.auth.dto.response.SignInResponse
 import team.msg.sms.common.spi.GAuthPort
+import team.msg.sms.domain.auth.model.RefreshToken
 import team.msg.sms.domain.auth.spi.JwtPort
+import team.msg.sms.domain.auth.spi.RefreshTokenPort
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 
@@ -12,6 +14,7 @@ import team.msg.sms.domain.user.service.UserService
 class SignInUseCase(
     private val gAuthPort: GAuthPort,
     private val jwtPort: JwtPort,
+    private val refreshTokenPort: RefreshTokenPort,
     private val userService: UserService,
 ) {
     fun execute(request: SignInData): SignInResponse {
@@ -30,6 +33,8 @@ class SignInUseCase(
             )
         )
         val (accessToken, accessTokenExp, refreshToken, refreshTokenExp) = jwtPort.receiveToken(user.id, role)
+
+        refreshTokenPort.saveRefreshToken(RefreshToken(refreshToken, user.id))
 
         return SignInResponse(
             accessToken = accessToken,

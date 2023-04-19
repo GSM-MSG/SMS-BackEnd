@@ -8,7 +8,6 @@ import team.msg.sms.domain.auth.dto.response.TokenResponse
 import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.global.security.SecurityProperties
-import team.msg.sms.persistence.auth.repository.RefreshTokenRepository
 import java.time.LocalDateTime
 import java.util.*
 
