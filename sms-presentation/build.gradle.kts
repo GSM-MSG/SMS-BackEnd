@@ -4,12 +4,21 @@ plugins {
     kotlin("plugin.spring") version PluginVersions.SPRING_PLUGIN_VERSION
 }
 
+repositories {
+    mavenCentral()
+    maven { url = uri("https://jitpack.io") }
+}
+
+
 dependencies {
     // impl project
     implementation(project(":sms-core"))
 
     // web
     implementation(Dependencies.SPRING_WEB)
+
+    // gauth
+    implementation(Dependencies.GAUTH)
 
     // validation
     implementation(Dependencies.SPRING_VALIDATION)
