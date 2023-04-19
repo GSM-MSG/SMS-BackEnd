@@ -5,4 +5,5 @@ object DependencyVersions {
     const val MYSQL = "8.0.28"
     const val MOCKK_VERSION = "1.13.2"
     const val SERVLET_VERSION = "4.0.1"
+    const val GAUTH_VERSION = "2.0.0"
 }
