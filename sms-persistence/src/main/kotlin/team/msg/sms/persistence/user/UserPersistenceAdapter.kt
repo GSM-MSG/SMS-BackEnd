@@ -9,7 +9,6 @@ import team.msg.sms.persistence.user.repository.UserJpaRepository
 
 @Component
 class UserPersistenceAdapter(
-//    private val userMapper: UserMapper,
     private val userRepository: UserJpaRepository
 ) : UserPort {
     override fun saveUser(user: User): User =
