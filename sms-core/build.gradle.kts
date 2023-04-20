@@ -16,7 +16,7 @@ dependencies {
 }
 
 allOpen {
-    annotation("team.msg.sms.common.annotation.UseCase")
-    annotation("team.msg.sms.common.annotation.ReadOnlyUseCase")
-    annotation("team.msg.sms.common.annotation.Service")
+    annotation(AllOpen.USECASE)
+    annotation(AllOpen.READ_ONLY_USECASE)
+    annotation(AllOpen.SERVICE)
 }
