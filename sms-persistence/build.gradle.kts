@@ -1,6 +1,7 @@
 plugins {
     kotlin("plugin.jpa") version PluginVersions.JPA_PLUGIN_VERSION
     kotlin("plugin.spring") version PluginVersions.SPRING_PLUGIN_VERSION
+    kotlin("plugin.allopen") version PluginVersions.ALLOPEN_VERSION
 }
 
 dependencies {

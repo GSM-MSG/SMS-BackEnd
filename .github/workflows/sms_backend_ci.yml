@@ -19,9 +19,6 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Clean Gradle cache
-        run: rm -rf $HOME/.gradle/caches
-
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
