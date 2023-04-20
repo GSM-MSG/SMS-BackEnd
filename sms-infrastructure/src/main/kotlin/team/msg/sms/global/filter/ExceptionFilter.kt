@@ -35,7 +35,6 @@ class ExceptionFilter(
                     errorToJson((e.cause as SmsException).errorProperty, response)
                     log.error(e.message)
                 }
-
                 else -> {
                     errorToJson(InternalServerErrorException.errorProperty, response)
                     log.error(InternalServerErrorException.message)
