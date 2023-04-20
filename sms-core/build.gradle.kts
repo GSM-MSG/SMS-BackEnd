@@ -15,7 +15,7 @@ dependencies {
     implementation(Dependencies.GAUTH)
 }
 
-allOpen { // apach
+allOpen {
     annotation("team.msg.sms.common.annotation.UseCase")
     annotation("team.msg.sms.common.annotation.ReadOnlyUseCase")
     annotation("team.msg.sms.common.annotation.Service")
