@@ -5,6 +5,11 @@ plugins {
     kotlin("plugin.jpa") version PluginVersions.JPA_PLUGIN_VERSION
 }
 
+repositories {
+    mavenCentral()
+    maven { url = uri("https://jitpack.io") }
+}
+
 dependencies {
     // impl project
     implementation(project(":sms-persistence"))
@@ -16,6 +21,8 @@ dependencies {
 
     // security
     implementation(Dependencies.SPRING_SECURITY)
+
+    implementation(Dependencies.GAUTH)
 
     // jwt
     implementation(Dependencies.JWT)
