@@ -16,7 +16,7 @@ dependencies {
 }
 
 allOpen {
-    annotation("javax.persistence.Entity")
-    annotation("javax.persistence.MappedSuperclass")
-    annotation("javax.persistence.Embeddable")
+    annotation(AllOpen.ENTITY)
+    annotation(AllOpen.MAPPED_SUPERCLASS)
+    annotation(AllOpen.EMBEDDABLE)
 }
