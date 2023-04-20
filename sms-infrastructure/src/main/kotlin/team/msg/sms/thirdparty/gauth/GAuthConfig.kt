@@ -1,4 +1,4 @@
-package team.msg.sms.global.gauth
+package team.msg.sms.thirdparty.gauth
 
 import gauth.GAuth
 import gauth.impl.GAuthImpl
