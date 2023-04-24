@@ -5,7 +5,6 @@ plugins {
 
 repositories {
 	mavenCentral()
-	maven { url = uri("https://jitpack.io") }
 }
 
 subprojects {
@@ -50,5 +49,6 @@ allprojects {
 	}
 	repositories {
 		mavenCentral()
+		maven { url = uri("https://jitpack.io") }
 	}
 }
