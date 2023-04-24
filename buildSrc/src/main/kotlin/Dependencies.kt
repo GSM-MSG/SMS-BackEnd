@@ -19,6 +19,7 @@ object Dependencies {
     const val MYSQL_CONNECTOR = "mysql:mysql-connector-java:${DependencyVersions.MYSQL}"
     const val SPRING_REDIS = "org.springframework.boot:spring-boot-starter-data-redis:${PluginVersions.SPRING_BOOT_VERSION}"
     const val REDIS = "org.springframework.data:spring-data-redis:${DependencyVersions.REDIS_VERSION}"
+    const val MARIADB = "org.mariadb.jdbc:mariadb-java-client:${DependencyVersions.MARIA_VERSION}"
 
     // security
     const val SPRING_SECURITY = "org.springframework.boot:spring-boot-starter-security"
