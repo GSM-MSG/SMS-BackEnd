@@ -24,20 +24,27 @@ class ExceptionFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        try {
+        runCatching {
             filterChain.doFilter(request, response)
-        } catch (e: SmsException) {
-            log.error(e.message)
-            errorToJson(e.errorProperty, response)
-        } catch (e: Exception) {
-            when (e.cause) {
+        }.onFailure { exception ->
+            when (exception) {
                 is SmsException -> {
-                    errorToJson((e.cause as SmsException).errorProperty, response)
-                    log.error(e.message)
+                    log.error(exception.message)
+                    errorToJson(exception.errorProperty, response)
                 }
+
                 else -> {
-                    errorToJson(InternalServerErrorException.errorProperty, response)
-                    log.error(InternalServerErrorException.message)
+                    when (val cause = exception.cause) {
+                        is SmsException -> {
+                            log.error(cause.message)
+                            errorToJson(cause.errorProperty, response)
+                        }
+
+                        else -> {
+                            log.error(InternalServerErrorException.message)
+                            errorToJson(InternalServerErrorException.errorProperty, response)
+                        }
+                    }
                 }
             }
         }
