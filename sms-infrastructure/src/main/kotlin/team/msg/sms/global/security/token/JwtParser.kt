@@ -20,6 +20,8 @@ class JwtParser(
     private val securityProperties: SecurityProperties,
     private val studentDetailService: StudentDetailService
 ) {
+    fun parseToken(token: String): String? =
+        if(token.startsWith(JwtProperties.PREFIX)) token.substring(JwtProperties.PREFIX.length) else null
     fun getAuthentication(token: String): Authentication {
         val claims = getClaims(token)
 
