@@ -7,4 +7,5 @@ import team.msg.sms.persistence.auth.entity.RefreshTokenEntity
 
 @Repository
 interface RefreshTokenRepository : CrudRepository<RefreshTokenEntity, Long> {
+    fun findByToken(token: String): RefreshTokenEntity?
 }
