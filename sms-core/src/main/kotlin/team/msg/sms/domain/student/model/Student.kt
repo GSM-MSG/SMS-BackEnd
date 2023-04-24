@@ -17,5 +17,6 @@ data class Student(
     val description: String,
     val militaryService: MilitaryService,
     val profileImgUrl: String,
+    val userId: UUID
 ) {
 }
