@@ -32,8 +32,9 @@ class SecurityConfig(
         http
             .authorizeRequests()
 
-            // user
+            // auth
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
+            .antMatchers(HttpMethod.PATCH, "/auth").permitAll()
 
             .anyRequest().authenticated()
 
