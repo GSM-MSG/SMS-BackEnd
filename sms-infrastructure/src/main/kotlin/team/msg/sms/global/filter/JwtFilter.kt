@@ -1,0 +1,37 @@
+package team.msg.sms.global.filter
+
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.filter.OncePerRequestFilter
+import team.msg.sms.global.security.token.JwtParser
+import team.msg.sms.global.security.token.JwtProperties
+import javax.servlet.FilterChain
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+class JwtFilter(
+    private val jwtParser: JwtParser
+) : OncePerRequestFilter() {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) {
+        val token = resolveToken(request)
+
+        token?.let {
+            SecurityContextHolder.getContext().authentication = jwtParser.getAuthentication(token)
+        }
+
+
+        filterChain.doFilter(request, response)
+    }
+
+    private fun resolveToken(request: HttpServletRequest): String? =
+        request.getHeader(JwtProperties.HEADER)?.let { token ->
+            parseToken(token)
+        }
+
+
+    private fun parseToken(token: String): String? =
+        if(token.startsWith(JwtProperties.PREFIX)) token.substring(JwtProperties.PREFIX.length) else null
+}
