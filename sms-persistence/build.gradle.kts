@@ -13,6 +13,7 @@ dependencies {
     runtimeOnly(Dependencies.MYSQL_CONNECTOR)
     implementation(Dependencies.REDIS)
     implementation(Dependencies.SPRING_REDIS)
+    implementation(Dependencies.MARIADB)
 }
 
 allOpen {
