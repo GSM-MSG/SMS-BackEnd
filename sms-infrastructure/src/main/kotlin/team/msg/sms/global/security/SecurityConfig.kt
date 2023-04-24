@@ -9,9 +9,12 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import team.msg.sms.global.filter.ExceptionFilter
+import team.msg.sms.global.filter.FilterConfig
+import team.msg.sms.global.security.token.JwtParser
 
 @Configuration
 class SecurityConfig(
+    private val jwtParser: JwtParser,
     private val objectMapper: ObjectMapper
 ) {
 
@@ -32,10 +35,10 @@ class SecurityConfig(
             // user
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
 
-            .anyRequest().permitAll()
+            .anyRequest().authenticated()
 
         http
-            .addFilterBefore(ExceptionFilter(objectMapper), UsernamePasswordAuthenticationFilter::class.java)
+            .apply(FilterConfig(jwtParser, objectMapper))
 
 
         return http.build()
