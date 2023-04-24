@@ -2,10 +2,12 @@ package team.msg.sms.domain.user.service
 
 import team.msg.sms.common.annotation.Service
 import team.msg.sms.domain.auth.model.Role
+import team.msg.sms.domain.user.exception.InternalServerErrorException
 import team.msg.sms.domain.user.exception.RoleNotExistsException
 import team.msg.sms.domain.user.exception.UserNotFoundException
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.spi.QueryUserPort
+import java.util.*
 
 @Service
 class GetUserServiceImpl(
@@ -17,9 +19,12 @@ class GetUserServiceImpl(
             "ROLE_TEACHER" -> Role.TEACHER
             else -> throw RoleNotExistsException
         }
-        return user.roles.first()
+        return user.roles.firstOrNull() ?: throw InternalServerErrorException
     }
 
     override fun queryUserByEmail(email: String): User =
         queryUserPort.queryUserByEmail(email) ?: throw UserNotFoundException
+
+    override fun queryUserById(id: UUID): User =
+        queryUserPort.queryUserById(id) ?: throw UserNotFoundException
 }
