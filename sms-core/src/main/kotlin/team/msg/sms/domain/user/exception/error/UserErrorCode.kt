@@ -9,7 +9,8 @@ enum class UserErrorCode(
 ) : ErrorProperty {
 
     USER_NOT_FOUND(ErrorStatus.NOT_FOUND, "유저가 존재하지 않습니다."),
-    ROLE_NOT_EXISTS(ErrorStatus.NOT_FOUND, "권한이 존재하지 않습니다.")
+    ROLE_NOT_EXISTS(ErrorStatus.NOT_FOUND, "권한이 존재하지 않습니다."),
+    INTERNAL_SERVER_ERROR(ErrorStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
     ;
 
     override fun status(): Int = status
