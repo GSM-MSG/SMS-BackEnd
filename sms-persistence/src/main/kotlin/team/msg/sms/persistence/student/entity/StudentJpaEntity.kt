@@ -3,12 +3,16 @@ package team.msg.sms.persistence.student.entity
 import team.msg.sms.domain.student.model.MilitaryService
 import team.msg.sms.domain.student.model.WorkerType
 import team.msg.sms.persistence.BaseIdEntity
+import team.msg.sms.persistence.BaseUuidEntity
 import team.msg.sms.persistence.user.entity.UserJpaEntity
+import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "student")
 class StudentJpaEntity(
+    override val id: UUID,
+
     @Column
     val stuNum: String,
 
@@ -46,4 +50,4 @@ class StudentJpaEntity(
     @OneToOne
     @JoinColumn(name = "user_id")
     val user: UserJpaEntity
-) : BaseIdEntity()
+) : BaseUuidEntity(id)
