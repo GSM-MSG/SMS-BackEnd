@@ -28,10 +28,6 @@ class JwtFilter(
 
     private fun resolveToken(request: HttpServletRequest): String? =
         request.getHeader(JwtProperties.HEADER)?.let { token ->
-            parseToken(token)
+            jwtParser.parseToken(token)
         }
-
-
-    private fun parseToken(token: String): String? =
-        if(token.startsWith(JwtProperties.PREFIX)) token.substring(JwtProperties.PREFIX.length) else null
 }
