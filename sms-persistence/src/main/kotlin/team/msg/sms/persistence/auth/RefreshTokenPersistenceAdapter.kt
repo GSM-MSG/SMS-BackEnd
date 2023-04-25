@@ -15,4 +15,7 @@ class RefreshTokenPersistenceAdapter(
         refreshTokenRepository
             .save(refreshToken.toEntity())
             .toDomain()
+
+    override fun queryRefreshTokenByToken(token: String): RefreshToken? =
+        refreshTokenRepository.findByToken(token)?.toDomain()
 }
