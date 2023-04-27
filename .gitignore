@@ -35,5 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-/sms-infrastructure/src/main/resources/application.yml
