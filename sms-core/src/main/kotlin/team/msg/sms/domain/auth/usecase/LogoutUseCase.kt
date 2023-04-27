@@ -10,9 +10,9 @@ class LogoutUseCase(
     private val securityService: SecurityService,
     private val authService: AuthService
 ) {
-    fun execute(header: String) {
+    fun execute(refreshToken: String) {
         val userId = securityService.getCurrentUserId()
-        val token = authService.getRefreshTokenByToken(header)
+        val token = authService.getRefreshTokenByToken(refreshToken)
         if (token.userId == userId) authService.deleteRefreshToken(token) else throw UserNotFoundException
     }
 
