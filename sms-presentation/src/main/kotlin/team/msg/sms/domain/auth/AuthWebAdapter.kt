@@ -1,14 +1,11 @@
 package team.msg.sms.domain.auth
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import team.msg.sms.domain.auth.dto.SignInRequest
+import team.msg.sms.domain.auth.dto.response.ReIssueTokenResponse
 import team.msg.sms.domain.auth.dto.response.SignInResponse
+import team.msg.sms.domain.auth.usecase.LogoutUseCase
 import team.msg.sms.domain.auth.usecase.ReIssueTokenUseCase
 import team.msg.sms.domain.auth.usecase.SignInUseCase
 import javax.validation.Valid
@@ -17,7 +14,8 @@ import javax.validation.Valid
 @RequestMapping("/auth")
 class AuthWebAdapter(
     private val signInUseCase: SignInUseCase,
-    private val reIssueTokenUseCase: ReIssueTokenUseCase
+    private val reIssueTokenUseCase: ReIssueTokenUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) {
 
     @PostMapping
@@ -26,8 +24,12 @@ class AuthWebAdapter(
             .let { ResponseEntity.ok(it) }
 
     @PatchMapping
-    fun reIssueToken(@Valid @RequestHeader("Refresh-Token") header: String) =
+    fun reIssueToken(@Valid @RequestHeader("Refresh-Token") header: String): ResponseEntity<ReIssueTokenResponse> =
         reIssueTokenUseCase.execute(header)
             .let { ResponseEntity.ok(it) }
 
+    @DeleteMapping
+    fun logout(@Valid @RequestHeader("Refresh-Token") header: String): ResponseEntity<Void> =
+        logoutUseCase.execute(header)
+            .let { ResponseEntity.ok().build() }
 }
