@@ -4,4 +4,5 @@ import team.msg.sms.domain.auth.model.RefreshToken
 
 interface CommandRefreshTokenPort {
     fun saveRefreshToken(refreshToken: RefreshToken): RefreshToken
+    fun deleteRefreshToken(refreshToken: RefreshToken)
 }
