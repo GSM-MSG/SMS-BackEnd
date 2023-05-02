@@ -1,5 +1,6 @@
 package team.msg.sms.persistence.student.entity
 
+import team.msg.sms.domain.student.model.Department
 import team.msg.sms.domain.student.model.FormOfEmployment
 import team.msg.sms.domain.student.model.Major
 import team.msg.sms.domain.student.model.MilitaryService
@@ -16,8 +17,9 @@ class StudentJpaEntity(
     @Column
     val stuNum: String,
 
+    @Enumerated(EnumType.STRING)
     @Column
-    val department: String,
+    val department: Department,
 
     @Column
     val contactEmail: String,
