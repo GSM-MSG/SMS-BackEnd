@@ -37,7 +37,7 @@ class StudentJpaEntity(
     val description: String,
 
     @Column
-    val score: Number,
+    val gsmAuthenticationScore: Number,
 
     @Column
     val salary: Number,
