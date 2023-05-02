@@ -11,7 +11,7 @@ data class Student(
     val contactEmail: String,
     val major: Major,
     val portfolioUrl: String?,
-    val score: Number,
+    val gsmAuthenticationScore: Number,
     val salary: Number,
     val formOfEmployment: FormOfEmployment,
     val description: String,
