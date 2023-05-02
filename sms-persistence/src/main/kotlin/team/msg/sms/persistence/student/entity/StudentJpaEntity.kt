@@ -39,10 +39,10 @@ class StudentJpaEntity(
     val description: String,
 
     @Column
-    val gsmAuthenticationScore: Number,
+    val gsmAuthenticationScore: Int,
 
     @Column
-    val salary: Number,
+    val salary: Int,
 
     @Enumerated(EnumType.STRING)
     @Column
