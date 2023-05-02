@@ -1,24 +1,20 @@
 package team.msg.sms.persistence.student.mapper
 
-import org.springframework.data.repository.findByIdOrNull
 import team.msg.sms.domain.student.model.Student
-import team.msg.sms.domain.user.exception.UserNotFoundException
 import team.msg.sms.persistence.student.entity.StudentJpaEntity
 import team.msg.sms.persistence.user.entity.UserJpaEntity
-import team.msg.sms.persistence.user.repository.UserJpaRepository
-import java.util.UUID
 
 fun StudentJpaEntity.toDomain() =
     Student(
         id = id,
         stuNum = stuNum,
         department = department,
-        contactNumber = contactNumber,
         contactEmail = contactEmail,
         major = major,
         portfolioUrl = portfolioUrl,
-        workerType = workerType,
-        languageCertificate = languageCertificate,
+        score = score,
+        salary = salary,
+        formOfEmployment = formOfEmployment,
         description = description,
         militaryService = militaryService,
         profileImgUrl = profileImgUrl,
@@ -32,15 +28,15 @@ fun Student.toEntity(
         id = id,
         stuNum = stuNum,
         department = department,
-        contactNumber = contactNumber,
         contactEmail = contactEmail,
         major = major,
         portfolioUrl = portfolioUrl,
-        workerType = workerType,
-        languageCertificate = languageCertificate,
+        score = score,
+        salary = salary,
+        formOfEmployment = formOfEmployment,
         description = description,
         militaryService = militaryService,
         profileImgUrl = profileImgUrl,
         user = user
-        )
+    )
 }
