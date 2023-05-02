@@ -1,8 +1,8 @@
 package team.msg.sms.persistence.student.entity
 
+import team.msg.sms.domain.student.model.FormOfEmployment
+import team.msg.sms.domain.student.model.Major
 import team.msg.sms.domain.student.model.MilitaryService
-import team.msg.sms.domain.student.model.WorkerType
-import team.msg.sms.persistence.BaseIdEntity
 import team.msg.sms.persistence.BaseUuidEntity
 import team.msg.sms.persistence.user.entity.UserJpaEntity
 import java.util.*
@@ -20,27 +20,29 @@ class StudentJpaEntity(
     val department: String,
 
     @Column
-    val contactNumber: String,
-
-    @Column
     val contactEmail: String,
 
+    @Enumerated(EnumType.STRING)
     @Column
-    val major: String,
+    val major: Major,
 
     @Column(nullable = true)
     val portfolioUrl: String?,
 
     @Enumerated(EnumType.STRING)
     @Column
-    val workerType: WorkerType,
-
-    @Column(nullable = true)
-    val languageCertificate: String?,
+    val formOfEmployment: FormOfEmployment,
 
     @Column
     val description: String,
 
+    @Column
+    val score: Number,
+
+    @Column
+    val salary: Number,
+
+    @Enumerated(EnumType.STRING)
     @Column
     val militaryService: MilitaryService,
 
