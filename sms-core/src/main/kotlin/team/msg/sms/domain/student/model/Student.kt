@@ -7,7 +7,7 @@ import java.util.UUID
 data class Student(
     val id: UUID,
     val stuNum: String,
-    val department: String,
+    val department: Department,
     val contactEmail: String,
     val major: Major,
     val portfolioUrl: String?,
