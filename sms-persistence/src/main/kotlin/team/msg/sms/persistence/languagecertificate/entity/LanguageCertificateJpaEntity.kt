@@ -1,23 +1,19 @@
-package team.msg.sms.persistence.gsmscore.entity
+package team.msg.sms.persistence.languagecertificate.entity
 
 import team.msg.sms.persistence.BaseIdEntity
 import team.msg.sms.persistence.student.entity.StudentJpaEntity
-import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.JoinColumn
-import javax.persistence.OneToOne
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "gsm_score")
-class GSMScoreJpaEntity(
-    @Column
-    val score: Number,
+@Table(name = "language_certificate")
+class LanguageCertificateJpaEntity(
+    val languageCertificateName: String,
 
-    @Column
-    val scoreFileUrl: String,
-
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     val student: StudentJpaEntity
 ) : BaseIdEntity()
