@@ -7,16 +7,15 @@ import java.util.UUID
 data class Student(
     val id: UUID,
     val stuNum: String,
-    val department: String,
-    val contactNumber: String,
+    val department: Department,
     val contactEmail: String,
-    val major: String,
+    val major: Major,
     val portfolioUrl: String?,
-    val workerType: WorkerType,
-    val languageCertificate: String?,
+    val gsmAuthenticationScore: Int,
+    val salary: Int,
+    val formOfEmployment: FormOfEmployment,
     val description: String,
     val militaryService: MilitaryService,
     val profileImgUrl: String,
     val userId: UUID
-) {
-}
+)
