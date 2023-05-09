@@ -8,6 +8,7 @@ fun LanguageCertificateJpaEntity.toDomain(): LanguageCertificate =
     LanguageCertificate(
         id = id,
         languageCertificateName = languageCertificateName,
+        score = score,
         studentId = student.id
     )
 
@@ -17,5 +18,6 @@ fun LanguageCertificate.toEntity(
 ): LanguageCertificateJpaEntity =
     LanguageCertificateJpaEntity(
         languageCertificateName = languageCertificateName,
+        score = score,
         student = student
     )
