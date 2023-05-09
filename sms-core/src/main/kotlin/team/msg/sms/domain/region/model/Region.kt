@@ -5,7 +5,7 @@ import java.util.UUID
 
 @Aggregate
 data class Region(
-    val id: UUID,
+    val id: Long,
     val region: String,
     val studentId: UUID
 )

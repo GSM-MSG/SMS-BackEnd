@@ -9,12 +9,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "region")
 class RegionJpaEntity(
-    override val id: UUID,
-
     @Column
     val region: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     val student: StudentJpaEntity
-) : BaseUuidEntity(id)
+) : BaseIdEntity()
