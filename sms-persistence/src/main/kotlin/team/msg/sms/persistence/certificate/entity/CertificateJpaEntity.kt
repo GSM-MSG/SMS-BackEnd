@@ -9,12 +9,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "certificate")
 class CertificateJpaEntity(
-    override val id: UUID,
-
     @Column
     val certificateName: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     val student: StudentJpaEntity
-) : BaseUuidEntity(id)
+) : BaseIdEntity()
