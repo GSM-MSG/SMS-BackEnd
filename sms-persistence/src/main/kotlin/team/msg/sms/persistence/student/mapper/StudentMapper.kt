@@ -15,7 +15,7 @@ fun StudentJpaEntity.toDomain() =
         gsmAuthenticationScore = gsmAuthenticationScore,
         salary = salary,
         formOfEmployment = formOfEmployment,
-        description = description,
+        introduce = introduce,
         militaryService = militaryService,
         profileImgUrl = profileImgUrl,
         userId = user.id
@@ -23,7 +23,7 @@ fun StudentJpaEntity.toDomain() =
 
 fun Student.toEntity(
     user: UserJpaEntity
-) {
+) =
     StudentJpaEntity(
         id = id,
         stuNum = stuNum,
@@ -34,9 +34,8 @@ fun Student.toEntity(
         gsmAuthenticationScore = gsmAuthenticationScore,
         salary = salary,
         formOfEmployment = formOfEmployment,
-        description = description,
+        introduce = introduce,
         militaryService = militaryService,
         profileImgUrl = profileImgUrl,
         user = user
     )
-}
