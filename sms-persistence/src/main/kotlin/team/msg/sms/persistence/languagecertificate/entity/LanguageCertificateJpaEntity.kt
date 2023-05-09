@@ -16,7 +16,7 @@ class LanguageCertificateJpaEntity(
 
     val languageCertificateName: String,
 
-    val score: Int,
+    val score: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
