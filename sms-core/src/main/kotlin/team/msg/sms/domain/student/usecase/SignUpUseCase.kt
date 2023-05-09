@@ -3,6 +3,7 @@ package team.msg.sms.domain.student.usecase
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
+import team.msg.sms.domain.languagecertificate.dto.request.LanguageCertificateRequest
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
 import team.msg.sms.domain.region.model.Region
@@ -76,10 +77,11 @@ class SignUpUseCase(
             studentId = studentId
         )
 
-    private fun toLanguageCertificate(languageCertificate: String, studentId: UUID): LanguageCertificate =
+    private fun toLanguageCertificate(languageCertificate: LanguageCertificateRequest, studentId: UUID): LanguageCertificate =
         LanguageCertificate(
             id = 0,
-            languageCertificateName = languageCertificate,
+            languageCertificateName = languageCertificate.languageCertificateName,
+            score = languageCertificate.score,
             studentId = studentId
         )
 
