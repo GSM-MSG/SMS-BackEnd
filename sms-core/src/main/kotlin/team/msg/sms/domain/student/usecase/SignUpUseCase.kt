@@ -29,6 +29,9 @@ class SignUpUseCase(
 ) {
     fun execute(signUpData: SignUpData) {
         val user = userService.getCurrentUser()
+
+        studentService.checkStudentExistsByUserId(userId = user.id)
+
         val signUpStudent = toStudentModel(signUpData, userId = user.id)
 
         val student = studentService.saveStudent(signUpStudent, user)
@@ -77,7 +80,10 @@ class SignUpUseCase(
             studentId = studentId
         )
 
-    private fun toLanguageCertificate(languageCertificate: LanguageCertificateRequest, studentId: UUID): LanguageCertificate =
+    private fun toLanguageCertificate(
+        languageCertificate: LanguageCertificateRequest,
+        studentId: UUID
+    ): LanguageCertificate =
         LanguageCertificate(
             id = 0,
             languageCertificateName = languageCertificate.languageCertificateName,
