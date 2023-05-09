@@ -7,6 +7,6 @@ import java.util.*
 class LanguageCertificate(
     val id: Long,
     val languageCertificateName: String,
-    val score: Int,
+    val score: String,
     val studentId: UUID
 )
