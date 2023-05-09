@@ -5,7 +5,7 @@ import java.util.*
 
 @Aggregate
 data class Certificate(
-    val id: UUID,
+    val id: Long,
     val certificateName: String,
     val studentId: UUID
 )
