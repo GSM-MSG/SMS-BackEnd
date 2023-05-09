@@ -5,7 +5,7 @@ import java.util.*
 
 @Aggregate
 class LanguageCertificate(
-    val id: UUID,
+    val id: Long,
     val languageCertificateName: String,
     val studentId: UUID
 )
