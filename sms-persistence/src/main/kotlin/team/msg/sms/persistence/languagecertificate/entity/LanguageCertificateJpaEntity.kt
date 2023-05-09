@@ -13,11 +13,10 @@ import javax.persistence.Table
 @Entity
 @Table(name = "language_certificate")
 class LanguageCertificateJpaEntity(
-    override val id: UUID,
 
     val languageCertificateName: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     val student: StudentJpaEntity
-) : BaseUuidEntity(id)
+) : BaseIdEntity()
