@@ -33,7 +33,7 @@ class SignUpUseCase(
         val student = studentService.saveStudent(signUpStudent, user)
 
         techStackService.saveAll(
-            signUpData.techStack.map { toTechStackModel(it, studentId = student.id) },
+            signUpData.techStack.map { toTechStackModel(techStack = it, studentId = student.id) },
             student,
             user
         )
@@ -42,13 +42,13 @@ class SignUpUseCase(
 
         languageCertificateService.saveAll(signUpData.languageCertificate.map {
             toLanguageCertificate(
-                it,
+                languageCertificate = it,
                 studentId = student.id
             )
         }, student, user)
 
         certificateService.saveAll(
-            signUpData.certificate.map { toCertificate(it, studentId = student.id) },
+            signUpData.certificate.map { toCertificate(certificate = it, studentId = student.id) },
             student,
             user
         )
@@ -56,14 +56,14 @@ class SignUpUseCase(
 
     private fun toRegionModel(region: String, studentId: UUID): Region =
         Region(
-            id = UUID.randomUUID(),
+            id = 0,
             region = region,
             studentId = studentId
         )
 
     private fun toTechStackModel(techStack: String, studentId: UUID): TechStack =
         TechStack(
-            id = UUID.randomUUID(),
+            id = 0,
             stack = techStack,
             studentId = studentId
         )
@@ -71,14 +71,14 @@ class SignUpUseCase(
 
     private fun toCertificate(certificate: String, studentId: UUID): Certificate =
         Certificate(
-            id = UUID.randomUUID(),
+            id = 0,
             certificateName = certificate,
             studentId = studentId
         )
 
     private fun toLanguageCertificate(languageCertificate: String, studentId: UUID): LanguageCertificate =
         LanguageCertificate(
-            id = UUID.randomUUID(),
+            id = 0,
             languageCertificateName = languageCertificate,
             studentId = studentId
         )
