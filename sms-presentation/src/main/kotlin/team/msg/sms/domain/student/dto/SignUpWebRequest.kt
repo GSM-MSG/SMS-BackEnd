@@ -1,5 +1,7 @@
 package team.msg.sms.domain.student.dto
 
+import team.msg.sms.domain.languagecertificate.dto.request.LanguageCertificateRequest
+import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.student.dto.request.SignUpData
 import team.msg.sms.domain.student.model.FormOfEmployment
 import team.msg.sms.domain.student.model.Major
@@ -40,7 +42,7 @@ data class SignUpWebRequest(
     @field:NotNull
     val salary: Int,
 
-    val languageCertificate: List<String>,
+    val languageCertificate: List<LanguageCertificateRequest>,
 
     @field:NotBlank
     @field:Pattern(regexp = "^https://.*")
