@@ -7,4 +7,5 @@ import java.util.UUID
 
 @Repository
 interface StudentJpaRepository : JpaRepository<StudentJpaEntity, UUID> {
+    fun existsByUserId(userId: UUID): Boolean
 }
