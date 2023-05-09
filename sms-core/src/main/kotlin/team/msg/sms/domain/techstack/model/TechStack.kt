@@ -5,7 +5,7 @@ import java.util.*
 
 @Aggregate
 data class TechStack(
-    val id: UUID,
+    val id: Long,
     val stack: String,
     val studentId: UUID
 )

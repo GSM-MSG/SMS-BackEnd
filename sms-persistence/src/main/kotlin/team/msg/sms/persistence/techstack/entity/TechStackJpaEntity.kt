@@ -9,10 +9,9 @@ import javax.persistence.*
 @Entity
 @Table(name = "tech_stack")
 class TechStackJpaEntity(
-    override val id: UUID,
     @Column
     val stack: String,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     val student: StudentJpaEntity
-) : BaseUuidEntity(id)
+) : BaseIdEntity()
