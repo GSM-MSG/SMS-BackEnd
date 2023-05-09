@@ -14,7 +14,6 @@ fun TechStack.toEntity(
     student: StudentJpaEntity
 ) =
     TechStackJpaEntity(
-        id = id,
         stack = stack,
         student = student
     )

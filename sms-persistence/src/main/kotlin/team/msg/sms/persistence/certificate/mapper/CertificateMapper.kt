@@ -15,7 +15,6 @@ fun Certificate.toEntity(
     student: StudentJpaEntity
 ): CertificateJpaEntity =
     CertificateJpaEntity(
-        id = id,
         certificateName = certificateName,
         student = student
     )
