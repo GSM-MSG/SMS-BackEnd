@@ -10,6 +10,7 @@ fun TechStackJpaEntity.toDomain() =
         stack = stack,
         studentId = student.id
     )
+
 fun TechStack.toEntity(
     student: StudentJpaEntity
 ) =
