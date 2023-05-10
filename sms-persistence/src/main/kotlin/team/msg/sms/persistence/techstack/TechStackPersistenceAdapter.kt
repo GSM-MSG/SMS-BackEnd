@@ -16,7 +16,9 @@ class TechStackPersistenceAdapter(
     private val techStackJpaRepository: TechStackJpaRepository,
 ) : TechStackPort {
     override fun saveAll(techStack: List<TechStack>, student: Student, user: User): List<TechStack> =
-        techStackJpaRepository.saveAll(techStack.map { it.toEntity(student.toEntity(user.toEntity())) })
+        techStackJpaRepository.saveAll(
+            techStack
+                .map { it.toEntity(student.toEntity(user.toEntity())) }
+        )
             .map { it.toDomain() }
-
 }
