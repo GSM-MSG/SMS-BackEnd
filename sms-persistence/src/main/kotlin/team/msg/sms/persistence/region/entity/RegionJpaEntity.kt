@@ -1,7 +1,9 @@
 package team.msg.sms.persistence.region.entity
 
 import team.msg.sms.persistence.BaseIdEntity
+import team.msg.sms.persistence.BaseUuidEntity
 import team.msg.sms.persistence.student.entity.StudentJpaEntity
+import java.util.UUID
 import javax.persistence.*
 
 @Entity

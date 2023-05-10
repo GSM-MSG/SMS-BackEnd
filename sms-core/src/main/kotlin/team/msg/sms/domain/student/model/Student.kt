@@ -14,7 +14,7 @@ data class Student(
     val gsmAuthenticationScore: Int,
     val salary: Int,
     val formOfEmployment: FormOfEmployment,
-    val description: String,
+    val introduce: String,
     val militaryService: MilitaryService,
     val profileImgUrl: String,
     val userId: UUID

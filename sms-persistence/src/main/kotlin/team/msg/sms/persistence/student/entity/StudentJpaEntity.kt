@@ -36,7 +36,7 @@ class StudentJpaEntity(
     val formOfEmployment: FormOfEmployment,
 
     @Column
-    val description: String,
+    val introduce: String,
 
     @Column
     val gsmAuthenticationScore: Int,
