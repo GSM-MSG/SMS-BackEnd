@@ -7,6 +7,7 @@ import team.msg.sms.common.spi.GAuthPort
 import team.msg.sms.domain.auth.model.RefreshToken
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
+import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 
@@ -16,6 +17,7 @@ class SignInUseCase(
     private val jwtPort: JwtPort,
     private val refreshTokenPort: RefreshTokenPort,
     private val userService: UserService,
+    private val studentService: StudentService
 ) {
     fun execute(request: SignInData): SignInResponse {
         val gAuthToken = gAuthPort.receiveGAuthToken(request.code)
@@ -36,11 +38,14 @@ class SignInUseCase(
 
         refreshTokenPort.saveRefreshToken(RefreshToken(refreshToken, user.id))
 
+        val isStudent = studentService.checkNewStudent(user, role.name)
+
         return SignInResponse(
             accessToken = accessToken,
             accessTokenExp = accessTokenExp,
             refreshToken = refreshToken,
-            refreshTokenExp = refreshTokenExp
+            refreshTokenExp = refreshTokenExp,
+            isExist = isStudent
         )
     }
 }

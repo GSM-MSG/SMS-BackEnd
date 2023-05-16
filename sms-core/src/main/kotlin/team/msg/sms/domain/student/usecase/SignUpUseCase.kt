@@ -30,7 +30,7 @@ class SignUpUseCase(
     fun execute(signUpData: SignUpData) {
         val user = userService.getCurrentUser()
 
-        studentService.checkStudentExistsByUserId(userId = user.id)
+        studentService.checkStudentExistsByUser(user)
 
         val signUpStudent = toStudentModel(signUpData, userId = user.id)
 
