@@ -1,14 +1,14 @@
 package team.msg.sms.common.util
 
 object FileUtil {
-    fun isImageCorrectExtension(extension: String) =
-        when (extension.lowercase()) {
+    fun String.isImageCorrectExtension() =
+        when (this.lowercase()) {
             "jpg", "jpeg", "png", "heic" -> true
             else -> false
         }
 
-    fun isHWPCorrectExtension(extension: String) =
-        when (extension.lowercase()) {
+    fun String.isHWPCorrectExtension() =
+        when (this.lowercase()) {
             "hwp" -> true
             else -> false
         }
