@@ -1,6 +1,7 @@
 package team.msg.sms.domain.student.spi
 
 import team.msg.sms.domain.student.model.Student
+import team.msg.sms.domain.user.model.User
 import java.util.UUID
 
 interface QueryStudentPort {
@@ -8,5 +9,5 @@ interface QueryStudentPort {
 
     fun existsStudentById(uuid: UUID): Boolean
 
-    fun existsStudentByUserId(userId: UUID): Boolean
+    fun existsStudentByUser(user: User): Boolean
 }
