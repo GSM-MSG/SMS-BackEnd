@@ -20,8 +20,10 @@ dependencies {
 
     // security
     implementation(Dependencies.SPRING_SECURITY)
-
     implementation(Dependencies.GAUTH)
+
+    //aws
+    implementation(Dependencies.SPRING_AWS)
 
     // jwt
     implementation(Dependencies.JWT)
