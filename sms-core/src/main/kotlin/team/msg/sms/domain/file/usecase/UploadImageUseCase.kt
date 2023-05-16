@@ -11,7 +11,7 @@ class UploadImageUseCase(
     private val uploadFilePort: UploadFilePort
 ) {
     fun execute(file: File): String {
-        if (file.extension.isImageCorrectExtension()) {
+        if (!file.extension.isImageCorrectExtension()) {
             file.delete()
             throw FileInvalidExtensionException
         }

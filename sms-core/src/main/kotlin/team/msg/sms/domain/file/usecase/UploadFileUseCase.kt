@@ -11,7 +11,7 @@ class UploadFileUseCase(
     private val uploadFilePort: UploadFilePort
 ) {
     fun execute(file: File): String {
-        if (file.extension.isHWPCorrectExtension()) {
+        if (!file.extension.isHWPCorrectExtension()) {
             file.delete()
             throw FileInvalidExtensionException
         }
