@@ -15,6 +15,7 @@ import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.domain.techstack.service.TechStackService
+import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 import java.util.UUID
 
@@ -32,7 +33,7 @@ class SignUpUseCase(
 
         studentService.checkStudentExistsByUser(user)
 
-        val signUpStudent = toStudentModel(signUpData, userId = user.id)
+        val signUpStudent = toStudentModel(signUpData, user)
 
         val student = studentService.saveStudent(signUpStudent, user)
 
@@ -91,11 +92,10 @@ class SignUpUseCase(
             studentId = studentId
         )
 
-    private fun toStudentModel(signUpData: SignUpData, userId: UUID): Student =
+    private fun toStudentModel(signUpData: SignUpData, user: User): Student =
         Student(
             id = UUID.randomUUID(),
-            department = findDepartment(signUpData.stuNum),
-            stuNum = signUpData.stuNum,
+            department = findDepartment(user.stuNum),
             contactEmail = signUpData.contactEmail,
             major = signUpData.major,
             portfolioUrl = signUpData.portfolioUrl,
@@ -105,7 +105,7 @@ class SignUpUseCase(
             introduce = signUpData.introduce,
             militaryService = signUpData.militaryService,
             profileImgUrl = signUpData.profileImgUrl,
-            userId = userId
+            userId = user.id
         )
 
     private fun findDepartment(stuNum: String): Department {
