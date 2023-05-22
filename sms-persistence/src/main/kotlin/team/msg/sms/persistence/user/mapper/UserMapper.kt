@@ -8,6 +8,7 @@ fun UserJpaEntity.toDomain(): User =
         id = id,
         name = name,
         email = email,
+        stuNum = stuNum,
         roles = roles
     )
 
@@ -16,5 +17,6 @@ fun User.toEntity(): UserJpaEntity =
         id = id,
         email = email,
         name = name,
+        stuNum = stuNum,
         roles = roles
     )
