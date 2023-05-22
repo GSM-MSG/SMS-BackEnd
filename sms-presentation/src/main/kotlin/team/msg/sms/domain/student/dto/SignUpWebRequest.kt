@@ -21,10 +21,6 @@ data class SignUpWebRequest(
     val introduce: String,
 
     @field:NotBlank
-    @field:Size(min = 1, max = 4)
-    val stuNum: String,
-
-    @field:NotBlank
     @field:Pattern(regexp = "^https://.*")
     val portfolioUrl: String,
 
@@ -58,7 +54,6 @@ data class SignUpWebRequest(
             techStack = techStack,
             profileImgUrl = profileImgUrl,
             introduce = introduce,
-            stuNum = stuNum,
             portfolioUrl = portfolioUrl,
             contactEmail = contactEmail,
             formOfEmployment = formOfEmployment,
