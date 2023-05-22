@@ -7,7 +7,6 @@ import team.msg.sms.persistence.user.entity.UserJpaEntity
 fun StudentJpaEntity.toDomain() =
     Student(
         id = id,
-        stuNum = stuNum,
         department = department,
         contactEmail = contactEmail,
         major = major,
@@ -26,7 +25,6 @@ fun Student.toEntity(
 ) =
     StudentJpaEntity(
         id = id,
-        stuNum = stuNum,
         department = department,
         contactEmail = contactEmail,
         major = major,
