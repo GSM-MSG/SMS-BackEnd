@@ -31,6 +31,9 @@ class SignInUseCase(
             User(
                 name = gAuthUserInfo.name,
                 email = gAuthUserInfo.email,
+                stuNum = if (role.name == "STUDENT") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}" + if (gAuthUserInfo.num < 10) {
+                    "0${gAuthUserInfo.num}"
+                } else gAuthUserInfo.num else "",
                 roles = mutableListOf(role)
             )
         )
