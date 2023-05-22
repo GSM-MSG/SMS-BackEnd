@@ -14,9 +14,6 @@ import javax.persistence.*
 class StudentJpaEntity(
     override val id: UUID,
 
-    @Column
-    val stuNum: String,
-
     @Enumerated(EnumType.STRING)
     @Column
     val department: Department,
