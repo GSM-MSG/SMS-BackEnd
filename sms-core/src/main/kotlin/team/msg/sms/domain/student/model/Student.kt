@@ -6,7 +6,6 @@ import java.util.UUID
 @Aggregate
 data class Student(
     val id: UUID,
-    val stuNum: String,
     val department: Department,
     val contactEmail: String,
     val major: Major,
