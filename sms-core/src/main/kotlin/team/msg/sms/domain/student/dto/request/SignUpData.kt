@@ -10,7 +10,6 @@ data class SignUpData(
     val techStack: List<String>,
     val profileImgUrl: String,
     val introduce: String,
-    val stuNum: String,
     val portfolioUrl: String,
     val contactEmail: String,
     val formOfEmployment: FormOfEmployment,
