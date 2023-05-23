@@ -7,8 +7,8 @@ import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import team.msg.sms.global.filter.ExceptionFilter
+import org.springframework.security.web.util.matcher.RequestMatcher
+import org.springframework.web.cors.CorsUtils
 import team.msg.sms.global.filter.FilterConfig
 import team.msg.sms.global.security.token.JwtParser
 
@@ -21,9 +21,10 @@ class SecurityConfig(
     @Bean
     protected fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
+            .cors().and()
             .csrf().disable()
-            .cors().disable()
             .formLogin().disable()
+            .httpBasic().disable()
 
         http
             .sessionManagement()
@@ -31,6 +32,9 @@ class SecurityConfig(
 
         http
             .authorizeRequests()
+            .requestMatchers(RequestMatcher { request ->
+                CorsUtils.isPreFlightRequest(request)
+            }).permitAll()
 
             // auth
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
