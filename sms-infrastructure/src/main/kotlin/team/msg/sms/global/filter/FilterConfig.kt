@@ -15,6 +15,7 @@ class FilterConfig(
 ) : SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
     override fun configure(builder: HttpSecurity) {
         builder.addFilterBefore(JwtFilter(jwtParser), UsernamePasswordAuthenticationFilter::class.java)
-        builder.addFilterBefore(ExceptionFilter(objectMapper), JwtFilter::class.java)
+        builder.addFilterBefore(CookieJwtFilter(jwtParser), JwtFilter::class.java)
+        builder.addFilterBefore(ExceptionFilter(objectMapper), CookieJwtFilter::class.java)
     }
 }
