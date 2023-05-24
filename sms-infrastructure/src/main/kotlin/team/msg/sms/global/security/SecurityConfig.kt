@@ -16,7 +16,6 @@ import team.msg.sms.global.security.token.JwtParser
 class SecurityConfig(
     private val jwtParser: JwtParser,
     private val objectMapper: ObjectMapper,
-    private val authenticationEntryPoint: CustomAuthenticationEntryPoint,
     private val accessDeniedHandler: CustomAccessDeniedHandler
 ) {
 
@@ -57,7 +56,7 @@ class SecurityConfig(
 
         http
             .exceptionHandling()
-            .authenticationEntryPoint(authenticationEntryPoint)
+            .authenticationEntryPoint(CustomAuthenticationEntryPoint(objectMapper))
             .accessDeniedHandler(accessDeniedHandler)
 
         return http.build()
