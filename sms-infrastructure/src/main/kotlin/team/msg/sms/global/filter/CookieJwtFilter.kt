@@ -17,13 +17,13 @@ class CookieJwtFilter(
     ) {
         val token = resolvedToken(request)
 
-        token?.let {
-            SecurityContextHolder.getContext().authentication = jwtParser.getAuthentication(token)
-        }
+        token
+            ?.let { SecurityContextHolder.getContext().authentication = jwtParser.getAuthentication(token) }
 
         filterChain.doFilter(request, response)
     }
 
     private fun  resolvedToken(request: HttpServletRequest): String? =
-        request.cookies?.find { it.name == "Authorization" }?.value
+        request.cookies
+            ?.find { it.name == "Authorization" }?.value
 }
