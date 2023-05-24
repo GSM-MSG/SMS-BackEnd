@@ -14,6 +14,7 @@ class WebMvcConfig : WebMvcConfigurer {
                 "http://localhost:3000",
             )
             .allowCredentials(true)
+            .allowedHeaders("Authorization", "Content-Type", "Refresh-Token")
             .exposedHeaders(HttpHeaders.CONTENT_DISPOSITION)
     }
 }
