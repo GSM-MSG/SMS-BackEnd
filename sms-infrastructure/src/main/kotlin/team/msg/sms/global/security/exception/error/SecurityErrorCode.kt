@@ -12,7 +12,7 @@ enum class SecurityErrorCode(
     EXPIRED_TOKEN(ErrorStatus.UNAUTHORIZED, "만료된 토큰 입니다."),
     UNEXPECTED_TOKEN(ErrorStatus.UNAUTHORIZED, "지원되지 않는 형식이나 구성의 JWT 토큰이 아닙니다."),
     INVALID_ROLE(ErrorStatus.UNAUTHORIZED, "유효하지 않은 권한 입니다."),
-    FORBIDDEN(403, "접근할 수 없습니다")
+    FORBIDDEN(ErrorStatus.FORBIDDEN, "접근할 수 없습니다")
     ;
 
     override fun status(): Int = status
