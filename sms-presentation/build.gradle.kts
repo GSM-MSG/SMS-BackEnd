@@ -21,6 +21,9 @@ dependencies {
 
     // validation
     implementation(Dependencies.SPRING_VALIDATION)
+
+    // graphql
+    implementation(Dependencies.GRAPHQL)
 }
 
 tasks.getByName<Jar>("bootJar") {
