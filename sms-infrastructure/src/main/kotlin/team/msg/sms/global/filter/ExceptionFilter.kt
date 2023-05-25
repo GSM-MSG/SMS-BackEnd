@@ -7,6 +7,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import team.msg.sms.common.error.ErrorProperty
 import team.msg.sms.common.error.SmsException
 import team.msg.sms.global.error.ErrorResponse
+import team.msg.sms.global.error.GlobalErrorCode
 import team.msg.sms.global.exception.InternalServerErrorException
 import java.nio.charset.StandardCharsets
 import javax.servlet.FilterChain
@@ -29,19 +30,19 @@ class ExceptionFilter(
         }.onFailure { exception ->
             when (exception) {
                 is SmsException -> {
-                    log.error(exception.message)
+                    log.error(exception.errorProperty.message())
                     errorToJson(exception.errorProperty, response)
                 }
 
                 else -> {
                     when (val cause = exception.cause) {
                         is SmsException -> {
-                            log.error(cause.message)
+                            log.error(cause.errorProperty.message())
                             errorToJson(cause.errorProperty, response)
                         }
 
                         else -> {
-                            log.error(InternalServerErrorException.message)
+                            log.error(GlobalErrorCode.INTERNAL_SERVER_ERROR.message())
                             errorToJson(InternalServerErrorException.errorProperty, response)
                         }
                     }

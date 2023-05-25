@@ -15,7 +15,8 @@ import team.msg.sms.global.security.token.JwtParser
 @Configuration
 class SecurityConfig(
     private val jwtParser: JwtParser,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val accessDeniedHandler: CustomAccessDeniedHandler
 ) {
 
     @Bean
@@ -46,13 +47,17 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
 
-            .antMatchers(HttpMethod.GET,"/major/list").authenticated()
+            .antMatchers(HttpMethod.GET, "/major/list").authenticated()
 
             .anyRequest().authenticated()
 
         http
             .apply(FilterConfig(jwtParser, objectMapper))
 
+        http
+            .exceptionHandling()
+            .authenticationEntryPoint(CustomAuthenticationEntryPoint(objectMapper))
+            .accessDeniedHandler(accessDeniedHandler)
 
         return http.build()
     }
