@@ -28,11 +28,8 @@ class AuthWebAdapter(
     ): ResponseEntity<SignInResponse> {
         val token: SignInResponse = signInUseCase.execute(request.toData())
 
-        val accessCookie: Cookie = createCookie("accessToken", token.accessToken, 3600)
-        val refreshCookie: Cookie = createCookie("refreshToken", token.refreshToken, 36000)
-
-        httpServletResponse.addCookie(accessCookie)
-        httpServletResponse.addCookie(refreshCookie)
+        createCookie(httpServletResponse, "accessToken", token.accessToken, 3600)
+        createCookie(httpServletResponse, "refreshToken", token.refreshToken, 36000)
 
         return ResponseEntity.ok(token)
     }
@@ -49,25 +46,22 @@ class AuthWebAdapter(
     ): ResponseEntity<Void> {
         if (refreshToken != null) logoutUseCase.execute(refreshToken)
         else {
-            val accessCookie: Cookie = expiredCookie(httpServletResponse, "accessToken")
-            val refreshCookie: Cookie = expiredCookie(httpServletResponse, "refreshToken")
-
-            httpServletResponse.addCookie(accessCookie)
-            httpServletResponse.addCookie(refreshCookie)
+            expiredCookie(httpServletResponse, "accessToken")
+            expiredCookie(httpServletResponse, "refreshToken")
         }
         return ResponseEntity.ok().build()
     }
 
-    private fun createCookie(value: String, token: String, maxAge: Int): Cookie {
+    private fun createCookie(httpServletResponse: HttpServletResponse, value: String, token: String, maxAge: Int) {
         val cookie = Cookie(value, token)
         cookie.isHttpOnly = true
         cookie.maxAge = maxAge
-        return cookie
+        httpServletResponse.addCookie(cookie)
     }
 
-    private fun expiredCookie(httpServletResponse: HttpServletResponse, name: String): Cookie {
+    private fun expiredCookie(httpServletResponse: HttpServletResponse, name: String) {
         val cookie: Cookie = Cookie(name, null)
         cookie.maxAge = 0
-        return cookie
+        httpServletResponse.addCookie(cookie)
     }
 }
