@@ -12,5 +12,4 @@ data class SignInResponse(
     val refreshTokenExp: LocalDateTime,
 
     val isExist: Boolean
-
 )

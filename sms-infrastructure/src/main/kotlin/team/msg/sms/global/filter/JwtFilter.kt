@@ -18,15 +18,13 @@ class JwtFilter(
     ) {
         val token = resolveToken(request)
 
-        token?.let {
-            SecurityContextHolder.getContext().authentication = jwtParser.getAuthentication(token)
-        }
+        token
+            ?.let { SecurityContextHolder.getContext().authentication = jwtParser.getAuthentication(token) }
 
         filterChain.doFilter(request, response)
     }
 
     private fun resolveToken(request: HttpServletRequest): String? =
-        request.getHeader(JwtProperties.HEADER)?.let { token ->
-            jwtParser.parseToken(token)
-        }
+        request.getHeader(JwtProperties.HEADER)
+            ?.let { token -> jwtParser.parseToken(token) }
 }
