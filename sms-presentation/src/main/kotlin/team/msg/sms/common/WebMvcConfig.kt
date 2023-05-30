@@ -13,6 +13,7 @@ class WebMvcConfig : WebMvcConfigurer {
             .allowedOrigins(
                 "http://localhost:3000",
             )
+            .allowedHeaders("*")
             .allowCredentials(true)
             .exposedHeaders(HttpHeaders.CONTENT_DISPOSITION)
     }
