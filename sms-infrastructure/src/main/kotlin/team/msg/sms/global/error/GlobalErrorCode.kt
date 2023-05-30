@@ -6,6 +6,7 @@ enum class GlobalErrorCode(
     private val status: Int,
     private val message: String
 ) : ErrorProperty {
+    FOUND(302, "Found"),
     BAD_REQUEST(400, "Bad Request"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error");
 

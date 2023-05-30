@@ -33,6 +33,11 @@ class JwtParser(
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
+    fun getClaimsBody(token: String): String {
+        val claims = getClaims(token)
+        return claims.body.id
+    }
+
     private fun getClaims(token: String): Jws<Claims> {
         return try {
             Jwts.parser()
