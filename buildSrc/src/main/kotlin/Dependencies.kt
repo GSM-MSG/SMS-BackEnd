@@ -20,6 +20,8 @@ object Dependencies {
     const val SPRING_REDIS = "org.springframework.boot:spring-boot-starter-data-redis:${PluginVersions.SPRING_BOOT_VERSION}"
     const val REDIS = "org.springframework.data:spring-data-redis:${DependencyVersions.REDIS_VERSION}"
     const val MARIADB = "org.mariadb.jdbc:mariadb-java-client:${DependencyVersions.MARIA_VERSION}"
+    const val GRAPHQL = "com.graphql-java-kickstart:graphql-spring-boot-starter:${DependencyVersions.GRAPHQL_VERSION}"
+    const val GRAPHQL_TEST = "com.graphql-java-kickstart:graphql-spring-boot-starter-test:${DependencyVersions.GRAPHQL_VERSION}"
 
     // security
     const val SPRING_SECURITY = "org.springframework.boot:spring-boot-starter-security"
