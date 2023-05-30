@@ -24,7 +24,7 @@ class CustomAuthenticationEntryPoint(
         authException: AuthenticationException
     ) {
         log.error("==========Access Denied==========")
-        val errorCode = SecurityErrorCode.INVALID_ROLE
+        val errorCode = SecurityErrorCode.FORBIDDEN
         val responseString = objectMapper.writeValueAsString(ErrorResponse(errorCode.status(), errorCode.message()))
         response.characterEncoding = "UTF-8"
         response.status = errorCode.status()

@@ -48,6 +48,7 @@ class CookieJwtFilter(
         filterChain.doFilter(request, response)
     }
 
-    private fun  resolvedToken(request: HttpServletRequest): String? =
-        request.cookies?.find { it.name == "Authorization" }?.value
+    private fun resolvedToken(request: HttpServletRequest): String? =
+        request.cookies
+            ?.find { it.name == "accessToken" || it.name == "refreshToken" }?.value
 }

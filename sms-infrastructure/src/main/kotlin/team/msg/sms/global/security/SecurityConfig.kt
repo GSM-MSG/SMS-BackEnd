@@ -20,6 +20,7 @@ class SecurityConfig(
     private val objectMapper: ObjectMapper,
     private val studentPort: QueryStudentPort,
     private val userPort: QueryUserPort,
+    private val accessDeniedHandler: CustomAccessDeniedHandler
 ) {
 
     @Bean
@@ -50,13 +51,17 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
 
-            .antMatchers(HttpMethod.GET,"/major/list").permitAll()
+            .antMatchers(HttpMethod.GET, "/major/list").authenticated()
 
             .anyRequest().authenticated()
 
         http
             .apply(FilterConfig(jwtParser, objectMapper, studentPort, userPort))
 
+        http
+            .exceptionHandling()
+            .authenticationEntryPoint(CustomAuthenticationEntryPoint(objectMapper))
+            .accessDeniedHandler(accessDeniedHandler)
 
         return http.build()
     }

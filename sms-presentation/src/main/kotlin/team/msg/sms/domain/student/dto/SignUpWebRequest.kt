@@ -17,7 +17,7 @@ data class SignUpWebRequest(
     @field:Pattern(regexp = "^https://.*")
     val profileImgUrl: String,
 
-    @field:Size(max = 255)
+    @field:Size(max = 50)
     val introduce: String,
 
     @field:NotBlank
