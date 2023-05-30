@@ -50,5 +50,5 @@ class CookieJwtFilter(
 
     private fun resolvedToken(request: HttpServletRequest): String? =
         request.cookies
-            ?.find { it.name == "accessToken" || it.name == "refreshToken" }?.value
+            ?.find { it.name == "accessToken" }?.value
 }
