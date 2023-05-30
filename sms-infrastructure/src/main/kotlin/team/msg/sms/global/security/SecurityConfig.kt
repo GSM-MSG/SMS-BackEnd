@@ -9,6 +9,8 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.util.matcher.RequestMatcher
 import org.springframework.web.cors.CorsUtils
+import team.msg.sms.domain.student.spi.QueryStudentPort
+import team.msg.sms.domain.user.spi.QueryUserPort
 import team.msg.sms.global.filter.FilterConfig
 import team.msg.sms.global.security.token.JwtParser
 
@@ -16,6 +18,8 @@ import team.msg.sms.global.security.token.JwtParser
 class SecurityConfig(
     private val jwtParser: JwtParser,
     private val objectMapper: ObjectMapper,
+    private val studentPort: QueryStudentPort,
+    private val userPort: QueryUserPort,
     private val accessDeniedHandler: CustomAccessDeniedHandler
 ) {
 
@@ -52,7 +56,7 @@ class SecurityConfig(
             .anyRequest().authenticated()
 
         http
-            .apply(FilterConfig(jwtParser, objectMapper))
+            .apply(FilterConfig(jwtParser, objectMapper, studentPort, userPort))
 
         http
             .exceptionHandling()
