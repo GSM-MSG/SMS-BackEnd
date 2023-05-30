@@ -18,14 +18,14 @@ class FileWebAdapter(
     private val uploadImageUseCase: UploadImageUseCase
 ) {
     @PostMapping
-    fun uploadFile(@RequestPart(name = "file") file: MultipartFile?): UploadFileResponse {
-        val result = uploadFileUseCase.execute(file = file!!.toFile())
+    fun uploadFile(@RequestPart(name = "file") file: MultipartFile): UploadFileResponse {
+        val result = uploadFileUseCase.execute(file = file.toFile())
         return UploadFileResponse(result)
     }
 
     @PostMapping("/image")
-    fun uploadImage(@RequestPart(name = "file") file: MultipartFile?): UploadImageResponse {
-        val result = uploadImageUseCase.execute(file = file!!.toFile())
+    fun uploadImage(@RequestPart(name = "file") file: MultipartFile): UploadImageResponse {
+        val result = uploadImageUseCase.execute(file = file.toFile())
         return UploadImageResponse(result)
     }
 }
