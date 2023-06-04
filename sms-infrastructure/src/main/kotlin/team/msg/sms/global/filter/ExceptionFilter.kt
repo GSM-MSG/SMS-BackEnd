@@ -30,19 +30,19 @@ class ExceptionFilter(
         }.onFailure { exception ->
             when (exception) {
                 is SmsException -> {
-                    log.error(exception.errorProperty.message())
+                    log.error(exception.message)
                     errorToJson(exception.errorProperty, response)
                 }
 
                 else -> {
                     when (val cause = exception.cause) {
                         is SmsException -> {
-                            log.error(cause.errorProperty.message())
+                            log.error(cause.message)
                             errorToJson(cause.errorProperty, response)
                         }
 
                         else -> {
-                            log.error(GlobalErrorCode.INTERNAL_SERVER_ERROR.message())
+                            log.error(exception.message)
                             errorToJson(InternalServerErrorException.errorProperty, response)
                         }
                     }
