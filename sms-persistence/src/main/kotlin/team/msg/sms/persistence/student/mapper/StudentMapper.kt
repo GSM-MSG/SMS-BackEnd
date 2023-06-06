@@ -37,3 +37,11 @@ fun Student.toEntity(
         profileImgUrl = profileImgUrl,
         user = user
     )
+
+fun StudentJpaEntity.toDomainWithUserInfo(): Student.StudentWithUserInfo =
+    Student.StudentWithUserInfo(
+        id = this.id,
+        major = this.major,
+        name = this.user.name,
+        techStack =  arrayListOf()
+    )
