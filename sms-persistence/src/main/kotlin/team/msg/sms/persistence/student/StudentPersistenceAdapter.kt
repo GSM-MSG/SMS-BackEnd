@@ -1,11 +1,13 @@
 package team.msg.sms.persistence.student
 
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.spi.StudentPort
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.persistence.student.mapper.toDomain
+import team.msg.sms.persistence.student.mapper.toDomainWithUserInfo
 import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.student.repository.StudentJpaRepository
 import team.msg.sms.persistence.user.mapper.toEntity
@@ -29,4 +31,7 @@ class StudentPersistenceAdapter(
     override fun existsStudentByUser(user: User): Boolean =
         studentJpaRepository.existsByUser(user.toEntity())
 
+    override fun getStudentsWithPage(page: Int, size: Int): List<Student.StudentWithUserInfo> =
+        studentJpaRepository.findWithPagination(PageRequest.of(page - 1, size))
+            .map { it.toDomainWithUserInfo() }
 }
