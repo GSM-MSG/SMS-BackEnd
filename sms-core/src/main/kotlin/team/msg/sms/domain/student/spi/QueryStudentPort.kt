@@ -11,5 +11,5 @@ interface QueryStudentPort {
 
     fun existsStudentByUser(user: User): Boolean
 
-    fun getStudentsWithPage(page: Int, size: Int): List<Student.StudentWithUserInfo>
+    fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo
 }
