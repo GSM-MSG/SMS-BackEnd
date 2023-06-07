@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import team.msg.sms.domain.auth.model.Role
-import team.msg.sms.global.exception.InternalServerErrorException
+import team.msg.sms.global.error.InternalServerError
 import team.msg.sms.global.security.SecurityProperties
 import team.msg.sms.global.security.exception.ExpiredTokenException
 import team.msg.sms.global.security.exception.InvalidRoleException
@@ -33,6 +33,11 @@ class JwtParser(
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
+    fun getClaimsBody(token: String): String {
+        val claims = getClaims(token)
+        return claims.body.id
+    }
+
     private fun getClaims(token: String): Jws<Claims> {
         return try {
             Jwts.parser()
@@ -43,7 +48,7 @@ class JwtParser(
                 is InvalidClaimException -> throw InvalidTokenException
                 is ExpiredJwtException -> throw ExpiredTokenException
                 is JwtException -> throw UnexpectedTokenException
-                else -> throw InternalServerErrorException
+                else -> throw InternalServerError
             }
         }
     }

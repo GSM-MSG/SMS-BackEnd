@@ -1,0 +1,55 @@
+server:
+  shutdown: graceful
+
+spring:
+  datasource:
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ${AWS_REGION_STATIC}
+      auto: false
+    s3:
+      bucket: ${S3_BUCKET}
+    stack:
+      auto: false
+
+jwt:
+  accessSecret: ${JWT_ACCESS_SECRET}
+  refreshSecret: ${JWT_REFRESH_SECRET}
+gauth:
+  clientId: ${GAUTH_CLIENT_ID}
+  clientSecret: ${GAUTH_CLIENT_SECRET}
+  redirectUri: ${GAUTH_REDIRECT_URI}
+security:
+  secretKey: ${SECURITY_SECRET_KEY}
+  accessExp: 3600
+  refreshExp: 36000
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error

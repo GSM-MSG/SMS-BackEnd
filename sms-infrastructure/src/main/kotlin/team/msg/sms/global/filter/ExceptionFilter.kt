@@ -7,6 +7,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import team.msg.sms.common.error.ErrorProperty
 import team.msg.sms.common.error.SmsException
 import team.msg.sms.global.error.ErrorResponse
+import team.msg.sms.global.error.GlobalErrorCode
 import team.msg.sms.global.exception.InternalServerErrorException
 import java.nio.charset.StandardCharsets
 import javax.servlet.FilterChain
@@ -41,7 +42,7 @@ class ExceptionFilter(
                         }
 
                         else -> {
-                            log.error(InternalServerErrorException.message)
+                            log.error(exception.message)
                             errorToJson(InternalServerErrorException.errorProperty, response)
                         }
                     }
