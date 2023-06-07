@@ -9,19 +9,13 @@ class FindAllUseCase(
     private val studentService: StudentService
 ) {
     fun execute(page: Int, size: Int): StudentInfoListResponse {
-        val studentsWithPage = studentService.getStudentsWithPage(page, size)
-        studentsWithPage.students
-            .map {
-                StudentInfoListResponse(
-                    content = StudentInfoListResponse.StudentContentInfo(
-                        profileImg = it.profileImgUrl,
-                        name = it.userId
-                    )
-                )
-            }
-        StudentInfoListResponse(
-            content =
+        val studentsWithPageInfo = studentService.getStudentsWithPage(page, size)
+
+        return StudentInfoListResponse(
+            content = studentsWithPageInfo.students,
+            page = studentsWithPageInfo.page,
+            size = studentsWithPageInfo.size,
+            last = studentsWithPageInfo.last
         )
-        return studentsWithPage
     }
 }
