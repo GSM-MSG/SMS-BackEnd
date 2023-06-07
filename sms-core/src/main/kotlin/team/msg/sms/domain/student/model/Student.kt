@@ -25,4 +25,11 @@ data class Student(
         val name: String,
         val techStack: List<TechStack>
     )
+
+    data class StudentWithPageInfo(
+        val students: List<StudentWithUserInfo>,
+        val page: Int,
+        val size: Int,
+        val last: Boolean
+    )
 }
