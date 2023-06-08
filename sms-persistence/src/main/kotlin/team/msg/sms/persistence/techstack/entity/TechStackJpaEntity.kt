@@ -11,7 +11,7 @@ import javax.persistence.*
 class TechStackJpaEntity(
     @Column
     val stack: String,
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
-    val student: StudentJpaEntity
+
+    @Column
+    val count: Int,
 ) : BaseIdEntity()
