@@ -51,8 +51,9 @@ fun Page<StudentJpaEntity>.toDomainPageWithUserInfo(): Student.StudentWithPageIn
         }
     return Student.StudentWithPageInfo(
         students = studentWithUserInfoList,
-        page = this.pageable.pageNumber,
-        size = this.size,
+        page = this.pageable.pageNumber + 1,
+        contentSize = this.content.size,
+        totalSize = this.totalElements,
         last = this.isLast
     )
 }
