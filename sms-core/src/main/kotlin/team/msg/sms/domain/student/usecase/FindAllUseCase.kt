@@ -14,7 +14,8 @@ class FindAllUseCase(
         return StudentInfoListResponse(
             content = studentsWithPageInfo.students,
             page = studentsWithPageInfo.page,
-            size = studentsWithPageInfo.size,
+            contentSize = studentsWithPageInfo.contentSize,
+            totalSize = studentsWithPageInfo.totalSize,
             last = studentsWithPageInfo.last
         )
     }

@@ -29,7 +29,8 @@ data class Student(
     data class StudentWithPageInfo(
         val students: List<StudentWithUserInfo>,
         val page: Int,
-        val size: Int,
+        val contentSize: Int,
+        val totalSize: Long,
         val last: Boolean
     )
 }
