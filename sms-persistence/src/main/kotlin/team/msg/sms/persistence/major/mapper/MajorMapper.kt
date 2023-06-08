@@ -5,11 +5,13 @@ import team.msg.sms.persistence.major.entity.MajorJpaEntity
 
 fun Major.toEntity() =
     MajorJpaEntity(
-        major = major
+        major = major,
+        count = count
     )
 
 fun MajorJpaEntity.toDomain() =
     Major(
         id = id,
-        major = major
+        major = major,
+        count = count
     )
