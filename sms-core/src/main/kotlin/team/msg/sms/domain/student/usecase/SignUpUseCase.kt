@@ -70,7 +70,7 @@ class SignUpUseCase(
         TechStack(
             id = 0,
             stack = techStack,
-            studentId = studentId
+            studentId = studentId,
         )
 
 

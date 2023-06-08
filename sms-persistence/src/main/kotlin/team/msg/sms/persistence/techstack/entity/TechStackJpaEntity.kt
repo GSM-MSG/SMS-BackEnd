@@ -12,6 +12,7 @@ class TechStackJpaEntity(
     @Column
     val stack: String,
 
-    @Column
-    val count: Int,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    val student: StudentJpaEntity,
 ) : BaseIdEntity()
