@@ -9,7 +9,6 @@ import team.msg.sms.domain.auth.usecase.LogoutUseCase
 import team.msg.sms.domain.auth.usecase.ReIssueTokenUseCase
 import team.msg.sms.domain.auth.usecase.SignInUseCase
 import javax.servlet.http.Cookie
-import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
@@ -55,6 +54,7 @@ class AuthWebAdapter(
     private fun createCookie(httpServletResponse: HttpServletResponse, value: String, token: String, maxAge: Int) {
         val cookie = Cookie(value, token)
         cookie.isHttpOnly = true
+        cookie.domain = "cloudtype.app"
         cookie.maxAge = maxAge
         httpServletResponse.addCookie(cookie)
     }
