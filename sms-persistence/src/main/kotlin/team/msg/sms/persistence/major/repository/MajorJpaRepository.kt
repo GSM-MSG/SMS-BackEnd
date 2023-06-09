@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import team.msg.sms.persistence.major.entity.MajorJpaEntity
 
 @Repository
-interface MajorJpaRepository : CrudRepository<MajorJpaEntity, Long>
+interface MajorJpaRepository : CrudRepository<MajorJpaEntity, Long> {
+    fun findAllByIsDefaultMajorTrue(): List<MajorJpaEntity>
+}
