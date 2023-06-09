@@ -11,7 +11,7 @@ class MajorPersistenceAdapter(
     private val majorJpaRepository: MajorJpaRepository
 ) : MajorPort {
     override fun queryAll(): List<Major> =
-        majorJpaRepository.findAll().map {
+        majorJpaRepository.findAllByIsDefaultMajorTrue().map {
             it.toDomain()
         }
 }
