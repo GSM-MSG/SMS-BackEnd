@@ -6,5 +6,5 @@ import team.msg.sms.common.annotation.Aggregate
 class Major(
     val id: Long,
     val major: String,
-    val count: Int
+    val isDefaultMajor: Boolean
 )
