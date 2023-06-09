@@ -2,7 +2,6 @@ package team.msg.sms.persistence.student.entity
 
 import team.msg.sms.domain.student.model.Department
 import team.msg.sms.domain.student.model.FormOfEmployment
-import team.msg.sms.domain.student.model.Major
 import team.msg.sms.domain.student.model.MilitaryService
 import team.msg.sms.persistence.BaseUuidEntity
 import team.msg.sms.persistence.user.entity.UserJpaEntity
@@ -21,9 +20,8 @@ class StudentJpaEntity(
     @Column
     val contactEmail: String,
 
-    @Enumerated(EnumType.STRING)
     @Column
-    val major: Major,
+    val major: String,
 
     @Column(nullable = true)
     val portfolioUrl: String?,
