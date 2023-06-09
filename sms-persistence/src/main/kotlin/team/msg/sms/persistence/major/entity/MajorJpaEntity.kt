@@ -12,6 +12,6 @@ class MajorJpaEntity(
     val major: String,
 
     @Column
-    val count: Int
+    val isDefaultMajor: Boolean
 ) : BaseIdEntity(){
 }
