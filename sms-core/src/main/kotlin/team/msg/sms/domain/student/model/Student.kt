@@ -23,7 +23,7 @@ data class Student(
         val id: UUID,
         val major: Major,
         val name: String,
-        val techStack: List<TechStack>
+        val techStack: List<String>
     )
 
     data class StudentWithPageInfo(
