@@ -21,4 +21,7 @@ class TechStackPersistenceAdapter(
                 .map { it.toEntity(student.toEntity(user.toEntity())) }
         )
             .map { it.toDomain() }
+
+    override fun findAll(): List<TechStack> = techStackJpaRepository.findAll()
+        .map { it.toDomain() }
 }
