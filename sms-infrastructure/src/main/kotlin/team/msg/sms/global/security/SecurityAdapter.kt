@@ -10,4 +10,7 @@ class SecurityAdapter(
 ) : SecurityPort {
     override fun getCurrentUserId(): UUID =
         UUID.fromString(SecurityContextHolder.getContext().authentication.name)
+
+    override fun getCurrentUserRole(): String =
+        SecurityContextHolder.getContext().authentication.authorities.first().authority
 }
