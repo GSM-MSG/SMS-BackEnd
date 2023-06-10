@@ -13,13 +13,23 @@ class GetStudentServiceImpl(
     override fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
         studentPort.getStudentsWithPage(page, size)
 
-    override fun matchStudentWithTechStacks(students: List<Student.StudentWithUserInfo>, techStacks: List<TechStack>): List<Student.StudentWithUserInfo> {
+    override fun matchStudentWithTechStacks(
+        students: List<Student.StudentWithUserInfo>, techStacks: List<TechStack>, role: String
+    ): List<Student.StudentWithUserInfo> {
         return students.map { student ->
-            val matchingTechStacks = techStacks
-                .filter { techStack -> techStack.studentId == student.id }
-                .map { techStack -> techStack.stack }
+            val matchingTechStacks = techStacks.filter { it.studentId == student.id }.map { it.stack }
 
-            student.copy(techStack = matchingTechStacks)
+            val updatedName = if (role == "ROLE_ANONYMOUS") {
+                student.name.replaceRange(1 until student.name.length, "*".repeat(2))
+            } else {
+                student.name
+            }
+
+            student.copy(
+                name = updatedName,
+                profileImgUrl = if (role == "ROLE_ANONYMOUS") "" else student.profileImgUrl,
+                techStack = matchingTechStacks
+            )
         }
     }
 }
