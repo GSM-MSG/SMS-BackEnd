@@ -1,7 +1,7 @@
 package team.msg.sms.domain.student.model
 
 import team.msg.sms.common.annotation.Aggregate
-import team.msg.sms.domain.techstack.model.TechStack
+import team.msg.sms.domain.major.model.Major
 import java.util.UUID
 
 @Aggregate
@@ -21,8 +21,9 @@ data class Student(
 ) {
     data class StudentWithUserInfo(
         val id: UUID,
-        val major: Major,
+        val major: String,
         val name: String,
+        val profileImgUrl: String,
         val techStack: List<String>
     )
 
