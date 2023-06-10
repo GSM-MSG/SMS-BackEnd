@@ -46,6 +46,7 @@ fun Page<StudentJpaEntity>.toDomainPageWithUserInfo(): Student.StudentWithPageIn
                 id = it.id,
                 major = it.major,
                 name = it.user.name,
+                profileImgUrl = it.profileImgUrl,
                 techStack = arrayListOf()
             )
         }
