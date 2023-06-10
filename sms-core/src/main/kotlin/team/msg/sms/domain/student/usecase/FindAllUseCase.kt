@@ -15,10 +15,9 @@ class FindAllUseCase(
     fun execute(page: Int, size: Int): StudentInfoListResponse {
         val studentsWithPageInfo = studentService.getStudentsWithPage(page, size)
         val techStacks = techStackService.getAllTechStack()
-
-        val students = studentService.matchStudentWithTechStacks(studentsWithPageInfo.students, techStacks)
-
         val currentRole = securityService.getCurrentUserRole()
+
+        val students = studentService.matchStudentWithTechStacks(studentsWithPageInfo.students, techStacks, currentRole)
 
 
         return StudentInfoListResponse(
