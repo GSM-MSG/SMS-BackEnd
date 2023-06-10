@@ -9,7 +9,7 @@ data class Student(
     val id: UUID,
     val department: Department,
     val contactEmail: String,
-    val major: Major,
+    val major: String,
     val portfolioUrl: String?,
     val gsmAuthenticationScore: Int,
     val salary: Int,

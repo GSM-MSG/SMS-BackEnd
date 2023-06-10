@@ -52,7 +52,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
 
-            .antMatchers(HttpMethod.GET, "/major/list").authenticated()
+            .antMatchers(HttpMethod.GET, "/major/list").permitAll()
 
             .anyRequest().authenticated()
 
