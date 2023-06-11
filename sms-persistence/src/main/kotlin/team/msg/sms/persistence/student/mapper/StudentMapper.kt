@@ -43,13 +43,14 @@ fun StudentJpaEntity.toDomainWithUserInfo(): Student.StudentWithUserInfo =
     Student.StudentWithUserInfo(
         id = id,
         major = major,
+        stuNum = user.stuNum,
         department = department,
+        introduce = introduce,
         formOfEmployment = formOfEmployment,
         gsmAuthenticationScore = gsmAuthenticationScore,
         salary = salary,
         name = user.name,
         profileImgUrl = profileImgUrl,
-        stuNum = user.stuNum,
         techStack = arrayListOf()
     )
 

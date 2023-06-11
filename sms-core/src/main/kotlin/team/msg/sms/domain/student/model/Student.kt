@@ -22,6 +22,7 @@ data class Student(
         val id: UUID,
         val major: String,
         val stuNum: String,
+        val introduce: String,
         val department: Department,
         val formOfEmployment: FormOfEmployment,
         val gsmAuthenticationScore: Int,

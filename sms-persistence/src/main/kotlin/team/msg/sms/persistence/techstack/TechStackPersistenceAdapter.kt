@@ -10,6 +10,7 @@ import team.msg.sms.persistence.techstack.mapper.toDomain
 import team.msg.sms.persistence.techstack.mapper.toEntity
 import team.msg.sms.persistence.techstack.repository.TechStackJpaRepository
 import team.msg.sms.persistence.user.mapper.toEntity
+import java.util.UUID
 
 @Component
 class TechStackPersistenceAdapter(
@@ -24,4 +25,8 @@ class TechStackPersistenceAdapter(
 
     override fun findAll(): List<TechStack> = techStackJpaRepository.findAll()
         .map { it.toDomain() }
+
+    override fun findByStudentUuid(uuid: UUID): List<TechStack> =
+        techStackJpaRepository.findByStudentId(uuid)
+            .map { it.toDomain() }
 }
