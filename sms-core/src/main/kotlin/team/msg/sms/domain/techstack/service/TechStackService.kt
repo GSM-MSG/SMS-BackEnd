@@ -7,4 +7,4 @@ class TechStackService(
     commandTechStackService: CommandTechStackService,
     queryTechStackService: QueryTechStackService
 ) : CommandTechStackService by commandTechStackService,
-        QueryTechStackService by queryTechStackService
+    QueryTechStackService by queryTechStackService
