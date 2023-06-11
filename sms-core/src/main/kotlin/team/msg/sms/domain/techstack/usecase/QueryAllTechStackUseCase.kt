@@ -10,8 +10,8 @@ class QueryAllTechStackUseCase(
 ) {
     fun execute(stack: String?): TechStacksResponse {
         return TechStacksResponse(
-            techStack = if (stack == null) techStackService.findAll()
-                .map { it.stack } else techStackService.findAllByStack(
+            techStack = if (stack == null) techStackService.getAllTechStack()
+                .map { it.stack } else techStackService.getAllTechStackByStack(
                 stack
             ).map { it.stack }
         )
