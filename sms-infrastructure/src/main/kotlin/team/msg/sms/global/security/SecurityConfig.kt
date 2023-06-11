@@ -48,6 +48,8 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.POST, "/student").authenticated()
             .antMatchers(HttpMethod.GET, "/student").permitAll()
+            .antMatchers(HttpMethod.GET, "/student/{uuid}").permitAll()
+            .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
