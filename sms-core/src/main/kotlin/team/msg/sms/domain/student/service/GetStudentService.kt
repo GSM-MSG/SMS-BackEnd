@@ -11,4 +11,6 @@ interface GetStudentService {
         techStacks: List<TechStack>,
         role: String
     ): List<Student.StudentWithUserInfo>
+
+    fun currentStudent(): Student
 }
