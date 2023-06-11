@@ -2,6 +2,7 @@ package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.common.service.SecurityService
+import team.msg.sms.domain.student.dto.response.MainStudentsResponse
 import team.msg.sms.domain.student.dto.response.StudentInfoListResponse
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.techstack.service.TechStackService
@@ -21,8 +22,17 @@ class FindAllUseCase(
 
         //val filterStudents = studentService.filterStudents(students, filtersData, currentRole)
 
+        val studentsResponses = students.map {
+            MainStudentsResponse(
+                id = it.id,
+                major = it.major,
+                profileImg = it.profileImgUrl,
+                name = it.name,
+                techStack = it.techStack
+            )
+        }
         return StudentInfoListResponse(
-            content = students,
+            content = studentsResponses,
             page = studentsWithPageInfo.page,
             contentSize = students.size,
             totalSize = studentsWithPageInfo.totalSize,
