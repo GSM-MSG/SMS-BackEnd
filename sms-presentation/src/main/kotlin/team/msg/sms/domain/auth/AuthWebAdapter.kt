@@ -54,7 +54,7 @@ class AuthWebAdapter(
     private fun createCookie(httpServletResponse: HttpServletResponse, value: String, token: String, maxAge: Int) {
         val cookie = Cookie(value, token)
         cookie.isHttpOnly = true
-        cookie.domain = "cloudtype.app"
+        cookie.domain = "localhost"
         cookie.maxAge = maxAge
         httpServletResponse.addCookie(cookie)
     }
