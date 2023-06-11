@@ -54,6 +54,8 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.GET, "/major/list").permitAll()
 
+            .antMatchers(HttpMethod.GET, "/stack/list").permitAll()
+
             .anyRequest().authenticated()
 
         http

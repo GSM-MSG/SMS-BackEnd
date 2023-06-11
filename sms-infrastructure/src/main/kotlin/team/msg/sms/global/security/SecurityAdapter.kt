@@ -13,4 +13,3 @@ class SecurityAdapter(
     override fun getCurrentUserRole(): String =
         SecurityContextHolder.getContext().authentication.authorities.first().authority
 }
-
