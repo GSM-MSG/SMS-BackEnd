@@ -19,11 +19,12 @@ class FindAllUseCase(
 
         val students = studentService.matchStudentWithTechStacks(studentsWithPageInfo.students, techStacks, currentRole)
 
+        //val filterStudents = studentService.filterStudents(students, filtersData, currentRole)
 
         return StudentInfoListResponse(
             content = students,
             page = studentsWithPageInfo.page,
-            contentSize = studentsWithPageInfo.contentSize,
+            contentSize = students.size,
             totalSize = studentsWithPageInfo.totalSize,
             last = studentsWithPageInfo.last
         )
