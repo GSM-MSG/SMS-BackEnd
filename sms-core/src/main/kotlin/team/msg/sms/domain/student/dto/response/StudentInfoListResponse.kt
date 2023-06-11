@@ -4,7 +4,7 @@ import team.msg.sms.domain.student.model.Student
 
 
 data class StudentInfoListResponse(
-    val content: List<Student.StudentWithUserInfo>,
+    val content: List<MainStudentsResponse>,
     val page: Int,
     val contentSize: Int,
     val totalSize: Long,
