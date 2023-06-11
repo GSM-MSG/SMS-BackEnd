@@ -21,4 +21,11 @@ class TechStackPersistenceAdapter(
                 .map { it.toEntity(student.toEntity(user.toEntity())) }
         )
             .map { it.toDomain() }
+
+    override fun queryAll(): List<TechStack> =
+        techStackJpaRepository.findAll().map { it.toDomain() }
+
+    override fun queryAllByStack(stack: String): List<TechStack> =
+        techStackJpaRepository.findDistinctByStackStartingWith(stack)
+            .map { it.toDomain() }
 }
