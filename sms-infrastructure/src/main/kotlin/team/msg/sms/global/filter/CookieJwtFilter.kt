@@ -32,7 +32,7 @@ class CookieJwtFilter(
                 val authentication: Authentication = jwtParser.getAuthentication(token)
                 SecurityContextHolder.getContext().authentication = authentication
 
-                val isAllowStudent = authentication.authorities.any { it.authority == Role.STUDENT.name }
+                val isAllowStudent = authentication.authorities.any { it.authority == Role.ROLE_STUDENT.name }
                 val isPostStudentEndpoint = request.requestURI == "/student" && request.method == "POST"
 
                 if (isAllowStudent && !isPostStudentEndpoint) {

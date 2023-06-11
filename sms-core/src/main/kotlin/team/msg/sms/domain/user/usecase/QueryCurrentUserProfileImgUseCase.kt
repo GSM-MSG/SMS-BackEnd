@@ -14,7 +14,7 @@ class QueryCurrentUserProfileImgUseCase(
         val role = securityService.getCurrentUserRole()
         return UserProfileResponse(
             profileImgUrl = when (role) {
-                "STUDENT" -> studentService.currentStudent().profileImgUrl
+                "ROLE_STUDENT" -> studentService.currentStudent().profileImgUrl
                 else -> ""
             }
         )
