@@ -1,7 +1,6 @@
 package team.msg.sms.domain.student.model
 
 import team.msg.sms.common.annotation.Aggregate
-import team.msg.sms.domain.major.model.Major
 import java.util.UUID
 
 @Aggregate
@@ -22,6 +21,11 @@ data class Student(
     data class StudentWithUserInfo(
         val id: UUID,
         val major: String,
+        val stuNum: String,
+        val department: Department,
+        val formOfEmployment: FormOfEmployment,
+        val gsmAuthenticationScore: Int,
+        val salary: Int,
         val name: String,
         val profileImgUrl: String,
         val techStack: List<String>

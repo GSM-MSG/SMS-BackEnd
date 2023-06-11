@@ -14,7 +14,9 @@ class GetStudentServiceImpl(
         studentPort.getStudentsWithPage(page, size)
 
     override fun matchStudentWithTechStacks(
-        students: List<Student.StudentWithUserInfo>, techStacks: List<TechStack>, role: String
+        students: List<Student.StudentWithUserInfo>,
+        techStacks: List<TechStack>,
+        role: String
     ): List<Student.StudentWithUserInfo> {
         return students.map { student ->
             val matchingTechStacks = techStacks.filter { it.studentId == student.id }.map { it.stack }

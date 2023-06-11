@@ -17,7 +17,8 @@ class StudentWebAdapter(
     @GetMapping
     fun findAll(
         @RequestParam(name = "page") page: Int,
-        @RequestParam(name = "size") size: Int
+        @RequestParam(name = "size") size: Int,
+//        filterRequest: FindAllFiltersWebRequest
     ): ResponseEntity<StudentInfoListResponse> =
         findAllUseCase.execute(page, size)
             .let { ResponseEntity.ok(it) }

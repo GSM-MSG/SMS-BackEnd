@@ -39,16 +39,24 @@ fun Student.toEntity(
         user = user
     )
 
+fun StudentJpaEntity.toDomainWithUserInfo(): Student.StudentWithUserInfo =
+    Student.StudentWithUserInfo(
+        id = id,
+        major = major,
+        department = department,
+        formOfEmployment = formOfEmployment,
+        gsmAuthenticationScore = gsmAuthenticationScore,
+        salary = salary,
+        name = user.name,
+        profileImgUrl = profileImgUrl,
+        stuNum = user.stuNum,
+        techStack = arrayListOf()
+    )
+
 fun Page<StudentJpaEntity>.toDomainPageWithUserInfo(): Student.StudentWithPageInfo {
     val studentWithUserInfoList = this.content
         .map {
-            Student.StudentWithUserInfo(
-                id = it.id,
-                major = it.major,
-                name = it.user.name,
-                profileImgUrl = it.profileImgUrl,
-                techStack = arrayListOf()
-            )
+            it.toDomainWithUserInfo()
         }
     return Student.StudentWithPageInfo(
         students = studentWithUserInfoList,
