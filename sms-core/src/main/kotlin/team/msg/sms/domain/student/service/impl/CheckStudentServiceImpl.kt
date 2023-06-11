@@ -19,8 +19,8 @@ class CheckStudentServiceImpl (
 
     override fun checkNewStudent(user: User, role: String): Boolean {
         return when (role) {
-            "STUDENT" -> studentPort.existsStudentByUser(user)
-            "TEACHER" -> true
+            "ROLE_STUDENT" -> studentPort.existsStudentByUser(user)
+            "ROLE_TEACHER" -> true
             else -> throw RoleNotExistsException
         }
         return studentPort.existsStudentByUser(user)

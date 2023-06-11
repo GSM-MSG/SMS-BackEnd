@@ -57,7 +57,7 @@ class JwtParser(
         val role = body[JwtProperties.ROLE, String::class.java]
 
         return when(role) {
-            Role.STUDENT.name -> studentDetailService.loadUserByUsername(body.id)
+            Role.ROLE_STUDENT.name -> studentDetailService.loadUserByUsername(body.id)
             else -> throw InvalidRoleException
         }
     }
