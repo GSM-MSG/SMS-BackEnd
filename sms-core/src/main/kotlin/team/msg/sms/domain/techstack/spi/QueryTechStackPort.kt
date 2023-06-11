@@ -7,4 +7,6 @@ interface QueryTechStackPort {
     fun findAll(): List<TechStack>
 
     fun findByStudentUuid(uuid: UUID): List<TechStack>
+    fun queryAll(): List<TechStack>
+    fun queryAllByStack(stack: String): List<TechStack>
 }

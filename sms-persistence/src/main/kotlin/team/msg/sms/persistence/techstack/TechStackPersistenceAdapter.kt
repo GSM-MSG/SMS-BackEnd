@@ -29,4 +29,9 @@ class TechStackPersistenceAdapter(
     override fun findByStudentUuid(uuid: UUID): List<TechStack> =
         techStackJpaRepository.findByStudentId(uuid)
             .map { it.toDomain() }
+    override fun queryAll(): List<TechStack> =
+        techStackJpaRepository.findDistinctBy().map { it.toDomain() }
+
+    override fun queryAllByStack(stack: String): List<TechStack> =
+        techStackJpaRepository.findDistinctByStackStartingWith(stack).map { it.toDomain() }
 }
