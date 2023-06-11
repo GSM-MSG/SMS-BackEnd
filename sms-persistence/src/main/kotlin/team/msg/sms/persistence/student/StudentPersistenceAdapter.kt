@@ -8,6 +8,7 @@ import team.msg.sms.domain.student.spi.StudentPort
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.persistence.student.mapper.toDomain
 import team.msg.sms.persistence.student.mapper.toDomainPageWithUserInfo
+import team.msg.sms.persistence.student.mapper.toDomainWithUserInfo
 import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.student.repository.StudentJpaRepository
 import team.msg.sms.persistence.user.mapper.toEntity
@@ -22,8 +23,8 @@ class StudentPersistenceAdapter(
             .save(student.toEntity(user.toEntity()))
             .toDomain()
 
-    override fun queryStudentById(uuid: UUID): Student? =
-        studentJpaRepository.findByIdOrNull(uuid)?.toDomain()
+    override fun queryStudentById(uuid: UUID): Student.StudentWithUserInfo? =
+        studentJpaRepository.findByIdOrNull(uuid)?.toDomainWithUserInfo()
 
     override fun existsStudentById(uuid: UUID): Boolean =
         studentJpaRepository.existsById(uuid)

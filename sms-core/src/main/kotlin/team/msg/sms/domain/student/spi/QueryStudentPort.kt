@@ -5,7 +5,7 @@ import team.msg.sms.domain.user.model.User
 import java.util.UUID
 
 interface QueryStudentPort {
-    fun queryStudentById(uuid: UUID): Student?
+    fun queryStudentById(uuid: UUID): Student.StudentWithUserInfo?
 
     fun existsStudentById(uuid: UUID): Boolean
 
