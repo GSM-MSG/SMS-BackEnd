@@ -54,6 +54,7 @@ class SignInUseCase(
                 accessTokenExp = accessTokenExp,
                 refreshToken = refreshToken,
                 refreshTokenExp = refreshTokenExp,
+                role = role,
                 isExist = isStudent
             )
         } catch (error: GAuthException) {
