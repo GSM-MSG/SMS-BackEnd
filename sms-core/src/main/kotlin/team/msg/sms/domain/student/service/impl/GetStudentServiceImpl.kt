@@ -38,5 +38,5 @@ class GetStudentServiceImpl(
     }
 
     override fun currentStudent(): Student =
-        studentPort.getStudentByUser(userId = securityPort.getCurrentUserId())
+        studentPort.getStudentByUserId(userId = securityPort.getCurrentUserId())
 }
