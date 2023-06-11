@@ -7,4 +7,6 @@ import team.msg.sms.persistence.techstack.entity.TechStackJpaEntity
 @Repository
 interface TechStackJpaRepository : JpaRepository<TechStackJpaEntity, Long> {
     fun findDistinctByStackStartingWith(stack: String): List<TechStackJpaEntity>
+
+    fun findDistinctBy(): List<TechStackJpaEntity>
 }
