@@ -43,6 +43,7 @@ class SignInUseCase(
                     roles = mutableListOf(role)
                 )
             )
+
             val (accessToken, accessTokenExp, refreshToken, refreshTokenExp) = jwtPort.receiveToken(user.id, role)
 
             refreshTokenPort.saveRefreshToken(RefreshToken(refreshToken, user.id))
