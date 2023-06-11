@@ -11,4 +11,7 @@ class SecurityServiceImpl(
 ) : SecurityService {
     override fun getCurrentUserId(): UUID =
         securityPort.getCurrentUserId()
+
+    override fun getCurrentUserRole(): String =
+        securityPort.getCurrentUserRole()
 }
