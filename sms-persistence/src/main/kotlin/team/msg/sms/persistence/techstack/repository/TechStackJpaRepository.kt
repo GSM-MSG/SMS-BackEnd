@@ -8,4 +8,7 @@ import java.util.UUID
 @Repository
 interface TechStackJpaRepository : JpaRepository<TechStackJpaEntity, Long> {
     fun findByStudentId(uuid: UUID): List<TechStackJpaEntity>
+    fun findDistinctByStackStartingWith(stack: String): List<TechStackJpaEntity>
+
+    fun findDistinctBy(): List<TechStackJpaEntity>
 }

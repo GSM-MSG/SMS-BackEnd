@@ -34,4 +34,7 @@ class StudentPersistenceAdapter(
 
     override fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
         studentJpaRepository.findAll(PageRequest.of(page - 1, size)).toDomainPageWithUserInfo()
+
+    override fun getStudentByUserId(userId: UUID): Student =
+        studentJpaRepository.findByUserId(userId).toDomain()
 }

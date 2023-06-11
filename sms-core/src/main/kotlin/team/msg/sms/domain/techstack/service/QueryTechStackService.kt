@@ -7,4 +7,5 @@ interface QueryTechStackService {
     fun getAllTechStack(): List<TechStack>
 
     fun getTechStackByStudentUuid(uuid: UUID): List<TechStack>
+    fun getAllTechStackByStack(stack: String): List<TechStack>
 }

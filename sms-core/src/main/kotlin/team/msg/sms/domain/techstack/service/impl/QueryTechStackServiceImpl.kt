@@ -11,8 +11,11 @@ class QueryTechStackServiceImpl(
     private val techStackPort: TechStackPort
 ) : QueryTechStackService {
     override fun getAllTechStack(): List<TechStack> =
-        techStackPort.findAll()
+        techStackPort.queryAll()
 
     override fun getTechStackByStudentUuid(uuid: UUID): List<TechStack> =
         techStackPort.findByStudentUuid(uuid)
+
+    override fun getAllTechStackByStack(stack: String): List<TechStack> =
+        techStackPort.queryAllByStack(stack)
 }

@@ -46,6 +46,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PATCH, "/auth").permitAll()
             .antMatchers(HttpMethod.DELETE, "/auth").authenticated()
 
+            .antMatchers(HttpMethod.GET, "/user/profile").permitAll()
+
             .antMatchers(HttpMethod.POST, "/student").authenticated()
             .antMatchers(HttpMethod.GET, "/student").permitAll()
             .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority("STUDENT", "TEACHER")
@@ -55,6 +57,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
 
             .antMatchers(HttpMethod.GET, "/major/list").permitAll()
+
+            .antMatchers(HttpMethod.GET, "/stack/list").permitAll()
 
             .anyRequest().authenticated()
 

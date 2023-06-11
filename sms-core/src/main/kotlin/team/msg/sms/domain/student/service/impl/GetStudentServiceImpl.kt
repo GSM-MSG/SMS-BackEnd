@@ -2,6 +2,7 @@ package team.msg.sms.domain.student.service.impl
 
 import team.msg.sms.common.annotation.Service
 import team.msg.sms.domain.student.exception.StudentNotFoundException
+import team.msg.sms.common.spi.SecurityPort
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.GetStudentService
 import team.msg.sms.domain.student.spi.StudentPort
@@ -10,7 +11,8 @@ import java.util.*
 
 @Service
 class GetStudentServiceImpl(
-    private val studentPort: StudentPort
+    private val studentPort: StudentPort,
+    private val securityPort: SecurityPort
 ) : GetStudentService {
     override fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
         studentPort.getStudentsWithPage(page, size)
@@ -39,4 +41,6 @@ class GetStudentServiceImpl(
 
     override fun getStudnetByUuid(uuid: String): Student.StudentWithUserInfo =
         studentPort.queryStudentById(UUID.fromString(uuid)) ?: throw StudentNotFoundException
+    override fun currentStudent(): Student =
+        studentPort.getStudentByUserId(userId = securityPort.getCurrentUserId())
 }
