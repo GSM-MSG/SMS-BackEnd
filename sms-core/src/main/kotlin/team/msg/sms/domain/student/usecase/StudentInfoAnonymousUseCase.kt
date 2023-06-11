@@ -13,10 +13,7 @@ class StudentInfoAnonymousUseCase(
     fun execute(uuid: String): DetailStudentInfoAnonymousResponse {
         val student = studentService.getStudnetByUuid(uuid)
         val techStackByStudentUuid = techStackService.getTechStackByStudentUuid(student.id)
-        val techStacks: MutableList<String> = arrayListOf()
-        techStackByStudentUuid.forEach {
-            techStacks.add(it.stack)
-        }
+        val techStacks: List<String> = techStackByStudentUuid.map { it.stack }
 
         return DetailStudentInfoAnonymousResponse(
             name = student.name.replaceRange(1 until student.name.length, "*".repeat(2)),

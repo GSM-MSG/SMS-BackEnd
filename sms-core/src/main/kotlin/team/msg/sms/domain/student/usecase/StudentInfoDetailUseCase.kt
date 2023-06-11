@@ -14,11 +14,8 @@ class StudentInfoDetailUseCase(
     fun execute(uuid: String): DetailStudentInfoResponse {
         val student = studentService.getStudnetByUuid(uuid)
         val techStackByStudentUuid = techStackService.getTechStackByStudentUuid(student.id)
-        val techStacks: MutableList<String> = arrayListOf()
-        techStackByStudentUuid.forEach {
-            techStacks.add(it.stack)
-        }
-
+        val techStacks: List<String> = techStackByStudentUuid.map { it.stack }
+        
         return DetailStudentInfoResponse(
             name = student.name,
             introduce = student.introduce,
