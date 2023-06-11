@@ -1,6 +1,7 @@
 package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
+import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.languagecertificate.dto.request.LanguageCertificateRequest
