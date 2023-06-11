@@ -38,5 +38,9 @@ class StudentWebAdapter(
     fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousResponse> =
         studentInfoAnonymousUseCase.execute(uuid)
             .let { ResponseEntity.ok(it) }
+
+    @GetMapping("/{uuid}")
+    fun findForStudentRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoResponse> =
         studentInfoDetailUseCase.execute(uuid)
+            .let { ResponseEntity.ok(it) }
 }
