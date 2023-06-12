@@ -11,5 +11,7 @@ class VerifyAccessUseCase(
 ) {
     fun execute(): Boolean =
         userService.getCurrentUser()
-            .let { studentService.checkStudentExists(user = it) }
+            .let {
+                studentService.checkNewStudent(it, it.roles[0].name)
+            }
 }
