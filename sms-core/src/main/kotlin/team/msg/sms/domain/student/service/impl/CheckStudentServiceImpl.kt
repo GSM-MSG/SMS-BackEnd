@@ -26,5 +26,6 @@ class CheckStudentServiceImpl (
         return studentPort.existsStudentByUser(user)
     }
 
-
+    override fun checkStudentExists(user: User): Boolean =
+        studentPort.existsStudentByUser(user)
 }
