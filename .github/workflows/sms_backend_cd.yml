@@ -2,7 +2,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - develop
+      - ops/cd-test
 jobs:
   CI:
     uses: ./.github/workflows/sms_backend_ci.yml
