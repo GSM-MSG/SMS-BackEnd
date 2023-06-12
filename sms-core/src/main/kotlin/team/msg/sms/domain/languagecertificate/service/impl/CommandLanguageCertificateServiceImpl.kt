@@ -18,4 +18,7 @@ class CommandLanguageCertificateServiceImpl(
     ): List<LanguageCertificate> =
         languageCertificatePort.saveAll(languageCertificate, student, user)
 
+    override fun deleteAllByStudent(student: Student, user: User) =
+        languageCertificatePort.deleteAllByStudent(student, user)
+
 }

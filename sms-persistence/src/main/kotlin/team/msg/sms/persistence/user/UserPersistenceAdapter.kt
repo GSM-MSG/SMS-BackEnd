@@ -18,6 +18,9 @@ class UserPersistenceAdapter(
             .save(user.toEntity())
             .toDomain()
 
+    override fun deleteByUuid(userId: UUID) =
+        userRepository.deleteById(userId)
+
     override fun queryUserByEmail(email: String): User? =
         userRepository.findByEmail(email)?.toDomain()
 

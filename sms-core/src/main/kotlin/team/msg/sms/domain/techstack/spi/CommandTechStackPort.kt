@@ -6,4 +6,5 @@ import team.msg.sms.domain.user.model.User
 
 interface CommandTechStackPort {
     fun saveAll(techStack: List<TechStack>, student: Student, user: User): List<TechStack>
+    fun deleteAllByStudent(student: Student, user: User)
 }
