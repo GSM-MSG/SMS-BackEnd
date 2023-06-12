@@ -7,6 +7,7 @@ import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.GetStudentService
 import team.msg.sms.domain.student.spi.StudentPort
 import team.msg.sms.domain.techstack.model.TechStack
+import team.msg.sms.domain.user.model.User
 import java.util.*
 
 @Service
@@ -41,6 +42,10 @@ class GetStudentServiceImpl(
 
     override fun getStudentByUuid(uuid: String): Student.StudentWithUserInfo =
         studentPort.queryStudentById(UUID.fromString(uuid)) ?: throw StudentNotFoundException
+
+    override fun getStudentByUser(user: User): Student =
+        studentPort.queryStudentByUser(user)
+
     override fun currentStudent(): Student =
         studentPort.getStudentByUserId(userId = securityPort.getCurrentUserId())
 }
