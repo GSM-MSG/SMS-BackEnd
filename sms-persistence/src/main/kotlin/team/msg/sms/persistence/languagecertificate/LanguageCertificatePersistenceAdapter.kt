@@ -20,6 +20,9 @@ class LanguageCertificatePersistenceAdapter(
         languageCertificateJpaRepository.saveAll(region.map { it.toEntity(student.toEntity(user.toEntity())) })
             .map { it.toDomain() }
 
+    override fun deleteAllByStudent(student: Student, user: User) =
+        languageCertificateJpaRepository.deleteAllByStudent(student.toEntity(user.toEntity()))
+
     override fun findByStudentUuid(uuid: UUID): List<LanguageCertificate> =
         languageCertificateJpaRepository.findByStudentId(uuid).map { it.toDomain() }
 }

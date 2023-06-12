@@ -6,4 +6,5 @@ import team.msg.sms.domain.user.model.User
 
 interface CommandCertificatePort {
     fun saveAll(certificate: List<Certificate>, student: Student, user: User): List<Certificate>
+    fun deleteAllByStudent(student: Student, user: User)
 }

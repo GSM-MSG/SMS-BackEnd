@@ -6,10 +6,7 @@ import team.msg.sms.domain.auth.dto.SignInRequest
 import team.msg.sms.domain.auth.dto.VerifyAccessResponse
 import team.msg.sms.domain.auth.dto.response.ReIssueTokenResponse
 import team.msg.sms.domain.auth.dto.response.SignInResponse
-import team.msg.sms.domain.auth.usecase.LogoutUseCase
-import team.msg.sms.domain.auth.usecase.ReIssueTokenUseCase
-import team.msg.sms.domain.auth.usecase.SignInUseCase
-import team.msg.sms.domain.auth.usecase.VerifyAccessUseCase
+import team.msg.sms.domain.auth.usecase.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
@@ -20,7 +17,8 @@ class AuthWebAdapter(
     private val signInUseCase: SignInUseCase,
     private val reIssueTokenUseCase: ReIssueTokenUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val verifyAccessUseCase: VerifyAccessUseCase
+    private val verifyAccessUseCase: VerifyAccessUseCase,
+    private val withdrawalUseCase: WithdrawalUseCase
 ) {
 
     @PostMapping
@@ -58,6 +56,11 @@ class AuthWebAdapter(
     fun verifyAccess(): ResponseEntity<VerifyAccessResponse> =
         verifyAccessUseCase.execute()
             .let { ResponseEntity.ok(it.toResponse()) }
+
+    @DeleteMapping("/withdrawal")
+    fun withdrawal(): ResponseEntity<Void> =
+        withdrawalUseCase.execute()
+            .run { ResponseEntity.ok().build() }
 
     private fun createCookie(httpServletResponse: HttpServletResponse, value: String, token: String, maxAge: Int) {
         val cookie = Cookie(value, token)
