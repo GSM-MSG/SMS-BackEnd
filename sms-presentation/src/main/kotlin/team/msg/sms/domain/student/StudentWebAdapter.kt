@@ -44,7 +44,7 @@ class StudentWebAdapter(
             .let { ResponseEntity.ok(it) }
 
     @GetMapping("/teacher/{uuid}")
-    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherResponse> {
+    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherResponse> =
         studentInfoTeacherUsecase.execute(uuid)
-    }
+            .let { ResponseEntity.ok(it)}
 }
