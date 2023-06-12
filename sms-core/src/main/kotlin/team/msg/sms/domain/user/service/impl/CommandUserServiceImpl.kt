@@ -6,17 +6,21 @@ import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.CommandUserService
 import team.msg.sms.domain.user.spi.CommandUserPort
 import team.msg.sms.domain.user.spi.QueryUserPort
+import team.msg.sms.domain.user.spi.UserPort
+import java.util.*
 
 @Service
 class CommandUserServiceImpl(
-    private val commandUserPort: CommandUserPort,
-    private val queryUserPort: QueryUserPort
+    private val userPort: UserPort
 ) : CommandUserService {
     override fun createUserWhenNotExistUser(existUser: Boolean, user: User): User {
         return if(existUser) {
-            queryUserPort.queryUserByEmail(user.email) ?: throw UserNotFoundException
+            userPort.queryUserByEmail(user.email) ?: throw UserNotFoundException
         } else {
-            commandUserPort.saveUser(user)!!
+            userPort.saveUser(user)!!
         }
     }
+
+    override fun deleteByUuid(userId: UUID) =
+        userPort.deleteByUuid(userId)
 }
