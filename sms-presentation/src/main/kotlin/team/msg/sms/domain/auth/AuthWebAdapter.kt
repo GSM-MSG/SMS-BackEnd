@@ -3,13 +3,11 @@ package team.msg.sms.domain.auth
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.domain.auth.dto.SignInRequest
-import team.msg.sms.domain.auth.dto.VerifyAccessResponse
 import team.msg.sms.domain.auth.dto.response.ReIssueTokenResponse
 import team.msg.sms.domain.auth.dto.response.SignInResponse
 import team.msg.sms.domain.auth.usecase.LogoutUseCase
 import team.msg.sms.domain.auth.usecase.ReIssueTokenUseCase
 import team.msg.sms.domain.auth.usecase.SignInUseCase
-import team.msg.sms.domain.auth.usecase.VerifyAccessUseCase
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
@@ -20,7 +18,6 @@ class AuthWebAdapter(
     private val signInUseCase: SignInUseCase,
     private val reIssueTokenUseCase: ReIssueTokenUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val verifyAccessUseCase: VerifyAccessUseCase
 ) {
 
     @PostMapping
@@ -55,9 +52,7 @@ class AuthWebAdapter(
     }
 
     @GetMapping("/verify/access")
-    fun verifyAccess(): ResponseEntity<VerifyAccessResponse> =
-        verifyAccessUseCase.execute()
-            .let { ResponseEntity.ok(it.toResponse()) }
+    fun verifyAccess(): ResponseEntity<String> = ResponseEntity.ok().build()
 
     private fun createCookie(httpServletResponse: HttpServletResponse, value: String, token: String, maxAge: Int) {
         val cookie = Cookie(value, token)
@@ -72,9 +67,4 @@ class AuthWebAdapter(
         cookie.maxAge = 0
         httpServletResponse.addCookie(cookie)
     }
-
-    private fun Boolean.toResponse(): VerifyAccessResponse =
-        VerifyAccessResponse(
-            isExist = this
-        )
 }
