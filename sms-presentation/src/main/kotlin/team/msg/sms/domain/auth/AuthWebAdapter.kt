@@ -51,6 +51,9 @@ class AuthWebAdapter(
         return ResponseEntity.ok().build()
     }
 
+    @GetMapping("/verify/access")
+    fun verifyAccess(): ResponseEntity<String> = ResponseEntity.ok().build()
+
     private fun createCookie(httpServletResponse: HttpServletResponse, value: String, token: String, maxAge: Int) {
         val cookie = Cookie(value, token)
         cookie.isHttpOnly = true
