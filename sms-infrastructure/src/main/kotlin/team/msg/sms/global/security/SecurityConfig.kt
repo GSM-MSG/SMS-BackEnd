@@ -45,11 +45,14 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
             .antMatchers(HttpMethod.PATCH, "/auth").permitAll()
             .antMatchers(HttpMethod.DELETE, "/auth").authenticated()
+            .antMatchers(HttpMethod.GET, "/auth/verity/access").authenticated()
 
             .antMatchers(HttpMethod.GET, "/user/profile").permitAll()
 
             .antMatchers(HttpMethod.POST, "/student").authenticated()
             .antMatchers(HttpMethod.GET, "/student").permitAll()
+            .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority("STUDENT", "TEACHER")
+            .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
