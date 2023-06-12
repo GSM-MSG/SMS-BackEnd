@@ -10,9 +10,9 @@ class QueryAllTechStackUseCase(
 ) {
     fun execute(stack: String?): TechStacksResponse {
         val techStack = if (stack == null) techStackService.getAllTechStack()
-            .map { it.stack } else techStackService.getAllTechStackByStack(
+            .map { it.stack }.distinct() else techStackService.getAllTechStackByStack(
             stack
-        ).map { it.stack }
+        ).map { it.stack }.distinct()
 
         return TechStacksResponse(
             techStack = if (techStack.size > 30) techStack
