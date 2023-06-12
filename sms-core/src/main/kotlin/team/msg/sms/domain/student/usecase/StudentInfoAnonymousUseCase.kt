@@ -11,7 +11,7 @@ class StudentInfoAnonymousUseCase(
     private val techStackService: TechStackService
 ) {
     fun execute(uuid: String): DetailStudentInfoAnonymousResponse {
-        val student = studentService.getStudnetByUuid(uuid)
+        val student = studentService.getStudentByUuid(uuid)
         val techStackByStudentUuid = techStackService.getTechStackByStudentUuid(student.id)
         val techStacks: List<String> = techStackByStudentUuid.map { it.stack }
 
