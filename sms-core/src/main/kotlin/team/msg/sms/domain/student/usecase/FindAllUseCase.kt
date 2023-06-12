@@ -20,7 +20,7 @@ class FindAllUseCase(
 
         val students = studentService.matchStudentWithTechStacks(studentsWithPageInfo.students, techStacks, currentRole)
 
-        //val filterStudents = studentService.filterStudents(students, filtersData, currentRole)
+        val filterStudents = studentService.filterStudents(students, filtersData, currentRole)
 
         val studentsResponses = students.map {
             MainStudentsResponse(

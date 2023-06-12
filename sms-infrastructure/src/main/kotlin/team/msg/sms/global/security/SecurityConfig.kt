@@ -51,7 +51,7 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.POST, "/student").authenticated()
             .antMatchers(HttpMethod.GET, "/student").permitAll()
-            .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyRole("ROLE_STUDENT", "ROLE_TEACHER")
+            .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
@@ -74,3 +74,4 @@ class SecurityConfig(
         return http.build()
     }
 }
+
