@@ -12,6 +12,12 @@ fun LanguageCertificateJpaEntity.toDomain(): LanguageCertificate =
         studentId = student.id
     )
 
+fun LanguageCertificate.toDomainWithScore(): LanguageCertificate.LanguageCertificateScore =
+    LanguageCertificate.LanguageCertificateScore(
+        languageCertificateName = languageCertificateName,
+        score = score,
+    )
+
 
 fun LanguageCertificate.toEntity(
     student: StudentJpaEntity

@@ -19,6 +19,7 @@ import team.msg.sms.domain.techstack.service.TechStackService
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 import java.util.UUID
+import kotlin.math.sign
 
 @UseCase
 class SignUpUseCase(
@@ -100,6 +101,7 @@ class SignUpUseCase(
             contactEmail = signUpData.contactEmail,
             major = signUpData.major,
             portfolioUrl = signUpData.portfolioUrl,
+            dreamBookFileUrl = signUpData.dreamBookFileUrl,
             gsmAuthenticationScore = signUpData.gsmAuthenticationScore,
             salary = signUpData.salary,
             formOfEmployment = signUpData.formOfEmployment,
