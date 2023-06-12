@@ -4,21 +4,21 @@ import org.springframework.web.bind.annotation.RequestParam
 import team.msg.sms.domain.student.dto.request.FiltersData
 
 class FindAllFiltersWebRequest(
-    @RequestParam("majors", required = false, defaultValue = "") val majors: List<String>?,
-    @RequestParam("techStacks", required = false, defaultValue = "") val techStacks: List<String>?,
-    @RequestParam("grade", required = false, defaultValue = "null") val grade: Int?,
-    @RequestParam("classNum", required = false, defaultValue = "null") val classNum: Int?,
-    @RequestParam("department", required = false, defaultValue = "") val department: List<String>?,
-    @RequestParam("stuNumSort", required = false, defaultValue = "") val stuNumSort: String?,
-    @RequestParam("formOfEmployment", required = false, defaultValue = "") val formOfEmployment: List<String>?,
-    @RequestParam("minGsmAuthenticationScore", required = false, defaultValue = "null") val minGsmAuthenticationScore: Int?,
-    @RequestParam("maxGsmAuthenticationScore", required = false, defaultValue = "null") val maxGsmAuthenticationScore: Int?,
-    @RequestParam("minSalary", required = false, defaultValue = "null") val minSalary: Int?,
-    @RequestParam("maxSalary", required = false, defaultValue = "null") val maxSalary: Int?,
+    @RequestParam("majors", required = false) val majors: List<String>?,
+    @RequestParam("techStacks", required = false) val techStacks: List<String>?,
+    @RequestParam("grade", required = false) val grade: Int?,
+    @RequestParam("classNum", required = false) val classNum: Int?,
+    @RequestParam("department", required = false) val department: List<String>?,
+    @RequestParam("stuNumSort", required = false) val stuNumSort: String?,
+    @RequestParam("formOfEmployment", required = false) val formOfEmployment: List<String>?,
+    @RequestParam("minGsmAuthenticationScore", required = false) val minGsmAuthenticationScore: Int?,
+    @RequestParam("maxGsmAuthenticationScore", required = false) val maxGsmAuthenticationScore: Int?,
+    @RequestParam("minSalary", required = false) val minSalary: Int?,
+    @RequestParam("maxSalary", required = false) val maxSalary: Int?,
     @RequestParam(
-        "gsmAuthenticationScoreSort", required = false, defaultValue = ""
+        "gsmAuthenticationScoreSort", required = false
     ) val gsmAuthenticationScoreSort: String?,
-    @RequestParam("salarySort", required = false, defaultValue = "") val salarySort: String?
+    @RequestParam("salarySort", required = false) val salarySort: String?
 ) {
     fun toData(): FiltersData =
         FiltersData(
