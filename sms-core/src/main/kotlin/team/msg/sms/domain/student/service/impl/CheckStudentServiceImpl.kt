@@ -6,7 +6,6 @@ import team.msg.sms.domain.student.service.CheckStudentService
 import team.msg.sms.domain.student.spi.StudentPort
 import team.msg.sms.domain.user.exception.RoleNotExistsException
 import team.msg.sms.domain.user.model.User
-import java.util.*
 
 @Service
 class CheckStudentServiceImpl (
@@ -24,7 +23,4 @@ class CheckStudentServiceImpl (
             else -> throw RoleNotExistsException
         }
     }
-
-    override fun checkStudentExists(user: User): Boolean =
-        studentPort.existsStudentByUser(user)
 }
