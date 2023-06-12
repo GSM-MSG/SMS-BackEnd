@@ -19,6 +19,9 @@ class RegionPersistenceAdapter(
     override fun saveAll(region: List<Region>, student: Student, user: User): List<Region> =
         regionJpaRepository.saveAll(region.map { it.toEntity(student.toEntity(user.toEntity())) }).map { it.toDomain() }
 
+    override fun deleteAllByStudent(student: Student, user: User) =
+        regionJpaRepository.deleteAllByStudent(student.toEntity(user.toEntity()))
+
     override fun findByStudentUuid(uuid: UUID): List<Region> =
         regionJpaRepository.findByStudentId(uuid).map { it.toDomain() }
 }
