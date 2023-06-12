@@ -9,4 +9,9 @@ class LanguageCertificate(
     val languageCertificateName: String,
     val score: String,
     val studentId: UUID
-)
+) {
+    data class LanguageCertificateScore(
+        val languageCertificateName: String,
+        val score: String,
+    )
+}

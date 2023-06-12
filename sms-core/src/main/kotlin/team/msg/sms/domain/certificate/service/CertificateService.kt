@@ -4,5 +4,7 @@ import team.msg.sms.common.annotation.Service
 
 @Service
 class CertificateService(
-    commandCertificateService: CommandCertificateService
-) : CommandCertificateService by commandCertificateService
+    commandCertificateService: CommandCertificateService,
+    getCertificateService: GetCertificateService
+) : CommandCertificateService by commandCertificateService,
+        GetCertificateService by getCertificateService
