@@ -13,15 +13,13 @@ class FilterStudentServiceImpl(
         students: List<Student.StudentWithUserInfo>,
         filters: FiltersData,
         role: String
-    ): List<Student.StudentWithUserInfo> {
-        if (role == "ROLE_TEACHER") {
-            return this.filterStudentsForTeacher(students, filters)
-        } else if (role == "ROLE_STUDENT") {
-            return this.filterStudentsForStudent(students, filters)
-        } else {
-            return this.filterStudentsForAnonymous(students, filters)
+    ): List<Student.StudentWithUserInfo> =
+        when (role) {
+            "ROLE_TEACHER" -> this.filterStudentsForTeacher(students, filters)
+            "ROLE_STUDENT" -> this.filterStudentsForStudent(students, filters)
+            else -> this.filterStudentsForAnonymous(students, filters)
         }
-    }
+
 
     private fun filterStudentsForTeacher(
         students: List<Student.StudentWithUserInfo>,
@@ -37,7 +35,7 @@ class FilterStudentServiceImpl(
 
         filters.techStacks?.let { techStacks -> // techStack
             filteredStudents = filteredStudents.filter { student ->
-                student.techStack.intersect(techStacks).isNotEmpty()
+                student.techStack.intersect(techStacks.toSet()).isNotEmpty()
             }
         }
 
@@ -65,21 +63,33 @@ class FilterStudentServiceImpl(
             }
         }
 
-//        filters.minGsmAuthenticationScore?.let { minScore ->
-//            filteredStudents = filteredStudents.filter { student ->
-//                student.gsmAuthenticationScore >= minScore
-//            }
-//        }
-//
-//        filters.minSalary?.let { minSalary ->
-//            filteredStudents = filteredStudents.filter { student ->
-//                student.salary >= minSalary
-//            }
-//        }
-//
-//        filters.stuNumSort?.let { stuNumSort ->
-//            filteredStudents = filteredStudents.sortedBy { it.grade }
-//        }
+        if (filters.minGsmAuthenticationScore != null && filters.maxGsmAuthenticationScore != null)
+            filteredStudents = filteredStudents.filter { student ->
+                student.gsmAuthenticationScore >= filters.minGsmAuthenticationScore && student.gsmAuthenticationScore <= filters.maxGsmAuthenticationScore
+            }
+
+        if (filters.minSalary != null && filters.maxSalary != null) {
+            filteredStudents = filteredStudents.filter { student ->
+                student.salary >= filters.minSalary && student.salary <= filters.maxSalary
+            }
+        }
+        filters.gsmAuthenticationScoreSort?.let { gsmScoreSort ->
+            filteredStudents =
+                if (gsmScoreSort == "ASCENDING") filteredStudents.sortedBy { it.gsmAuthenticationScore }
+                else filteredStudents.sortedBy { it.gsmAuthenticationScore }.reversed()
+        }
+
+        filters.salarySort?.let { salarySort ->
+            filteredStudents =
+                if (salarySort == "ASCENDING") filteredStudents.sortedBy { it.salary }
+                else filteredStudents.sortedBy { it.salary }.reversed()
+        }
+
+        filters.stuNumSort?.let { stuNumSort ->
+            filteredStudents =
+                if (stuNumSort == "ASCENDING") filteredStudents.sortedBy { it.stuNum }
+                else filteredStudents.sortedBy { it.stuNum }.reversed()
+        }
 
         return filteredStudents
     }
@@ -120,9 +130,11 @@ class FilterStudentServiceImpl(
             }
         }
 
-        //        filters.stuNumSort?.let { stuNumSort ->
-//            filteredStudents = filteredStudents.sortedBy { it.grade }
-//        }
+        filters.stuNumSort?.let { stuNumSort ->
+            filteredStudents =
+                if (stuNumSort == "ASCENDING") filteredStudents.sortedBy { it.stuNum }
+                else filteredStudents.sortedBy { it.stuNum }.reversed()
+        }
 
         return filteredStudents
     }
@@ -141,7 +153,7 @@ class FilterStudentServiceImpl(
 
         filters.techStacks?.let { techStacks -> // techStack
             filteredStudents = filteredStudents.filter { student ->
-                student.techStack.intersect(techStacks).isNotEmpty()
+                student.techStack.intersect(techStacks.toSet()).isNotEmpty()
             }
         }
 

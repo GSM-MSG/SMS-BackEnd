@@ -13,12 +13,14 @@ import team.msg.sms.global.security.exception.InvalidRoleException
 import team.msg.sms.global.security.exception.InvalidTokenException
 import team.msg.sms.global.security.exception.UnexpectedTokenException
 import team.msg.sms.global.security.principle.StudentDetailService
+import team.msg.sms.global.security.principle.TeacherDetailService
 
 
 @Component
 class JwtParser(
     private val securityProperties: SecurityProperties,
-    private val studentDetailService: StudentDetailService
+    private val studentDetailService: StudentDetailService,
+    private val teacherDetailService: TeacherDetailService
 ) {
     fun parseToken(token: String): String? =
         if(token.startsWith(JwtProperties.PREFIX)) token.substring(JwtProperties.PREFIX.length) else null
@@ -58,6 +60,7 @@ class JwtParser(
 
         return when(role) {
             Role.ROLE_STUDENT.name -> studentDetailService.loadUserByUsername(body.id)
+            Role.ROLE_TEACHER.name -> teacherDetailService.loadUserByUsername(body.id)
             else -> throw InvalidRoleException
         }
     }
