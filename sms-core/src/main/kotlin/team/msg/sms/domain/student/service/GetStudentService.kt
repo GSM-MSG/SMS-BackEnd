@@ -12,6 +12,6 @@ interface GetStudentService {
         role: String
     ): List<Student.StudentWithUserInfo>
 
-    fun getStudnetByUuid(uuid: String): Student.StudentWithUserInfo
+    fun getStudentByUuid(uuid: String): Student.StudentWithUserInfo
     fun currentStudent(): Student
 }

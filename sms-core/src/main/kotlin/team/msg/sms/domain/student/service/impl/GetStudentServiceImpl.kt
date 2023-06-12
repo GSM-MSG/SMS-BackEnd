@@ -39,7 +39,7 @@ class GetStudentServiceImpl(
         }
     }
 
-    override fun getStudnetByUuid(uuid: String): Student.StudentWithUserInfo =
+    override fun getStudentByUuid(uuid: String): Student.StudentWithUserInfo =
         studentPort.queryStudentById(UUID.fromString(uuid)) ?: throw StudentNotFoundException
     override fun currentStudent(): Student =
         studentPort.getStudentByUserId(userId = securityPort.getCurrentUserId())

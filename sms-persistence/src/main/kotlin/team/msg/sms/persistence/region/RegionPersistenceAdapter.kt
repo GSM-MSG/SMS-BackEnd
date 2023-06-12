@@ -10,6 +10,7 @@ import team.msg.sms.persistence.region.mapper.toEntity
 import team.msg.sms.persistence.region.repository.RegionJpaRepository
 import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.user.mapper.toEntity
+import java.util.*
 
 @Component
 class RegionPersistenceAdapter(
@@ -18,4 +19,6 @@ class RegionPersistenceAdapter(
     override fun saveAll(region: List<Region>, student: Student, user: User): List<Region> =
         regionJpaRepository.saveAll(region.map { it.toEntity(student.toEntity(user.toEntity())) }).map { it.toDomain() }
 
+    override fun findByStudentUuid(uuid: UUID): List<Region> =
+        regionJpaRepository.findByStudentId(uuid).map { it.toDomain() }
 }
