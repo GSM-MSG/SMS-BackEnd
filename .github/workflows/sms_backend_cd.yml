@@ -1,13 +1,12 @@
-name: Build and Push Docker Image
 on:
   push:
-    branches: ["ops/cd-test"]
-      
+    branches: [ "ops/cd-test" ]
+  pull_request:
+    branches: [ "ops/cd-test" ]
+
 jobs:
   CD:
-    name : sms_backend_cd
     runs-on: ubuntu-latest
-    
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
