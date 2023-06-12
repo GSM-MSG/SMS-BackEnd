@@ -5,11 +5,9 @@ import org.springframework.web.bind.annotation.*
 import team.msg.sms.domain.student.dto.SignUpWebRequest
 import team.msg.sms.domain.student.dto.response.DetailStudentInfoAnonymousResponse
 import team.msg.sms.domain.student.dto.response.DetailStudentInfoResponse
+import team.msg.sms.domain.student.dto.response.DetailStudentInfoTeacherResponse
 import team.msg.sms.domain.student.dto.response.StudentInfoListResponse
-import team.msg.sms.domain.student.usecase.FindAllUseCase
-import team.msg.sms.domain.student.usecase.SignUpUseCase
-import team.msg.sms.domain.student.usecase.StudentInfoAnonymousUseCase
-import team.msg.sms.domain.student.usecase.StudentInfoDetailUseCase
+import team.msg.sms.domain.student.usecase.*
 import javax.validation.Valid
 
 @RestController
@@ -18,7 +16,8 @@ class StudentWebAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val findAllUseCase: FindAllUseCase,
     private val studentInfoAnonymousUseCase: StudentInfoAnonymousUseCase,
-    private val studentInfoDetailUseCase: StudentInfoDetailUseCase
+    private val studentInfoDetailUseCase: StudentInfoDetailUseCase,
+    private val studentInfoTeacherUsecase: StudentInfoTeacherUseCase
 ) {
     @GetMapping
     fun findAll(
@@ -43,4 +42,9 @@ class StudentWebAdapter(
     fun findForStudentRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoResponse> =
         studentInfoDetailUseCase.execute(uuid)
             .let { ResponseEntity.ok(it) }
+
+    @GetMapping("/teacher/{uuid}")
+    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherResponse> {
+        studentInfoTeacherUsecase.execute(uuid)
+    }
 }
