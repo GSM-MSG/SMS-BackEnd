@@ -14,4 +14,6 @@ interface QueryStudentPort {
     fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo
 
     fun getStudentByUserId(userId: UUID): Student
+
+    fun queryStudentByUser(user: User): Student
 }
