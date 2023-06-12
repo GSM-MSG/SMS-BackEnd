@@ -22,6 +22,6 @@ class DetailStudentInfoTeacherResponse(
     val salary: Int,
     val languageCertificates: List<LanguageCertificate.LanguageCertificateScore>,
     val certificates: List<String>,
-    val techStack: List<String>
+    val techStacks: List<String>
 ) {
 }
