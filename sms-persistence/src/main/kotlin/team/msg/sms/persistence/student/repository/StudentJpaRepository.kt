@@ -10,4 +10,5 @@ import java.util.UUID
 interface StudentJpaRepository : JpaRepository<StudentJpaEntity, UUID> {
     fun existsByUser(user: UserJpaEntity): Boolean
     fun findByUserId(userId: UUID): StudentJpaEntity
+    fun findByUser(user: UserJpaEntity): StudentJpaEntity
 }

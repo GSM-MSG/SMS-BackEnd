@@ -23,6 +23,9 @@ class StudentPersistenceAdapter(
             .save(student.toEntity(user.toEntity()))
             .toDomain()
 
+    override fun deleteById(studentId: UUID) =
+        studentJpaRepository.deleteById(studentId)
+
     override fun queryStudentById(uuid: UUID): Student.StudentWithUserInfo? =
         studentJpaRepository.findByIdOrNull(uuid)?.toDomainWithUserInfo()
 
@@ -37,4 +40,7 @@ class StudentPersistenceAdapter(
 
     override fun getStudentByUserId(userId: UUID): Student =
         studentJpaRepository.findByUserId(userId).toDomain()
+
+    override fun queryStudentByUser(user: User): Student =
+        studentJpaRepository.findByUser(user = user.toEntity()).toDomain()
 }
