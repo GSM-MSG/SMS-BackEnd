@@ -23,7 +23,6 @@ class CheckStudentServiceImpl (
             "ROLE_TEACHER" -> true
             else -> throw RoleNotExistsException
         }
-        return studentPort.existsStudentByUser(user)
     }
 
     override fun checkStudentExists(user: User): Boolean =
