@@ -2,6 +2,8 @@ package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.service.CertificateService
+import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
+import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
 import team.msg.sms.domain.student.dto.response.DetailStudentInfoTeacherResponse
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.techstack.service.TechStackService
@@ -10,12 +12,15 @@ import team.msg.sms.domain.techstack.service.TechStackService
 class StudentInfoTeacherUseCase(
     private val studentService: StudentService,
     private val techStackService: TechStackService,
-    private val certificateService: CertificateService
+    private val certificateService: CertificateService,
+    private val languageCertificateService: LanguageCertificateService,
 ) {
     fun execute(uuid: String): DetailStudentInfoTeacherResponse {
         val student = studentService.getStudentByUuid(uuid)
         val techStacks: List<String> = techStackService.getTechStackByStudentUuid(student.id).map { it.stack }
         val certificates = certificateService.getCertificateByUuid(student.id).map { it.certificateName }
+        val languageCertificates =
+            languageCertificateService.getLanguageCertificateByStudentUuid(student.id).map { LanguageCertificate.LanguageCertificateScore(it.languageCertificateName, it.score)}
 
 
         return DetailStudentInfoTeacherResponse(
@@ -34,8 +39,9 @@ class StudentInfoTeacherUseCase(
             formOfEmployment = student.formOfEmployment,
             gsmAuthenticationScore = student.gsmAuthenticationScore,
             certificates = certificates,
-            languageCertificates = ,
-            regions =
+            languageCertificates = languageCertificates,
+            regions = arrayListOf("d")
         )
     }
 }
+

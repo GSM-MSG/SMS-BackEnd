@@ -20,7 +20,7 @@ class DetailStudentInfoTeacherResponse(
     val regions: List<String>, // 근무지역
     val militaryService: MilitaryService,
     val salary: Int,
-    val languageCertificates: List<LanguageCertificate>,
+    val languageCertificates: List<LanguageCertificate.LanguageCertificateScore>,
     val certificates: List<String>,
     val techStack: List<String>
 ) {
