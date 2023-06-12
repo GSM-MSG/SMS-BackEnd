@@ -13,4 +13,8 @@ class CommandTechStackServiceImpl(
 ) : CommandTechStackService {
     override fun saveAll(techStack: List<TechStack>, student: Student, user: User): List<TechStack> =
         techStackPort.saveAll(techStack, student, user)
+
+    override fun deleteAllByStudent(student: Student, user: User) {
+        techStackPort.deleteAllByStudent(student, user)
+    }
 }
