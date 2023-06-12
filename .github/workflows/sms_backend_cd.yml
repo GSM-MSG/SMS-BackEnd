@@ -1,10 +1,11 @@
 name: Build and Push Docker Image
 on:
   push:
-    branches:
-      - ops/cd-test
+    branches: ["ops/cd-test"]
+      
 jobs:
   CI:
+    name : sms_backend_ci
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,8 +34,8 @@ jobs:
         run: ./gradlew clean build   
 
   CD:
+    name : sms_backend_cd
     needs: CI
-    environment: production
     runs-on: ubuntu-latest
     
     steps:
