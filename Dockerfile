@@ -1,9 +1,9 @@
-FROM openjdk:11
+FROM openjdk:11-jdk
 
-ARG JAR_FILE=./sms-infrastructure/build/libs/*.jar
+WORKDIR /usr/src/app
 
-COPY ${JAR_FILE} app.jar
+COPY sms-infrastructure/build/libs/sms-infrastructure-0.0.1-SNAPSHOT.jar sms-infrastructure/build/libs/sms-infrastructure-0.0.1-SNAPSHOT.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java","-jar","sms-infrastructure/build/libs/sms-infrastructure-0.0.1-SNAPSHOT.jar"]
