@@ -52,7 +52,7 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.GET, "/user/profile").permitAll()
 
-            .antMatchers(HttpMethod.POST, "/student").authenticated()
+            .antMatchers(HttpMethod.POST, "/student").hasAuthority("ROLE_STUDENT")
             .antMatchers(HttpMethod.GET, "/student").permitAll()
             .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
