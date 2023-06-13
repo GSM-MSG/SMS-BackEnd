@@ -10,4 +10,4 @@ COPY $JAR_FILE_PATH app.jar
 
 EXPOSE 8080
 
-ENTRYPOING ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
