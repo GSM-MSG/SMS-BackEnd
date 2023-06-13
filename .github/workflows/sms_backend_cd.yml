@@ -65,9 +65,7 @@ jobs:
         script_stop: true
         script: |
           ${{ secrets.SSH_ACCESS }}
-          docker pull ${{ secrets.REPO_URL }}:latest
-          docker compose build
-          docker compose up -d
+          ./deploy.sh
           
     - name: SMS-Backend-CD Discord Notification
       uses: sarisia/actions-status-discord@v1
