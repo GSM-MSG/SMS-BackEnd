@@ -11,6 +11,7 @@ import team.msg.sms.domain.region.model.Region
 import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.dto.request.SignUpData
 import team.msg.sms.domain.student.exception.StuNumNotRightException
+import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Department
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.StudentService
@@ -112,6 +113,8 @@ class SignUpUseCase(
         )
 
     private fun findDepartment(stuNum: String): Department {
+        if(stuNum.isEmpty())
+            throw StudentNotFoundException
         val departmentCode = stuNum.slice(IntRange(1, 1))
         return when {
             stuNum.startsWith("1") -> when (departmentCode) {
