@@ -56,16 +56,11 @@ jobs:
         docker push ${{ secrets.REPO_URL }}:$IMAGE_TAG
         
     - name: SSH Commands
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ secrets.AWS_SSH_HOST }}
-        username: ubuntu
-        key: ${{ secrets.AWS_SSH_KEY }}
-        port: 22
-        script_stop: true
-        script: |
-          ${{ secrets.SSH_ACCESS }}
-          ./deploy.sh
+      run: |
+        echo ${{ secrets.AWS_SSH_KEY }} > private_key && chmod 600 private_key
+        ssh -i private_key ec2-user@ ${{ secrets.AWS_SSH_HOST }}
+        {{ secrets.SSH_ACCESS }}
+        ./deploy.sh
           
     - name: SMS-Backend-CD Discord Notification
       uses: sarisia/actions-status-discord@v1
