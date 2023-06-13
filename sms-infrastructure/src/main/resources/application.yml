@@ -14,8 +14,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
@@ -34,6 +32,7 @@ cloud:
       auto: false
     s3:
       bucket: ${S3_BUCKET}
+      bucketLog: ${S3_LOG_BUCKET}
     stack:
       auto: false
 
