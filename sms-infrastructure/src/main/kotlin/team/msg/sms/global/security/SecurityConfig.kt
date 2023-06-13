@@ -40,6 +40,8 @@ class SecurityConfig(
             .requestMatchers(RequestMatcher { request ->
                 CorsUtils.isPreFlightRequest(request)
             }).permitAll()
+            //healthCheck
+            .antMatchers(HttpMethod.GET, "/health").permitAll()
 
             // auth
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
