@@ -1,11 +1,8 @@
 FROM openjdk:11
 
-ENV APP_HOME=/apps
+ARG JAR_FILE=./sms-infrastructure/build/libs/*.jar
 
-ARG JAR_FILE_PATH=build/libs/sms-infrastructure-0.0.1-SNAPSHOT.jar
-WORKDIR $APP_HOME
-
-COPY $JAR_FILE_PATH app.jar
+COPY ${JAR_FILE} app.jar
 
 EXPOSE 8080
 
