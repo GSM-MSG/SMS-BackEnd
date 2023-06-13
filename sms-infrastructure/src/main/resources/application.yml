@@ -15,7 +15,7 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
