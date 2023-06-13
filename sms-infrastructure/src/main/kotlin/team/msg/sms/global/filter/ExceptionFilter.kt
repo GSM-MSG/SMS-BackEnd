@@ -30,19 +30,24 @@ class ExceptionFilter(
         }.onFailure { exception ->
             when (exception) {
                 is SmsException -> {
-                    log.error(exception.message)
+                    log.error("request url = ${request.requestURI}")
+                    log.error("exception message = ${exception.errorProperty.message()}")
+                    log.error("response status = ${exception.errorProperty.status()} ---------------")
                     errorToJson(exception.errorProperty, response)
                 }
 
                 else -> {
                     when (val cause = exception.cause) {
                         is SmsException -> {
-                            log.error(cause.message)
+                            log.error("request url = ${request.requestURI}")
+                            log.error("exception message = ${cause.errorProperty.message()}")
+                            log.error("response status = ${cause.errorProperty.status()} ---------------")
                             errorToJson(cause.errorProperty, response)
                         }
 
                         else -> {
-                            log.error(exception.message)
+                            log.error("request url = ${request.requestURI}")
+                            log.error("unknown exception message = ${exception.message} ---------------")
                             errorToJson(InternalServerErrorException.errorProperty, response)
                         }
                     }
