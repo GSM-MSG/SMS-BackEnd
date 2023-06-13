@@ -1,5 +1,6 @@
 package team.msg.sms.global.filter
 
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 import team.msg.sms.global.security.token.JwtParser
@@ -20,7 +21,7 @@ class JwtFilter(
 
         token
             ?.let { SecurityContextHolder.getContext().authentication = jwtParser.getAuthentication(token) }
-
+        
         filterChain.doFilter(request, response)
     }
 
