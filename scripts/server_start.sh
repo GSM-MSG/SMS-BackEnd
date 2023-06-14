@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./deploy.sh
+docker compose up
