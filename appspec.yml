@@ -1,13 +1,14 @@
 version: 0.0
 os: linux
+
 files:
-  - source: /docker-compose.yml
-    destination: /home/ubuntu/
+  - source: /
+    destination: /home/ubuntu/build
     overwrite: yes
 file_exists_behavior: OVERWRITE
     
 hooks:
   ApplicationStart:
     - location: scripts/server_start.sh
-      timeout: 10
+      timeout: 60
       runas: ubuntu
