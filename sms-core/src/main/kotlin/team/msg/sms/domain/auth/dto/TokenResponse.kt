@@ -1,6 +1,5 @@
-package team.msg.sms.domain.auth.dto.response
+package team.msg.sms.domain.auth.dto
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 data class TokenResponse(
