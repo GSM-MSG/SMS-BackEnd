@@ -18,7 +18,7 @@ class ReIssueTokenUseCase(
         val queryToken = refreshTokenPort.queryRefreshTokenByToken(token)
             ?: throw RefreshNotFoundException
 
-        val user = userService.queryUserById(queryToken.userId)
+        val user = userService.getUserById(queryToken.userId)
         val role = user.roles.firstOrNull() ?: throw InternalServerErrorException
 
         val (accessToken, accessTokenExp, refreshToken, refreshTokenExp) = jwtPort.receiveToken(user.id, role)
