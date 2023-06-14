@@ -35,10 +35,10 @@ class StudentPersistenceAdapter(
     override fun existsStudentByUser(user: User): Boolean =
         studentJpaRepository.existsByUser(user.toEntity())
 
-    override fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
+    override fun queryStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
         studentJpaRepository.findAll(PageRequest.of(page - 1, size)).toDomainPageWithUserInfo()
 
-    override fun getStudentByUserId(userId: UUID): Student =
+    override fun queryStudentByUserId(userId: UUID): Student =
         studentJpaRepository.findByUserId(userId).toDomain()
 
     override fun queryStudentByUser(user: User): Student =
