@@ -1,6 +1,6 @@
-package team.msg.sms.domain.student.dto
+package team.msg.sms.domain.student.dto.res
 
-import team.msg.sms.domain.languagecertificate.dto.request.LanguageCertificateRequest
+import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequest
 import team.msg.sms.domain.student.dto.request.SignUpData
 import team.msg.sms.domain.student.model.FormOfEmployment
 import team.msg.sms.domain.student.model.MilitaryService
@@ -58,7 +58,7 @@ data class SignUpWebRequest(
             gsmAuthenticationScore = gsmAuthenticationScore,
             region = region,
             salary = salary,
-            languageCertificate = languageCertificate,
+            languageCertificate = languageCertificate.map { it.toData() },
             dreamBookFileUrl = dreamBookFileUrl,
             militaryService = militaryService,
             certificate = certificate
