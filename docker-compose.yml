@@ -1,0 +1,7 @@
+version : '3.7'
+
+services:
+    spring_main_server:
+      image : ${REPO_URL}
+      ports:
+        - 8080:8080
