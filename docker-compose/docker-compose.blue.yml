@@ -5,8 +5,5 @@ services:
     image : ${REPO_URL}
     container_name: sms-blue
     restart: always
-    environment:
-      - LANG=ko_KR.UTF-8
-      - UWSGI_PORT=80
     ports:
       - '8080:8080'
