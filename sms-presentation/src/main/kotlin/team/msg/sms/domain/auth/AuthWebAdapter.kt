@@ -2,10 +2,10 @@ package team.msg.sms.domain.auth
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import team.msg.sms.domain.auth.dto.SignInRequest
-import team.msg.sms.domain.auth.dto.VerifyAccessResponse
-import team.msg.sms.domain.auth.dto.response.ReIssueTokenResponse
-import team.msg.sms.domain.auth.dto.response.SignInResponse
+import team.msg.sms.domain.auth.dto.req.SignInRequest
+import team.msg.sms.domain.auth.dto.res.VerifyAccessResponse
+import team.msg.sms.domain.auth.dto.ReIssueTokenResponse
+import team.msg.sms.domain.auth.dto.SignInResponse
 import team.msg.sms.domain.auth.usecase.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse

@@ -1,10 +1,9 @@
 package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
-import team.msg.sms.domain.languagecertificate.dto.request.LanguageCertificateRequest
+import team.msg.sms.domain.languagecertificate.dto.LanguageCertificateData
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
 import team.msg.sms.domain.region.model.Region
@@ -19,7 +18,6 @@ import team.msg.sms.domain.techstack.service.TechStackService
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 import java.util.UUID
-import kotlin.math.sign
 
 @UseCase
 class SignUpUseCase(
@@ -84,13 +82,13 @@ class SignUpUseCase(
         )
 
     private fun toLanguageCertificate(
-        languageCertificate: LanguageCertificateRequest,
+        languageCertificate: LanguageCertificateData,
         studentId: UUID
     ): LanguageCertificate =
         LanguageCertificate(
             id = 0,
             languageCertificateName = languageCertificate.languageCertificateName,
-            score = languageCertificate.score,
+            score = languageCertificate.languageCertificateName,
             studentId = studentId
         )
 

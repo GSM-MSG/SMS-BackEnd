@@ -1,9 +1,9 @@
 package team.msg.sms.domain.auth.usecase
 
 import gauth.exception.GAuthException
-import team.msg.sms.domain.auth.dto.request.SignInData
+import team.msg.sms.domain.auth.dto.SignInData
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.auth.dto.response.SignInResponse
+import team.msg.sms.domain.auth.dto.SignInResponse
 import team.msg.sms.common.spi.GAuthPort
 import team.msg.sms.domain.auth.exception.ExpiredCodeException
 import team.msg.sms.domain.auth.exception.SecretMismatchException
