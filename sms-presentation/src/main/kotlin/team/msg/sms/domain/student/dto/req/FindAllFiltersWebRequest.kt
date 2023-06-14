@@ -1,4 +1,4 @@
-package team.msg.sms.domain.student.dto
+package team.msg.sms.domain.student.dto.req
 
 import org.springframework.web.bind.annotation.RequestParam
 import team.msg.sms.domain.student.dto.request.FiltersData
