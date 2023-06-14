@@ -19,7 +19,7 @@ data class SignUpWebRequest(
     val introduce: String,
 
     @field:NotBlank
-    @field:Pattern(regexp = "^https://.*")
+    @field:Pattern(regexp = "^(https?://).*")
     val portfolioUrl: String,
 
     @field:NotBlank

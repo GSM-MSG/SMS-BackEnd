@@ -18,7 +18,7 @@ class StudentWebAdapter(
     private val findAllUseCase: FindAllUseCase,
     private val studentInfoAnonymousUseCase: StudentInfoAnonymousUseCase,
     private val studentInfoDetailUseCase: StudentInfoDetailUseCase,
-    private val studentInfoTeacherUsecase: StudentInfoTeacherUseCase
+    private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase
 ) {
     @GetMapping
     fun findAll(
@@ -46,6 +46,6 @@ class StudentWebAdapter(
 
     @GetMapping("/teacher/{uuid}")
     fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherResponse> =
-        studentInfoTeacherUsecase.execute(uuid)
+        studentInfoTeacherUseCase.execute(uuid)
             .let { ResponseEntity.ok(it)}
 }
