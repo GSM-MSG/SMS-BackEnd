@@ -2,6 +2,6 @@ package team.msg.sms.domain.major.service
 
 import team.msg.sms.domain.major.model.Major
 
-interface QueryMajorService {
+interface GetMajorService {
     fun getAllMajor(): List<Major>
 }
