@@ -1,4 +1,4 @@
-package team.msg.sms.domain.auth.dto.response
+package team.msg.sms.domain.auth.dto
 
 import team.msg.sms.domain.auth.model.Role
 import java.time.LocalDateTime
