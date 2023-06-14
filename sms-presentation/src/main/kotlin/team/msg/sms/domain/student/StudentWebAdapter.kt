@@ -2,8 +2,8 @@ package team.msg.sms.domain.student
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import team.msg.sms.domain.student.dto.FindAllFiltersWebRequest
-import team.msg.sms.domain.student.dto.SignUpWebRequest
+import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
+import team.msg.sms.domain.student.dto.req.SignUpWebRequest
 import team.msg.sms.domain.student.dto.response.DetailStudentInfoAnonymousResponse
 import team.msg.sms.domain.student.dto.response.DetailStudentInfoResponse
 import team.msg.sms.domain.student.dto.response.DetailStudentInfoTeacherResponse

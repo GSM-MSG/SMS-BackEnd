@@ -1,7 +1,7 @@
 package team.msg.sms.domain.auth.usecase
 
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.auth.dto.response.ReIssueTokenResponse
+import team.msg.sms.domain.auth.dto.ReIssueTokenResponse
 import team.msg.sms.domain.auth.exception.RefreshNotFoundException
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
