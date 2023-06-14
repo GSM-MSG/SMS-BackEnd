@@ -22,6 +22,6 @@ class RegionPersistenceAdapter(
     override fun deleteAllByStudent(student: Student, user: User) =
         regionJpaRepository.deleteAllByStudent(student.toEntity(user.toEntity()))
 
-    override fun findByStudentUuid(uuid: UUID): List<Region> =
+    override fun queryByStudentUuid(uuid: UUID): List<Region> =
         regionJpaRepository.findByStudentId(uuid).map { it.toDomain() }
 }
