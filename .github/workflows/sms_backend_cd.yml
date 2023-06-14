@@ -60,7 +60,8 @@ jobs:
         aws deploy create-deployment \
         --application-name sms-codedeploy \
         --deployment-group-name codedeploy-deploygroup \
-        --revision '{"revisionType":"GitHub", "gitHubLocation":{"repository":"GSM-MSG/SMS-BACKEND","commitId":"$(git rev-parse --short "$GITHUB_SHA")"}}'
+        --deployment-config-name CodeDeployDefault.OneAtATime \
+        --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
           
     - name: SMS-Backend-CD Discord Notification
       uses: sarisia/actions-status-discord@v1
