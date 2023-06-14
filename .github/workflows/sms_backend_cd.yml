@@ -59,7 +59,7 @@ jobs:
       run: |
         aws deploy create-deployment \
         --application-name sms-codedeploy \
-        --deployment-group-name codedeploy-deploygroup \
+        --deployment-group-name code-deploy-group \
         --deployment-config-name CodeDeployDefault.OneAtATime \
         --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
           
