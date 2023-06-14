@@ -20,7 +20,7 @@ class SecurityConfig(
     private val objectMapper: ObjectMapper,
     private val studentPort: QueryStudentPort,
     private val userPort: QueryUserPort,
-    private val accessDeniedHandler: CustomAccessDeniedHandler
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) {
 
     @Bean
@@ -71,8 +71,8 @@ class SecurityConfig(
 
         http
             .exceptionHandling()
-            .authenticationEntryPoint(CustomAuthenticationEntryPoint(objectMapper))
-            .accessDeniedHandler(accessDeniedHandler)
+            .authenticationEntryPoint(customAuthenticationEntryPoint)
+            .accessDeniedHandler(CustomAccessDeniedHandler(objectMapper))
 
         return http.build()
     }
