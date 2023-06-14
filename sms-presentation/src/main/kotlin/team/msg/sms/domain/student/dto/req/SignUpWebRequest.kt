@@ -1,4 +1,4 @@
-package team.msg.sms.domain.student.dto.res
+package team.msg.sms.domain.student.dto.req
 
 import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequest
 import team.msg.sms.domain.student.dto.request.SignUpData
