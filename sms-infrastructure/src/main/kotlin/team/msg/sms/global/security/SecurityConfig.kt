@@ -20,7 +20,7 @@ class SecurityConfig(
     private val objectMapper: ObjectMapper,
     private val studentPort: QueryStudentPort,
     private val userPort: QueryUserPort,
-    private val accessDeniedHandler: CustomAccessDeniedHandler
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) {
 
     @Bean
@@ -40,6 +40,8 @@ class SecurityConfig(
             .requestMatchers(RequestMatcher { request ->
                 CorsUtils.isPreFlightRequest(request)
             }).permitAll()
+            //healthCheck
+            .antMatchers(HttpMethod.GET, "/health").permitAll()
 
             // auth
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
@@ -50,7 +52,7 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.GET, "/user/profile").permitAll()
 
-            .antMatchers(HttpMethod.POST, "/student").authenticated()
+            .antMatchers(HttpMethod.POST, "/student").hasAuthority("ROLE_STUDENT")
             .antMatchers(HttpMethod.GET, "/student").permitAll()
             .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
@@ -69,8 +71,8 @@ class SecurityConfig(
 
         http
             .exceptionHandling()
-            .authenticationEntryPoint(CustomAuthenticationEntryPoint(objectMapper))
-            .accessDeniedHandler(accessDeniedHandler)
+            .authenticationEntryPoint(customAuthenticationEntryPoint)
+            .accessDeniedHandler(CustomAccessDeniedHandler(objectMapper))
 
         return http.build()
     }

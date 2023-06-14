@@ -8,6 +8,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component
 import team.msg.sms.domain.student.spi.QueryStudentPort
 import team.msg.sms.domain.user.spi.QueryUserPort
+import team.msg.sms.global.logger.filter.RequestLogFilter
 import team.msg.sms.global.security.token.JwtParser
 
 @Component
@@ -21,5 +22,6 @@ class FilterConfig(
         builder.addFilterBefore(ExceptionFilter(objectMapper), UsernamePasswordAuthenticationFilter::class.java)
         builder.addFilterBefore(CookieJwtFilter(jwtParser, studentPort, userPort), UsernamePasswordAuthenticationFilter::class.java)
         builder.addFilterBefore(JwtFilter(jwtParser), UsernamePasswordAuthenticationFilter::class.java)
+        builder.addFilterBefore(RequestLogFilter(), UsernamePasswordAuthenticationFilter::class.java)
     }
 }
