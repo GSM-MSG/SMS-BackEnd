@@ -9,5 +9,5 @@ file_exists_behavior: OVERWRITE
 hooks:
   ApplicationStart:
     - location: scripts/server_start.sh
-      timeout: 300
+      timeout: 10
       runas: ubuntu
