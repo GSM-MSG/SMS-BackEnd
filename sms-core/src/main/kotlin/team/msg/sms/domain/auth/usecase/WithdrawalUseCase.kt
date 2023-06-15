@@ -1,6 +1,5 @@
 package team.msg.sms.domain.auth.usecase
 
-import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
