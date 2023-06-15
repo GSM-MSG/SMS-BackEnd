@@ -1,9 +1,0 @@
-version: "3.7"
-
-services:
-  green:
-    image : ${REPO_URL}
-    container_name: sms-green
-    restart: always
-    ports:
-      - '8090:8080'
