@@ -1,9 +1,0 @@
-version: "3.7"
-
-services:
-  blue:
-    image : ${REPO_URL}
-    container_name: sms-blue
-    restart: always
-    ports:
-      - '8080:8080'
