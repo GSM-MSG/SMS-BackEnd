@@ -11,6 +11,4 @@ services:
     image : ${REPO_URL}
     restart: always
     ports:
-      - 8080:8080 
-      
-      
+      - 8090:8080
