@@ -15,7 +15,7 @@ class LoggingScheduler(
     private val awsS3Properties: AwsS3Properties
 ) {
 
-    @Scheduled(cron = "59 59 23 * * ?")
+    @Scheduled(cron = "59 59 23 * * ?", zone =  "Asia/Seoul")
     fun sendLog() {
         val logDir = "./logs/"
         val logDirectory = File(logDir)
