@@ -11,7 +11,7 @@ if [ -z "$EXIST_BLUE" ]; then
     AFTER_COMPOSE_COLOR="blue"
 else
     echo "green up"
-    docker compose -d green
+    docker compose up -d green
     BEFORE_COMPOSE_COLOR="blue"
     AFTER_COMPOSE_COLOR="green"
 fi
