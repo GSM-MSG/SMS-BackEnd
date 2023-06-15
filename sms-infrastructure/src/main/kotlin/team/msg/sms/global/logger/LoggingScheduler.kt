@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import team.msg.sms.thirdparty.aws.stroage.AwsS3Properties
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStreamReader
 
 @Component
 class LoggingScheduler(
@@ -17,10 +19,9 @@ class LoggingScheduler(
 ) {
     private val log by lazy { LoggerFactory.getLogger(this.javaClass.simpleName) }
 
-    @Scheduled(cron = "59 59 23 * * * ?", zone =  "Asia/Seoul")
+    @Scheduled(cron = "0 */2 * * * ?", zone =  "Asia/Seoul")
     fun sendLog() {
         log.info("--------------------로그 스케줄링이 시작됩니다.-----------------------")
-        log.error("--------------------로그 스케줄링이 시작됩니다.-----------------------")
         val logDir = "./logs/"
         val logDirectory = File(logDir)
         logDirectory.listFiles()
@@ -29,6 +30,7 @@ class LoggingScheduler(
                 val objectMetadata = ObjectMetadata()
                 objectMetadata.contentLength = file.length()
                 objectMetadata.contentType = "text/plain"
+                objectMetadata.contentEncoding = "UTF-8"
                 amazonS3.putObject(
                     PutObjectRequest(awsS3Properties.bucketLog, fileName, file.inputStream(), objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
