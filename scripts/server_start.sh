@@ -20,6 +20,6 @@ sleep 10
 
 EXIST_AFTER=$(docker compose ps ${AFTER_COMPOSE_COLOR}| grep Up)
 if [ -n "$EXIST_AFTER" ]; then
-    docker compose ps ${BEFORE_COMPOSE_COLOR} down
+    docker compose rm -sv ${BEFORE_COMPOSE_COLOR}
     echo "$BEFORE_COMPOSE_COLOR down"
 fi
