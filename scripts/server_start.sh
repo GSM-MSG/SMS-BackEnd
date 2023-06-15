@@ -1,8 +1,6 @@
 #!/bin/bash
 
-
 EXIST_BLUE=$(docker compose ps blue | grep Up)
-
 
 if [ -z "$EXIST_BLUE" ]; then
     echo "blue up"
@@ -20,6 +18,6 @@ sleep 10
 
 EXIST_AFTER=$(docker compose ps ${AFTER_COMPOSE_COLOR}| grep Up)
 if [ -n "$EXIST_AFTER" ]; then
-    docker compose rm -sv ${BEFORE_COMPOSE_COLOR}
+    docker compose rm -svf ${BEFORE_COMPOSE_COLOR}
     echo "$BEFORE_COMPOSE_COLOR down"
 fi
