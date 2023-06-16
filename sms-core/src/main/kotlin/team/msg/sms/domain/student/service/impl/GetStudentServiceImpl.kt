@@ -16,7 +16,7 @@ class GetStudentServiceImpl(
     private val securityPort: SecurityPort
 ) : GetStudentService {
     override fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
-        studentPort.getStudentsWithPage(page, size)
+        studentPort.queryStudentsWithPage(page, size)
 
     override fun matchStudentWithTechStacks(
         students: List<Student.StudentWithUserInfo>,
@@ -47,5 +47,5 @@ class GetStudentServiceImpl(
         studentPort.queryStudentByUser(user)
 
     override fun currentStudent(): Student =
-        studentPort.getStudentByUserId(userId = securityPort.getCurrentUserId())
+        studentPort.queryStudentByUserId(userId = securityPort.getCurrentUserId())
 }

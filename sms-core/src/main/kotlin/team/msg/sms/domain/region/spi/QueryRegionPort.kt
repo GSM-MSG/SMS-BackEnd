@@ -4,5 +4,5 @@ import team.msg.sms.domain.region.model.Region
 import java.util.*
 
 interface QueryRegionPort {
-    fun findByStudentUuid(uuid: UUID): List<Region>
+    fun queryByStudentUuid(uuid: UUID): List<Region>
 }

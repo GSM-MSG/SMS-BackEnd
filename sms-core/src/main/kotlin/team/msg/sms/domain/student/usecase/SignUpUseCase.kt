@@ -1,15 +1,14 @@
 package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
-import team.msg.sms.domain.languagecertificate.dto.request.LanguageCertificateRequest
+import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
 import team.msg.sms.domain.region.model.Region
 import team.msg.sms.domain.region.service.RegionService
-import team.msg.sms.domain.student.dto.request.SignUpData
+import team.msg.sms.domain.student.dto.req.SignUpRequestData
 import team.msg.sms.domain.student.exception.StuNumNotRightException
 import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Department
@@ -20,7 +19,6 @@ import team.msg.sms.domain.techstack.service.TechStackService
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 import java.util.UUID
-import kotlin.math.sign
 
 @UseCase
 class SignUpUseCase(
@@ -31,7 +29,7 @@ class SignUpUseCase(
     private val languageCertificateService: LanguageCertificateService,
     private val certificateService: CertificateService
 ) {
-    fun execute(signUpData: SignUpData) {
+    fun execute(signUpData: SignUpRequestData) {
         val user = userService.getCurrentUser()
 
         studentService.checkStudentExistsByUser(user)
@@ -85,17 +83,17 @@ class SignUpUseCase(
         )
 
     private fun toLanguageCertificate(
-        languageCertificate: LanguageCertificateRequest,
+        languageCertificate: LanguageCertificateRequestData,
         studentId: UUID
     ): LanguageCertificate =
         LanguageCertificate(
             id = 0,
             languageCertificateName = languageCertificate.languageCertificateName,
-            score = languageCertificate.score,
+            score = languageCertificate.languageCertificateName,
             studentId = studentId
         )
 
-    private fun toStudentModel(signUpData: SignUpData, user: User): Student =
+    private fun toStudentModel(signUpData: SignUpRequestData, user: User): Student =
         Student(
             id = UUID.randomUUID(),
             department = findDepartment(user.stuNum),
