@@ -1,6 +1,6 @@
-package team.msg.sms.domain.student.dto.request
+package team.msg.sms.domain.student.dto.req
 
-data class FiltersData(
+data class FiltersRequestData(
     val majors: List<String>?,
     val techStacks: List<String>?,
     val grade: Int?,
