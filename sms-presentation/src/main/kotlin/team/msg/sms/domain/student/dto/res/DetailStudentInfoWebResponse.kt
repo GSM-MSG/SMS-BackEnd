@@ -1,8 +1,8 @@
-package team.msg.sms.domain.student.dto.response
+package team.msg.sms.domain.student.dto.res
 
 import team.msg.sms.domain.student.model.Department
 
-class DetailStudentInfoResponse(
+class DetailStudentInfoWebResponse(
     val name: String,
     val introduce: String,
     val grade: Int,
