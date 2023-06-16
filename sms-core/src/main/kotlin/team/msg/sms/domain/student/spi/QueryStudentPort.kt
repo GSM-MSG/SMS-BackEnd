@@ -10,6 +10,7 @@ interface QueryStudentPort {
 
     fun queryStudentByUserId(userId: UUID): Student
 
+
     fun queryStudentByUser(user: User): Student
 
     fun existsStudentById(uuid: UUID): Boolean
