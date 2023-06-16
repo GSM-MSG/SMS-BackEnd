@@ -6,6 +6,7 @@ import team.msg.sms.domain.auth.dto.SignInRequest
 import team.msg.sms.domain.auth.dto.VerifyAccessResponse
 import team.msg.sms.domain.auth.dto.response.ReIssueTokenResponse
 import team.msg.sms.domain.auth.dto.response.SignInResponse
+import team.msg.sms.domain.auth.dto.response.VerifyAccessResponseData
 import team.msg.sms.domain.auth.usecase.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
@@ -76,8 +77,9 @@ class AuthWebAdapter(
         httpServletResponse.addCookie(cookie)
     }
 
-    private fun Boolean.toResponse(): VerifyAccessResponse =
+    private fun VerifyAccessResponseData.toResponse(): VerifyAccessResponse =
         VerifyAccessResponse(
-            isExist = this
+            isExist = this.isExist,
+            role = this.role
         )
 }
