@@ -5,6 +5,6 @@ import team.msg.sms.common.annotation.Service
 @Service
 class LanguageCertificateService(
     commandLanguageCertificateService: CommandLanguageCertificateService,
-    queryLanguageCertificateService: GetLanguageCertificateService
+    getLanguageCertificateService: GetLanguageCertificateService
 ) : CommandLanguageCertificateService by commandLanguageCertificateService,
-    GetLanguageCertificateService by queryLanguageCertificateService
+    GetLanguageCertificateService by getLanguageCertificateService
