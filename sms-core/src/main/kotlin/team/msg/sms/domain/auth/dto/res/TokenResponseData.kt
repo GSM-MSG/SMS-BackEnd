@@ -1,8 +1,8 @@
-package team.msg.sms.domain.auth.dto
+package team.msg.sms.domain.auth.dto.res
 
 import java.time.LocalDateTime
 
-data class TokenResponse(
+data class TokenResponseData(
     val accessToken: String,
 
     val accessTokenExp: LocalDateTime,
