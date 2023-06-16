@@ -1,7 +1,6 @@
 package team.msg.sms.domain.student.dto.req
 
 import org.springframework.web.bind.annotation.RequestParam
-import team.msg.sms.domain.student.dto.request.FiltersData
 
 class FindAllFiltersWebRequest(
     @RequestParam("majors", required = false) val majors: List<String>?,
@@ -20,8 +19,8 @@ class FindAllFiltersWebRequest(
     ) val gsmAuthenticationScoreSort: String?,
     @RequestParam("salarySort", required = false) val salarySort: String?
 ) {
-    fun toData(): FiltersData =
-        FiltersData(
+    fun toData(): FiltersRequestData =
+        FiltersRequestData(
             majors = majors,
             techStacks = techStacks,
             grade = grade,
