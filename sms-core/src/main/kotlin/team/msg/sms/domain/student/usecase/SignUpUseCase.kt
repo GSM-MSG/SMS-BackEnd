@@ -1,5 +1,6 @@
 package team.msg.sms.domain.student.usecase
 
+import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
@@ -18,6 +19,7 @@ import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.domain.techstack.service.TechStackService
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
+import java.lang.Exception
 import java.util.UUID
 
 @UseCase
@@ -29,6 +31,7 @@ class SignUpUseCase(
     private val languageCertificateService: LanguageCertificateService,
     private val certificateService: CertificateService
 ) {
+    @Transactional(rollbackFor = [Exception::class])
     fun execute(signUpData: SignUpRequestData) {
         val user = userService.getCurrentUser()
 
