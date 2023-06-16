@@ -3,11 +3,7 @@ package team.msg.sms.domain.auth
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.domain.auth.dto.req.SignInWebRequest
-import team.msg.sms.domain.auth.dto.res.VerifyAccessWebResponse
-import team.msg.sms.domain.auth.dto.res.ReIssueTokenResponseData
-import team.msg.sms.domain.auth.dto.res.SignInResponseData
-import team.msg.sms.domain.auth.dto.res.ReIssueTokenWebResponse
-import team.msg.sms.domain.auth.dto.res.SignInWebResponse
+import team.msg.sms.domain.auth.dto.res.*
 import team.msg.sms.domain.auth.usecase.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
@@ -78,9 +74,10 @@ class AuthWebAdapter(
         httpServletResponse.addCookie(cookie)
     }
 
-    private fun Boolean.toResponse(): VerifyAccessWebResponse =
+    private fun VerifyAccessResponseData.toResponse(): VerifyAccessWebResponse =
         VerifyAccessWebResponse(
-            isExist = this
+            isExist = this.isExist,
+            role = this.role
         )
 
     private fun ReIssueTokenResponseData.toResponse(): ReIssueTokenWebResponse =
