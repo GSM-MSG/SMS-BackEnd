@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import team.msg.sms.domain.techstack.dto.TechStacksResponse
-import team.msg.sms.domain.user.dto.UserProfileResponse
+import team.msg.sms.domain.user.dto.req.UserProfileWebResponse
+import team.msg.sms.domain.user.dto.res.UserProfileResponseData
 import team.msg.sms.domain.user.usecase.QueryCurrentUserProfileImgUseCase
 
 @RestController
@@ -15,6 +15,12 @@ class UserWebAdapter(
 ) {
     @GetMapping("/profile")
     fun getUserProfile(
-    ): ResponseEntity<UserProfileResponse> =
-        ResponseEntity.ok(queryCurrentUserProfileImgUseCase.execute())
+    ): ResponseEntity<UserProfileWebResponse> =
+        queryCurrentUserProfileImgUseCase.execute()
+            .let { ResponseEntity.ok(it.toResponse()) }
+
+    private fun UserProfileResponseData.toResponse(): UserProfileWebResponse =
+        UserProfileWebResponse(
+            profileImgUrl = this.profileImgUrl
+        )
 }

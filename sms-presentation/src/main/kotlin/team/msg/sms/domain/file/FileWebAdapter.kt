@@ -3,8 +3,8 @@ package team.msg.sms.domain.file
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import team.msg.sms.common.extension.toFile
-import team.msg.sms.domain.file.dto.res.UploadFileResponse
-import team.msg.sms.domain.file.dto.res.UploadImageResponse
+import team.msg.sms.domain.file.dto.res.UploadFileWebResponse
+import team.msg.sms.domain.file.dto.res.UploadImageWebResponse
 import team.msg.sms.domain.file.usecase.UploadFileUseCase
 import team.msg.sms.domain.file.usecase.UploadImageUseCase
 
@@ -15,14 +15,14 @@ class FileWebAdapter(
     private val uploadImageUseCase: UploadImageUseCase
 ) {
     @PostMapping
-    fun uploadFile(@RequestPart(name = "file") file: MultipartFile): UploadFileResponse {
+    fun uploadFile(@RequestPart(name = "file") file: MultipartFile): UploadFileWebResponse {
         val result = uploadFileUseCase.execute(file = file.toFile())
-        return UploadFileResponse(result)
+        return UploadFileWebResponse(result)
     }
 
     @PostMapping("/image")
-    fun uploadImage(@RequestPart(name = "file") file: MultipartFile): UploadImageResponse {
+    fun uploadImage(@RequestPart(name = "file") file: MultipartFile): UploadImageWebResponse {
         val result = uploadImageUseCase.execute(file = file.toFile())
-        return UploadImageResponse(result)
+        return UploadImageWebResponse(result)
     }
 }

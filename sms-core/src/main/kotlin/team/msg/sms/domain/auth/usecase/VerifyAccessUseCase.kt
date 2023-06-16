@@ -1,7 +1,7 @@
 package team.msg.sms.domain.auth.usecase
 
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.auth.dto.response.VerifyAccessResponseData
+import team.msg.sms.domain.auth.dto.res.VerifyAccessResponseData
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.user.service.UserService
 

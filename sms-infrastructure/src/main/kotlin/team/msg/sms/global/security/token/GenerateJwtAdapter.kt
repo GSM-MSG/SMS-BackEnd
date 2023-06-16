@@ -4,14 +4,13 @@ import io.jsonwebtoken.Header
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
-import team.msg.sms.domain.auth.dto.response.TokenResponse
+import team.msg.sms.domain.auth.dto.res.TokenResponseData
 import team.msg.sms.domain.auth.model.RefreshToken
 import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.auth.spi.CommandRefreshTokenPort
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.global.security.SecurityProperties
 import java.time.LocalDateTime
-import java.time.ZonedDateTime
 import java.util.*
 
 @Component
@@ -19,7 +18,7 @@ class GenerateJwtAdapter(
     private val securityProperties: SecurityProperties,
     private val commandRefreshTokenPort: CommandRefreshTokenPort
 ) : JwtPort {
-    override fun receiveToken(userId: UUID, role: Role) = TokenResponse(
+    override fun receiveToken(userId: UUID, role: Role) = TokenResponseData(
         accessToken = generatedAccessToken(userId, role),
         refreshToken = generatedRefreshToken(userId, role),
         accessTokenExp = LocalDateTime.now().withNano(0).plusSeconds(securityProperties.accessExp.toLong()),
