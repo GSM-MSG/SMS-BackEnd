@@ -5,6 +5,6 @@ import team.msg.sms.common.annotation.Service
 @Service
 class RegionService(
     commandRegionService: CommandRegionService,
-    queryRegionService: GetRegionService
+    getRegionService: GetRegionService
 ) : CommandRegionService by commandRegionService,
-    GetRegionService by queryRegionService
+    GetRegionService by getRegionService
