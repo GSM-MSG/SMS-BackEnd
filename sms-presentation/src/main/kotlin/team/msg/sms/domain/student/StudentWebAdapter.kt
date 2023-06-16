@@ -4,10 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
 import team.msg.sms.domain.student.dto.req.SignUpWebRequest
-import team.msg.sms.domain.student.dto.response.DetailStudentInfoAnonymousResponse
-import team.msg.sms.domain.student.dto.response.DetailStudentInfoResponse
-import team.msg.sms.domain.student.dto.response.DetailStudentInfoTeacherResponse
-import team.msg.sms.domain.student.dto.response.StudentInfoListResponse
+import team.msg.sms.domain.student.dto.res.*
 import team.msg.sms.domain.student.usecase.*
 import javax.validation.Valid
 
@@ -25,27 +22,81 @@ class StudentWebAdapter(
         @RequestParam(name = "page") page: Int,
         @RequestParam(name = "size") size: Int,
         filterRequest: FindAllFiltersWebRequest
-    ): ResponseEntity<StudentInfoListResponse> =
+    ): ResponseEntity<StudentInfoListWebResponse> =
         findAllUseCase.execute(page, size, filterRequest.toData())
-            .let { ResponseEntity.ok(it) }
+            .let { ResponseEntity.ok(it.toResponse()) }
 
     @PostMapping
     fun signUpStudent(@RequestBody @Valid signUpWebRequest: SignUpWebRequest): ResponseEntity<Void> =
-    signUpUseCase.execute(signUpWebRequest.toData())
+        signUpUseCase.execute(signUpWebRequest.toData())
             .run { ResponseEntity.ok().build() }
 
     @GetMapping("/anonymous/{uuid}")
-    fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousResponse> =
+    fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousWebResponse> =
         studentInfoAnonymousUseCase.execute(uuid)
-            .let { ResponseEntity.ok(it) }
+            .let { ResponseEntity.ok(it.toResponse()) }
 
     @GetMapping("/{uuid}")
-    fun findForStudentRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoResponse> =
+    fun findForStudentRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoWebResponse> =
         studentInfoDetailUseCase.execute(uuid)
-            .let { ResponseEntity.ok(it) }
+            .let { ResponseEntity.ok(it.toResponse()) }
 
     @GetMapping("/teacher/{uuid}")
-    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherResponse> =
+    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherWebResponse> =
         studentInfoTeacherUseCase.execute(uuid)
-            .let { ResponseEntity.ok(it)}
+            .let { ResponseEntity.ok(it.toResponse()) }
+
+    private fun StudentInfoListResponseData.toResponse(): StudentInfoListWebResponse =
+        StudentInfoListWebResponse(
+            content = this.content,
+            page = this.page,
+            totalSize = this.totalSize,
+            contentSize = this.contentSize,
+            last = this.last
+        )
+
+    fun DetailStudentInfoAnonymousResponseData.toResponse(): DetailStudentInfoAnonymousWebResponse =
+        DetailStudentInfoAnonymousWebResponse(
+            name = this.name,
+            introduce = this.introduce,
+            major = this.major,
+            profileImg = this.profileImg,
+            techStack = this.techStack
+        )
+
+    fun DetailStudentInfoResponseData.toResponse(): DetailStudentInfoWebResponse =
+        DetailStudentInfoWebResponse(
+            name = this.name,
+            introduce = this.introduce,
+            grade = this.grade,
+            classNum = this.classNum,
+            number = this.number,
+            department = this.department,
+            major = this.major,
+            profileImg = this.profileImg,
+            techStack = this.techStack
+        )
+
+    fun DetailStudentInfoTeacherResponseData.toResponse(): DetailStudentInfoTeacherWebResponse =
+        DetailStudentInfoTeacherWebResponse(
+            name = this.name,
+            introduce = this.introduce,
+            grade = this.grade,
+            classNum = this.classNum,
+            number = this.number,
+            department = this.department,
+            major = this.major,
+            profileImg = this.profileImg,
+            dreamBookFileUrl = this.dreamBookFileUrl,
+            contactEmail = this.contactEmail,
+            techStacks = this.techStacks,
+            formOfEmployment = this.formOfEmployment,
+            portfolioUrl = this.portfolioUrl,
+            certificates = this.certificates,
+            militaryService = this.militaryService,
+            gsmAuthenticationScore = this.gsmAuthenticationScore,
+            salary = this.salary,
+            languageCertificates = this.languageCertificates,
+            regions = this.regions
+        )
 }
