@@ -1,13 +1,11 @@
 package team.msg.sms.domain.languagecertificate.dto.req
 
-import team.msg.sms.domain.languagecertificate.dto.LanguageCertificateData
-
-data class LanguageCertificateRequest(
+data class LanguageCertificateWebRequest(
     val languageCertificateName: String,
     val score: String
 ) {
-    fun toData(): LanguageCertificateData =
-        LanguageCertificateData(
+    fun toData(): LanguageCertificateRequestData =
+        LanguageCertificateRequestData(
             languageCertificateName = languageCertificateName,
             languageCertificateScore = score
         )
