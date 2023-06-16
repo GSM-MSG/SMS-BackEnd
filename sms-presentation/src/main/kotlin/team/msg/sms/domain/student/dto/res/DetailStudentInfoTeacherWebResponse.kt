@@ -1,11 +1,11 @@
-package team.msg.sms.domain.student.dto.response
+package team.msg.sms.domain.student.dto.res
 
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.student.model.Department
 import team.msg.sms.domain.student.model.FormOfEmployment
 import team.msg.sms.domain.student.model.MilitaryService
 
-class DetailStudentInfoTeacherResponse(
+class DetailStudentInfoTeacherWebResponse(
     val name: String,
     val introduce: String,
     val dreamBookFileUrl: String?,
@@ -25,5 +25,4 @@ class DetailStudentInfoTeacherResponse(
     val languageCertificates: List<LanguageCertificate.LanguageCertificateScore>,
     val certificates: List<String>,
     val techStacks: List<String>
-) {
-}
+)
