@@ -9,4 +9,5 @@ class MainStudentsResponse(
     val name: String,
     val techStack: List<String>
 ) {
+    constructor() : this (UUID.randomUUID(), "", "", "", arrayListOf())
 }
