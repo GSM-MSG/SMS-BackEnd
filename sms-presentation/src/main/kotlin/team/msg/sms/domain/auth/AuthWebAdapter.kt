@@ -2,10 +2,12 @@ package team.msg.sms.domain.auth
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import team.msg.sms.domain.auth.dto.req.SignInRequest
-import team.msg.sms.domain.auth.dto.res.VerifyAccessResponse
-import team.msg.sms.domain.auth.dto.ReIssueTokenResponse
-import team.msg.sms.domain.auth.dto.SignInResponse
+import team.msg.sms.domain.auth.dto.req.SignInWebRequest
+import team.msg.sms.domain.auth.dto.res.VerifyAccessWebResponse
+import team.msg.sms.domain.auth.dto.res.ReIssueTokenResponseData
+import team.msg.sms.domain.auth.dto.res.SignInResponseData
+import team.msg.sms.domain.auth.dto.res.ReIssueTokenWebResponse
+import team.msg.sms.domain.auth.dto.res.SignInWebResponse
 import team.msg.sms.domain.auth.usecase.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
@@ -23,21 +25,21 @@ class AuthWebAdapter(
 
     @PostMapping
     fun signIn(
-        @Valid @RequestBody request: SignInRequest,
+        @Valid @RequestBody request: SignInWebRequest,
         httpServletResponse: HttpServletResponse
-    ): ResponseEntity<SignInResponse> {
-        val token: SignInResponse = signInUseCase.execute(request.toData())
+    ): ResponseEntity<SignInWebResponse> {
+        val token: SignInResponseData = signInUseCase.execute(request.toData())
 
         createCookie(httpServletResponse, "accessToken", token.accessToken, 3600)
         createCookie(httpServletResponse, "refreshToken", token.refreshToken, 36000)
 
-        return ResponseEntity.ok(token)
+        return ResponseEntity.ok(token.toResponse())
     }
 
     @PatchMapping
-    fun reIssueToken(@Valid @RequestHeader("Refresh-Token") header: String): ResponseEntity<ReIssueTokenResponse> =
+    fun reIssueToken(@Valid @RequestHeader("Refresh-Token") header: String): ResponseEntity<ReIssueTokenWebResponse> =
         reIssueTokenUseCase.execute(header)
-            .let { ResponseEntity.ok(it) }
+            .let { ResponseEntity.ok(it.toResponse()) }
 
     @DeleteMapping
     fun logout(
@@ -53,7 +55,7 @@ class AuthWebAdapter(
     }
 
     @GetMapping("/verify/access")
-    fun verifyAccess(): ResponseEntity<VerifyAccessResponse> =
+    fun verifyAccess(): ResponseEntity<VerifyAccessWebResponse> =
         verifyAccessUseCase.execute()
             .let { ResponseEntity.ok(it.toResponse()) }
 
@@ -76,8 +78,26 @@ class AuthWebAdapter(
         httpServletResponse.addCookie(cookie)
     }
 
-    private fun Boolean.toResponse(): VerifyAccessResponse =
-        VerifyAccessResponse(
+    private fun Boolean.toResponse(): VerifyAccessWebResponse =
+        VerifyAccessWebResponse(
             isExist = this
+        )
+
+    private fun ReIssueTokenResponseData.toResponse(): ReIssueTokenWebResponse =
+        ReIssueTokenWebResponse(
+            accessToken = this.accessToken,
+            accessTokenExp = this.accessTokenExp,
+            refreshToken = this.refreshToken,
+            refreshTokenExp = this.refreshTokenExp
+        )
+
+    private fun SignInResponseData.toResponse(): SignInWebResponse =
+        SignInWebResponse(
+            accessToken = this.accessToken,
+            accessTokenExp = this.accessTokenExp,
+            refreshToken = this.refreshToken,
+            refreshTokenExp = this.refreshTokenExp,
+            isExist = this.isExist,
+            role = this.role
         )
 }

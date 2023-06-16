@@ -3,12 +3,12 @@ package team.msg.sms.domain.student.usecase
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
-import team.msg.sms.domain.languagecertificate.dto.LanguageCertificateData
+import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
 import team.msg.sms.domain.region.model.Region
 import team.msg.sms.domain.region.service.RegionService
-import team.msg.sms.domain.student.dto.request.SignUpData
+import team.msg.sms.domain.student.dto.req.SignUpRequestData
 import team.msg.sms.domain.student.exception.StuNumNotRightException
 import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Department
@@ -29,7 +29,7 @@ class SignUpUseCase(
     private val languageCertificateService: LanguageCertificateService,
     private val certificateService: CertificateService
 ) {
-    fun execute(signUpData: SignUpData) {
+    fun execute(signUpData: SignUpRequestData) {
         val user = userService.getCurrentUser()
 
         studentService.checkStudentExistsByUser(user)
@@ -83,7 +83,7 @@ class SignUpUseCase(
         )
 
     private fun toLanguageCertificate(
-        languageCertificate: LanguageCertificateData,
+        languageCertificate: LanguageCertificateRequestData,
         studentId: UUID
     ): LanguageCertificate =
         LanguageCertificate(
@@ -93,7 +93,7 @@ class SignUpUseCase(
             studentId = studentId
         )
 
-    private fun toStudentModel(signUpData: SignUpData, user: User): Student =
+    private fun toStudentModel(signUpData: SignUpRequestData, user: User): Student =
         Student(
             id = UUID.randomUUID(),
             department = findDepartment(user.stuNum),

@@ -1,7 +1,7 @@
 package team.msg.sms.domain.auth.usecase
 
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.auth.dto.ReIssueTokenResponse
+import team.msg.sms.domain.auth.dto.res.ReIssueTokenResponseData
 import team.msg.sms.domain.auth.exception.RefreshNotFoundException
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
@@ -14,7 +14,7 @@ class ReIssueTokenUseCase(
     private val userService: UserService,
     private val jwtPort: JwtPort
 ) {
-    fun execute(token: String): ReIssueTokenResponse {
+    fun execute(token: String): ReIssueTokenResponseData {
         val queryToken = refreshTokenPort.queryRefreshTokenByToken(token)
             ?: throw RefreshNotFoundException
 
@@ -23,7 +23,7 @@ class ReIssueTokenUseCase(
 
         val (accessToken, accessTokenExp, refreshToken, refreshTokenExp) = jwtPort.receiveToken(user.id, role)
 
-        return ReIssueTokenResponse(
+        return ReIssueTokenResponseData(
             accessToken = accessToken,
             accessTokenExp = accessTokenExp,
             refreshToken = refreshToken,
