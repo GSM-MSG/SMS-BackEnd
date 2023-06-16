@@ -1,5 +1,5 @@
 package team.msg.sms.domain.file.dto.res
 
-data class UploadImageResponse(
+data class UploadImageWebResponse(
     val fileUrl: String
 )
