@@ -7,14 +7,12 @@ files:
     overwrite: yes
 file_exists_behavior: OVERWRITE
 
-permissions:
-  - object: /
-    pattern: "**"
-    owner: ubuntu
-    group: ubuntu
-
 hooks:
+  AfterInstall:
+    - location: scripts/pullDocker.sh
+      timeout: 120
+      runas: ubuntu
   ApplicationStart:
     - location: scripts/server_start.sh
-      timeout: 300
-      runas: ubuntu
+      timeout: 120
+      runas: root
