@@ -10,11 +10,11 @@ file_exists_behavior: OVERWRITE
 permissions:
   - object: /
     pattern: "**"
-    owner: ubuntu
-    group: ubuntu
+    owner: root
+    group: root
 
 hooks:
   ApplicationStart:
     - location: scripts/server_start.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
