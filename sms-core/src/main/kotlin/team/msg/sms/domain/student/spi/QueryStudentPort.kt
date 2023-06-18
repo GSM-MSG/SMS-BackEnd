@@ -8,13 +8,11 @@ interface QueryStudentPort {
     fun queryStudentById(uuid: UUID): Student.StudentWithUserInfo?
     fun queryStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo
 
-    fun queryStudentByUserId(userId: UUID): Student
-
+    fun queryStudentByUserId(userId: UUID): Student.StudentWithUserInfo?
 
     fun queryStudentByUser(user: User): Student
 
     fun existsStudentById(uuid: UUID): Boolean
 
     fun existsStudentByUser(user: User): Boolean
-
 }
