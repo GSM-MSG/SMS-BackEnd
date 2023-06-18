@@ -39,11 +39,11 @@ class StudentPersistenceAdapter(
     override fun queryStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
         studentJpaRepository.findAll(PageRequest.of(page - 1, size)).toDomainPageWithUserInfo()
 
-    override fun queryStudentByUserId(userId: UUID): Student =
-        studentJpaRepository.findByUserId(userId).toDomain()
+    override fun queryStudentByUserId(userId: UUID): Student.StudentWithUserInfo? =
+        studentJpaRepository.findByUserId(userId)?.toDomainWithUserInfo()
 
     override fun queryStudentByUser(user: User): Student {
-        val student = studentJpaRepository.findByUser(user = user.toEntity()) ?: throw StudentNotFoundException
+        val student = studentJpaRepository.findByUser(user = user.toEntity())
         return student.toDomain()
     }
 }
