@@ -48,9 +48,11 @@ class StudentWebAdapter(
     }
 
     @GetMapping("/teacher/{uuid}")
-    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherWebResponse> =
-        studentInfoTeacherUseCase.execute(uuid)
+    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherWebResponse> {
+        if(!isValidUUID(uuid)) throw InvalidUuidException
+        return studentInfoTeacherUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
+    }
 
     private fun StudentInfoListResponseData.toResponse(): StudentInfoListWebResponse =
         StudentInfoListWebResponse(
