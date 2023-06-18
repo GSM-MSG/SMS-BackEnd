@@ -11,7 +11,7 @@ hooks:
   AfterInstall:
     - location: scripts/pullDocker.sh
       timeout: 120
-      runas: ubuntu
+      runas: root
   ApplicationStart:
     - location: scripts/server_start.sh
       timeout: 120
