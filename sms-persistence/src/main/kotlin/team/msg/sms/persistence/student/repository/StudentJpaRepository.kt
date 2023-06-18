@@ -12,7 +12,7 @@ import javax.persistence.LockModeType
 interface StudentJpaRepository : JpaRepository<StudentJpaEntity, UUID> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     fun existsByUser(user: UserJpaEntity): Boolean
-    fun findByUserId(userId: UUID): StudentJpaEntity
+    fun findByUserId(userId: UUID): StudentJpaEntity?
 
     fun findByUser(user: UserJpaEntity): StudentJpaEntity
 }
