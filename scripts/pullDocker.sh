@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 
-./pullDocker.sh
+sudo bash pullDocker.sh
