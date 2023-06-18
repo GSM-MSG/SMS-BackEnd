@@ -7,12 +7,6 @@ files:
     overwrite: yes
 file_exists_behavior: OVERWRITE
 
-permissions:
-  - object: /
-    pattern: "**"
-    owner: root
-    group: root
-
 hooks:
   ApplicationStart:
     - location: scripts/server_start.sh
