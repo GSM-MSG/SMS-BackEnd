@@ -11,8 +11,8 @@ services:
     ports:
       - 8090:8080
       
-  myservice:
-    logging:
-    driver: awslogs
-    options:
-      awslogs-region: ap-northeast-2
+logging:
+   driver: "awslogs"
+   options:
+      awslogs-region: "ap-northeast-2"
+      awslogs-group: "sms-logs"
