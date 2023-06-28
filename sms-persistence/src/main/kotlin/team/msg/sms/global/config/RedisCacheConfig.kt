@@ -21,7 +21,7 @@ class RedisCacheConfig {
         val redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(StringRedisSerializer())) // Key 값을 문자열로 직렬화
             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer())) // Value Json 형식 직렬화
-            .entryTtl(Duration.ofMinutes(1L)) // 캐시 수명 30분
+            .entryTtl(Duration.ofMinutes(2L)) // 캐시 수명 2분
 
         return RedisCacheManager.RedisCacheManagerBuilder
             .fromConnectionFactory(connectionFactory)
