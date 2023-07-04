@@ -2,10 +2,12 @@ package team.msg.sms.domain.student
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
 import team.msg.sms.domain.student.dto.req.SignUpWebRequest
 import team.msg.sms.domain.student.dto.res.*
 import team.msg.sms.domain.student.usecase.*
+import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -32,19 +34,25 @@ class StudentWebAdapter(
             .run { ResponseEntity.ok().build() }
 
     @GetMapping("/anonymous/{uuid}")
-    fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousWebResponse> =
-        studentInfoAnonymousUseCase.execute(uuid)
+    fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousWebResponse> {
+        if(!isValidUUID(uuid)) throw InvalidUuidException
+        return studentInfoAnonymousUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
+    }
 
     @GetMapping("/{uuid}")
-    fun findForStudentRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoWebResponse> =
-        studentInfoDetailUseCase.execute(uuid)
+    fun findForStudentRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoWebResponse> {
+        if (!isValidUUID(uuid)) throw InvalidUuidException
+        return studentInfoDetailUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
+    }
 
     @GetMapping("/teacher/{uuid}")
-    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherWebResponse> =
-        studentInfoTeacherUseCase.execute(uuid)
+    fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherWebResponse> {
+        if(!isValidUUID(uuid)) throw InvalidUuidException
+        return studentInfoTeacherUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
+    }
 
     private fun StudentInfoListResponseData.toResponse(): StudentInfoListWebResponse =
         StudentInfoListWebResponse(
@@ -99,4 +107,13 @@ class StudentWebAdapter(
             languageCertificates = this.languageCertificates,
             regions = this.regions
         )
+
+    private fun isValidUUID(uuid: String): Boolean {
+        return try {
+            UUID.fromString(uuid)
+            true
+        } catch (ex: IllegalArgumentException) {
+            false
+        }
+    }
 }
