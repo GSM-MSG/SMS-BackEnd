@@ -10,3 +10,9 @@ services:
     image : ${REPO_URL}
     ports:
       - 8090:8080
+      
+logging:
+   driver: "awslogs"
+   options:
+      awslogs-region: "ap-northeast-2"
+      awslogs-group: "sms-logs"
