@@ -50,7 +50,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/auth/verity/access").authenticated()
             .antMatchers(HttpMethod.DELETE, "/auth/withdrawal").authenticated()
 
-            .antMatchers(HttpMethod.GET, "/user/profile").permitAll()
+            .antMatchers(HttpMethod.GET, "/user/profile/img").permitAll()
+            .antMatchers(HttpMethod.GET,"/user/profile").hasAuthority("ROLE_STUDENT")
 
             .antMatchers(HttpMethod.POST, "/student").hasAuthority("ROLE_STUDENT")
             .antMatchers(HttpMethod.GET, "/student").permitAll()

@@ -1,5 +1,5 @@
 package team.msg.sms.domain.user.dto.res
 
-data class UserProfileResponseData(
+data class UserProfileImgResponseData(
     val profileImgUrl: String
 )
