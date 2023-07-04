@@ -7,6 +7,7 @@ import team.msg.sms.domain.auth.model.RefreshToken
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
 import team.msg.sms.domain.user.exception.InternalServerErrorException
+import team.msg.sms.domain.user.exception.RoleNotExistsException
 import team.msg.sms.domain.user.service.UserService
 
 @UseCase
@@ -20,7 +21,7 @@ class ReIssueTokenUseCase(
             ?: throw RefreshNotFoundException
 
         val user = userService.getUserById(queryToken.userId)
-        val role = user.roles.firstOrNull() ?: throw InternalServerErrorException
+        val role = user.roles.firstOrNull() ?: throw RoleNotExistsException
 
         refreshTokenPort.deleteRefreshToken(queryToken)
 
