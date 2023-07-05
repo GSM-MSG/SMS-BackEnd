@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestParam
 class FindAllFiltersWebRequest(
     @RequestParam("majors", required = false) val majors: List<String>?,
     @RequestParam("techStacks", required = false) val techStacks: List<String>?,
-    @RequestParam("grade", required = false) val grade: Int?,
-    @RequestParam("classNum", required = false) val classNum: Int?,
+    @RequestParam("grade", required = false) val grade: List<Int>?,
+    @RequestParam("classNum", required = false) val classNum: List<Int>?,
     @RequestParam("department", required = false) val department: List<String>?,
     @RequestParam("stuNumSort", required = false) val stuNumSort: String?,
     @RequestParam("formOfEmployment", required = false) val formOfEmployment: List<String>?,

@@ -3,8 +3,8 @@ package team.msg.sms.domain.student.dto.req
 data class FiltersRequestData(
     val majors: List<String>?,
     val techStacks: List<String>?,
-    val grade: Int?,
-    val classNum: Int?,
+    val grade: List<Int>?,
+    val classNum: List<Int>?,
     val department: List<String>?,
     val formOfEmployment: List<String>?,
     val minGsmAuthenticationScore: Int?,
