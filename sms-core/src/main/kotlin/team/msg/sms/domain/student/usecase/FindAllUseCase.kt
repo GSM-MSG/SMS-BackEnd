@@ -4,9 +4,9 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.common.service.SecurityService
-import team.msg.sms.domain.student.dto.request.FiltersData
-import team.msg.sms.domain.student.dto.response.MainStudentsResponse
-import team.msg.sms.domain.student.dto.response.StudentInfoListResponse
+import team.msg.sms.domain.student.dto.req.FiltersRequestData
+import team.msg.sms.domain.student.dto.res.MainStudentsResponseData
+import team.msg.sms.domain.student.dto.res.StudentInfoListResponseData
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.techstack.service.TechStackService
 
@@ -18,8 +18,7 @@ class FindAllUseCase(
 ) {
     @Transactional
     @Cacheable(value = ["StudentInfoListResponse"], key = "#root.target.generateCacheKey(#page, #size)", cacheManager = "contentCacheManager", unless = "#root.target.isCurrentAnonymous()")
-    fun execute(page: Int, size: Int, filtersData: FiltersData): StudentInfoListResponse {
-
+    fun execute(page: Int, size: Int, filtersData: FiltersRequestData): StudentInfoListResponseData {
         val studentsWithPageInfo = studentService.getStudentsWithPage(page, size)
         val techStacks = techStackService.getAllTechStack()
         val currentRole = securityService.getCurrentUserRole()
@@ -29,7 +28,7 @@ class FindAllUseCase(
         val filterStudents = studentService.filterStudents(students, filtersData, currentRole)
 
         val studentsResponses = filterStudents.map {
-            MainStudentsResponse(
+            MainStudentsResponseData(
                 id = it.id,
                 major = it.major,
                 profileImg = it.profileImgUrl,
@@ -37,7 +36,7 @@ class FindAllUseCase(
                 techStack = it.techStack
             )
         }
-        return StudentInfoListResponse(
+        return StudentInfoListResponseData(
             content = studentsResponses,
             page = studentsWithPageInfo.page,
             contentSize = filterStudents.size,

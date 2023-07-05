@@ -7,14 +7,8 @@ files:
     overwrite: yes
 file_exists_behavior: OVERWRITE
 
-permissions:
-  - object: /
-    pattern: "**"
-    owner: ubuntu
-    group: ubuntu
-    
 hooks:
   ApplicationStart:
     - location: scripts/server_start.sh
-      timeout: 300
-      runas: ubuntu
+      timeout: 120
+      runas: root

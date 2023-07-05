@@ -1,9 +1,9 @@
 package team.msg.sms.domain.auth.usecase
 
 import gauth.exception.GAuthException
-import team.msg.sms.domain.auth.dto.request.SignInData
+import team.msg.sms.domain.auth.dto.req.SignInRequestData
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.auth.dto.response.SignInResponse
+import team.msg.sms.domain.auth.dto.res.SignInResponseData
 import team.msg.sms.common.spi.GAuthPort
 import team.msg.sms.domain.auth.exception.ExpiredCodeException
 import team.msg.sms.domain.auth.exception.SecretMismatchException
@@ -24,7 +24,7 @@ class SignInUseCase(
     private val userService: UserService,
     private val studentService: StudentService
 ) {
-    fun execute(request: SignInData): SignInResponse {
+    fun execute(request: SignInRequestData): SignInResponseData {
         try {
             val gAuthToken = gAuthPort.receiveGAuthToken(request.code)
             val gAuthUserInfo = gAuthPort.receiveUserInfo(gAuthToken.accessToken)
@@ -50,7 +50,7 @@ class SignInUseCase(
 
             val isStudent = studentService.checkNewStudent(user, role.name)
 
-            return SignInResponse(
+            return SignInResponseData(
                 accessToken = accessToken,
                 accessTokenExp = accessTokenExp,
                 refreshToken = refreshToken,

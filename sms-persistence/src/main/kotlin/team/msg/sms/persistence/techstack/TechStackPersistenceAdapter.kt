@@ -26,10 +26,7 @@ class TechStackPersistenceAdapter(
     override fun deleteAllByStudent(student: Student, user: User) =
         techStackJpaRepository.deleteAllByStudent(student = student.toEntity(user.toEntity()))
 
-    override fun findAll(): List<TechStack> = techStackJpaRepository.findAll()
-        .map { it.toDomain() }
-
-    override fun findByStudentUuid(uuid: UUID): List<TechStack> =
+    override fun queryByStudentUuid(uuid: UUID): List<TechStack> =
         techStackJpaRepository.findByStudentId(uuid)
             .map { it.toDomain() }
 

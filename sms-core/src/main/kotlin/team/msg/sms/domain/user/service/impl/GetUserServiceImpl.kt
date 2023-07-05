@@ -25,12 +25,12 @@ class GetUserServiceImpl(
         return user.roles.firstOrNull() ?: throw InternalServerErrorException
     }
 
-    override fun queryUserByEmail(email: String): User =
+    override fun getUserByEmail(email: String): User =
         queryUserPort.queryUserByEmail(email) ?: throw UserNotFoundException
 
-    override fun queryUserById(id: UUID): User =
+    override fun getUserById(id: UUID): User =
         queryUserPort.queryUserById(id) ?: throw UserNotFoundException
 
     override fun getCurrentUser(): User =
-        queryUserById(securityPort.getCurrentUserId())
+        getUserById(securityPort.getCurrentUserId())
 }

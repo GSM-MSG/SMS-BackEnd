@@ -11,5 +11,5 @@ class GetCertificateServiceImpl(
     private val certificatePort: CertificatePort
 ) : GetCertificateService {
     override fun getCertificateByUuid(uuid: UUID): List<Certificate> =
-        certificatePort.findByStudentUuid(uuid)
+        certificatePort.queryByStudentUuid(uuid)
 }

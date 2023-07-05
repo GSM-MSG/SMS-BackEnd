@@ -1,7 +1,7 @@
 package team.msg.sms.domain.student.service.impl
 
 import org.springframework.stereotype.Service
-import team.msg.sms.domain.student.dto.request.FiltersData
+import team.msg.sms.domain.student.dto.req.FiltersRequestData
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.FilterStudentService
 
@@ -11,7 +11,7 @@ class FilterStudentServiceImpl(
 ) : FilterStudentService {
     override fun filterStudents(
         students: List<Student.StudentWithUserInfo>,
-        filters: FiltersData,
+        filters: FiltersRequestData,
         role: String
     ): List<Student.StudentWithUserInfo> =
         when (role) {
@@ -23,7 +23,7 @@ class FilterStudentServiceImpl(
 
     private fun filterStudentsForTeacher(
         students: List<Student.StudentWithUserInfo>,
-        filters: FiltersData
+        filters: FiltersRequestData
     ): List<Student.StudentWithUserInfo> {
         var filteredStudents = students
 
@@ -96,7 +96,7 @@ class FilterStudentServiceImpl(
 
     private fun filterStudentsForStudent(
         students: List<Student.StudentWithUserInfo>,
-        filters: FiltersData
+        filters: FiltersRequestData
     ): List<Student.StudentWithUserInfo> {
         var filteredStudents = students
 
@@ -141,7 +141,7 @@ class FilterStudentServiceImpl(
 
     private fun filterStudentsForAnonymous(
         students: List<Student.StudentWithUserInfo>,
-        filters: FiltersData
+        filters: FiltersRequestData
     ): List<Student.StudentWithUserInfo> {
         var filteredStudents = students
 

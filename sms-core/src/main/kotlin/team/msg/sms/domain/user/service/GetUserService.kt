@@ -7,9 +7,9 @@ import java.util.UUID
 interface GetUserService {
     fun getRoleByGAuthInfo(email: String, role: String): Role
 
-    fun queryUserByEmail(email: String): User
+    fun getUserByEmail(email: String): User
 
-    fun queryUserById(id: UUID): User
+    fun getUserById(id: UUID): User
 
     fun getCurrentUser(): User
 }

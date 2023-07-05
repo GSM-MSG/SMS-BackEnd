@@ -6,14 +6,13 @@ import java.util.UUID
 
 interface QueryStudentPort {
     fun queryStudentById(uuid: UUID): Student.StudentWithUserInfo?
+    fun queryStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo
+
+    fun queryStudentByUserId(userId: UUID): Student.StudentWithUserInfo?
+
+    fun queryStudentByUser(user: User): Student
 
     fun existsStudentById(uuid: UUID): Boolean
 
     fun existsStudentByUser(user: User): Boolean
-
-    fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo
-
-    fun getStudentByUserId(userId: UUID): Student
-
-    fun queryStudentByUser(user: User): Student
 }

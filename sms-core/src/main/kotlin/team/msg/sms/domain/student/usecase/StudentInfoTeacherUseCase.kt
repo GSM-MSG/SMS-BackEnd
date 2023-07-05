@@ -5,7 +5,7 @@ import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
 import team.msg.sms.domain.region.service.RegionService
-import team.msg.sms.domain.student.dto.response.DetailStudentInfoTeacherResponse
+import team.msg.sms.domain.student.dto.res.DetailStudentInfoTeacherResponseData
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.techstack.service.TechStackService
 
@@ -17,7 +17,7 @@ class StudentInfoTeacherUseCase(
     private val languageCertificateService: LanguageCertificateService,
     private val regionService: RegionService
 ) {
-    fun execute(uuid: String): DetailStudentInfoTeacherResponse {
+    fun execute(uuid: String): DetailStudentInfoTeacherResponseData {
         val student = studentService.getStudentByUuid(uuid)
         val techStacks: List<String> = techStackService.getTechStackByStudentUuid(student.id).map { it.stack }
         val certificates = certificateService.getCertificateByUuid(student.id).map { it.certificateName }
@@ -26,7 +26,7 @@ class StudentInfoTeacherUseCase(
         val regions = regionService.getRegionByStudentUuid(student.id).map { it.region }
 
 
-        return DetailStudentInfoTeacherResponse(
+        return DetailStudentInfoTeacherResponseData(
             name = student.name,
             introduce = student.introduce,
             dreamBookFileUrl = student.dreamBookFileUrl,
