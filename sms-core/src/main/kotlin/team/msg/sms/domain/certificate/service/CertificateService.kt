@@ -7,4 +7,4 @@ class CertificateService(
     commandCertificateService: CommandCertificateService,
     getCertificateService: GetCertificateService
 ) : CommandCertificateService by commandCertificateService,
-        GetCertificateService by getCertificateService
+    GetCertificateService by getCertificateService

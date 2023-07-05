@@ -3,6 +3,7 @@ package team.msg.sms.persistence.student
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.spi.StudentPort
 import team.msg.sms.domain.user.model.User
@@ -35,12 +36,14 @@ class StudentPersistenceAdapter(
     override fun existsStudentByUser(user: User): Boolean =
         studentJpaRepository.existsByUser(user.toEntity())
 
-    override fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
+    override fun queryStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
         studentJpaRepository.findAll(PageRequest.of(page - 1, size)).toDomainPageWithUserInfo()
 
-    override fun getStudentByUserId(userId: UUID): Student =
-        studentJpaRepository.findByUserId(userId).toDomain()
+    override fun queryStudentByUserId(userId: UUID): Student.StudentWithUserInfo? =
+        studentJpaRepository.findByUserId(userId)?.toDomainWithUserInfo()
 
-    override fun queryStudentByUser(user: User): Student =
-        studentJpaRepository.findByUser(user = user.toEntity()).toDomain()
+    override fun queryStudentByUser(user: User): Student {
+        val student = studentJpaRepository.findByUser(user = user.toEntity())
+        return student.toDomain()
+    }
 }

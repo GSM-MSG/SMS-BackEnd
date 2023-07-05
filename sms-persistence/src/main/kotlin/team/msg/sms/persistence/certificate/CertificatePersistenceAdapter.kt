@@ -23,7 +23,7 @@ class CertificatePersistenceAdapter(
     override fun deleteAllByStudent(student: Student, user: User) =
         certificateJpaRepository.deleteAllByStudent(student.toEntity(user.toEntity()))
 
-    override fun findByStudentUuid(uuid: UUID): List<Certificate> =
+    override fun queryByStudentUuid(uuid: UUID): List<Certificate> =
         certificateJpaRepository.findByStudentId(uuid)
             .map { it.toDomain() }
 }

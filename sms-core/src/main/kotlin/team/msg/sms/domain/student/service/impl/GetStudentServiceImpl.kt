@@ -17,7 +17,7 @@ class GetStudentServiceImpl(
 ) : GetStudentService {
 
     override fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
-        studentPort.getStudentsWithPage(page, size)
+        studentPort.queryStudentsWithPage(page, size)
 
     override fun matchStudentWithTechStacks(
         students: List<Student.StudentWithUserInfo>,
@@ -47,6 +47,6 @@ class GetStudentServiceImpl(
     override fun getStudentByUser(user: User): Student =
         studentPort.queryStudentByUser(user)
 
-    override fun currentStudent(): Student =
-        studentPort.getStudentByUserId(userId = securityPort.getCurrentUserId())
+    override fun currentStudent(): Student.StudentWithUserInfo =
+        studentPort.queryStudentByUserId(userId = securityPort.getCurrentUserId()) ?: throw StudentNotFoundException
 }
