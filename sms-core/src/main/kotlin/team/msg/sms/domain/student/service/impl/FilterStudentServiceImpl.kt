@@ -41,13 +41,13 @@ class FilterStudentServiceImpl(
 
         filters.grade?.let { grade ->
             filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(0, 1).toInt() == grade
+                student.stuNum.substring(0, 1).toInt() in grade
             }
         }
 
         filters.classNum?.let { classNum ->
             filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(1, 2).toInt() == classNum
+                student.stuNum.substring(1, 2).toInt() in classNum
             }
         }
 
@@ -114,13 +114,13 @@ class FilterStudentServiceImpl(
 
         filters.grade?.let { grade ->
             filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(0, 1).toInt() == grade
+                student.stuNum.substring(0, 1).toInt() in grade
             }
         }
 
         filters.classNum?.let { classNum ->
             filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(1, 2).toInt() == classNum
+                student.stuNum.substring(1, 2).toInt() in classNum
             }
         }
 
