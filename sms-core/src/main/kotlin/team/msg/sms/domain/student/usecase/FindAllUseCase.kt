@@ -9,7 +9,6 @@ import team.msg.sms.domain.student.dto.response.MainStudentsResponse
 import team.msg.sms.domain.student.dto.response.StudentInfoListResponse
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.techstack.service.TechStackService
-import javax.servlet.http.HttpServletRequest
 
 @UseCase
 class FindAllUseCase(
@@ -18,7 +17,7 @@ class FindAllUseCase(
     private val securityService: SecurityService
 ) {
     @Transactional
-    @Cacheable(value = ["StudentInfoListResponse"], key = "#root.target.generateCacheKey(#page, #size)", cacheManager = "contentCacheManager")
+    @Cacheable(value = ["StudentInfoListResponse"], key = "#root.target.generateCacheKey(#page, #size)", cacheManager = "contentCacheManager", unless = "#root.target.isCurrentAnonymous()")
     fun execute(page: Int, size: Int, filtersData: FiltersData): StudentInfoListResponse {
 
         val studentsWithPageInfo = studentService.getStudentsWithPage(page, size)
@@ -50,4 +49,7 @@ class FindAllUseCase(
     fun generateCacheKey(page: Int, size: Int): String {
         return "$page-$size"
     }
+
+    fun isCurrentAnonymous(): Boolean =
+        securityService.isAnonymous()
 }

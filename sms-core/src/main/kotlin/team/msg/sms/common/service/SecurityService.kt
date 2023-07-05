@@ -6,4 +6,7 @@ interface SecurityService {
     fun getCurrentUserId(): UUID
 
     fun getCurrentUserRole(): String
+
+    fun isAnonymous(): Boolean
+
 }
