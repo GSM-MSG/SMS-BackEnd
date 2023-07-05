@@ -17,7 +17,7 @@ class FindAllUseCase(
     private val securityService: SecurityService
 ) {
     @Transactional
-    @Cacheable(value = ["StudentInfoListResponse"], key = "#root.target.generateCacheKey(#page, #size)", cacheManager = "contentCacheManager", unless = "#root.target.isCurrentAnonymous()")
+    @Cacheable(value = ["StudentInfoListResponseData"], key = "#root.target.generateCacheKey(#page, #size)", cacheManager = "contentCacheManager", condition = "!#root.target.isCurrentAnonymous()")
     fun execute(page: Int, size: Int, filtersData: FiltersRequestData): StudentInfoListResponseData {
         val studentsWithPageInfo = studentService.getStudentsWithPage(page, size)
         val techStacks = techStackService.getAllTechStack()
