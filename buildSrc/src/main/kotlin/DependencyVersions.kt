@@ -9,4 +9,6 @@ object DependencyVersions {
     const val GAUTH_VERSION = "2.0.0"
     const val SPRING_TRANSACTION = "5.3.22"
     const val MARIA_VERSION = "2.1.2"
+    const val KOTEST_VERSION = "5.4.2"
+    const val KOTEST_EXTENSION_VERSION = "1.1.2"
 }
