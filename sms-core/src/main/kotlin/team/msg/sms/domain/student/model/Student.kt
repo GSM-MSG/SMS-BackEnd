@@ -6,16 +6,16 @@ import java.util.UUID
 @Aggregate
 data class Student(
     val id: UUID,
+    val major: String,
+    val introduce: String,
     val department: Department,
     val contactEmail: String,
-    val major: String,
+    val formOfEmployment: FormOfEmployment,
+    val gsmAuthenticationScore: Int,
+    val militaryService: MilitaryService,
     val portfolioUrl: String?,
     val dreamBookFileUrl: String?,
-    val gsmAuthenticationScore: Int,
     val salary: Int,
-    val formOfEmployment: FormOfEmployment,
-    val introduce: String,
-    val militaryService: MilitaryService,
     val profileImgUrl: String,
     val userId: UUID
 ) {
