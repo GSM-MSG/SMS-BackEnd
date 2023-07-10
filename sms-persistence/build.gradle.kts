@@ -14,6 +14,7 @@ dependencies {
     implementation(Dependencies.REDIS)
     implementation(Dependencies.SPRING_REDIS)
     implementation(Dependencies.MARIADB)
+    kapt(Dependencies.QUERYDSL_PROCESSOR)
 }
 
 allOpen {
