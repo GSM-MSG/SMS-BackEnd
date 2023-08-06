@@ -5,7 +5,7 @@ import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.domain.user.model.User
 
 interface GetStudentService {
-    fun getStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo
+    fun getStudents(): List<Student.StudentWithUserInfo>
 
     fun matchStudentWithTechStacks(
         students: List<Student.StudentWithUserInfo>,
