@@ -7,7 +7,6 @@ import team.msg.sms.domain.student.service.FilterStudentService
 
 @Service
 class FilterStudentServiceImpl(
-
 ) : FilterStudentService {
     override fun filterStudents(
         students: List<Student.StudentWithUserInfo>,
@@ -19,8 +18,6 @@ class FilterStudentServiceImpl(
             "ROLE_STUDENT" -> this.filterStudentsForStudent(students, filters)
             else -> this.filterStudentsForAnonymous(students, filters)
         }
-
-
     private fun filterStudentsForTeacher(
         students: List<Student.StudentWithUserInfo>,
         filters: FiltersRequestData
