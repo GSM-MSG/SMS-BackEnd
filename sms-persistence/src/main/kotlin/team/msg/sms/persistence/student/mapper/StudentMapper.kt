@@ -1,6 +1,5 @@
 package team.msg.sms.persistence.student.mapper
 
-import org.springframework.data.domain.Page
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.persistence.student.entity.StudentJpaEntity
 import team.msg.sms.persistence.user.entity.UserJpaEntity
@@ -59,17 +58,3 @@ fun StudentJpaEntity.toDomainWithUserInfo(): Student.StudentWithUserInfo =
         profileImgUrl = profileImgUrl,
         techStack = arrayListOf()
     )
-
-fun Page<StudentJpaEntity>.toDomainPageWithUserInfo(): Student.StudentWithPageInfo {
-    val studentWithUserInfoList = this.content
-        .map {
-            it.toDomainWithUserInfo()
-        }
-    return Student.StudentWithPageInfo(
-        students = studentWithUserInfoList,
-        page = this.pageable.pageNumber + 1,
-        contentSize = this.content.size,
-        totalSize = this.totalElements,
-        last = this.isLast
-    )
-}

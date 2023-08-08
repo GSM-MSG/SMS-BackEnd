@@ -39,6 +39,10 @@ object Dependencies {
     // graphql
     const val GRAPHQL = "org.springframework.boot:spring-boot-starter-graphql"
 
+    // querydsl
+    const val QUERYDSL = "com.querydsl:querydsl-jpa:${DependencyVersions.QUERYDSL}"
+    const val QUERYDSL_PROCESSOR = "com.querydsl:querydsl-apt:${DependencyVersions.QUERYDSL}:jpa"
+
     // test
     const val SPRING_TEST = "org.springframework.boot:spring-boot-starter-test:${PluginVersions.SPRING_BOOT_VERSION}"
     const val MOCKK = "io.mockk:mockk:${DependencyVersions.MOCKK_VERSION}"
