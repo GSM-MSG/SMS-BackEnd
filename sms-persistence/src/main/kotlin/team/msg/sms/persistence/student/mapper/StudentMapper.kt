@@ -57,7 +57,8 @@ fun StudentJpaEntity.toDomainWithUserInfo(): Student.StudentWithUserInfo =
         salary = salary,
         name = user.name,
         profileImgUrl = profileImgUrl,
-        techStack = arrayListOf()
+        techStack = arrayListOf(),
+        userId = user.id
     )
 
 fun Page<StudentJpaEntity>.toDomainPageWithUserInfo(): Student.StudentWithPageInfo {
@@ -73,3 +74,20 @@ fun Page<StudentJpaEntity>.toDomainPageWithUserInfo(): Student.StudentWithPageIn
         last = this.isLast
     )
 }
+
+fun Student.StudentWithUserInfo.toEntity(user: UserJpaEntity): StudentJpaEntity =
+    StudentJpaEntity(
+        id = id,
+        department = department,
+        contactEmail = contactEmail,
+        major = major,
+        portfolioUrl = portfolioUrl,
+        dreamBookFileUrl = dreamBookFileUrl,
+        gsmAuthenticationScore = gsmAuthenticationScore,
+        salary = salary,
+        formOfEmployment = formOfEmployment,
+        introduce = introduce,
+        militaryService = militaryService,
+        profileImgUrl = profileImgUrl,
+        user = user
+    )
