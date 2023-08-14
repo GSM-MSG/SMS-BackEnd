@@ -3,18 +3,20 @@ package team.msg.sms.domain.student.usecase
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.student.dto.res.DetailStudentInfoResponseData
 import team.msg.sms.domain.student.service.StudentService
+import team.msg.sms.domain.student.service.StudentTechStackService
 import team.msg.sms.domain.techstack.service.TechStackService
 
 
 @UseCase
 class StudentInfoDetailUseCase(
     private val studentService: StudentService,
-    private val techStackService: TechStackService
+    private val techStackService: TechStackService,
+    private val studentTechStackService: StudentTechStackService
 ) {
     fun execute(uuid: String): DetailStudentInfoResponseData {
-        val student = studentService.getStudentByUuid(uuid)
-        val techStackByStudentUuid = techStackService.getTechStackByStudentUuid(student.id)
-        val techStacks: List<String> = techStackByStudentUuid.map { it.stack }
+        val student = studentService.getStudentUserInfoByUuid(uuid)
+        val techStack = techStackService.getAllTechStack()
+        val studentTechStack = studentTechStackService.getStudentTechStackByStudentId(studentId = student.id)
 
         return DetailStudentInfoResponseData(
             name = student.name,
@@ -25,7 +27,9 @@ class StudentInfoDetailUseCase(
             department = student.department,
             major = student.major,
             profileImg = student.profileImgUrl,
-            techStack = techStacks,
+            techStack = studentTechStack.map { studentTechStack ->
+                techStack.find { it.id == studentTechStack.techStackId }?.stack ?: ""
+            }
         )
     }
 }
