@@ -14,7 +14,6 @@ class CommandCertificateServiceImpl(
     override fun saveAll(certificate: List<Certificate>, student: Student, user: User): List<Certificate> =
         certificatePort.saveAll(certificate, student, user)
 
-    override fun deleteAllByStudent(student: Student, user: User) =
-        certificatePort.deleteAllByStudent(student, user)
-
+    override fun deleteAllByStudent(student: Student) =
+        certificatePort.deleteAllByStudent(student)
 }
