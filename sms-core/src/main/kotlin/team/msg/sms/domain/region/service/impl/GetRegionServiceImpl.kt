@@ -7,7 +7,7 @@ import team.msg.sms.domain.region.spi.RegionPort
 import java.util.*
 
 @Service
-class QueryRegionServiceImpl(
+class GetRegionServiceImpl(
     private val regionPort: RegionPort
 ) : GetRegionService {
     override fun getRegionByStudentUuid(uuid: UUID): List<Region> =
