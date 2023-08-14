@@ -34,7 +34,8 @@ data class Student(
         val salary: Int,
         val name: String,
         val profileImgUrl: String,
-        val techStack: List<String>
+        val techStack: List<String>,
+        val userId: UUID
     )
 
     data class StudentWithPageInfo(
