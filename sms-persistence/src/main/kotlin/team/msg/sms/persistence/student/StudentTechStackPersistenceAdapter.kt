@@ -42,4 +42,10 @@ class StudentTechStackPersistenceAdapter(
             .map {
                 it.toDomain()
             }
+
+    override fun queryStudentTechStack(): List<StudentTechStack> =
+        studentTechStackJpaRepository.findAll()
+            .map {
+                it.toDomain()
+            }
 }
