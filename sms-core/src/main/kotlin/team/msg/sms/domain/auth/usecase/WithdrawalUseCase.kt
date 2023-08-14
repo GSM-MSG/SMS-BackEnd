@@ -1,35 +1,52 @@
 package team.msg.sms.domain.auth.usecase
 
-import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.service.CertificateService
+import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
+import team.msg.sms.domain.project.service.ProjectLinkService
+import team.msg.sms.domain.project.service.ProjectService
+import team.msg.sms.domain.project.service.ProjectTechStackService
 import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.service.StudentService
-import team.msg.sms.domain.techstack.service.TechStackService
+import team.msg.sms.domain.student.service.StudentTechStackService
 import team.msg.sms.domain.user.service.UserService
 
 @UseCase
 class WithdrawalUseCase(
     private val userService: UserService,
     private val studentService: StudentService,
-    private val techStackService: TechStackService,
+    private val projectService: ProjectService,
+    private val projectTechStackService: ProjectTechStackService,
     private val regionService: RegionService,
+    private val studentTechStackService: StudentTechStackService,
     private val languageCertificateService: LanguageCertificateService,
-    private val certificateService: CertificateService
+    private val imageService: ImageService,
+    private val certificateService: CertificateService,
+    private val projectLinkService: ProjectLinkService
 ) {
     fun execute() {
         val user = userService.getCurrentUser()
         if (user.roles[0].name == "ROLE_STUDENT") {
             val student = studentService.getStudentByUser(user)
+            val project = projectService.getAllProjectByStudentId(student.id)
 
             listOf(
-                techStackService::deleteAllByStudent,
+                projectLinkService::deleteAllByProjects,
+                projectTechStackService::deleteAllByProjects,
+                imageService::deleteAllByProjects
+            ).forEach { service ->
+                service(project)
+            }
+
+            listOf(
+                projectService::deleteAllByStudent,
                 regionService::deleteAllByStudent,
                 languageCertificateService::deleteAllByStudent,
-                certificateService::deleteAllByStudent
+                certificateService::deleteAllByStudent,
+                studentTechStackService::deleteAllByStudent
             ).forEach { service ->
-                service(student, user)
+                service(student)
             }
 
             studentService.deleteByUuid(studentId = student.id)
