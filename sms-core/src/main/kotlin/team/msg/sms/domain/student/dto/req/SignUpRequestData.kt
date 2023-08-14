@@ -1,12 +1,13 @@
 package team.msg.sms.domain.student.dto.req
 
 import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
+import team.msg.sms.domain.project.dto.req.ProjectRequestData
 import team.msg.sms.domain.student.model.FormOfEmployment
 import team.msg.sms.domain.student.model.MilitaryService
 
 data class SignUpRequestData(
     val major: String,
-    val techStack: List<String>,
+    val studentTechStacks: List<String>,
     val profileImgUrl: String,
     val introduce: String,
     val portfolioUrl: String,
@@ -18,5 +19,6 @@ data class SignUpRequestData(
     val languageCertificate: List<LanguageCertificateRequestData>,
     val dreamBookFileUrl: String,
     val militaryService: MilitaryService,
-    val certificate: List<String>
+    val certificate: List<String>,
+    val projects: List<ProjectRequestData>
 )
