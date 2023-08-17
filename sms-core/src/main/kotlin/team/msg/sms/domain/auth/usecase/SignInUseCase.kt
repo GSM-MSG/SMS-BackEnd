@@ -39,7 +39,7 @@ class SignInUseCase(
                 User(
                     name = gAuthUserInfo.name,
                     email = gAuthUserInfo.email,
-                    stuNum = stuNumValid(role, gAuthUserInfo),
+                    stuNum = getStuNumValid(role, gAuthUserInfo),
                     roles = mutableListOf(role)
                 )
             )
@@ -69,7 +69,7 @@ class SignInUseCase(
     }
 }
 
-private fun stuNumValid(role: Role, gAuthUserInfo: GAuthUserInfo) =
+private fun getStuNumValid(role: Role, gAuthUserInfo: GAuthUserInfo) =
     if (role.name != "ROLE_TEACHER") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}" + if (gAuthUserInfo.num < 10) {
         "0${gAuthUserInfo.num}"
     } else gAuthUserInfo.num else ""
