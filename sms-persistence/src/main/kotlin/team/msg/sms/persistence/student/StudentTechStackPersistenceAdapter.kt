@@ -6,6 +6,7 @@ import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.spi.StudentTechStackPort
+import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.persistence.student.mapper.toDomain
 import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.student.repository.StudentJpaRepository
@@ -35,6 +36,14 @@ class StudentTechStackPersistenceAdapter(
         val student = studentJpaRepository.findByIdOrNull(student.id)
             ?: throw StudentNotFoundException
         studentTechStackJpaRepository.deleteAllByStudent(student)
+    }
+
+    override fun deleteByStudentAndTechStack(student: Student, techStack: TechStack) {
+        val student = studentJpaRepository.findByIdOrNull(student.id)
+            ?: throw StudentNotFoundException
+        val techStack = techStackJpaRepository.findByIdOrNull(techStack.id)
+            ?: throw RuntimeException("일단 보류 TechStack 오류")
+        studentTechStackJpaRepository.deleteByStudentAndTechStack(student, techStack)
     }
 
     override fun queryStudentTechStackByStudentId(studentId: UUID): List<StudentTechStack> =
