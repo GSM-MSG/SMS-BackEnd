@@ -1,10 +1,8 @@
 package team.msg.sms.persistence.techstack
 
-import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.domain.techstack.spi.TechStackPort
-import team.msg.sms.persistence.techstack.entity.QTechStackJpaEntity
 import team.msg.sms.persistence.techstack.mapper.toDomain
 import team.msg.sms.persistence.techstack.mapper.toEntity
 import team.msg.sms.persistence.techstack.repository.TechStackJpaRepository
@@ -22,6 +20,9 @@ class TechStackPersistenceAdapter(
                 .map { it.toEntity() }
         )
             .map { it.toDomain() }
+
+    override fun deleteByTechStack(techStack: TechStack) =
+        techStackJpaRepository.delete(techStack.toEntity())
 
     override fun queryAll(): List<TechStack> =
         techStackJpaRepository.findAll()
