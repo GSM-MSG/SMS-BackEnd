@@ -1,14 +1,18 @@
 package team.msg.sms.persistence.techstack.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
-import team.msg.sms.persistence.student.entity.StudentJpaEntity
 import team.msg.sms.persistence.techstack.entity.TechStackJpaEntity
-import java.util.UUID
 
 @Repository
 interface TechStackJpaRepository : JpaRepository<TechStackJpaEntity, Long> {
-    fun findByStudentId(uuid: UUID): List<TechStackJpaEntity>
-    fun findByStackStartingWith(stack: String): List<TechStackJpaEntity>
-    fun deleteAllByStudent(student: StudentJpaEntity)
+    @Query("select techStack from TechStackJpaEntity techStack where techStack.count >= 2 and techStack.stack like :stack")
+    fun findByStackStartingWithCountGreaterThanTwo(@Param("stack") stack: String): List<TechStackJpaEntity>
+
+    @Query("select techStack from TechStackJpaEntity techStack where techStack.count >= 2")
+    fun findAllWithCountGreaterThanTwo(): List<TechStackJpaEntity>
+
 }

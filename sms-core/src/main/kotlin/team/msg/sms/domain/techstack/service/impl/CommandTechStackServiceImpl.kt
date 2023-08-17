@@ -11,10 +11,9 @@ import team.msg.sms.domain.user.model.User
 class CommandTechStackServiceImpl(
     private val techStackPort: TechStackPort
 ) : CommandTechStackService {
-    override fun saveAll(techStack: List<TechStack>, student: Student, user: User): List<TechStack> =
-        techStackPort.saveAll(techStack, student, user)
+    override fun save(techStack: TechStack): TechStack =
+        techStackPort.save(techStack)
 
-    override fun deleteAllByStudent(student: Student, user: User) {
-        techStackPort.deleteAllByStudent(student, user)
-    }
+    override fun saveAll(techStack: List<TechStack>): List<TechStack> =
+        techStackPort.saveAll(techStack)
 }
