@@ -95,9 +95,8 @@ class StudentWebAdapter(
             department = this.department,
             major = this.major,
             profileImg = this.profileImg,
-            dreamBookFileUrl = this.dreamBookFileUrl,
             contactEmail = this.contactEmail,
-            studentTechStacks = this.studentTechStacks,
+            studentTechStacks = this.techStacks,
             formOfEmployment = this.formOfEmployment,
             portfolioUrl = this.portfolioUrl,
             certificates = this.certificates,
@@ -106,7 +105,8 @@ class StudentWebAdapter(
             salary = this.salary,
             languageCertificates = this.languageCertificates,
             regions = this.regions,
-            projects = this.projects
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     private fun isValidUUID(uuid: String): Boolean {

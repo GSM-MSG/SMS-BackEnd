@@ -1,6 +1,7 @@
 package team.msg.sms.domain.student.dto.req
 
 import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateWebRequest
+import team.msg.sms.domain.prize.dto.req.PrizeRequestData
 import team.msg.sms.domain.project.dto.req.ProjectRequestData
 import team.msg.sms.domain.student.model.FormOfEmployment
 import team.msg.sms.domain.student.model.MilitaryService
@@ -9,7 +10,7 @@ import javax.validation.constraints.*
 data class SignUpWebRequest(
     val major: String,
 
-    val studentTechStacks: List<String>,
+    val techStack: List<String>,
 
     @field:NotBlank
     @field:Pattern(regexp = "^https://.*")
@@ -38,20 +39,18 @@ data class SignUpWebRequest(
 
     val languageCertificate: List<LanguageCertificateWebRequest>,
 
-    @field:NotBlank
-    @field:Pattern(regexp = "^https://.*")
-    val dreamBookFileUrl: String,
-
     val militaryService: MilitaryService,
 
     val certificate: List<String>,
 
-    val projects: List<ProjectRequestData>
+    val projects: List<ProjectRequestData>,
+
+    val prizes: List<PrizeRequestData>
 ) {
     fun toData(): SignUpRequestData =
         SignUpRequestData(
             major = major,
-            studentTechStacks = studentTechStacks,
+            techStacks = techStack,
             profileImgUrl = profileImgUrl,
             introduce = introduce,
             portfolioUrl = portfolioUrl,
@@ -61,9 +60,9 @@ data class SignUpWebRequest(
             region = region,
             salary = salary,
             languageCertificate = languageCertificate.map { it.toData() },
-            dreamBookFileUrl = dreamBookFileUrl,
             militaryService = militaryService,
             certificate = certificate,
-            projects = projects
+            projects = projects,
+            prizes = prizes
         )
 }
