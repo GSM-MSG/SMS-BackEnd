@@ -11,7 +11,8 @@ class QueryAllTechStackUseCase(
     fun execute(stack: String?): TechStacksResponseData {
         val techStack = if (stack == null) techStackService.getAllTechStackByCount()
             .map { it.stack }
-        else techStackService.getAllTechStackByStack(stack).map { it.stack }
+        else techStackService.getAllTechStackByStack(stack)
+            .map { it.stack }
 
         return TechStacksResponseData(
             techStack = if (techStack.size > 30) techStack
