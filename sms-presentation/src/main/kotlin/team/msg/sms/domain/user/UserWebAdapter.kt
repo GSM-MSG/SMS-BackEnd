@@ -32,7 +32,6 @@ class UserWebAdapter(
         UserProfileDetailWebResponse(
             name = this.name,
             introduce = this.introduce,
-            dreamBookFileUrl = this.dreamBookFileUrl,
             portfolioUrl = this.portfolioUrl,
             grade = this.grade,
             classNum = this.classNum,
