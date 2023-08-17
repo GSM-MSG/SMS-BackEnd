@@ -63,7 +63,7 @@ class StudentInfoTeacherUseCase(
             salary = student.salary,
             languageCertificates = languageCertificates,
             certificates = certificates,
-            studentTechStacks = studentTechStacks.map {
+            techStacks = studentTechStacks.map {
                 toStudentTechStacks(techStacks, it)?.stack ?: ""
             },
             projects = generateProjectResponseData(

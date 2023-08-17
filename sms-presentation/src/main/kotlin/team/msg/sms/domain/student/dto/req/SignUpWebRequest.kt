@@ -10,7 +10,7 @@ import javax.validation.constraints.*
 data class SignUpWebRequest(
     val major: String,
 
-    val studentTechStacks: List<String>,
+    val techStacks: List<String>,
 
     @field:NotBlank
     @field:Pattern(regexp = "^https://.*")
@@ -50,7 +50,7 @@ data class SignUpWebRequest(
     fun toData(): SignUpRequestData =
         SignUpRequestData(
             major = major,
-            studentTechStacks = studentTechStacks,
+            techStacks = techStacks,
             profileImgUrl = profileImgUrl,
             introduce = introduce,
             portfolioUrl = portfolioUrl,
