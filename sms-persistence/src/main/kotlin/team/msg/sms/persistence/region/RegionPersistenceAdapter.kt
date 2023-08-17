@@ -31,4 +31,10 @@ class RegionPersistenceAdapter(
 
     override fun queryByStudentUuid(uuid: UUID): List<Region> =
         regionJpaRepository.findByStudentId(uuid).map { it.toDomain() }
+
+    override fun deleteByRegion(region: Region, student: Student) {
+        val student = studentJpaRepository.findByIdOrNull(student.id)
+            ?: throw StudentNotFoundException
+        regionJpaRepository.delete(region.toEntity(student))
+    }
 }

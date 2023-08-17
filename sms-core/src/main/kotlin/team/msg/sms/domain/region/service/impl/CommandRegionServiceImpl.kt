@@ -16,4 +16,8 @@ class CommandRegionServiceImpl(
 
     override fun deleteAllByStudent(student: Student) =
         regionPort.deleteAllByStudent(student)
+
+    override fun deleteByRegion(region: Region, student: Student) {
+        regionPort.deleteByRegion(region, student)
+    }
 }
