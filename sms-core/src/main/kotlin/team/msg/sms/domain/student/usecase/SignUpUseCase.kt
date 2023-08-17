@@ -149,7 +149,6 @@ class SignUpUseCase(
             contactEmail = signUpData.contactEmail,
             major = signUpData.major,
             portfolioUrl = signUpData.portfolioUrl,
-            dreamBookFileUrl = signUpData.dreamBookFileUrl,
             gsmAuthenticationScore = signUpData.gsmAuthenticationScore,
             salary = signUpData.salary,
             formOfEmployment = signUpData.formOfEmployment,

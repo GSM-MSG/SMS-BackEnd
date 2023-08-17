@@ -95,7 +95,6 @@ class StudentWebAdapter(
             department = this.department,
             major = this.major,
             profileImg = this.profileImg,
-            dreamBookFileUrl = this.dreamBookFileUrl,
             contactEmail = this.contactEmail,
             studentTechStacks = this.studentTechStacks,
             formOfEmployment = this.formOfEmployment,

@@ -39,10 +39,6 @@ data class SignUpWebRequest(
 
     val languageCertificate: List<LanguageCertificateWebRequest>,
 
-    @field:NotBlank
-    @field:Pattern(regexp = "^https://.*")
-    val dreamBookFileUrl: String,
-
     val militaryService: MilitaryService,
 
     val certificate: List<String>,
@@ -64,7 +60,6 @@ data class SignUpWebRequest(
             region = region,
             salary = salary,
             languageCertificate = languageCertificate.map { it.toData() },
-            dreamBookFileUrl = dreamBookFileUrl,
             militaryService = militaryService,
             certificate = certificate,
             projects = projects,
