@@ -45,16 +45,15 @@ object ProjectUtil {
         techStack: List<TechStack>
     ): ProjectResponseData =
         ProjectResponseData(
-            id = project.id,
             description = project.description,
             inProgress = toInProgressResponseData(project.startDate, project.endDate),
             links = projectLink.map { toLinkResponseData(it) },
             myActivity = project.myActivity,
             previewImages = projectImage.map { it.imageUrl },
-            projectTechStacks = projectTechStack.map {
+            techStacks = projectTechStack.map {
                 toProjectTechStacks(techStack, it)?.stack ?: ""
             },
-            name = project.title,
+            name = project.title
         )
 
 
