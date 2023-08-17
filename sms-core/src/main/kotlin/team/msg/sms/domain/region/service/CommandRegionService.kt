@@ -7,4 +7,5 @@ import team.msg.sms.domain.user.model.User
 interface CommandRegionService {
     fun saveAll(region: List<Region>, student: Student, user: User): List<Region>
     fun deleteAllByStudent(student: Student)
+    fun deleteByRegion(region: Region, student: Student)
 }
