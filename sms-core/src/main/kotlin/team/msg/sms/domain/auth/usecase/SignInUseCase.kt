@@ -1,5 +1,6 @@
 package team.msg.sms.domain.auth.usecase
 
+import gauth.GAuthUserInfo
 import gauth.exception.GAuthException
 import team.msg.sms.domain.auth.dto.req.SignInRequestData
 import team.msg.sms.common.annotation.UseCase
@@ -9,6 +10,7 @@ import team.msg.sms.domain.auth.exception.ExpiredCodeException
 import team.msg.sms.domain.auth.exception.SecretMismatchException
 import team.msg.sms.domain.auth.exception.ServiceNotFoundException
 import team.msg.sms.domain.auth.model.RefreshToken
+import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
 import team.msg.sms.domain.student.service.StudentService
@@ -37,9 +39,7 @@ class SignInUseCase(
                 User(
                     name = gAuthUserInfo.name,
                     email = gAuthUserInfo.email,
-                    stuNum = if (role.name != "ROLE_TEACHER") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}" + if (gAuthUserInfo.num < 10) {
-                        "0${gAuthUserInfo.num}"
-                    } else gAuthUserInfo.num else "",
+                    stuNum = stuNumValid(role, gAuthUserInfo),
                     roles = mutableListOf(role)
                 )
             )
@@ -68,3 +68,8 @@ class SignInUseCase(
         }
     }
 }
+
+private fun stuNumValid(role: Role, gAuthUserInfo: GAuthUserInfo) =
+    if (role.name != "ROLE_TEACHER") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}" + if (gAuthUserInfo.num < 10) {
+        "0${gAuthUserInfo.num}"
+    } else gAuthUserInfo.num else ""
