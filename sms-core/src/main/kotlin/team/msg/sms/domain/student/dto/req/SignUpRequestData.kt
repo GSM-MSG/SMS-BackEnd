@@ -8,7 +8,7 @@ import team.msg.sms.domain.student.model.MilitaryService
 
 data class SignUpRequestData(
     val major: String,
-    val studentTechStacks: List<String>,
+    val techStacks: List<String>,
     val profileImgUrl: String,
     val introduce: String,
     val portfolioUrl: String,

@@ -66,7 +66,7 @@ class SignUpUseCase(
         studentTechStackValid(
             studentId = student.id,
             stack = techStacks,
-            studentTechStacks = signUpData.studentTechStacks
+            studentTechStacks = signUpData.techStacks
         )
 
         signUpData.projects.forEach {
