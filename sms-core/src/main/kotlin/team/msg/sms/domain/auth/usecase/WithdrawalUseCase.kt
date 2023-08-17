@@ -4,6 +4,7 @@ import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
+import team.msg.sms.domain.prize.service.PrizeService
 import team.msg.sms.domain.project.service.ProjectLinkService
 import team.msg.sms.domain.project.service.ProjectService
 import team.msg.sms.domain.project.service.ProjectTechStackService
@@ -23,7 +24,8 @@ class WithdrawalUseCase(
     private val languageCertificateService: LanguageCertificateService,
     private val imageService: ImageService,
     private val certificateService: CertificateService,
-    private val projectLinkService: ProjectLinkService
+    private val projectLinkService: ProjectLinkService,
+    private val prizeService: PrizeService
 ) {
     fun execute() {
         val user = userService.getCurrentUser()
@@ -42,7 +44,8 @@ class WithdrawalUseCase(
                 regionService::deleteAllByStudent,
                 languageCertificateService::deleteAllByStudent,
                 certificateService::deleteAllByStudent,
-                studentTechStackService::deleteAllByStudent
+                studentTechStackService::deleteAllByStudent,
+                prizeService::deleteAllByStudent
             )
 
             deleteActions(deleteProjectActions, project)

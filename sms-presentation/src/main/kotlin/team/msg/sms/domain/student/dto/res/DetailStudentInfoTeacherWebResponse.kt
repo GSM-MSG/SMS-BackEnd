@@ -1,6 +1,7 @@
 package team.msg.sms.domain.student.dto.res
 
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
+import team.msg.sms.domain.prize.dto.res.PrizeResponseData
 import team.msg.sms.domain.project.dto.res.ProjectResponseData
 import team.msg.sms.domain.student.model.Department
 import team.msg.sms.domain.student.model.FormOfEmployment
@@ -26,5 +27,6 @@ class DetailStudentInfoTeacherWebResponse(
     val languageCertificates: List<LanguageCertificate.LanguageCertificateScore>,
     val certificates: List<String>,
     val studentTechStacks: List<String>,
-    val projects: List<ProjectResponseData>
+    val projects: List<ProjectResponseData>,
+    val prizes: List<PrizeResponseData>
 )

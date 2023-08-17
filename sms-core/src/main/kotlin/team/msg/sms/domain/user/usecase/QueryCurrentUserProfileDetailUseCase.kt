@@ -1,19 +1,15 @@
 package team.msg.sms.domain.user.usecase
 
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.common.util.ProjectUtil
+import team.msg.sms.common.util.PrizeUtil.generatePrizeResponseData
 import team.msg.sms.common.util.ProjectUtil.generateProjectResponseData
 import team.msg.sms.domain.certificate.service.CertificateService
-import team.msg.sms.domain.file.model.Image
 import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
-import team.msg.sms.domain.project.dto.res.ProjectInProgressResponseData
-import team.msg.sms.domain.project.dto.res.ProjectLinkResponseData
-import team.msg.sms.domain.project.dto.res.ProjectResponseData
+import team.msg.sms.domain.prize.model.Prize
+import team.msg.sms.domain.prize.service.PrizeService
 import team.msg.sms.domain.project.model.Project
-import team.msg.sms.domain.project.model.ProjectLink
-import team.msg.sms.domain.project.model.ProjectTechStack
 import team.msg.sms.domain.project.service.ProjectLinkService
 import team.msg.sms.domain.project.service.ProjectService
 import team.msg.sms.domain.project.service.ProjectTechStackService
@@ -38,6 +34,7 @@ class QueryCurrentUserProfileDetailUseCase(
     private val imageService: ImageService,
     private val studentTechStackService: StudentTechStackService,
     private val regionService: RegionService,
+    private val prizeService: PrizeService
 ) {
     fun execute(): UserProfileDetailResponseData {
         val student = studentService.currentStudent()
@@ -50,7 +47,17 @@ class QueryCurrentUserProfileDetailUseCase(
         val region = regionService.getRegionByStudentUuid(student.id)
             .map { it.region }
         val studentTechStacks = studentTechStackService.getStudentTechStackByStudentId(studentId = student.id)
-        return toData(student, techStacks, region, studentTechStacks, languageCertificates, certificates, projects)
+        val prizes = prizeService.getAllPrizeByStudentId(studentId = student.id)
+        return toData(
+            student,
+            techStacks,
+            region,
+            studentTechStacks,
+            languageCertificates,
+            certificates,
+            projects,
+            prizes
+        )
     }
 
     private fun toData(
@@ -60,7 +67,8 @@ class QueryCurrentUserProfileDetailUseCase(
         studentTechStacks: List<StudentTechStack>,
         languageCertificates: List<LanguageCertificate.LanguageCertificateScore>,
         certificates: List<String>,
-        projects: List<Project>
+        projects: List<Project>,
+        prizes: List<Prize>
     ): UserProfileDetailResponseData =
         UserProfileDetailResponseData(
             name = student.name,
@@ -90,6 +98,9 @@ class QueryCurrentUserProfileDetailUseCase(
                 projectTechStackService = projectTechStackService,
                 imageService = imageService,
                 techStacks = techStacks
+            ),
+            prizes = generatePrizeResponseData(
+                prizes = prizes
             )
         )
 
