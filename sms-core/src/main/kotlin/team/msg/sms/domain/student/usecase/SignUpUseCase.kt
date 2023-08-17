@@ -9,6 +9,9 @@ import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
+import team.msg.sms.domain.prize.dto.req.PrizeRequestData
+import team.msg.sms.domain.prize.model.Prize
+import team.msg.sms.domain.prize.service.PrizeService
 import team.msg.sms.domain.project.dto.req.LinkRequestData
 import team.msg.sms.domain.project.dto.req.ProjectRequestData
 import team.msg.sms.domain.project.model.Project
@@ -45,7 +48,8 @@ class SignUpUseCase(
     private val projectService: ProjectService,
     private val projectTechStackService: ProjectTechStackService,
     private val projectLinkService: ProjectLinkService,
-    private val imageService: ImageService
+    private val imageService: ImageService,
+    private val prizeService: PrizeService
 ) {
     @Transactional(rollbackFor = [Exception::class])
     fun execute(signUpData: SignUpRequestData) {
@@ -89,6 +93,13 @@ class SignUpUseCase(
             signUpData.certificate.map { toCertificate(certificate = it, studentId = student.id) },
             student,
             user
+        )
+
+        prizeService.saveAll(
+            signUpData.prizes
+                .map {
+                    toPrizeModel(prize = it, studentId = student.id)
+                }
         )
     }
 
@@ -181,6 +192,15 @@ class SignUpUseCase(
             id = 0,
             studentId = studentId,
             techStackId = techStackId
+        )
+
+    private fun toPrizeModel(prize: PrizeRequestData, studentId: UUID) =
+        Prize(
+            id = 0,
+            name = prize.name,
+            type = prize.type,
+            date = prize.date,
+            studentId = studentId
         )
 
     private fun projectTechStackValid(stack: MutableList<TechStack>, projectTechStacks: List<String>, projectId: Long) {
