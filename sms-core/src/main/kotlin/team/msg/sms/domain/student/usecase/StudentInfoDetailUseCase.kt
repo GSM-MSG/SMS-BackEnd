@@ -2,8 +2,10 @@ package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.student.dto.res.DetailStudentInfoResponseData
+import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.student.service.StudentTechStackService
+import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.domain.techstack.service.TechStackService
 
 
@@ -28,8 +30,11 @@ class StudentInfoDetailUseCase(
             major = student.major,
             profileImg = student.profileImgUrl,
             techStack = studentTechStack.map { studentTechStack ->
-                techStack.find { it.id == studentTechStack.techStackId }?.stack ?: ""
+                toStudentTechStack(studentTechStack, techStack)
             }
         )
     }
 }
+
+private fun toStudentTechStack(studentTechStack: StudentTechStack, techStack: List<TechStack>) =
+    techStack.find { studentTechStack.id == studentTechStack.techStackId }?.stack ?: ""
