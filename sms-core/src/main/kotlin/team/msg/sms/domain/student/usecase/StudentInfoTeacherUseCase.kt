@@ -1,24 +1,18 @@
 package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
+import team.msg.sms.common.util.PrizeUtil.generatePrizeResponseData
 import team.msg.sms.common.util.ProjectUtil.generateProjectResponseData
 import team.msg.sms.domain.certificate.service.CertificateService
-import team.msg.sms.domain.file.model.Image
 import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
-import team.msg.sms.domain.project.dto.res.ProjectInProgressResponseData
-import team.msg.sms.domain.project.dto.res.ProjectLinkResponseData
-import team.msg.sms.domain.project.dto.res.ProjectResponseData
-import team.msg.sms.domain.project.model.Project
-import team.msg.sms.domain.project.model.ProjectLink
-import team.msg.sms.domain.project.model.ProjectTechStack
+import team.msg.sms.domain.prize.service.PrizeService
 import team.msg.sms.domain.project.service.ProjectLinkService
 import team.msg.sms.domain.project.service.ProjectService
 import team.msg.sms.domain.project.service.ProjectTechStackService
 import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.dto.res.DetailStudentInfoTeacherResponseData
-import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.student.service.StudentTechStackService
@@ -36,7 +30,8 @@ class StudentInfoTeacherUseCase(
     private val projectLinkService: ProjectLinkService,
     private val imageService: ImageService,
     private val languageCertificateService: LanguageCertificateService,
-    private val regionService: RegionService
+    private val regionService: RegionService,
+    private val prizeService: PrizeService
 ) {
     fun execute(uuid: String): DetailStudentInfoTeacherResponseData {
         val student = studentService.getStudentUserInfoByUuid(uuid)
@@ -47,12 +42,12 @@ class StudentInfoTeacherUseCase(
                 .map { toLanguageCertificateScore(languageCertificate = it) }
         val regions = regionService.getRegionByStudentUuid(student.id).map { it.region }
         val techStacks = techStackService.getAllTechStack()
+        val prizes = prizeService.getAllPrizeByStudentId(studentId = student.id)
         val studentTechStacks = studentTechStackService.getStudentTechStackByStudentId(student.id)
 
         return DetailStudentInfoTeacherResponseData(
             name = student.name,
             introduce = student.introduce,
-            dreamBookFileUrl = student.dreamBookFileUrl,
             portfolioUrl = student.portfolioUrl,
             grade = student.stuNum.substring(0, 1).toInt(),
             classNum = student.stuNum.substring(1, 2).toInt(),
@@ -68,7 +63,7 @@ class StudentInfoTeacherUseCase(
             salary = student.salary,
             languageCertificates = languageCertificates,
             certificates = certificates,
-            studentTechStacks = studentTechStacks.map {
+            techStacks = studentTechStacks.map {
                 toStudentTechStacks(techStacks, it)?.stack ?: ""
             },
             projects = generateProjectResponseData(
@@ -77,6 +72,9 @@ class StudentInfoTeacherUseCase(
                 projectTechStackService = projectTechStackService,
                 imageService = imageService,
                 techStacks = techStacks
+            ),
+            prizes = generatePrizeResponseData(
+                prizes = prizes
             )
         )
     }
