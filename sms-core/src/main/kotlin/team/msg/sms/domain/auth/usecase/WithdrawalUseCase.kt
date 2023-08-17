@@ -31,26 +31,32 @@ class WithdrawalUseCase(
             val student = studentService.getStudentByUser(user)
             val project = projectService.getAllProjectByStudentId(student.id)
 
-            listOf(
+            val deleteProjectActions = listOf(
                 projectLinkService::deleteAllByProjects,
                 projectTechStackService::deleteAllByProjects,
                 imageService::deleteAllByProjects
-            ).forEach { service ->
-                service(project)
-            }
+            )
 
-            listOf(
+            val deleteStudentActions = listOf(
                 projectService::deleteAllByStudent,
                 regionService::deleteAllByStudent,
                 languageCertificateService::deleteAllByStudent,
                 certificateService::deleteAllByStudent,
                 studentTechStackService::deleteAllByStudent
-            ).forEach { service ->
-                service(student)
-            }
+            )
+
+            deleteActions(deleteProjectActions, project)
+            deleteActions(deleteStudentActions, student)
 
             studentService.deleteByUuid(studentId = student.id)
         }
         userService.deleteByUuid(userId = user.id)
     }
 }
+
+fun <T> deleteActions(actions: List<(T) -> Unit>, target: T) {
+    actions.forEach { action ->
+        action(target)
+    }
+}
+
