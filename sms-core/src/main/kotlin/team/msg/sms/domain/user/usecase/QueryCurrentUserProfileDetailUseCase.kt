@@ -73,7 +73,6 @@ class QueryCurrentUserProfileDetailUseCase(
         UserProfileDetailResponseData(
             name = student.name,
             introduce = student.introduce,
-            dreamBookFileUrl = student.dreamBookFileUrl,
             portfolioUrl = student.portfolioUrl,
             grade = student.stuNum.substring(0, 1).toInt(),
             classNum = student.stuNum.substring(1, 2).toInt(),
