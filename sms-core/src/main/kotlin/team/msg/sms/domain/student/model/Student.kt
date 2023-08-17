@@ -14,7 +14,6 @@ data class Student(
     val gsmAuthenticationScore: Int,
     val militaryService: MilitaryService,
     val portfolioUrl: String?,
-    val dreamBookFileUrl: String?,
     val salary: Int,
     val profileImgUrl: String,
     val userId: UUID
@@ -30,7 +29,6 @@ data class Student(
         val gsmAuthenticationScore: Int,
         val militaryService: MilitaryService,
         val portfolioUrl: String?,
-        val dreamBookFileUrl: String?,
         val salary: Int,
         val name: String,
         val profileImgUrl: String,
