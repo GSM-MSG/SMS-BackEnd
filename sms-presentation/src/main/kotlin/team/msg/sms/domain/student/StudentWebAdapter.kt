@@ -96,7 +96,7 @@ class StudentWebAdapter(
             major = this.major,
             profileImg = this.profileImg,
             contactEmail = this.contactEmail,
-            studentTechStacks = this.studentTechStacks,
+            studentTechStacks = this.techStacks,
             formOfEmployment = this.formOfEmployment,
             portfolioUrl = this.portfolioUrl,
             certificates = this.certificates,

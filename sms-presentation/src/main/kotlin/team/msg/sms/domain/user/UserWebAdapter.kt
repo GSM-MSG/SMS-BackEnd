@@ -47,7 +47,7 @@ class UserWebAdapter(
             salary = this.salary,
             languageCertificates = this.languageCertificates,
             certificates = this.certificates,
-            studentTechStacks = this.studentTechStacks,
+            techStacks = this.techStacks,
             projects = this.projects,
             prizes = this.prizes
         )

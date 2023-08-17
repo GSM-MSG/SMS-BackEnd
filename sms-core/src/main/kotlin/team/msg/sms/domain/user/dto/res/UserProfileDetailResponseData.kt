@@ -25,7 +25,7 @@ data class UserProfileDetailResponseData(
     val salary: Int,
     val languageCertificates: List<LanguageCertificate.LanguageCertificateScore>,
     val certificates: List<String>,
-    val studentTechStacks: List<String>,
+    val techStacks: List<String>,
     val projects: List<ProjectResponseData>,
     val prizes: List<PrizeResponseData>
 )
