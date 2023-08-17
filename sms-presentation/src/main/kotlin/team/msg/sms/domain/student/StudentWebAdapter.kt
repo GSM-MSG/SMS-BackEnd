@@ -106,7 +106,8 @@ class StudentWebAdapter(
             salary = this.salary,
             languageCertificates = this.languageCertificates,
             regions = this.regions,
-            projects = this.projects
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     private fun isValidUUID(uuid: String): Boolean {
