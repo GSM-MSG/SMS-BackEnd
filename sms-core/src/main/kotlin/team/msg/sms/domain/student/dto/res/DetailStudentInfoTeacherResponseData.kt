@@ -7,10 +7,9 @@ import team.msg.sms.domain.student.model.Department
 import team.msg.sms.domain.student.model.FormOfEmployment
 import team.msg.sms.domain.student.model.MilitaryService
 
-class DetailStudentInfoTeacherResponseData(
+data class DetailStudentInfoTeacherResponseData(
     val name: String,
     val introduce: String,
-    val dreamBookFileUrl: String?,
     val portfolioUrl: String?,
     val grade: Int,
     val classNum: Int,
