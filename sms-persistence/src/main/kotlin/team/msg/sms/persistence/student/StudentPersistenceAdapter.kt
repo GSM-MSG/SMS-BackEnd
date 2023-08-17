@@ -1,6 +1,7 @@
 package team.msg.sms.persistence.student
 
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.msg.sms.domain.student.model.Student
@@ -8,6 +9,7 @@ import team.msg.sms.domain.student.spi.StudentPort
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.persistence.student.entity.QStudentJpaEntity
 import team.msg.sms.persistence.student.mapper.toDomain
+import team.msg.sms.persistence.student.mapper.toDomainPageWithUserInfo
 import team.msg.sms.persistence.student.mapper.toDomainWithUserInfo
 import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.student.repository.StudentJpaRepository
@@ -36,7 +38,13 @@ class StudentPersistenceAdapter(
     override fun existsStudentByUser(user: User): Boolean =
         studentJpaRepository.existsByUser(user.toEntity())
 
-    override fun queryStudentByUserId(userId: UUID): Student.StudentWithUserInfo? =
+    override fun queryStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo =
+        studentJpaRepository.findAll(PageRequest.of(page - 1, size)).toDomainPageWithUserInfo()
+
+    override fun queryStudentByUserId(userId: UUID): Student =
+        studentJpaRepository.findByUserId(userId)!!.toDomain()
+
+    override fun queryStudentUserInfoByUserId(userId: UUID): Student.StudentWithUserInfo? =
         studentJpaRepository.findByUserId(userId)?.toDomainWithUserInfo()
 
     override fun queryStudentByUser(user: User): Student {

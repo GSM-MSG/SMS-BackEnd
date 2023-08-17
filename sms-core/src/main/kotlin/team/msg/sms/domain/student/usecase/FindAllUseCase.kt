@@ -6,21 +6,26 @@ import team.msg.sms.domain.student.dto.req.FiltersRequestData
 import team.msg.sms.domain.student.dto.res.MainStudentsResponseData
 import team.msg.sms.domain.student.dto.res.StudentInfoListResponseData
 import team.msg.sms.domain.student.model.Student
+import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.StudentService
+import team.msg.sms.domain.student.service.StudentTechStackService
 import team.msg.sms.domain.techstack.service.TechStackService
 
 @UseCase
 class FindAllUseCase(
     private val studentService: StudentService,
     private val techStackService: TechStackService,
+    private val studentTechStackservice: StudentTechStackService,
     private val securityService: SecurityService
 ) {
     fun execute(page: Int, size: Int, filtersData: FiltersRequestData): StudentInfoListResponseData {
         val students = studentService.getStudents()
         val techStacks = techStackService.getAllTechStack()
         val currentRole = securityService.getCurrentUserRole()
+        val studentTechStacks = studentTechStackservice.getStudentTechStack()
 
-        val studentsWithUserInfo = studentService.matchStudentWithTechStacks(students, techStacks, currentRole)
+        val studentsWithUserInfo =
+            studentService.matchStudentWithTechStacks(students, techStacks, studentTechStacks, currentRole)
 
         val filterStudents = studentService.filterStudents(studentsWithUserInfo, filtersData, currentRole)
 
@@ -52,10 +57,11 @@ fun List<Student.StudentWithUserInfo>.toDomainPageWithUserInfo(page: Int, size: 
         last = isLast
     )
 }
+
 fun List<Student.StudentWithUserInfo>.toMainStudentsResponseData(): List<MainStudentsResponseData> =
     this.map {
         MainStudentsResponseData(
-            id =it.id,
+            id = it.id,
             major = it.major,
             profileImg = it.profileImgUrl,
             name = it.name,

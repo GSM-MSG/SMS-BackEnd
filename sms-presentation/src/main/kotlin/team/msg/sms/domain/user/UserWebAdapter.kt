@@ -48,7 +48,8 @@ class UserWebAdapter(
             salary = this.salary,
             languageCertificates = this.languageCertificates,
             certificates = this.certificates,
-            techStacks = this.techStacks
+            studentTechStacks = this.studentTechStacks,
+            projects = this.projects
         )
 
     private fun UserProfileImgResponseData.toResponse(): UserProfileWebResponse =

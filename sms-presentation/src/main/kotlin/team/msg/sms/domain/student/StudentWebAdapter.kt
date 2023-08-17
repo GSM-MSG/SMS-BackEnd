@@ -35,7 +35,7 @@ class StudentWebAdapter(
 
     @GetMapping("/anonymous/{uuid}")
     fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousWebResponse> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         return studentInfoAnonymousUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -49,7 +49,7 @@ class StudentWebAdapter(
 
     @GetMapping("/teacher/{uuid}")
     fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherWebResponse> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         return studentInfoTeacherUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -97,7 +97,7 @@ class StudentWebAdapter(
             profileImg = this.profileImg,
             dreamBookFileUrl = this.dreamBookFileUrl,
             contactEmail = this.contactEmail,
-            techStacks = this.techStacks,
+            studentTechStacks = this.studentTechStacks,
             formOfEmployment = this.formOfEmployment,
             portfolioUrl = this.portfolioUrl,
             certificates = this.certificates,
@@ -105,7 +105,8 @@ class StudentWebAdapter(
             gsmAuthenticationScore = this.gsmAuthenticationScore,
             salary = this.salary,
             languageCertificates = this.languageCertificates,
-            regions = this.regions
+            regions = this.regions,
+            projects = this.projects
         )
 
     private fun isValidUUID(uuid: String): Boolean {

@@ -4,6 +4,7 @@ import team.msg.sms.common.annotation.Service
 import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.common.spi.SecurityPort
 import team.msg.sms.domain.student.model.Student
+import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.GetStudentService
 import team.msg.sms.domain.student.spi.StudentPort
 import team.msg.sms.domain.techstack.model.TechStack
@@ -21,10 +22,14 @@ class GetStudentServiceImpl(
     override fun matchStudentWithTechStacks(
         students: List<Student.StudentWithUserInfo>,
         techStacks: List<TechStack>,
+        studentTechStacks: List<StudentTechStack>,
         role: String
     ): List<Student.StudentWithUserInfo> {
         return students.map { student ->
-            val matchingTechStacks = techStacks.filter { it.studentId == student.id }.map { it.stack }
+            val studentTechStack = studentTechStacks.filter { it.studentId == student.id }
+            val matchingTechStacks = studentTechStack.map { techStack ->
+                techStacks.find { it.id == techStack.techStackId }!!.stack
+            }
 
             val updatedName = if (role == "ROLE_ANONYMOUS") {
                 student.name.replaceRange(1 until student.name.length, "*".repeat(2))
@@ -40,12 +45,16 @@ class GetStudentServiceImpl(
         }
     }
 
-    override fun getStudentByUuid(uuid: String): Student.StudentWithUserInfo =
+    override fun getStudentByUuid(uuid: UUID): Student =
+        studentPort.queryStudentByUserId(uuid)
+
+    override fun getStudentUserInfoByUuid(uuid: String): Student.StudentWithUserInfo =
         studentPort.queryStudentById(UUID.fromString(uuid)) ?: throw StudentNotFoundException
 
     override fun getStudentByUser(user: User): Student =
         studentPort.queryStudentByUser(user)
 
     override fun currentStudent(): Student.StudentWithUserInfo =
-        studentPort.queryStudentByUserId(userId = securityPort.getCurrentUserId()) ?: throw StudentNotFoundException
+        studentPort.queryStudentUserInfoByUserId(userId = securityPort.getCurrentUserId())
+            ?: throw StudentNotFoundException
 }
