@@ -5,7 +5,8 @@ import team.msg.sms.common.annotation.Service
 @Service
 class StudentTechStackService(
     commandStudentTechStackService: CommandStudentTechStackService,
-    getStudentTechStackService: GetStudentTechStackService
+    getStudentTechStackService: GetStudentTechStackService,
     checkStudentTechStackService: CheckStudentTechStackService
 ) : CommandStudentTechStackService by commandStudentTechStackService,
-    GetStudentTechStackService by getStudentTechStackService    GetStudentTechStackService by getStudentTechStackService,
+    GetStudentTechStackService by getStudentTechStackService,
+    CheckStudentTechStackService by checkStudentTechStackService
