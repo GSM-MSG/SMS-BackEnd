@@ -14,5 +14,4 @@ interface TechStackJpaRepository : JpaRepository<TechStackJpaEntity, Long> {
 
     @Query("select techStack from TechStackJpaEntity techStack where techStack.count >= 2")
     fun findAllWithCountGreaterThanTwo(): List<TechStackJpaEntity>
-
 }
