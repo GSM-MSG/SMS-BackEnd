@@ -8,7 +8,7 @@ import team.msg.sms.domain.file.spi.ImagePort
 @Service
 class GetImageServiceImpl(
     private val imagePort: ImagePort
-) : GetImageService{
+) : GetImageService {
     override fun getAllByProjectId(projectId: Long): List<Image> =
         imagePort.queryAllByProjectId(projectId)
 }
