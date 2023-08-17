@@ -18,7 +18,6 @@ data class SignUpRequestData(
     val region: List<String>,
     val salary: Int,
     val languageCertificate: List<LanguageCertificateRequestData>,
-    val dreamBookFileUrl: String,
     val militaryService: MilitaryService,
     val certificate: List<String>,
     val projects: List<ProjectRequestData>,
