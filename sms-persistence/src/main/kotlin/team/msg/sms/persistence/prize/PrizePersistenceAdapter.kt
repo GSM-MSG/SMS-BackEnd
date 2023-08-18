@@ -18,7 +18,7 @@ class PrizePersistenceAdapter(
     private val studentJpaRepository: StudentJpaRepository
 ) : PrizePort {
     override fun saveAll(prizes: List<Prize>) {
-        val student = studentJpaRepository.findByIdOrNull(prizes[0].studentId)
+        val student = studentJpaRepository.findByIdOrNull(prizes.first().studentId)
             ?: throw StudentNotFoundException
         prizeJpaRepository.saveAll(
             prizes

@@ -18,7 +18,7 @@ class CertificatePersistenceAdapter(
     private val studentJpaRepository: StudentJpaRepository
 ) : CertificatePort {
     override fun saveAll(certificate: List<Certificate>): List<Certificate> {
-        val student = studentJpaRepository.findByIdOrNull(certificate[0].studentId)
+        val student = studentJpaRepository.findByIdOrNull(certificate.first().studentId)
             ?: throw StudentNotFoundException
         return certificateJpaRepository.saveAll(certificate
             .map { it.toEntity(student = student) })
