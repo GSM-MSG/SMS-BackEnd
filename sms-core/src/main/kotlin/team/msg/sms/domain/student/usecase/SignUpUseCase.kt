@@ -72,35 +72,48 @@ class SignUpUseCase(
         signUpData.projects.forEach {
             val project = projectService.save(project = toProjectModel(it, studentId = student.id))
             projectTechStackValid(techStacks, it.techStacks, project.id)
-            projectLinkService.saveAll(it.links.map { linkRequestData ->
-                toProjectLinkModel(projectLink = linkRequestData, projectId = project.id)
-            })
-            imageService.saveAll(it.previewImages.map { url ->
-                toImageModel(url = url, projectId = project.id)
-            })
+            saveAllIfNotEmpty(
+                it.links,
+                { projectLink -> toProjectLinkModel(projectLink = projectLink, projectId = project.id) },
+                projectLinkService::saveAll
+            )
+            saveAllIfNotEmpty(
+                it.previewImages,
+                { previewImage -> toImageModel(url = previewImage, projectId = project.id) },
+                imageService::saveAll
+            )
         }
 
-        regionService.saveAll(signUpData.region.map { toRegionModel(it, studentId = student.id) }, student, user)
-
-        languageCertificateService.saveAll(signUpData.languageCertificate.map {
-            toLanguageCertificate(
-                languageCertificate = it,
-                studentId = student.id
-            )
-        }, student, user)
-
-        certificateService.saveAll(
-            signUpData.certificate.map { toCertificate(certificate = it, studentId = student.id) },
-            student,
-            user
+        saveAllIfNotEmpty(
+            signUpData.region,
+            { toRegionModel(region = it, studentId = student.id) },
+            regionService::saveAll
         )
 
-        prizeService.saveAll(
-            signUpData.prizes
-                .map {
-                    toPrizeModel(prize = it, studentId = student.id)
-                }
+        saveAllIfNotEmpty(
+            signUpData.languageCertificate,
+            { toLanguageCertificate(languageCertificate = it, studentId = student.id) },
+            languageCertificateService::saveAll
         )
+
+        saveAllIfNotEmpty(
+            signUpData.certificate,
+            { toCertificate(certificate = it, studentId = student.id) },
+            certificateService::saveAll
+        )
+
+        saveAllIfNotEmpty(
+            signUpData.prizes,
+            { toPrizeModel(prize = it, studentId = student.id) },
+            prizeService::saveAll
+        )
+    }
+
+    private fun <T, R> saveAllIfNotEmpty(dataList: List<T>, transform: (T) -> R, saveFunction: (List<R>) -> Unit) {
+        dataList
+            .takeIf { it.isNotEmpty() }
+            ?.map { transform(it) }
+            ?.let { saveFunction(it) }
     }
 
     private fun toImageModel(url: String, projectId: Long): Image =
@@ -202,7 +215,11 @@ class SignUpUseCase(
             studentId = studentId
         )
 
-    private fun projectTechStackValid(stack: MutableList<TechStack>, projectTechStacks: List<String>, projectId: Long) {
+    private fun projectTechStackValid(
+        stack: MutableList<TechStack>,
+        projectTechStacks: List<String>,
+        projectId: Long
+    ) {
         for (stackItem in projectTechStacks) {
             val techStackData = stack.find { it.stack == stackItem }
             if (techStackData == null) {
@@ -218,7 +235,11 @@ class SignUpUseCase(
         }
     }
 
-    private fun studentTechStackValid(stack: MutableList<TechStack>, studentTechStacks: List<String>, studentId: UUID) {
+    private fun studentTechStackValid(
+        stack: MutableList<TechStack>,
+        studentTechStacks: List<String>,
+        studentId: UUID
+    ) {
         for (stackItem in studentTechStacks) {
             val techStackData = stack.find { it.stack == stackItem }
             if (techStackData == null) {
@@ -226,7 +247,8 @@ class SignUpUseCase(
                 stack.add(0, techStack)
                 studentTechStackService.save(toStudentTechStackModel(studentId, techStack.id))
             } else {
-                val techStack = techStackService.save(techStack = techStackData.copy(count = techStackData.count + 1))
+                val techStack =
+                    techStackService.save(techStack = techStackData.copy(count = techStackData.count + 1))
                 stack.add(0, techStack)
                 studentTechStackService.save(toStudentTechStackModel(studentId, techStack.id))
             }
