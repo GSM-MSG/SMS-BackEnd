@@ -17,7 +17,7 @@ class ImagePersistenceAdapter(
     private val projectJpaRepository: ProjectJpaRepository
 ) : ImagePort {
     override fun saveAll(images: List<Image>) {
-        val project = projectJpaRepository.findByIdOrNull(images[0].projectId)
+        val project = projectJpaRepository.findByIdOrNull(images.first().projectId)
             ?: throw ProjectNotFoundException
         imageJpaRepository.saveAll(images
             .map {
