@@ -6,13 +6,10 @@ import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.spi.CertificatePort
 import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Student
-import team.msg.sms.domain.user.model.User
 import team.msg.sms.persistence.certificate.mapper.toDomain
 import team.msg.sms.persistence.certificate.mapper.toEntity
 import team.msg.sms.persistence.certificate.repository.CertificateJpaRepository
-import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.student.repository.StudentJpaRepository
-import team.msg.sms.persistence.user.mapper.toEntity
 import java.util.*
 
 @Component
@@ -20,9 +17,13 @@ class CertificatePersistenceAdapter(
     private val certificateJpaRepository: CertificateJpaRepository,
     private val studentJpaRepository: StudentJpaRepository
 ) : CertificatePort {
-    override fun saveAll(certificate: List<Certificate>, student: Student, user: User): List<Certificate> =
-        certificateJpaRepository.saveAll(certificate.map { it.toEntity(student.toEntity(user.toEntity())) })
+    override fun saveAll(certificate: List<Certificate>): List<Certificate> {
+        val student = studentJpaRepository.findByIdOrNull(certificate[0].studentId)
+            ?: throw StudentNotFoundException
+        return certificateJpaRepository.saveAll(certificate
+            .map { it.toEntity(student = student) })
             .map { it.toDomain() }
+    }
 
     override fun deleteAllByStudent(student: Student) {
         val student = studentJpaRepository.findByIdOrNull(student.id)
