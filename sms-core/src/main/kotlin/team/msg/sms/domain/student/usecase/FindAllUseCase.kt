@@ -42,16 +42,16 @@ class FindAllUseCase(
 }
 
 fun List<Student.StudentWithUserInfo>.toDomainPageWithUserInfo(page: Int, size: Int): Student.StudentWithPageInfo {
-    val startIndex = page * size
+    val startIndex = (page - 1) * size
     val endIndex = (startIndex + size).coerceAtMost(this.size)
-    val content = this.subList(startIndex, endIndex)
+    val content = if (startIndex <= endIndex) this.subList(startIndex, endIndex) else emptyList()
 
     val totalPages = (this.size + size - 1) / size
-    val isLast = page >= totalPages - 1
+    val isLast = page >= totalPages
 
     return Student.StudentWithPageInfo(
         students = content,
-        page = page + 1,
+        page = page,
         contentSize = content.size,
         totalSize = this.size.toLong(),
         last = isLast
