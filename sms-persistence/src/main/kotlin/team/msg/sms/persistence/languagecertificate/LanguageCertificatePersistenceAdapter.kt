@@ -18,7 +18,7 @@ class LanguageCertificatePersistenceAdapter(
     private val studentJpaRepository: StudentJpaRepository
 ) : LanguageCertificatePort {
     override fun saveAll(languageCertificates: List<LanguageCertificate>): List<LanguageCertificate> {
-        val student = studentJpaRepository.findByIdOrNull(languageCertificates[0].studentId)
+        val student = studentJpaRepository.findByIdOrNull(languageCertificates.first().studentId)
             ?: throw StudentNotFoundException
         return languageCertificateJpaRepository.saveAll(languageCertificates
             .map { it.toEntity(student) })

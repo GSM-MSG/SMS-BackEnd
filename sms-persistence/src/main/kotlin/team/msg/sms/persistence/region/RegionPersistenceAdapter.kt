@@ -18,7 +18,7 @@ class RegionPersistenceAdapter(
     private val studentJpaRepository: StudentJpaRepository
 ) : RegionPort {
     override fun saveAll(regions: List<Region>): List<Region> {
-        val student = studentJpaRepository.findByIdOrNull(regions[0].studentId)
+        val student = studentJpaRepository.findByIdOrNull(regions.first().studentId)
             ?: throw StudentNotFoundException
         return regionJpaRepository.saveAll(regions
             .map { it.toEntity(student) })
