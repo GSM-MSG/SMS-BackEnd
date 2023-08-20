@@ -6,7 +6,6 @@ import team.msg.sms.domain.student.dto.req.FiltersRequestData
 import team.msg.sms.domain.student.dto.res.MainStudentsResponseData
 import team.msg.sms.domain.student.dto.res.StudentInfoListResponseData
 import team.msg.sms.domain.student.model.Student
-import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.student.service.StudentTechStackService
 import team.msg.sms.domain.techstack.service.TechStackService

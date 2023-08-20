@@ -1,6 +1,8 @@
 package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
+import team.msg.sms.domain.certificate.service.CertificateService
+import team.msg.sms.domain.region.model.Region
 import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.dto.req.ModifyStudentInfoRequestData
 import team.msg.sms.domain.student.exception.StuNumNotRightException
@@ -22,7 +24,8 @@ class ModifyStudentInfoUseCase(
     private val studentService: StudentService,
     private val studentTechStackService: StudentTechStackService,
     private val techStackService: TechStackService,
-    private val regionService: RegionService
+    private val regionService: RegionService,
+    private val certificateService: CertificateService
 ) {
     fun execute(modifyStudentInfoData: ModifyStudentInfoRequestData) {
         val user = userService.getCurrentUser()
@@ -67,6 +70,14 @@ class ModifyStudentInfoUseCase(
             removedRegions.forEach {
                 regionService.deleteByRegion(it, student)
             }
+        }
+
+        certificateService.
+
+        val addedRegions = regionService.checkAddedRegion(regions, modifyStudentInfoData.region)
+        if(addedRegions.isNotEmpty()) {
+            val regions = addedRegions.map { toRegionModel(it, student.id) }
+            regionService.saveAll(regions, student, user)
         }
     }
 
@@ -138,5 +149,12 @@ class ModifyStudentInfoUseCase(
             id = 0,
             stack = stack,
             count = 0
+        )
+
+    private fun toRegionModel(region: String, studentId: UUID) =
+        Region(
+            id = 0,
+            region = region,
+            studentId = studentId
         )
 }
