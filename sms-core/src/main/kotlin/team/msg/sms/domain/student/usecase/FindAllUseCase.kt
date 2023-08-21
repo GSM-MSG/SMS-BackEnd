@@ -65,6 +65,6 @@ fun List<Student.StudentWithUserInfo>.toMainStudentsResponseData(): List<MainStu
             major = it.major,
             profileImg = it.profileImgUrl,
             name = it.name,
-            techStack = it.techStack
+            techStacks= it.techStack
         )
     }
