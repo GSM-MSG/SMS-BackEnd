@@ -6,6 +6,9 @@ import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
+import team.msg.sms.domain.prize.dto.req.PrizeRequestData
+import team.msg.sms.domain.prize.model.Prize
+import team.msg.sms.domain.prize.service.PrizeService
 import team.msg.sms.domain.region.model.Region
 import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.dto.req.ModifyStudentInfoRequestData
@@ -30,7 +33,8 @@ class ModifyStudentInfoUseCase(
     private val techStackService: TechStackService,
     private val regionService: RegionService,
     private val certificateService: CertificateService,
-    private val languageCertificateService: LanguageCertificateService
+    private val languageCertificateService: LanguageCertificateService,
+    private val prizeService: PrizeService
 ) {
     fun execute(modifyStudentInfoData: ModifyStudentInfoRequestData) {
         val user = userService.getCurrentUser()
@@ -43,6 +47,7 @@ class ModifyStudentInfoUseCase(
         val certificates = certificateService.getCertificateByUuid(student.id)
         val languageCertificates =
             languageCertificateService.getLanguageCertificateByStudentUuid(student.id)
+        val prizes = prizeService.getAllPrizeByStudentId(student.id)
 
         val modifyStudentInfoDataModel = toStudentModel(modifyStudentInfoData, user)
 
@@ -112,6 +117,7 @@ class ModifyStudentInfoUseCase(
             languageCertificateService.saveAll(addedLanguageCertificate)
         }
 
+        // 외국어 추가 수정
         val removedLanguageCertificate = languageCertificateService.checkRemovedLanguageCertificate(
             languageCertificates,
             modifyStudentInfoData.languageCertificate.map { toLanguageCertificateModel(it, student.id) }
@@ -122,6 +128,22 @@ class ModifyStudentInfoUseCase(
             }
         }
 
+        val addedPrize = prizeService.checkAddedPrize(
+            prizes,
+            modifyStudentInfoData.prizes.map { toPrizeModel(it, student.id) }
+        )
+        if(addedPrize.isNotEmpty()) {
+            prizeService.saveAll(addedPrize)
+        }
+        val removedPrize = prizeService.checkRemovedPrize(
+            prizes,
+            modifyStudentInfoData.prizes.map { toPrizeModel(it, student.id) }
+        )
+        if(removedPrize.isNotEmpty()) {
+            removedPrize.forEach {
+                prizeService.deleteByPrize(it, student)
+            }
+        }
 
     }
 
@@ -217,6 +239,15 @@ class ModifyStudentInfoUseCase(
             id = 0,
             languageCertificateName = languageCertificate.languageCertificateName,
             score = languageCertificate.languageCertificateScore,
+            studentId = studentId
+        )
+
+    private fun toPrizeModel(prize: PrizeRequestData, studentId: UUID) =
+        Prize(
+            id = 0,
+            name = prize.name,
+            type = prize.type,
+            date = prize.date,
             studentId = studentId
         )
 }
