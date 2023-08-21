@@ -23,6 +23,6 @@ class TechStackWebAdapter(
 
     private fun TechStacksResponseData.toResponse(): TechStacksWebResponse =
         TechStacksWebResponse(
-            techStack = this.techStack
+            techStacks= this.techStacks
         )
 }
