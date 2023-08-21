@@ -9,6 +9,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "certificate")
 class CertificateJpaEntity(
+    override val id: Long,
+
     @Column
     val certificateName: String,
 
