@@ -46,6 +46,7 @@ object ProjectUtil {
     ): ProjectResponseData =
         ProjectResponseData(
             description = project.description,
+            icon = project.projectIconUrl,
             inProgress = toInProgressResponseData(project.startDate, project.endDate),
             links = projectLink.map { toLinkResponseData(it) },
             myActivity = project.myActivity,
