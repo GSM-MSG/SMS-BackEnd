@@ -1,6 +1,7 @@
 package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
+import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
@@ -28,7 +29,7 @@ class ModifyStudentInfoUseCase(
     private val studentTechStackService: StudentTechStackService,
     private val techStackService: TechStackService,
     private val regionService: RegionService,
-    private val certificateService: CertificateService
+    private val certificateService: CertificateService,
     private val languageCertificateService: LanguageCertificateService
 ) {
     fun execute(modifyStudentInfoData: ModifyStudentInfoRequestData) {
@@ -39,6 +40,7 @@ class ModifyStudentInfoUseCase(
         val techStacks = techStackService.getAllTechStack()
         val techStackNames = studentTechStackService.getMatchTechStackNameWithId(studentTechStacks, techStacks)
         val regions = regionService.getRegionByStudentUuid(student.id)
+        val certificates = certificateService.getCertificateByUuid(student.id)
         val languageCertificates =
             languageCertificateService.getLanguageCertificateByStudentUuid(student.id)
 
@@ -71,6 +73,7 @@ class ModifyStudentInfoUseCase(
             updateStudentTechStacks(techStacks.toMutableList(), addedTechStacks, student.id)
         }
 
+        // 근무 지역 추가 수정
         val removedRegions = regionService.checkRemovedRegion(regions, modifyStudentInfoData.region)
         if(removedRegions.isNotEmpty()) {
             removedRegions.forEach {
@@ -78,13 +81,28 @@ class ModifyStudentInfoUseCase(
             }
         }
 
-        certificateService.
-
         val addedRegions = regionService.checkAddedRegion(regions, modifyStudentInfoData.region)
         if(addedRegions.isNotEmpty()) {
             val regions = addedRegions.map { toRegionModel(it, student.id) }
             regionService.saveAll(regions, student, user)
         }
+
+        // 자격증 추가 수정
+        val addedCertificate =
+            certificateService.checkAddedCertificate(certificates, modifyStudentInfoData.certificate)
+        if(addedCertificate.isNotEmpty()) {
+            val certificates = addedCertificate.map { toCertificateModel(it, student.id) }
+            certificateService.saveAll(certificates, student, user)
+        }
+
+        val removedCertificate =
+            certificateService.checkRemovedCertificate(certificates, modifyStudentInfoData.certificate)
+        if(removedCertificate.isNotEmpty()) {
+            removedCertificate.forEach {
+                certificateService.deleteByCertificate(it, student)
+             }
+        }
+
         // 외국어 추가 수정
         val addedLanguageCertificate = languageCertificateService.checkAddedLanguageCertificate(
             languageCertificates,
@@ -183,6 +201,14 @@ class ModifyStudentInfoUseCase(
             region = region,
             studentId = studentId
         )
+
+    private fun toCertificateModel(certificate: String, studentId: UUID): Certificate =
+        Certificate(
+            id = 0,
+            certificateName = certificate,
+            studentId = studentId
+        )
+
     private fun toLanguageCertificateModel(
         languageCertificate: LanguageCertificateRequestData,
         studentId: UUID
