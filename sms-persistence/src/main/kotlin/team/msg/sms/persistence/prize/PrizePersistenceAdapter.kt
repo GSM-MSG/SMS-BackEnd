@@ -34,6 +34,12 @@ class PrizePersistenceAdapter(
         prizeJpaRepository.deleteAllByStudent(student)
     }
 
+    override fun deleteByPrize(prize: Prize, student: Student) {
+        val student = studentJpaRepository.findByIdOrNull(student.id)
+            ?: throw StudentNotFoundException
+        prizeJpaRepository.delete(prize.toEntity(student))
+    }
+
     override fun queryAllPrizeByStudentId(studentId: UUID): List<Prize> {
         val student = studentJpaRepository.findByIdOrNull(studentId)
             ?: throw StudentNotFoundException
