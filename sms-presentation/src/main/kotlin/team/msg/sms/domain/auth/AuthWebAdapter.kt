@@ -26,8 +26,8 @@ class AuthWebAdapter(
     ): ResponseEntity<SignInWebResponse> {
         val token: SignInResponseData = signInUseCase.execute(request.toData())
 
-        createCookie(httpServletResponse, "accessToken", token.accessToken, 3600)
-        createCookie(httpServletResponse, "refreshToken", token.refreshToken, 36000)
+        //createCookie(httpServletResponse, "accessToken", token.accessToken, 3600)
+        //createCookie(httpServletResponse, "refreshToken", token.refreshToken, 36000)
 
         return ResponseEntity.ok(token.toResponse())
     }
@@ -42,11 +42,11 @@ class AuthWebAdapter(
         @Valid @RequestHeader(name = "Refresh-Token", required = false) refreshToken: String?,
         httpServletResponse: HttpServletResponse
     ): ResponseEntity<Void> {
-        if (refreshToken != null) logoutUseCase.execute(refreshToken)
-        else {
-            expiredCookie(httpServletResponse, "accessToken")
-            expiredCookie(httpServletResponse, "refreshToken")
-        }
+        logoutUseCase.execute(refreshToken!!)
+        //else {
+        //    expiredCookie(httpServletResponse, "accessToken")
+        //    expiredCookie(httpServletResponse, "refreshToken")
+        //}
         return ResponseEntity.ok().build()
     }
 
