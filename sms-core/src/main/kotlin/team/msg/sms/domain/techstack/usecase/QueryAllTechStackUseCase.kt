@@ -15,7 +15,7 @@ class QueryAllTechStackUseCase(
             .map { it.stack }
 
         return TechStacksResponseData(
-            techStack = if (techStack.size > 30) techStack
+            techStacks = if (techStack.size > 30) techStack
                 .slice(0..30)
             else techStack
         )
