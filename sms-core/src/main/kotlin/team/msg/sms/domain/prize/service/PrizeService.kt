@@ -5,6 +5,6 @@ import team.msg.sms.common.annotation.Service
 @Service
 class PrizeService(
     commandPrizeService: CommandPrizeService,
-        getPrizeService: GetPrizeService
+    getPrizeService: GetPrizeService
 ) : CommandPrizeService by commandPrizeService,
     GetPrizeService by getPrizeService
