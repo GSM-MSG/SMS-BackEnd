@@ -69,7 +69,9 @@ class StudentWebAdapter(
             introduce = this.introduce,
             major = this.major,
             profileImg = this.profileImg,
-            techStack = this.techStack
+            techStacks = this.techStacks,
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     fun DetailStudentInfoResponseData.toResponse(): DetailStudentInfoWebResponse =
@@ -82,7 +84,9 @@ class StudentWebAdapter(
             department = this.department,
             major = this.major,
             profileImg = this.profileImg,
-            techStack = this.techStack
+            techStacks = this.techStacks,
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     fun DetailStudentInfoTeacherResponseData.toResponse(): DetailStudentInfoTeacherWebResponse =

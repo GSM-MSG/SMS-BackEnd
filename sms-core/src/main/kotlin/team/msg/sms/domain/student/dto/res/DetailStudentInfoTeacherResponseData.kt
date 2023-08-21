@@ -28,5 +28,4 @@ data class DetailStudentInfoTeacherResponseData(
     val techStacks: List<String>,
     val projects: List<ProjectResponseData>,
     val prizes: List<PrizeResponseData>
-) {
-}
+)
