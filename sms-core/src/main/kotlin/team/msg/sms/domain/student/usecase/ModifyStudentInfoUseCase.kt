@@ -84,7 +84,7 @@ class ModifyStudentInfoUseCase(
         val addedRegions = regionService.checkAddedRegion(regions, modifyStudentInfoData.region)
         if(addedRegions.isNotEmpty()) {
             val regions = addedRegions.map { toRegionModel(it, student.id) }
-            regionService.saveAll(regions, student, user)
+            regionService.saveAll(regions)
         }
 
         // 자격증 추가 수정
@@ -92,7 +92,7 @@ class ModifyStudentInfoUseCase(
             certificateService.checkAddedCertificate(certificates, modifyStudentInfoData.certificate)
         if(addedCertificate.isNotEmpty()) {
             val certificates = addedCertificate.map { toCertificateModel(it, student.id) }
-            certificateService.saveAll(certificates, student, user)
+            certificateService.saveAll(certificates)
         }
 
         val removedCertificate =
@@ -109,7 +109,7 @@ class ModifyStudentInfoUseCase(
             modifyStudentInfoData.languageCertificate.map { toLanguageCertificateModel(it, student.id) }
         )
         if(addedLanguageCertificate.isNotEmpty()) {
-            languageCertificateService.saveAll(addedLanguageCertificate, student, user)
+            languageCertificateService.saveAll(addedLanguageCertificate)
         }
 
         val removedLanguageCertificate = languageCertificateService.checkRemovedLanguageCertificate(
