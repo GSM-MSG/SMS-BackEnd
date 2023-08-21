@@ -23,6 +23,7 @@ fun LanguageCertificate.toEntity(
     student: StudentJpaEntity
 ): LanguageCertificateJpaEntity =
     LanguageCertificateJpaEntity(
+        id = id,
         languageCertificateName = languageCertificateName,
         score = score,
         student = student
