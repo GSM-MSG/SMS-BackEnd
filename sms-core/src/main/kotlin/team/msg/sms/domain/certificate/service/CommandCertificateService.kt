@@ -7,4 +7,6 @@ import team.msg.sms.domain.user.model.User
 interface CommandCertificateService {
     fun saveAll(certificate: List<Certificate>, student: Student, user: User): List<Certificate>
     fun deleteAllByStudent(student: Student)
+
+    fun deleteByCertificate(certificate: Certificate, student: Student)
 }
