@@ -7,6 +7,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "prize")
 class PrizeJpaEntity(
+    override val id: Long,
+
     @Column
     val name: String,
 
