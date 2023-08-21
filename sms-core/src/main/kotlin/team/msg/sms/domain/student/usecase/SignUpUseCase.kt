@@ -144,7 +144,7 @@ class SignUpUseCase(
         LanguageCertificate(
             id = 0,
             languageCertificateName = languageCertificate.languageCertificateName,
-            score = languageCertificate.languageCertificateName,
+            score = languageCertificate.languageCertificateScore,
             studentId = studentId
         )
 
