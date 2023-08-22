@@ -85,19 +85,19 @@ class SignUpUseCase(
         }
 
         saveAllIfNotEmpty(
-            signUpData.region,
+            signUpData.regions,
             { toRegionModel(region = it, studentId = student.id) },
             regionService::saveAll
         )
 
         saveAllIfNotEmpty(
-            signUpData.languageCertificate,
+            signUpData.languageCertificates,
             { toLanguageCertificate(languageCertificate = it, studentId = student.id) },
             languageCertificateService::saveAll
         )
 
         saveAllIfNotEmpty(
-            signUpData.certificate,
+            signUpData.certificates,
             { toCertificate(certificate = it, studentId = student.id) },
             certificateService::saveAll
         )
