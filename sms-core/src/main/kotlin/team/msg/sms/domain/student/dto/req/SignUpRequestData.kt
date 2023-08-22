@@ -15,11 +15,11 @@ data class SignUpRequestData(
     val contactEmail: String,
     val formOfEmployment: FormOfEmployment,
     val gsmAuthenticationScore: Int,
-    val region: List<String>,
+    val regions: List<String>,
     val salary: Int,
-    val languageCertificate: List<LanguageCertificateRequestData>,
+    val languageCertificates: List<LanguageCertificateRequestData>,
     val militaryService: MilitaryService,
-    val certificate: List<String>,
+    val certificates: List<String>,
     val projects: List<ProjectRequestData>,
     val prizes: List<PrizeRequestData>
 )
