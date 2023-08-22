@@ -60,4 +60,4 @@ class StudentInfoDetailUseCase(
 }
 
 private fun toStudentTechStack(studentTechStack: StudentTechStack, techStack: List<TechStack>) =
-    techStack.find { studentTechStack.id == studentTechStack.techStackId }?.stack ?: ""
+    techStack.find { it.id == studentTechStack.techStackId }?.stack ?: ""
