@@ -1,15 +1,12 @@
 package team.msg.sms.global.filter
 
-import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 import team.msg.sms.domain.auth.model.Role
-import team.msg.sms.domain.student.spi.QueryStudentPort
-import team.msg.sms.domain.student.spi.StudentPort
+import team.msg.sms.domain.student.usecase.ExistStudentUseCase
 import team.msg.sms.domain.user.exception.UserNotFoundException
-import team.msg.sms.domain.user.spi.QueryUserPort
-import team.msg.sms.domain.user.spi.UserPort
+import team.msg.sms.domain.user.usecase.QueryUserByUserIdUseCase
 import team.msg.sms.global.exception.InvalidUrlAccessException
 import team.msg.sms.global.security.token.JwtParser
 import team.msg.sms.global.security.token.JwtProperties
@@ -20,8 +17,8 @@ import javax.servlet.http.HttpServletResponse
 
 class JwtFilter(
     private val jwtParser: JwtParser,
-    private val userPort: QueryUserPort,
-    private val studentPort: QueryStudentPort
+    private val queryUserByUserIdUseCase: QueryUserByUserIdUseCase,
+    private val existStudentUseCase: ExistStudentUseCase
 ) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -46,9 +43,9 @@ class JwtFilter(
 
                     if (isAllowStudent && !isPostStudentEndpoint) {
                         val userId = UUID.fromString(jwtParser.getClaimsBody(cookieToken))
-                        val user = userPort.queryUserById(userId) ?: throw UserNotFoundException
+                        val user = queryUserByUserIdUseCase.execute(userId) ?: throw UserNotFoundException
 
-                        if (!studentPort.existsStudentByUser(user)) {
+                        if (!existStudentUseCase.execute(user)) {
                             throw InvalidUrlAccessException
                         }
                     }
