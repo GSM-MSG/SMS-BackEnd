@@ -10,6 +10,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "project")
 class ProjectJpaEntity(
+    override val id: Long,
+
     @Column
     val title: String,
 

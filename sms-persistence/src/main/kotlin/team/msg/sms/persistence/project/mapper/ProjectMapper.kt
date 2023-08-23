@@ -20,6 +20,7 @@ fun Project.toEntity(
     student: StudentJpaEntity
 ) =
     ProjectJpaEntity(
+        id = id,
         description = this.description,
         title = this.title,
         myActivity = this.myActivity,
