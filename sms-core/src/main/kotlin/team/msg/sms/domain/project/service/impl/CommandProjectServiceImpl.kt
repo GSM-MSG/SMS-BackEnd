@@ -15,4 +15,8 @@ class CommandProjectServiceImpl(
 
     override fun deleteAllByStudent(student: Student) =
         projectPort.deleteAllByStudent(student)
+
+    override fun deleteByProject(project: Project, student: Student) {
+        projectPort.deleteByProject(project, student)
+    }
 }
