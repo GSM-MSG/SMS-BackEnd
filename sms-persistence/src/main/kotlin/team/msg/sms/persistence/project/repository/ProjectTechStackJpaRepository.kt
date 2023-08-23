@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
 import team.msg.sms.persistence.project.entity.ProjectJpaEntity
 import team.msg.sms.persistence.project.entity.ProjectTechStackJpaEntity
+import team.msg.sms.persistence.techstack.entity.TechStackJpaEntity
 
 interface ProjectTechStackJpaRepository : CrudRepository<ProjectTechStackJpaEntity, Long> {
     fun findAllByProjectId(projectId: Long): List<ProjectTechStackJpaEntity>
@@ -13,4 +14,6 @@ interface ProjectTechStackJpaRepository : CrudRepository<ProjectTechStackJpaEnti
     @Modifying
     @Query("delete from ProjectTechStackJpaEntity pt where pt.project.id in :projects")
     fun deleteAllByProjects(@Param("projects") projects: List<Long>)
+
+    fun deleteByProjectAndTechStack(project: ProjectJpaEntity, techStack: TechStackJpaEntity)
 }

@@ -7,12 +7,14 @@ import team.msg.sms.domain.project.model.Project
 import team.msg.sms.domain.project.model.ProjectTechStack
 import team.msg.sms.domain.project.spi.ProjectTechStackPort
 import team.msg.sms.domain.student.exception.StudentNotFoundException
+import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.persistence.project.mapper.toDomain
 import team.msg.sms.persistence.project.mapper.toEntity
 import team.msg.sms.persistence.project.repository.ProjectJpaRepository
 import team.msg.sms.persistence.project.repository.ProjectTechStackJpaRepository
 import team.msg.sms.persistence.student.entity.StudentJpaEntity
 import team.msg.sms.persistence.student.repository.StudentJpaRepository
+import team.msg.sms.persistence.techstack.mapper.toEntity
 import team.msg.sms.persistence.techstack.repository.TechStackJpaRepository
 
 @Component
@@ -35,6 +37,13 @@ class ProjectTechStackPersistenceAdapter(
                     it.id
                 }
         )
+    }
+
+    override fun deleteByProjectIdAndTechStack(projectId: Long, techStack: TechStack) {
+        val projectJpaEntity = (projectRepository.findByIdOrNull(projectId)
+            ?: throw ProjectNotFoundException)
+        val techStackJpaEntity = techStack.toEntity()
+        projectTechStackRepository.deleteByProjectAndTechStack(projectJpaEntity, techStackJpaEntity)
     }
 
     override fun queryAllByProjectId(projectId: Long): List<ProjectTechStack> =
