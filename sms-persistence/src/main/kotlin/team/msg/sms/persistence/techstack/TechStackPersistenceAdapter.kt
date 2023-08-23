@@ -34,5 +34,5 @@ class TechStackPersistenceAdapter(
         techStackJpaRepository.findAllWithCountGreaterThanTwo().map { it.toDomain() }
 
     override fun queryAllByStack(stack: String): List<TechStack> =
-        techStackJpaRepository.findByStackStartingWithCountGreaterThanTwo("$stack%").map { it.toDomain() }
+        techStackJpaRepository.findByStackStartingWithCountGreaterThanTwo(stack).map { it.toDomain() }
 }
