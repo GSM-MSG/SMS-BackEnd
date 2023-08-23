@@ -33,6 +33,12 @@ class ImagePersistenceAdapter(
             })
     }
 
+    override fun deleteByImage(image: Image, project: Project) {
+        val project = projectJpaRepository.findByIdOrNull(project.id)
+            ?: throw ProjectNotFoundException
+        imageJpaRepository.delete(image.toEntity(project))
+    }
+
     override fun queryAllByProjectId(projectId: Long): List<Image> =
         imageJpaRepository.findAllByProjectId(projectId)
             .map {
