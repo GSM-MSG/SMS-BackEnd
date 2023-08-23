@@ -10,7 +10,7 @@ import javax.validation.constraints.*
 data class ModifyStudentInfoWebRequest(
     val major: String,
 
-    val studentTechStacks: List<String>,
+    val techStacks: List<String>,
 
     @field:NotBlank
     @field:Pattern(regexp = "^https://.*")
@@ -27,7 +27,7 @@ data class ModifyStudentInfoWebRequest(
     @field:Email
     val contactEmail: String,
 
-    val region: List<String>,
+    val regions: List<String>,
 
     val formOfEmployment: FormOfEmployment,
 
@@ -37,11 +37,11 @@ data class ModifyStudentInfoWebRequest(
     @field:NotNull
     val salary: Int,
 
-    val languageCertificate: List<LanguageCertificateWebRequest>,
+    val languageCertificates: List<LanguageCertificateWebRequest>,
 
     val militaryService: MilitaryService,
 
-    val certificate: List<String>,
+    val certificates: List<String>,
 
     val projects: List<ProjectRequestData>,
 
@@ -50,18 +50,18 @@ data class ModifyStudentInfoWebRequest(
     fun toData(): ModifyStudentInfoRequestData =
         ModifyStudentInfoRequestData(
             major = major,
-            studentTechStacks = studentTechStacks,
+            techStacks = techStacks,
             profileImgUrl = profileImgUrl,
             introduce = introduce,
             portfolioUrl = portfolioUrl,
             contactEmail = contactEmail,
             formOfEmployment = formOfEmployment,
             gsmAuthenticationScore = gsmAuthenticationScore,
-            region = region,
+            regions = regions,
             salary = salary,
-            languageCertificate = languageCertificate.map { it.toData() },
+            languageCertificates = languageCertificates.map { it.toData() },
             militaryService = militaryService,
-            certificate = certificate,
+            certificates = certificates,
             projects = projects,
             prizes = prizes
         )

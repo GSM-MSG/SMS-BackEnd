@@ -74,7 +74,7 @@ class ModifyStudentInfoUseCase(
 
         // 기술 스택 지우기 수정
         val removedTechStacks =
-            studentTechStackService.checkRemovedTechStacks(techStackNames, modifyStudentInfoData.studentTechStacks)
+            studentTechStackService.checkRemovedTechStacks(techStackNames, modifyStudentInfoData.techStacks)
         if (removedTechStacks.isNotEmpty()) {
             removedTechStacks.forEach {
                 val findTechStackModel = findTechStackModel(techStacks, it)
@@ -90,20 +90,20 @@ class ModifyStudentInfoUseCase(
 
         // 기술 스택 추가 수정
         val addedTechStacks =
-            studentTechStackService.checkAddedTechStacks(techStackNames, modifyStudentInfoData.studentTechStacks)
+            studentTechStackService.checkAddedTechStacks(techStackNames, modifyStudentInfoData.techStacks)
         if (addedTechStacks.isNotEmpty()) {
             updateStudentTechStacks(techStacks.toMutableList(), addedTechStacks, student.id)
         }
 
         // 근무 지역 추가 수정
-        val removedRegions = regionService.checkRemovedRegion(regions, modifyStudentInfoData.region)
+        val removedRegions = regionService.checkRemovedRegion(regions, modifyStudentInfoData.regions)
         if (removedRegions.isNotEmpty()) {
             removedRegions.forEach {
                 regionService.deleteByRegion(it, student)
             }
         }
 
-        val addedRegions = regionService.checkAddedRegion(regions, modifyStudentInfoData.region)
+        val addedRegions = regionService.checkAddedRegion(regions, modifyStudentInfoData.regions)
         if (addedRegions.isNotEmpty()) {
             val regions = addedRegions.map { toRegionModel(it, student.id) }
             regionService.saveAll(regions)
@@ -111,14 +111,14 @@ class ModifyStudentInfoUseCase(
 
         // 자격증 추가 수정
         val addedCertificate =
-            certificateService.checkAddedCertificate(certificates, modifyStudentInfoData.certificate)
+            certificateService.checkAddedCertificate(certificates, modifyStudentInfoData.certificates)
         if (addedCertificate.isNotEmpty()) {
             val certificates = addedCertificate.map { toCertificateModel(it, student.id) }
             certificateService.saveAll(certificates)
         }
 
         val removedCertificate =
-            certificateService.checkRemovedCertificate(certificates, modifyStudentInfoData.certificate)
+            certificateService.checkRemovedCertificate(certificates, modifyStudentInfoData.certificates)
         if (removedCertificate.isNotEmpty()) {
             removedCertificate.forEach {
                 certificateService.deleteByCertificate(it, student)
@@ -128,7 +128,7 @@ class ModifyStudentInfoUseCase(
         // 외국어 추가 수정
         val addedLanguageCertificate = languageCertificateService.checkAddedLanguageCertificate(
             languageCertificates,
-            modifyStudentInfoData.languageCertificate.map { toLanguageCertificateModel(it, student.id) }
+            modifyStudentInfoData.languageCertificates.map { toLanguageCertificateModel(it, student.id) }
         )
         if (addedLanguageCertificate.isNotEmpty()) {
             languageCertificateService.saveAll(addedLanguageCertificate)
@@ -137,7 +137,7 @@ class ModifyStudentInfoUseCase(
         // 외국어 추가 수정
         val removedLanguageCertificate = languageCertificateService.checkRemovedLanguageCertificate(
             languageCertificates,
-            modifyStudentInfoData.languageCertificate.map { toLanguageCertificateModel(it, student.id) }
+            modifyStudentInfoData.languageCertificates.map { toLanguageCertificateModel(it, student.id) }
         )
         if (removedLanguageCertificate.isNotEmpty()) {
             removedLanguageCertificate.forEach {
