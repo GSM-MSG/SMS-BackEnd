@@ -7,7 +7,7 @@ import team.msg.sms.domain.file.spi.ImagePort
 import team.msg.sms.domain.project.model.Project
 
 @Service
-class CommandImageServiceImp(
+class CommandImageServiceImpl(
     private val imagePort: ImagePort
 ) : CommandImageService {
     override fun saveAll(images: List<Image>) =
@@ -15,4 +15,7 @@ class CommandImageServiceImp(
 
     override fun deleteAllByProjects(projects: List<Project>) =
         imagePort.deleteAllByProjects(projects)
+
+    override fun deleteByImage(image: Image, project: Project) =
+        imagePort.deleteByImage(image, project)
 }

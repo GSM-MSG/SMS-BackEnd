@@ -6,4 +6,5 @@ import team.msg.sms.domain.project.model.Project
 interface CommandImagePort {
     fun saveAll(images: List<Image>)
     fun deleteAllByProjects(projects: List<Project>)
+    fun deleteByImage(image: Image, project: Project)
 }
