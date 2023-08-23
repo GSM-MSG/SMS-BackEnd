@@ -6,4 +6,5 @@ import team.msg.sms.domain.student.model.Student
 interface CommandProjectPort {
     fun save(project: Project): Project
     fun deleteAllByStudent(student: Student)
+    fun deleteByProject(project: Project, student: Student)
 }

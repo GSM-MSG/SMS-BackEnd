@@ -28,6 +28,11 @@ class ProjectPersistenceAdapter(
         projectRepository.deleteAll(project)
     }
 
+    override fun deleteByProject(project: Project, student: Student) {
+        val student = studentRepository.findByIdOrNull(student.id) ?: throw StudentNotFoundException
+        projectRepository.delete(project.toEntity(student))
+    }
+
     override fun queryAllProjectByStudentId(studentId: UUID): List<Project> {
         val student = studentRepository.findByIdOrNull(studentId)
             ?: throw StudentNotFoundException
