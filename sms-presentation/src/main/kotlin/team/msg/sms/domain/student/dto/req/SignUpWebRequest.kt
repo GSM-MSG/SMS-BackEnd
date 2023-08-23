@@ -27,7 +27,7 @@ data class SignUpWebRequest(
     @field:Email
     val contactEmail: String,
 
-    val region: List<String>,
+    val regions: List<String>,
 
     val formOfEmployment: FormOfEmployment,
 
@@ -37,11 +37,11 @@ data class SignUpWebRequest(
     @field:NotNull
     val salary: Int,
 
-    val languageCertificate: List<LanguageCertificateWebRequest>,
+    val languageCertificates: List<LanguageCertificateWebRequest>,
 
     val militaryService: MilitaryService,
 
-    val certificate: List<String>,
+    val certificates: List<String>,
 
     val projects: List<ProjectRequestData>,
 
@@ -57,11 +57,11 @@ data class SignUpWebRequest(
             contactEmail = contactEmail,
             formOfEmployment = formOfEmployment,
             gsmAuthenticationScore = gsmAuthenticationScore,
-            region = region,
+            regions = regions,
             salary = salary,
-            languageCertificate = languageCertificate.map { it.toData() },
+            languageCertificates = languageCertificates.map { it.toData() },
             militaryService = militaryService,
-            certificate = certificate,
+            certificates = certificates,
             projects = projects,
             prizes = prizes
         )

@@ -42,8 +42,8 @@ class AuthWebAdapter(
         @Valid @RequestHeader(name = "Refresh-Token", required = false) refreshToken: String?,
         httpServletResponse: HttpServletResponse
     ): ResponseEntity<Void> {
-        if (refreshToken != null) logoutUseCase.execute(refreshToken)
-        else {
+        if(refreshToken != null) logoutUseCase.execute(refreshToken)
+            else {
             expiredCookie(httpServletResponse, "accessToken")
             expiredCookie(httpServletResponse, "refreshToken")
         }

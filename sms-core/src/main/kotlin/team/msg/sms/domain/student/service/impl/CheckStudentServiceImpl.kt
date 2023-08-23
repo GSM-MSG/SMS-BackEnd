@@ -16,6 +16,8 @@ class CheckStudentServiceImpl (
         if(studentPort.existsStudentByUser(user))
             throw StudentAlreadyException
     }
+    override fun studentExistsByUser(user: User): Boolean =
+        studentPort.existsStudentByUser(user)
 
     override fun checkNewStudent(user: User, role: String): Boolean {
         return when (role) {
