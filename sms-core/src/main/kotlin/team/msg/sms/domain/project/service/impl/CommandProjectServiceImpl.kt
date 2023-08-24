@@ -16,17 +16,15 @@ class CommandProjectServiceImpl(
     override fun saveOrUpdateProject(student: Student, project: Project): Project {
         if (project.id != 0L) {
             val existingProject = projectPort.queryOneByProject(project)
-            if (existingProject != null) {
-                val updatedProject = existingProject.copy(
-                    title = project.title,
-                    description = project.description,
-                    projectIconUrl = project.projectIconUrl,
-                    myActivity = project.myActivity,
-                    startDate = project.startDate,
-                    endDate = project.endDate
-                )
-                return projectPort.save(updatedProject)
-            }
+            val updatedProject = existingProject.copy(
+                title = project.title,
+                description = project.description,
+                projectIconUrl = project.projectIconUrl,
+                myActivity = project.myActivity,
+                startDate = project.startDate,
+                endDate = project.endDate
+            )
+            return projectPort.save(updatedProject)
         }
 
         return projectPort.save(project)
