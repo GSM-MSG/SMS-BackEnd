@@ -18,14 +18,16 @@ class ProjectLinkPersistenceAdapter(
     val projectJpaRepository: ProjectJpaRepository
 ) : ProjectLinkPort {
     override fun saveAll(projectLinks: List<ProjectLink>) {
-        val project = projectJpaRepository.findByIdOrNull(projectLinks.first().projectId)
-            ?: throw ProjectNotFoundException
-        projectLinkJpaRepository.saveAll(
-            projectLinks
-                .map {
-                    it.toEntity(project)
-                }
-        )
+        if(projectLinks.isNotEmpty()) {
+            val project = projectJpaRepository.findByIdOrNull(projectLinks.first().projectId)
+                ?: throw ProjectNotFoundException
+            projectLinkJpaRepository.saveAll(
+                projectLinks
+                    .map {
+                        it.toEntity(project)
+                    }
+            )
+        }
     }
 
     override fun deleteAllByProjects(projects: List<Project>) {
