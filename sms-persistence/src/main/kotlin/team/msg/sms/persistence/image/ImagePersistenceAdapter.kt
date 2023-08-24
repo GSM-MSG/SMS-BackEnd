@@ -2,6 +2,7 @@ package team.msg.sms.persistence.image
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.msg.sms.domain.file.exception.ImageNotFoundException
 import team.msg.sms.domain.file.model.Image
 import team.msg.sms.domain.file.spi.ImagePort
 import team.msg.sms.domain.project.exception.ProjectNotFoundException
@@ -47,5 +48,5 @@ class ImagePersistenceAdapter(
 
     override fun queryByImageUrlAndProjectId(imageUrl: String, projectId: Long): Image? =
         imageJpaRepository.findByImageUrlAndProjectId(imageUrl, projectId)?.toDomain()
-            ?: throw RuntimeException()
+            ?: throw ImageNotFoundException
 }
