@@ -16,6 +16,7 @@ fun Region.toEntity(
     student: StudentJpaEntity
 ): RegionJpaEntity =
     RegionJpaEntity(
+        id = id,
         region = region,
         student = student
     )

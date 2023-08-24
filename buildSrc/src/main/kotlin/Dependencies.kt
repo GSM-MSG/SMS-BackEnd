@@ -39,8 +39,17 @@ object Dependencies {
     // graphql
     const val GRAPHQL = "org.springframework.boot:spring-boot-starter-graphql"
 
+    // querydsl
+    const val QUERYDSL = "com.querydsl:querydsl-jpa:${DependencyVersions.QUERYDSL}"
+    const val QUERYDSL_PROCESSOR = "com.querydsl:querydsl-apt:${DependencyVersions.QUERYDSL}:jpa"
+
     // test
     const val SPRING_TEST = "org.springframework.boot:spring-boot-starter-test:${PluginVersions.SPRING_BOOT_VERSION}"
     const val MOCKK = "io.mockk:mockk:${DependencyVersions.MOCKK_VERSION}"
+
+    // kotest
+    const val KOTEST_JUNIT5 = "io.kotest:kotest-runner-junit5:${DependencyVersions.KOTEST_VERSION}"
+    const val KOTEST_ASSERTIONS_CORE = "io.kotest:kotest-assertions-core:${DependencyVersions.KOTEST_VERSION}"
+    const val KOTEST_EXTENSION_SPRING = "io.kotest.extensions:kotest-extensions-spring:${DependencyVersions.KOTEST_EXTENSION_VERSION}"
 
 }

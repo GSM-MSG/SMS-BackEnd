@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
+import team.msg.sms.domain.student.dto.req.ModifyStudentInfoWebRequest
 import team.msg.sms.domain.student.dto.req.SignUpWebRequest
 import team.msg.sms.domain.student.dto.res.*
 import team.msg.sms.domain.student.usecase.*
@@ -17,7 +18,8 @@ class StudentWebAdapter(
     private val findAllUseCase: FindAllUseCase,
     private val studentInfoAnonymousUseCase: StudentInfoAnonymousUseCase,
     private val studentInfoDetailUseCase: StudentInfoDetailUseCase,
-    private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase
+    private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase,
+    private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase
 ) {
     @GetMapping
     fun findAll(
@@ -33,9 +35,14 @@ class StudentWebAdapter(
         signUpUseCase.execute(signUpWebRequest.toData())
             .run { ResponseEntity.ok().build() }
 
+    @PutMapping
+    fun modifyStudentInfo(@RequestBody modifyStudentInfoWebRequest: ModifyStudentInfoWebRequest) {
+        modifyStudentInfoUseCase.execute(modifyStudentInfoWebRequest.toData())
+    }
+
     @GetMapping("/anonymous/{uuid}")
     fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousWebResponse> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         return studentInfoAnonymousUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -49,7 +56,7 @@ class StudentWebAdapter(
 
     @GetMapping("/teacher/{uuid}")
     fun findForTeacherRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoTeacherWebResponse> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         return studentInfoTeacherUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -69,7 +76,9 @@ class StudentWebAdapter(
             introduce = this.introduce,
             major = this.major,
             profileImg = this.profileImg,
-            techStack = this.techStack
+            techStacks = this.techStacks,
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     fun DetailStudentInfoResponseData.toResponse(): DetailStudentInfoWebResponse =
@@ -82,7 +91,9 @@ class StudentWebAdapter(
             department = this.department,
             major = this.major,
             profileImg = this.profileImg,
-            techStack = this.techStack
+            techStacks = this.techStacks,
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     fun DetailStudentInfoTeacherResponseData.toResponse(): DetailStudentInfoTeacherWebResponse =
@@ -95,7 +106,6 @@ class StudentWebAdapter(
             department = this.department,
             major = this.major,
             profileImg = this.profileImg,
-            dreamBookFileUrl = this.dreamBookFileUrl,
             contactEmail = this.contactEmail,
             techStacks = this.techStacks,
             formOfEmployment = this.formOfEmployment,
@@ -105,7 +115,9 @@ class StudentWebAdapter(
             gsmAuthenticationScore = this.gsmAuthenticationScore,
             salary = this.salary,
             languageCertificates = this.languageCertificates,
-            regions = this.regions
+            regions = this.regions,
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     private fun isValidUUID(uuid: String): Boolean {

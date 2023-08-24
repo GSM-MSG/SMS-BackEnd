@@ -9,13 +9,13 @@ class QueryAllTechStackUseCase(
     private val techStackService: TechStackService
 ) {
     fun execute(stack: String?): TechStacksResponseData {
-        val techStack = if (stack == null) techStackService.getAllTechStack()
-            .map { it.stack }.distinct() else techStackService.getAllTechStackByStack(
-            stack
-        ).map { it.stack }.distinct()
+        val techStack = if (stack == null) techStackService.getAllTechStackByCount()
+            .map { it.stack }
+        else techStackService.getAllTechStackByStack(stack)
+            .map { it.stack }
 
         return TechStacksResponseData(
-            techStack = if (techStack.size > 30) techStack
+            techStacks = if (techStack.size > 30) techStack
                 .slice(0..30)
             else techStack
         )

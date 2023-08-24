@@ -42,8 +42,8 @@ class AuthWebAdapter(
         @Valid @RequestHeader(name = "Refresh-Token", required = false) refreshToken: String?,
         httpServletResponse: HttpServletResponse
     ): ResponseEntity<Void> {
-        if (refreshToken != null) logoutUseCase.execute(refreshToken)
-        else {
+        if(refreshToken != null) logoutUseCase.execute(refreshToken)
+            else {
             expiredCookie(httpServletResponse, "accessToken")
             expiredCookie(httpServletResponse, "refreshToken")
         }
@@ -63,7 +63,6 @@ class AuthWebAdapter(
     private fun createCookie(httpServletResponse: HttpServletResponse, value: String, token: String, maxAge: Int) {
         val cookie = Cookie(value, token)
         cookie.isHttpOnly = true
-        cookie.domain = "port-0-sms-backend-otjl2cli2nay6y.sel4.cloudtype.app"
         cookie.maxAge = maxAge
         httpServletResponse.addCookie(cookie)
     }
