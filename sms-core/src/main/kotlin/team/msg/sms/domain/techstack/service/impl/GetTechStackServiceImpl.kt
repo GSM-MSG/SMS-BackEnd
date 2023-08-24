@@ -18,4 +18,7 @@ class GetTechStackServiceImpl(
 
     override fun getAllTechStackByStack(stack: String): List<TechStack> =
         techStackPort.queryAllByStack(stack)
+
+    override fun getTechStackByStack(stack: String): TechStack =
+        techStackPort.queryTechStackByStack(stack)
 }
