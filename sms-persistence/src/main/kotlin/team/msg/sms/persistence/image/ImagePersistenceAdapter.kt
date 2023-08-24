@@ -44,4 +44,8 @@ class ImagePersistenceAdapter(
             .map {
                 it.toDomain()
             }
+
+    override fun queryByImageUrlAndProjectId(imageUrl: String, projectId: Long): Image? =
+        imageJpaRepository.findByImageUrlAndProjectId(imageUrl, projectId)?.toDomain()
+            ?: throw RuntimeException()
 }
