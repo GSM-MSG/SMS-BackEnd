@@ -6,4 +6,5 @@ interface GetTechStackService {
     fun getAllTechStack(): List<TechStack>
     fun getAllTechStackByCount(): List<TechStack>
     fun getAllTechStackByStack(stack: String): List<TechStack>
+    fun getTechStackByStack(stack: String): TechStack
 }
