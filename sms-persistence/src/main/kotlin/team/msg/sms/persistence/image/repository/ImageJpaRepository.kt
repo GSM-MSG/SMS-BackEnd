@@ -14,4 +14,6 @@ interface ImageJpaRepository : CrudRepository<ImageJpaEntity, Long>{
     fun deleteAllByProjects(@Param("projects") projects: List<Long>)
 
     fun findAllByProjectId(projectId: Long): List<ImageJpaEntity>
+
+    fun findByImageUrlAndProjectId(imageUrl: String, projectId: Long): ImageJpaEntity?
 }
