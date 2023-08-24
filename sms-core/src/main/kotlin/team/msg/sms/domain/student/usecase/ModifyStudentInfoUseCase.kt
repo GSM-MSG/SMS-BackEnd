@@ -335,7 +335,7 @@ class ModifyStudentInfoUseCase(
             }
 
             techStack?.let {
-                stack.add(it)
+                stack.add(0, it)
                 projectTechStackService.save(toProjectTechStackModel(projectId, it.id))
             }
         }
