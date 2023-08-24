@@ -7,48 +7,77 @@ import team.msg.sms.common.service.SecurityService
 import team.msg.sms.domain.student.dto.req.FiltersRequestData
 import team.msg.sms.domain.student.dto.res.MainStudentsResponseData
 import team.msg.sms.domain.student.dto.res.StudentInfoListResponseData
+import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.StudentService
+import team.msg.sms.domain.student.service.StudentTechStackService
 import team.msg.sms.domain.techstack.service.TechStackService
 
 @UseCase
 class FindAllUseCase(
     private val studentService: StudentService,
     private val techStackService: TechStackService,
+    private val studentTechStackservice: StudentTechStackService,
     private val securityService: SecurityService
 ) {
     @Transactional
-    @Cacheable(value = ["StudentInfoListResponseData"], key = "#root.target.generateCacheKey(#page, #size)", cacheManager = "contentCacheManager", condition = "!#root.target.isCurrentAnonymous()")
+    @Cacheable(
+        value = ["StudentInfoListResponseData"],
+        key = "#root.target.generateCacheKey(#page, #size)",
+        cacheManager = "contentCacheManager",
+    )
     fun execute(page: Int, size: Int, filtersData: FiltersRequestData): StudentInfoListResponseData {
-        val studentsWithPageInfo = studentService.getStudentsWithPage(page, size)
+        val students = studentService.getStudents()
         val techStacks = techStackService.getAllTechStack()
         val currentRole = securityService.getCurrentUserRole()
+        val studentTechStacks = studentTechStackservice.getStudentTechStack()
 
-        val students = studentService.matchStudentWithTechStacks(studentsWithPageInfo.students, techStacks, currentRole)
+        val studentsWithUserInfo =
+            studentService.matchStudentWithTechStacks(students, techStacks, studentTechStacks, currentRole)
 
-        val filterStudents = studentService.filterStudents(students, filtersData, currentRole)
+        val filterStudents = studentService.filterStudents(studentsWithUserInfo, filtersData, currentRole)
 
-        val studentsResponses = filterStudents.map {
-            MainStudentsResponseData(
-                id = it.id,
-                major = it.major,
-                profileImg = it.profileImgUrl,
-                name = it.name,
-                techStack = it.techStack
-            )
-        }
+        val studentPage = filterStudents.toDomainPageWithUserInfo(page, size)
+
         return StudentInfoListResponseData(
-            content = studentsResponses,
-            page = studentsWithPageInfo.page,
-            contentSize = filterStudents.size,
-            totalSize = studentsWithPageInfo.totalSize,
-            last = studentsWithPageInfo.last
+            content = studentPage.students.toMainStudentsResponseData(),
+            page = studentPage.page,
+            contentSize = studentPage.contentSize,
+            totalSize = studentPage.totalSize,
+            last = studentPage.last
         )
     }
-
-    fun generateCacheKey(page: Int, size: Int): String {
-        return "$page-$size"
-    }
-
-    fun isCurrentAnonymous(): Boolean =
-        securityService.isAnonymous()
 }
+
+fun generateCacheKey(page: Int, size: Int): String {
+    return "$page-$size"
+}
+
+
+
+fun List<Student.StudentWithUserInfo>.toDomainPageWithUserInfo(page: Int, size: Int): Student.StudentWithPageInfo {
+    val startIndex = (page - 1) * size
+    val endIndex = (startIndex + size).coerceAtMost(this.size)
+    val content = if (startIndex <= endIndex) this.subList(startIndex, endIndex) else emptyList()
+
+    val totalPages = (this.size + size - 1) / size
+    val isLast = page >= totalPages
+
+    return Student.StudentWithPageInfo(
+        students = content,
+        page = page,
+        contentSize = content.size,
+        totalSize = this.size.toLong(),
+        last = isLast
+    )
+}
+
+fun List<Student.StudentWithUserInfo>.toMainStudentsResponseData(): List<MainStudentsResponseData> =
+    this.map {
+        MainStudentsResponseData(
+            id = it.id,
+            major = it.major,
+            profileImg = it.profileImgUrl,
+            name = it.name,
+            techStacks = it.techStack
+        )
+    }

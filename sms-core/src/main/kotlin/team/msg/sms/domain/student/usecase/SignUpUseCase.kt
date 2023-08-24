@@ -4,9 +4,22 @@ import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
+import team.msg.sms.domain.file.model.Image
+import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
 import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
+import team.msg.sms.domain.prize.dto.req.PrizeRequestData
+import team.msg.sms.domain.prize.model.Prize
+import team.msg.sms.domain.prize.service.PrizeService
+import team.msg.sms.domain.project.dto.req.LinkRequestData
+import team.msg.sms.domain.project.dto.req.ProjectRequestData
+import team.msg.sms.domain.project.model.Project
+import team.msg.sms.domain.project.model.ProjectLink
+import team.msg.sms.domain.project.model.ProjectTechStack
+import team.msg.sms.domain.project.service.ProjectLinkService
+import team.msg.sms.domain.project.service.ProjectService
+import team.msg.sms.domain.project.service.ProjectTechStackService
 import team.msg.sms.domain.region.model.Region
 import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.dto.req.SignUpRequestData
@@ -14,22 +27,29 @@ import team.msg.sms.domain.student.exception.StuNumNotRightException
 import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Department
 import team.msg.sms.domain.student.model.Student
+import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.StudentService
+import team.msg.sms.domain.student.service.StudentTechStackService
 import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.domain.techstack.service.TechStackService
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
-import java.lang.Exception
-import java.util.UUID
+import java.util.*
 
 @UseCase
 class SignUpUseCase(
     private val studentService: StudentService,
+    private val studentTechStackService: StudentTechStackService,
     private val userService: UserService,
     private val techStackService: TechStackService,
     private val regionService: RegionService,
     private val languageCertificateService: LanguageCertificateService,
-    private val certificateService: CertificateService
+    private val certificateService: CertificateService,
+    private val projectService: ProjectService,
+    private val projectTechStackService: ProjectTechStackService,
+    private val projectLinkService: ProjectLinkService,
+    private val imageService: ImageService,
+    private val prizeService: PrizeService
 ) {
     @Transactional(rollbackFor = [Exception::class])
     fun execute(signUpData: SignUpRequestData) {
@@ -41,27 +61,67 @@ class SignUpUseCase(
 
         val student = studentService.saveStudent(signUpStudent, user)
 
-        techStackService.saveAll(
-            signUpData.techStack.map { toTechStackModel(techStack = it, studentId = student.id) },
-            student,
-            user
+        val techStacks = techStackService.getAllTechStack().toMutableList()
+
+        studentTechStackValid(
+            studentId = student.id,
+            stack = techStacks,
+            studentTechStacks = signUpData.techStacks
         )
 
-        regionService.saveAll(signUpData.region.map { toRegionModel(it, studentId = student.id) }, student, user)
-
-        languageCertificateService.saveAll(signUpData.languageCertificate.map {
-            toLanguageCertificate(
-                languageCertificate = it,
-                studentId = student.id
+        signUpData.projects.forEach {
+            val project = projectService.save(project = toProjectModel(it, studentId = student.id))
+            projectTechStackValid(techStacks, it.techStacks, project.id)
+            saveAllIfNotEmpty(
+                it.links,
+                { projectLink -> toProjectLinkModel(projectLink = projectLink, projectId = project.id) },
+                projectLinkService::saveAll
             )
-        }, student, user)
+            saveAllIfNotEmpty(
+                it.previewImages,
+                { previewImage -> toImageModel(url = previewImage, projectId = project.id) },
+                imageService::saveAll
+            )
+        }
 
-        certificateService.saveAll(
-            signUpData.certificate.map { toCertificate(certificate = it, studentId = student.id) },
-            student,
-            user
+        saveAllIfNotEmpty(
+            signUpData.regions,
+            { toRegionModel(region = it, studentId = student.id) },
+            regionService::saveAll
+        )
+
+        saveAllIfNotEmpty(
+            signUpData.languageCertificates,
+            { toLanguageCertificate(languageCertificate = it, studentId = student.id) },
+            languageCertificateService::saveAll
+        )
+
+        saveAllIfNotEmpty(
+            signUpData.certificates,
+            { toCertificate(certificate = it, studentId = student.id) },
+            certificateService::saveAll
+        )
+
+        saveAllIfNotEmpty(
+            signUpData.prizes,
+            { toPrizeModel(prize = it, studentId = student.id) },
+            prizeService::saveAll
         )
     }
+
+    private fun <T, R> saveAllIfNotEmpty(dataList: List<T>, transform: (T) -> R, saveFunction: (List<R>) -> Unit) {
+        dataList
+            .takeIf { it.isNotEmpty() }
+            ?.map { transform(it) }
+            ?.let { saveFunction(it) }
+    }
+
+    private fun toImageModel(url: String, projectId: Long): Image =
+        Image(
+            id = 0,
+            imageUrl = url,
+            projectId = projectId
+        )
 
     private fun toRegionModel(region: String, studentId: UUID): Region =
         Region(
@@ -69,14 +129,6 @@ class SignUpUseCase(
             region = region,
             studentId = studentId
         )
-
-    private fun toTechStackModel(techStack: String, studentId: UUID): TechStack =
-        TechStack(
-            id = 0,
-            stack = techStack,
-            studentId = studentId,
-        )
-
 
     private fun toCertificate(certificate: String, studentId: UUID): Certificate =
         Certificate(
@@ -92,8 +144,15 @@ class SignUpUseCase(
         LanguageCertificate(
             id = 0,
             languageCertificateName = languageCertificate.languageCertificateName,
-            score = languageCertificate.languageCertificateName,
+            score = languageCertificate.languageCertificateScore,
             studentId = studentId
+        )
+
+    private fun toStackModel(stack: String): TechStack =
+        TechStack(
+            id = 0,
+            stack = stack,
+            count = 0
         )
 
     private fun toStudentModel(signUpData: SignUpRequestData, user: User): Student =
@@ -103,7 +162,6 @@ class SignUpUseCase(
             contactEmail = signUpData.contactEmail,
             major = signUpData.major,
             portfolioUrl = signUpData.portfolioUrl,
-            dreamBookFileUrl = signUpData.dreamBookFileUrl,
             gsmAuthenticationScore = signUpData.gsmAuthenticationScore,
             salary = signUpData.salary,
             formOfEmployment = signUpData.formOfEmployment,
@@ -113,8 +171,92 @@ class SignUpUseCase(
             userId = user.id
         )
 
+    private fun toProjectModel(projectRequestData: ProjectRequestData, studentId: UUID): Project {
+        return Project(
+            id = 0,
+            description = projectRequestData.description,
+            projectIconUrl = projectRequestData.icon,
+            title = projectRequestData.name,
+            myActivity = projectRequestData.myActivity,
+            startDate = projectRequestData.inProgress.start,
+            endDate = projectRequestData.inProgress.end,
+            studentId = studentId
+        )
+    }
+
+    private fun toProjectTechStackModel(projectId: Long, techStackId: Long): ProjectTechStack =
+        ProjectTechStack(
+            id = 0,
+            projectId = projectId,
+            techStackId = techStackId
+        )
+
+    private fun toProjectLinkModel(projectLink: LinkRequestData, projectId: Long): ProjectLink =
+        ProjectLink(
+            id = 0,
+            name = projectLink.name,
+            url = projectLink.url,
+            projectId = projectId
+        )
+
+    private fun toStudentTechStackModel(studentId: UUID, techStackId: Long): StudentTechStack =
+        StudentTechStack(
+            id = 0,
+            studentId = studentId,
+            techStackId = techStackId
+        )
+
+    private fun toPrizeModel(prize: PrizeRequestData, studentId: UUID) =
+        Prize(
+            id = 0,
+            name = prize.name,
+            type = prize.type,
+            date = prize.date,
+            studentId = studentId
+        )
+
+    private fun projectTechStackValid(
+        stack: MutableList<TechStack>,
+        projectTechStacks: List<String>,
+        projectId: Long
+    ) {
+        for (stackItem in projectTechStacks) {
+            val techStackData = stack.find { it.stack == stackItem }
+            if (techStackData == null) {
+                val techStack = techStackService.save(toStackModel(stackItem))
+                stack.add(0, techStack)
+                projectTechStackService.save(toProjectTechStackModel(projectId, techStack.id))
+
+            } else {
+                val techStack = techStackService.save(techStackData.copy(count = techStackData.count + 1))
+                stack.add(0, techStack)
+                projectTechStackService.save(toProjectTechStackModel(projectId, techStack.id))
+            }
+        }
+    }
+
+    private fun studentTechStackValid(
+        stack: MutableList<TechStack>,
+        studentTechStacks: List<String>,
+        studentId: UUID
+    ) {
+        for (stackItem in studentTechStacks) {
+            val techStackData = stack.find { it.stack == stackItem }
+            if (techStackData == null) {
+                val techStack = techStackService.save(toStackModel(stackItem))
+                stack.add(0, techStack)
+                studentTechStackService.save(toStudentTechStackModel(studentId, techStack.id))
+            } else {
+                val techStack =
+                    techStackService.save(techStack = techStackData.copy(count = techStackData.count + 1))
+                stack.add(0, techStack)
+                studentTechStackService.save(toStudentTechStackModel(studentId, techStack.id))
+            }
+        }
+    }
+
     private fun findDepartment(stuNum: String): Department {
-        if(stuNum.isEmpty())
+        if (stuNum.isEmpty())
             throw StudentNotFoundException
         val departmentCode = stuNum.slice(IntRange(1, 1))
         return when {

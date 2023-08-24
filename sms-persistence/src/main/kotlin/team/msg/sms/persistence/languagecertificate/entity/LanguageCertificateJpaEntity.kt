@@ -11,6 +11,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "language_certificate")
 class LanguageCertificateJpaEntity(
+    override val id: Long,
 
     val languageCertificateName: String,
 

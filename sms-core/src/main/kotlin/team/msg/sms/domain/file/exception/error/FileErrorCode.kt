@@ -9,6 +9,7 @@ enum class FileErrorCode(
 ) : ErrorProperty {
     IMAGE_INVALID_EXTENSION(ErrorStatus.BAD_REQUEST, "Allowed Extension : jpg(JPG), jpeg(JPEG), png(PNG), heic(HEIC)"),
     FILE_INVALID_EXTENSION(ErrorStatus.BAD_REQUEST, "Allowed Extension : hwp(HWP)"),
+    IMAGE_NOT_FOUND(ErrorStatus.NOT_FOUND, "Image is not found Exception"),
     IO_INTERRUPTED(ErrorStatus.INTERNAL_SERVER_ERROR, "Interrupted File IO");
 
     override fun status(): Int = status

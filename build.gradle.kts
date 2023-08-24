@@ -11,6 +11,10 @@ subprojects {
 		plugin("org.jetbrains.kotlin.jvm")
 		version = PluginVersions.JVM_VERSION
 	}
+	apply {
+		plugin("org.jetbrains.kotlin.kapt")
+		version = PluginVersions.KAPT_VERSION
+	}
 
 	dependencies {
 		// kotlin
@@ -24,6 +28,10 @@ subprojects {
 		// test
 		implementation(Dependencies.SPRING_TEST)
 		implementation(Dependencies.MOCKK)
+
+		testImplementation(Dependencies.KOTEST_JUNIT5)
+		testImplementation(Dependencies.KOTEST_ASSERTIONS_CORE)
+		testImplementation(Dependencies.KOTEST_EXTENSION_SPRING)
 	}
 }
 

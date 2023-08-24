@@ -6,16 +6,15 @@ import java.util.UUID
 @Aggregate
 data class Student(
     val id: UUID,
+    val major: String,
+    val introduce: String,
     val department: Department,
     val contactEmail: String,
-    val major: String,
-    val portfolioUrl: String?,
-    val dreamBookFileUrl: String?,
-    val gsmAuthenticationScore: Int,
-    val salary: Int,
     val formOfEmployment: FormOfEmployment,
-    val introduce: String,
+    val gsmAuthenticationScore: Int,
     val militaryService: MilitaryService,
+    val portfolioUrl: String?,
+    val salary: Int,
     val profileImgUrl: String,
     val userId: UUID
 ) {
@@ -30,11 +29,11 @@ data class Student(
         val gsmAuthenticationScore: Int,
         val militaryService: MilitaryService,
         val portfolioUrl: String?,
-        val dreamBookFileUrl: String?,
         val salary: Int,
         val name: String,
         val profileImgUrl: String,
-        val techStack: List<String>
+        val techStack: List<String>,
+        val userId: UUID
     )
 
     data class StudentWithPageInfo(

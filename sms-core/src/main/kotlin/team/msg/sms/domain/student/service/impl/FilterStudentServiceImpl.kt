@@ -7,7 +7,6 @@ import team.msg.sms.domain.student.service.FilterStudentService
 
 @Service
 class FilterStudentServiceImpl(
-
 ) : FilterStudentService {
     override fun filterStudents(
         students: List<Student.StudentWithUserInfo>,
@@ -20,7 +19,6 @@ class FilterStudentServiceImpl(
             else -> this.filterStudentsForAnonymous(students, filters)
         }
 
-
     private fun filterStudentsForTeacher(
         students: List<Student.StudentWithUserInfo>,
         filters: FiltersRequestData
@@ -28,39 +26,45 @@ class FilterStudentServiceImpl(
         var filteredStudents = students
 
         filters.majors?.let { majors -> // 전공
-            filteredStudents = filteredStudents.filter { student ->
-                student.major in majors
-            }
+            if (filters.majors.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.major in majors
+                }
         }
 
         filters.techStacks?.let { techStacks -> // techStack
-            filteredStudents = filteredStudents.filter { student ->
-                student.techStack.intersect(techStacks.toSet()).isNotEmpty()
-            }
+            if (filters.techStacks.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.techStack.intersect(techStacks.toSet()).isNotEmpty()
+                }
         }
 
         filters.grade?.let { grade ->
-            filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(0, 1).toInt() in grade
-            }
+            if (filters.grade.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.stuNum.substring(0, 1).toInt() in grade
+                }
         }
 
+
         filters.classNum?.let { classNum ->
-            filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(1, 2).toInt() in classNum
-            }
+            if (filters.classNum.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.stuNum.substring(1, 2).toInt() in classNum
+                }
         }
 
         filters.department?.let { departments ->
-            filteredStudents = filteredStudents.filter { student ->
-                student.department.name in departments
-            }
+            if (filters.department.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.department.name in departments
+                }
         }
-
         filters.formOfEmployment?.let { formOfEmployments ->
-            filteredStudents = filteredStudents.filter { student ->
-                student.formOfEmployment.name in formOfEmployments
-            }
+            if (filters.formOfEmployment.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.formOfEmployment.name in formOfEmployments
+                }
         }
 
         if (filters.minGsmAuthenticationScore != null && filters.maxGsmAuthenticationScore != null)
@@ -73,6 +77,7 @@ class FilterStudentServiceImpl(
                 student.salary >= filters.minSalary && student.salary <= filters.maxSalary
             }
         }
+
         filters.gsmAuthenticationScoreSort?.let { gsmScoreSort ->
             filteredStudents =
                 if (gsmScoreSort == "ASCENDING") filteredStudents.sortedBy { it.gsmAuthenticationScore }
@@ -94,6 +99,7 @@ class FilterStudentServiceImpl(
         return filteredStudents
     }
 
+
     private fun filterStudentsForStudent(
         students: List<Student.StudentWithUserInfo>,
         filters: FiltersRequestData
@@ -101,34 +107,43 @@ class FilterStudentServiceImpl(
         var filteredStudents = students
 
         filters.majors?.let { majors -> // 전공
-            filteredStudents = filteredStudents.filter { student ->
-                student.major in majors
-            }
+            if (filters.majors.isNotEmpty())
+
+                filteredStudents = filteredStudents.filter { student ->
+                    student.major in majors
+                }
         }
 
         filters.techStacks?.let { techStacks -> // techStack
-            filteredStudents = filteredStudents.filter { student ->
-                student.techStack.intersect(techStacks).isNotEmpty()
-            }
+            if (filters.techStacks.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.techStack.intersect(techStacks.toSet()).isNotEmpty()
+                }
         }
 
+
         filters.grade?.let { grade ->
-            filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(0, 1).toInt() in grade
-            }
+            if (filters.grade.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.stuNum.substring(0, 1).toInt() in grade
+                }
         }
 
         filters.classNum?.let { classNum ->
-            filteredStudents = filteredStudents.filter { student ->
-                student.stuNum.substring(1, 2).toInt() in classNum
-            }
+            if (filters.classNum.isNotEmpty())
+
+                filteredStudents = filteredStudents.filter { student ->
+                    student.stuNum.substring(1, 2).toInt() in classNum
+                }
         }
 
         filters.department?.let { departments ->
-            filteredStudents = filteredStudents.filter { student ->
-                student.department.name in departments
-            }
+            if (filters.department.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.department.name in departments
+                }
         }
+
 
         filters.stuNumSort?.let { stuNumSort ->
             filteredStudents =
@@ -146,15 +161,17 @@ class FilterStudentServiceImpl(
         var filteredStudents = students
 
         filters.majors?.let { majors -> // 전공
-            filteredStudents = filteredStudents.filter { student ->
-                student.major in majors
-            }
+            if (filters.majors.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.major in majors
+                }
         }
 
         filters.techStacks?.let { techStacks -> // techStack
-            filteredStudents = filteredStudents.filter { student ->
-                student.techStack.intersect(techStacks.toSet()).isNotEmpty()
-            }
+            if (filters.techStacks.isNotEmpty())
+                filteredStudents = filteredStudents.filter { student ->
+                    student.techStack.intersect(techStacks.toSet()).isNotEmpty()
+                }
         }
 
         return filteredStudents
