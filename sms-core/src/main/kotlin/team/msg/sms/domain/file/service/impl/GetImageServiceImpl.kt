@@ -11,4 +11,7 @@ class GetImageServiceImpl(
 ) : GetImageService {
     override fun getAllByProjectId(projectId: Long): List<Image> =
         imagePort.queryAllByProjectId(projectId)
+
+    override fun getByImageUrlAndProjectId(imageUrl: String, projectId: Long): Image? =
+        imagePort.queryByImageUrlAndProjectId(imageUrl, projectId)
 }
