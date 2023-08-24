@@ -62,7 +62,6 @@ class ModifyStudentInfoUseCase(
         val languageCertificates =
             languageCertificateService.getLanguageCertificateByStudentUuid(student.id)
         val prizes = prizeService.getAllPrizeByStudentId(student.id)
-        val projects = projectService.getAllProjectByStudentId(student.id)
 
         val modifyStudentInfoDataModel = toStudentModel(modifyStudentInfoData, user)
 
@@ -95,7 +94,7 @@ class ModifyStudentInfoUseCase(
             updateStudentTechStacks(techStacks.toMutableList(), addedTechStacks, student.id)
         }
 
-        // 근무 지역 추가 수정
+        // 근무 지역 지우기 수정
         val removedRegions = regionService.checkRemovedRegion(regions, modifyStudentInfoData.regions)
         if (removedRegions.isNotEmpty()) {
             removedRegions.forEach {
@@ -103,6 +102,7 @@ class ModifyStudentInfoUseCase(
             }
         }
 
+        // 근무 지역 추가 수정
         val addedRegions = regionService.checkAddedRegion(regions, modifyStudentInfoData.regions)
         if (addedRegions.isNotEmpty()) {
             val regions = addedRegions.map { toRegionModel(it, student.id) }
@@ -117,6 +117,7 @@ class ModifyStudentInfoUseCase(
             certificateService.saveAll(certificates)
         }
 
+        // 자격증 삭제 수정
         val removedCertificate =
             certificateService.checkRemovedCertificate(certificates, modifyStudentInfoData.certificates)
         if (removedCertificate.isNotEmpty()) {
@@ -134,7 +135,7 @@ class ModifyStudentInfoUseCase(
             languageCertificateService.saveAll(addedLanguageCertificate)
         }
 
-        // 외국어 추가 수정
+        // 외국어 삭제 수정
         val removedLanguageCertificate = languageCertificateService.checkRemovedLanguageCertificate(
             languageCertificates,
             modifyStudentInfoData.languageCertificates.map { toLanguageCertificateModel(it, student.id) }
@@ -154,6 +155,7 @@ class ModifyStudentInfoUseCase(
             prizeService.saveAll(addedPrize)
         }
 
+        // 상 삭제 수정
         val removedPrize = prizeService.checkRemovedPrize(
             prizes,
             modifyStudentInfoData.prizes.map { toPrizeModel(it, student.id) }
@@ -164,6 +166,7 @@ class ModifyStudentInfoUseCase(
             }
         }
 
+        // 프로젝트 추가 수정
         val currentProjects = projectService.getAllProjectByStudentId(student.id)
         val removedProjects = projectService.checkRemovedProject(
             currentProjects,
