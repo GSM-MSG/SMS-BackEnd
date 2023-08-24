@@ -15,4 +15,7 @@ class CommandPrizeServiceImpl(
 
     override fun deleteAllByStudent(student: Student) =
         prizePort.deleteAllByStudent(student)
+
+    override fun deleteByPrize(prize: Prize, student: Student) =
+        prizePort.deleteByPrize(prize, student)
 }

@@ -17,6 +17,7 @@ fun Prize.toEntity(
     studentJpaEntity: StudentJpaEntity
 ) =
     PrizeJpaEntity(
+        id = id,
         name = name,
         type = type,
         date = date,

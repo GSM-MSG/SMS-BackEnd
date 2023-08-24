@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
+import team.msg.sms.domain.student.dto.req.ModifyStudentInfoWebRequest
 import team.msg.sms.domain.student.dto.req.SignUpWebRequest
 import team.msg.sms.domain.student.dto.res.*
 import team.msg.sms.domain.student.usecase.*
@@ -17,7 +18,8 @@ class StudentWebAdapter(
     private val findAllUseCase: FindAllUseCase,
     private val studentInfoAnonymousUseCase: StudentInfoAnonymousUseCase,
     private val studentInfoDetailUseCase: StudentInfoDetailUseCase,
-    private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase
+    private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase,
+    private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase
 ) {
     @GetMapping
     fun findAll(
@@ -32,6 +34,11 @@ class StudentWebAdapter(
     fun signUpStudent(@RequestBody @Valid signUpWebRequest: SignUpWebRequest): ResponseEntity<Void> =
         signUpUseCase.execute(signUpWebRequest.toData())
             .run { ResponseEntity.ok().build() }
+
+    @PutMapping
+    fun modifyStudentInfo(@RequestBody modifyStudentInfoWebRequest: ModifyStudentInfoWebRequest) {
+        modifyStudentInfoUseCase.execute(modifyStudentInfoWebRequest.toData())
+    }
 
     @GetMapping("/anonymous/{uuid}")
     fun findForAnonymousRole(@PathVariable uuid: String): ResponseEntity<DetailStudentInfoAnonymousWebResponse> {

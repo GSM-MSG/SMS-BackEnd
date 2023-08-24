@@ -5,6 +5,8 @@ import team.msg.sms.common.annotation.Service
 @Service
 class ImageService(
     commandImageService: CommandImageService,
-    getImageService: GetImageService
+    getImageService: GetImageService,
+    checkImageService: CheckImageService
 ) : CommandImageService by commandImageService,
-    GetImageService by getImageService
+    GetImageService by getImageService,
+    CheckImageService by checkImageService

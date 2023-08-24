@@ -6,4 +6,5 @@ interface QueryTechStackPort {
     fun queryAll(): List<TechStack>
     fun queryAllByCount(): List<TechStack>
     fun queryAllByStack(stack: String): List<TechStack>
+    fun queryTechStackByStack(stack: String): TechStack
 }

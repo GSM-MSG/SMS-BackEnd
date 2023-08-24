@@ -5,6 +5,7 @@ import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.CommandStudentTechStackService
 import team.msg.sms.domain.student.spi.StudentTechStackPort
+import team.msg.sms.domain.techstack.model.TechStack
 
 @Service
 class CommandStudentTechStackServiceImpl(
@@ -15,4 +16,8 @@ class CommandStudentTechStackServiceImpl(
 
     override fun deleteAllByStudent(student: Student) =
         studentTechStackPort.deleteAllByStudent(student)
+
+    override fun deleteByStudentAndTechStack(student: Student, techStack: TechStack) {
+        studentTechStackPort.deleteByStudentAndTechStack(student, techStack)
+    }
 }

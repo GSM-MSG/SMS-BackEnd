@@ -15,4 +15,8 @@ class CommandCertificateServiceImpl(
 
     override fun deleteAllByStudent(student: Student) =
         certificatePort.deleteAllByStudent(student)
+
+    override fun deleteByCertificate(certificate: Certificate, student: Student) {
+        certificatePort.deleteByCertificate(certificate, student)
+    }
 }

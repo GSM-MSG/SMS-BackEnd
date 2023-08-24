@@ -16,4 +16,8 @@ private val projectLinkPort: ProjectLinkPort
 
     override fun deleteAllByProjects(projects: List<Project>) =
         projectLinkPort.deleteAllByProjects(projects = projects)
+
+    override fun deleteByProjectLink(projectLink: ProjectLink, project: Project) {
+        projectLinkPort.deleteByProjectLink(projectLink, project)
+    }
 }

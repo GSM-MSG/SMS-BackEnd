@@ -18,4 +18,6 @@ class CommandLanguageCertificateServiceImpl(
     override fun deleteAllByStudent(student: Student) =
         languageCertificatePort.deleteAllByStudent(student)
 
+    override fun deleteByLanguageCertificate(languageCertificate: LanguageCertificate, student: Student) =
+        languageCertificatePort.deleteByLanguageCertificate(languageCertificate, student)
 }

@@ -5,6 +5,7 @@ import team.msg.sms.domain.project.model.Project
 import team.msg.sms.domain.project.model.ProjectTechStack
 import team.msg.sms.domain.project.service.CommandProjectTechStackService
 import team.msg.sms.domain.project.spi.ProjectTechStackPort
+import team.msg.sms.domain.techstack.model.TechStack
 
 @Service
 class CommandProjectTechStackServiceImpl(
@@ -15,4 +16,8 @@ class CommandProjectTechStackServiceImpl(
 
     override fun deleteAllByProjects(projects: List<Project>) =
         projectTechStackPort.deleteAllByProjects(projects)
+
+    override fun deleteByProjectIdAndTechStack(projectId: Long, techStack: TechStack) {
+        projectTechStackPort.deleteByProjectIdAndTechStack(projectId, techStack)
+    }
 }
