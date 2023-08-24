@@ -44,7 +44,7 @@ class ProjectPersistenceAdapter(
         }
     }
 
-    override fun queryOneByProject(project: Project): Project? =
+    override fun queryOneByProject(project: Project): Project =
         projectRepository.findByIdOrNull(project.id)?.toDomain()
             ?: throw ProjectNotFoundException
 }

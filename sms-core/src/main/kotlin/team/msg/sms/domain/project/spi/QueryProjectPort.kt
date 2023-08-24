@@ -6,5 +6,5 @@ import java.util.UUID
 interface QueryProjectPort {
     fun queryAllProjectByStudentId(studentId: UUID) : List<Project>
 
-    fun queryOneByProject(project: Project): Project?
+    fun queryOneByProject(project: Project): Project
 }
