@@ -1,6 +1,7 @@
 package team.msg.sms.persistence.techstack
 
 import org.springframework.stereotype.Component
+import team.msg.sms.domain.techstack.exception.TechStackNotFoundException
 import team.msg.sms.domain.techstack.model.TechStack
 import team.msg.sms.domain.techstack.spi.TechStackPort
 import team.msg.sms.persistence.techstack.mapper.toDomain
@@ -23,6 +24,13 @@ class TechStackPersistenceAdapter(
 
     override fun deleteByTechStack(techStack: TechStack) =
         techStackJpaRepository.delete(techStack.toEntity())
+
+    override fun decrementTechStackCount(techStack: TechStack) {
+        val updatedCount = techStack.count - 1
+        val updatedTechStack = techStack.copy(count = updatedCount)
+
+        techStackJpaRepository.save(techStack.toEntity())
+    }
 
     override fun queryAll(): List<TechStack> =
         techStackJpaRepository.findAll()
