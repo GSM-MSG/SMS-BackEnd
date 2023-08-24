@@ -9,6 +9,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "region")
 class RegionJpaEntity(
+    override val id: Long,
+
     @Column
     val region: String,
 

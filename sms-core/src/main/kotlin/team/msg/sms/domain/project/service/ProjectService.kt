@@ -5,6 +5,8 @@ import team.msg.sms.common.annotation.Service
 @Service
 class ProjectService(
     commandProjectService: CommandProjectService,
-    getProjectService: GetProjectService
+    getProjectService: GetProjectService,
+    checkProjectService: CheckProjectService
 ) : CommandProjectService by commandProjectService,
-    GetProjectService by getProjectService
+    GetProjectService by getProjectService,
+    CheckProjectService by checkProjectService

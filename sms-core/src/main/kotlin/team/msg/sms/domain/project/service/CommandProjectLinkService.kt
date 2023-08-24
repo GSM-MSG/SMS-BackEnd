@@ -6,4 +6,5 @@ import team.msg.sms.domain.project.model.ProjectLink
 interface CommandProjectLinkService {
     fun saveAll(projectLinks: List<ProjectLink>)
     fun deleteAllByProjects(projects: List<Project>)
+    fun deleteByProjectLink(projectLink: ProjectLink, project: Project)
 }

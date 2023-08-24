@@ -2,6 +2,7 @@ package team.msg.sms.persistence.project
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.msg.sms.domain.project.exception.ProjectNotFoundException
 import team.msg.sms.domain.project.model.Project
 import team.msg.sms.domain.project.spi.ProjectPort
 import team.msg.sms.domain.student.exception.StudentNotFoundException
@@ -28,6 +29,11 @@ class ProjectPersistenceAdapter(
         projectRepository.deleteAll(project)
     }
 
+    override fun deleteByProject(project: Project, student: Student) {
+        val student = studentRepository.findByIdOrNull(student.id) ?: throw StudentNotFoundException
+        projectRepository.delete(project.toEntity(student))
+    }
+
     override fun queryAllProjectByStudentId(studentId: UUID): List<Project> {
         val student = studentRepository.findByIdOrNull(studentId)
             ?: throw StudentNotFoundException
@@ -37,4 +43,8 @@ class ProjectPersistenceAdapter(
             it.toDomain()
         }
     }
+
+    override fun queryOneByProject(project: Project): Project =
+        projectRepository.findByIdOrNull(project.id)?.toDomain()
+            ?: throw ProjectNotFoundException
 }
