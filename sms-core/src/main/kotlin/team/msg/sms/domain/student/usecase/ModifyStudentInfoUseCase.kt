@@ -62,7 +62,6 @@ class ModifyStudentInfoUseCase(
         val languageCertificates =
             languageCertificateService.getLanguageCertificateByStudentUuid(student.id)
         val prizes = prizeService.getAllPrizeByStudentId(student.id)
-        val projects = projectService.getAllProjectByStudentId(student.id)
 
         val modifyStudentInfoDataModel = toStudentModel(modifyStudentInfoData, user)
 
@@ -95,7 +94,7 @@ class ModifyStudentInfoUseCase(
             updateStudentTechStacks(techStacks.toMutableList(), addedTechStacks, student.id)
         }
 
-        // 근무 지역 추가 수정
+        // 근무 지역 지우기 수정
         val removedRegions = regionService.checkRemovedRegion(regions, modifyStudentInfoData.regions)
         if (removedRegions.isNotEmpty()) {
             removedRegions.forEach {
@@ -103,6 +102,7 @@ class ModifyStudentInfoUseCase(
             }
         }
 
+        // 근무 지역 추가 수정
         val addedRegions = regionService.checkAddedRegion(regions, modifyStudentInfoData.regions)
         if (addedRegions.isNotEmpty()) {
             val regions = addedRegions.map { toRegionModel(it, student.id) }
@@ -117,6 +117,7 @@ class ModifyStudentInfoUseCase(
             certificateService.saveAll(certificates)
         }
 
+        // 자격증 삭제 수정
         val removedCertificate =
             certificateService.checkRemovedCertificate(certificates, modifyStudentInfoData.certificates)
         if (removedCertificate.isNotEmpty()) {
@@ -134,7 +135,7 @@ class ModifyStudentInfoUseCase(
             languageCertificateService.saveAll(addedLanguageCertificate)
         }
 
-        // 외국어 추가 수정
+        // 외국어 삭제 수정
         val removedLanguageCertificate = languageCertificateService.checkRemovedLanguageCertificate(
             languageCertificates,
             modifyStudentInfoData.languageCertificates.map { toLanguageCertificateModel(it, student.id) }
@@ -154,6 +155,7 @@ class ModifyStudentInfoUseCase(
             prizeService.saveAll(addedPrize)
         }
 
+        // 상 삭제 수정
         val removedPrize = prizeService.checkRemovedPrize(
             prizes,
             modifyStudentInfoData.prizes.map { toPrizeModel(it, student.id) }
@@ -164,106 +166,95 @@ class ModifyStudentInfoUseCase(
             }
         }
 
-        // 프로젝트 예외 Case1
+        // 프로젝트 추가 수정
+        val currentProjects = projectService.getAllProjectByStudentId(student.id)
+        val removedProjects = projectService.checkRemovedProject(
+            currentProjects,
+            modifyStudentInfoData.projects.map { toProjectModel(it, student.id) }
+        )
+
         if (modifyStudentInfoData.projects.isEmpty()) {
-            projectLinkService.deleteAllByProjects(projects)
-            projectTechStackService.deleteAllByProjects(projects)
-            imageService.deleteAllByProjects(projects)
-            projectService.deleteAllByStudent(student)
-        } else {
-            val checkRemovedProjects = projectService.checkRemovedProject(
-                projects,
-                modifyStudentInfoData.projects.map { toProjectModel(it, student.id) }
-            )
-            if(checkRemovedProjects.isNotEmpty()) {
-                projectLinkService.deleteAllByProjects(checkRemovedProjects)
-                projectTechStackService.deleteAllByProjects(checkRemovedProjects)
-                imageService.deleteAllByProjects(checkRemovedProjects)
-                checkRemovedProjects.forEach {
-                    projectService.deleteByProject(it, student)
-                }
-            }
-            modifyStudentInfoData.projects.forEach { modifyProject ->
-                val projectModify = toProjectModel(modifyProject, student.id)
-                var projectModifyId = 0L
-                val isAddedProject = projectService.checkAddedProject(
-                    projects,
-                    projectModify
-                )
-                // 프로젝트가 존재하면 null임
-                if (isAddedProject != null) {
-                    projectModifyId = projectService.save(projectModify).id
-                } else {
-                    projectModifyId = projectService.getMatchingProject(projects, projectModify).id
-                }
-
-                // 프로젝트 TechStack 추가 수정 부분
-                val projectTechStacks = projectTechStackService.getAllByProjectId(projectModifyId)
-                val addedProjectTechStack =
-                    projectTechStackService.checkAddedProjectTechStack(projectTechStacks, modifyProject.techStacks)
-                if (addedProjectTechStack.isNotEmpty()) {
-                    updateProjectTechStack(techStacks.toMutableList(), addedProjectTechStack, projectModifyId)
-                }
-
-                val checkRemovedProjectTechStack =
-                    projectTechStackService.checkRemovedProjectTechStack(projectTechStacks, modifyProject.techStacks)
-                if (checkRemovedProjectTechStack.isNotEmpty()) {
-                    checkRemovedProjectTechStack.forEach {
-                        val findTechStackModel = findTechStackModel(techStacks, it)
-                        val count = findTechStackModel.count - 1
-                        projectTechStackService.deleteByProjectIdAndTechStack(projectModifyId, findTechStackModel)
-                        if (count == -1) {
-                            techStackService.deleteByTechStack(findTechStackModel)
-                        } else {
-                            techStackService.save(findTechStackModel.copy(count = count))
-                        }
-                    }
-                }
-
-                // 프로젝트 링크 추가 수정
-                val projectLinks = projectLinkService.getAllByProjectId(projectModifyId)
-                val checkAddedProjectLink = projectLinkService.checkAddedProjectLink(
-                    projectLinks,
-                    modifyProject.links.map { toProjectLinkModel(it, projectModifyId) }
-                )
-                if (checkAddedProjectLink.isNotEmpty()) {
-                    projectLinkService.saveAll(checkAddedProjectLink)
-                }
-
-                val checkRemovedProjectLink = projectLinkService.checkRemovedProjectLink(
-                    projectLinks,
-                    modifyProject.links.map { toProjectLinkModel(it, projectModifyId) }
-                )
-                if (checkRemovedProjectLink.isNotEmpty()) {
-                    checkRemovedProjectLink.forEach {
-                        projectLinkService.deleteByProjectLink(it, projectModify)
-                    }
-                }
-
-                val images = imageService.getAllByProjectId(projectModifyId)
-                val checkAddedImage = imageService.checkAddedImage(
-                    images,
-                    modifyProject.previewImages
-                )
-                if (checkAddedImage.isNotEmpty()) {
-                    val imageModels = checkAddedImage.map { toImage(it, projectModifyId) }
-                    imageService.saveAll(imageModels)
-
-                }
-
-                val checkRemovedImage = imageService.checkRemovedImage(
-                    images,
-                    modifyProject.previewImages
-                )
-                if (checkAddedImage.isNotEmpty()) {
-                    checkRemovedImage.forEach {
-                        imageService.deleteByImage(it, projectModify)
-                    }
-                }
-            }
+            deleteAllProjectRelatedEntities(currentProjects, student)
+        } else { // 비어 있지 않다면
+            deleteAllProjectRelatedEntities(removedProjects, student)
+            updateProjects(student, modifyStudentInfoData.projects,  techStacks, currentProjects)
         }
 
+    }
 
+    private fun deleteAllProjectRelatedEntities(projects: List<Project>, student: Student) {
+        projectLinkService.deleteAllByProjects(projects)
+        projectTechStackService.deleteAllByProjects(projects)
+        imageService.deleteAllByProjects(projects)
+        projects.forEach { project ->
+            projectService.deleteByProject(project, student)
+        }
+    }
+
+    private fun updateProjects(student: Student, projectsToUpdate: List<ProjectRequestData>, techStacks: List<TechStack>, currentProjects: List<Project>) {
+        projectsToUpdate.forEach { modifyProject ->
+            val projectModify = toProjectModel(modifyProject, student.id)
+            val addedProject = projectService.checkAddedProject(
+                currentProjects,
+                projectModify
+            )
+            val projectModifyId = projectService.saveOrUpdateProject(student, addedProject).id
+
+            val projectTechStacks = projectTechStackService.getAllByProjectId(projectModifyId)
+            val addedProjectTechStacks = projectTechStackService.checkAddedProjectTechStack(
+                projectTechStacks,
+                modifyProject.techStacks
+            )
+            updateProjectTechStack(techStacks.toMutableList(), addedProjectTechStacks, projectModifyId)
+
+            val removedProjectTechStacks = projectTechStackService.checkRemovedProjectTechStack(
+                projectTechStacks,
+                modifyProject.techStacks
+            )
+            removeProjectTechStacks(techStacks, removedProjectTechStacks, projectModifyId)
+
+            val projectLinks = projectLinkService.getAllByProjectId(projectModifyId)
+            val checkAddedProjectLinks = projectLinkService.checkAddedProjectLink(
+                projectLinks,
+                modifyProject.links.map { toProjectLinkModel(it, projectModifyId) }
+            )
+            projectLinkService.saveAll(checkAddedProjectLinks)
+
+            val checkRemovedProjectLinks = projectLinkService.checkRemovedProjectLink(
+                projectLinks,
+                modifyProject.links.map { toProjectLinkModel(it, projectModifyId) }
+            )
+            checkRemovedProjectLinks.forEach { projectLinkService.deleteByProjectLink(it, projectModify) }
+
+            val images = imageService.getAllByProjectId(projectModifyId)
+            val checkAddedImages = imageService.checkAddedImage(images, modifyProject.previewImages)
+            saveProjectImages(checkAddedImages, projectModifyId)
+
+            val checkRemovedImages = imageService.checkRemovedImage(images, modifyProject.previewImages)
+            deleteProjectImages(checkRemovedImages, projectModify)
+        }
+    }
+
+    private fun removeProjectTechStacks(techStacks: List<TechStack>, removedTechStacks: List<String>, projectId: Long) {
+        removedTechStacks.forEach { stackName ->
+            val techStackModel = techStackService.getTechStackByStack(stackName)
+            projectTechStackService.deleteByProjectIdAndTechStack(projectId, techStackModel)
+            techStackService.decrementTechStackCount(techStackModel)
+        }
+    }
+
+    private fun saveProjectImages(images: List<String>, projectId: Long) {
+        if(images.isNotEmpty()) {
+            val imageModels = images.map { toImage(it, projectId) }
+            imageService.saveAll(imageModels)
+        }
+    }
+
+    private fun deleteProjectImages(images: List<Image>, project: Project) {
+        images.forEach { image ->
+            val projectImage = imageService.getByImageUrlAndProjectId(image.imageUrl, project.id)
+            projectImage?.let { imageService.deleteByImage(it, project) }
+        }
     }
 
     private fun toStudentModel(modifyStudentInfoData: ModifyStudentInfoRequestData, user: User): Student =
@@ -333,15 +324,19 @@ class ModifyStudentInfoUseCase(
     ) {
         for (stackItem in projectTechStacks) {
             val techStackData = stack.find { it.stack == stackItem }
-            if (techStackData == null) {
-                val techStack = techStackService.save(toStackModel(stackItem))
-                stack.add(0, techStack)
-                projectTechStackService.save(toProjectTechStackModel(projectId, techStack.id))
+            val isNewStack = techStackData == null
 
+            val techStack = if (isNewStack) {
+                techStackService.save(toStackModel(stackItem))
             } else {
-                val techStack = techStackService.save(techStackData.copy(count = techStackData.count + 1))
-                stack.add(0, techStack)
-                projectTechStackService.save(toProjectTechStackModel(projectId, techStack.id))
+                techStackData?.let {
+                    techStackService.save(it.copy(count = techStackData.count + 1))
+                }
+            }
+
+            techStack?.let {
+                stack.add(0, it)
+                projectTechStackService.save(toProjectTechStackModel(projectId, it.id))
             }
         }
     }

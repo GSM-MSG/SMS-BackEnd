@@ -8,21 +8,17 @@ import team.msg.sms.domain.project.service.CheckProjectService
 class CheckProjectServiceImpl(
 
 ) : CheckProjectService {
-    override fun checkAddedProject(projects: List<Project>, modifyProject: Project): Project? {
-        return if (projects.none { existingProject ->
-                existingProject.run {
-                    title == modifyProject.title &&
-                            description == modifyProject.description &&
-                            projectIconUrl == modifyProject.projectIconUrl &&
-                            myActivity == modifyProject.myActivity &&
-                            startDate == modifyProject.startDate &&
-                            endDate == modifyProject.endDate
-                }
-            }) {
-            modifyProject
-        } else {
-            null
-        }
+    override fun checkAddedProject(projects: List<Project>, modifyProject: Project): Project {
+        return projects.find { existingProject ->
+            existingProject.run {
+                title == modifyProject.title &&
+                        description == modifyProject.description &&
+                        projectIconUrl == modifyProject.projectIconUrl &&
+                        myActivity == modifyProject.myActivity &&
+                        startDate == modifyProject.startDate &&
+                        endDate == modifyProject.endDate
+            }
+        } ?: modifyProject
     }
 
     override fun checkRemovedProject(projects: List<Project>, modifyProjects: List<Project>): List<Project> {

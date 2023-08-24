@@ -17,4 +17,7 @@ class CommandTechStackServiceImpl(
 
     override fun deleteByTechStack(techStack: TechStack) =
         techStackPort.deleteByTechStack(techStack)
+
+    override fun decrementTechStackCount(techStack: TechStack) =
+        techStackPort.decrementTechStackCount(techStack)
 }
