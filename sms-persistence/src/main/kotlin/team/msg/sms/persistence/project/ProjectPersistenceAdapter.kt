@@ -2,6 +2,7 @@ package team.msg.sms.persistence.project
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.msg.sms.domain.project.exception.ProjectNotFoundException
 import team.msg.sms.domain.project.model.Project
 import team.msg.sms.domain.project.spi.ProjectPort
 import team.msg.sms.domain.student.exception.StudentNotFoundException
@@ -42,4 +43,8 @@ class ProjectPersistenceAdapter(
             it.toDomain()
         }
     }
+
+    override fun queryOneByProject(project: Project): Project? =
+        projectRepository.findByIdOrNull(project.id)?.toDomain()
+            ?: throw ProjectNotFoundException
 }
