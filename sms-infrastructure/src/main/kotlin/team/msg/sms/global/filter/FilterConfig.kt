@@ -15,12 +15,10 @@ import team.msg.sms.global.security.token.JwtParser
 class FilterConfig(
     private val jwtParser: JwtParser,
     private val objectMapper: ObjectMapper,
-    private val existStudentUseCase: ExistStudentUseCase,
-    private val queryUserByUserIdUseCase: QueryUserByUserIdUseCase
 ) : SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
     override fun configure(builder: HttpSecurity) {
         builder.addFilterBefore(ExceptionFilter(objectMapper), UsernamePasswordAuthenticationFilter::class.java)
-        builder.addFilterBefore(JwtFilter(jwtParser, queryUserByUserIdUseCase, existStudentUseCase), UsernamePasswordAuthenticationFilter::class.java)
+        builder.addFilterBefore(JwtFilter(jwtParser), UsernamePasswordAuthenticationFilter::class.java)
         builder.addFilterBefore(RequestLogFilter(), UsernamePasswordAuthenticationFilter::class.java)
     }
 }
