@@ -17,9 +17,14 @@ class JwtFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
+        val token = resolvedCookieToken(request) ?: resolveToken(request)
 
+        token?.let {
+            val authentication: Authentication = jwtParser.getAuthentication(it)
+            SecurityContextHolder.getContext().authentication = authentication
         }
 
+        filterChain.doFilter(request, response)
     }
 
     private fun resolveToken(request: HttpServletRequest): String? =
