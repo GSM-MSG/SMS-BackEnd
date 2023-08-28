@@ -60,7 +60,6 @@ object ProjectUtil {
 
     private fun toLinkResponseData(projectLink: ProjectLink) =
         ProjectLinkResponseData(
-            id = projectLink.projectId,
             name = projectLink.name,
             url = projectLink.url
         )
