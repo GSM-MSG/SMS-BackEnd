@@ -16,7 +16,7 @@ data class UserProfileDetailWebResponse(
     val number: Int,
     val department: Department,
     val major: String,
-    val profileImg: String,
+    val profileImgUrl: String,
     val contactEmail: String,
     val gsmAuthenticationScore: Int,
     val formOfEmployment: FormOfEmployment,
