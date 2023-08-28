@@ -39,6 +39,7 @@ class UserWebAdapter(
             department = this.department,
             major = this.major,
             profileImgUrl = this.profileImgUrl,
+            profileImg = this.profileImgUrl,
             contactEmail = this.contactEmail,
             gsmAuthenticationScore = this.gsmAuthenticationScore,
             formOfEmployment = this.formOfEmployment,
