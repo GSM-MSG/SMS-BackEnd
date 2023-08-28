@@ -79,7 +79,7 @@ class QueryCurrentUserProfileDetailUseCase(
             number = student.stuNum.substring(2, 4).toInt(),
             department = student.department,
             major = student.major,
-            profileImg = student.profileImgUrl,
+            profileImgUrl = student.profileImgUrl,
             contactEmail = student.contactEmail,
             gsmAuthenticationScore = student.gsmAuthenticationScore,
             formOfEmployment = student.formOfEmployment,
