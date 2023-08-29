@@ -231,7 +231,7 @@ class ModifyStudentInfoUseCase(
             saveProjectImages(checkAddedImages, projectModifyId)
 
             val checkRemovedImages = imageService.checkRemovedImage(images, modifyProject.previewImages)
-            deleteProjectImages(checkRemovedImages, projectModify)
+            deleteProjectImages(checkRemovedImages, projectModify.copy(id = projectModifyId))
         }
     }
 
