@@ -10,15 +10,19 @@ import team.msg.sms.domain.file.exception.FileIOInterruptedException
 import team.msg.sms.domain.file.spi.UploadFilePort
 import java.io.File
 import java.io.IOException
+import java.util.*
 
 @Component
 class AwsS3Adapter(
     private val amazonS3: AmazonS3,
     private val awsS3Properties: AwsS3Properties
 ) : UploadFilePort {
-    override fun upload(file: File): String =
-        inputS3(file, file.name)
-            .run { getResourceUrl(fileName = file.name) }
+    override fun upload(file: File): String {
+        val fileName = "${UUID.randomUUID().toString()}.${file.extension}"
+        
+        return inputS3(file, fileName)
+            .run { getResourceUrl(fileName = fileName) }
+    }
 
     private fun inputS3(file: File, fileName: String) {
         val objectMetadata = ObjectMetadata()
