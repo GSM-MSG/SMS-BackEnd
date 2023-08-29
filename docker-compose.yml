@@ -5,14 +5,33 @@ services:
     image : ${REPO_URL}
     ports:
       - 8080:8080
-      
+    networks:
+      - backend
+
   green:
     image : ${REPO_URL}
     ports:
       - 8090:8080
-      
-logging:
-   driver: "awslogs"
-   options:
-      awslogs-region: "ap-northeast-2"
-      awslogs-group: "sms-logs"
+    networks:
+      - backend
+
+  redis:
+    image : redis:alpine
+    ports:
+      - 6379:6379
+
+  nginx:
+    image : ${NGINX_URL}
+    ports:
+      - 80:80
+    networks:
+      - backend
+    entrypoint:
+      - service
+      - nginx
+      - start
+
+
+networks:
+  backend:
+    driver: bridge

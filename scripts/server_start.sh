@@ -3,6 +3,10 @@
 aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${REPO_URL}
 
 docker pull ${REPO_URL}
+docker pull ${NGINX_URl}
+
+docker compose up -d nginx
+docker compose up -d redis
 
 EXIST_BLUE=$(docker compose ps blue | grep Up)
 
@@ -11,12 +15,17 @@ if [ -z "$EXIST_BLUE" ]; then
     docker compose up -d blue
     BEFORE_COMPOSE_COLOR="green"
     AFTER_COMPOSE_COLOR="blue"
+    docker exec nginx sed -i "s|proxy_pass http://greenServer|proxy_pass http://blueServer|" /etc/nginx/conf.d/default.conf
 else
     echo "green up"
     docker compose up -d green
     BEFORE_COMPOSE_COLOR="blue"
     AFTER_COMPOSE_COLOR="green"
+    docker exec nginx sed -i "s|proxy_pass http://blueServer|proxy_pass http://greenServer|" /etc/nginx/conf.d/default.conf
 fi
+
+docker exec nginx nginx -s reload
+
 
 sleep 10
 
