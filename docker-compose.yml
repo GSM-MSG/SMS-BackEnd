@@ -2,14 +2,14 @@ version: "3.7"
 
 services:
   blue:
-    image : ${REPO_URL}
+    image : ${REPO_URL}/${ECR_REPOSITORY}:latest
     ports:
       - 8080:8080
     networks:
       - backend
 
   green:
-    image : ${REPO_URL}
+    image : ${REPO_URL}/${ECR_REPOSITORY}:latest
     ports:
       - 8090:8080
     networks:
@@ -26,7 +26,6 @@ services:
       - 80:80
     networks:
       - backend
-    command: service nginx start
 
 
 networks:

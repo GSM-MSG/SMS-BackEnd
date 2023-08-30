@@ -5,8 +5,8 @@ aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS
 docker pull ${REPO_URL}/${ECR_REPOSITORY}:latest
 docker pull ${NGINX_URl}
 
-docker compose up -d nginx
 docker compose up -d redis
+docker compose up -d nginx
 
 EXIST_BLUE=$(docker compose ps blue | grep Up)
 
