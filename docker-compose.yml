@@ -26,10 +26,7 @@ services:
       - 80:80
     networks:
       - backend
-    entrypoint:
-      - service
-      - nginx
-      - start
+    command: service nginx start
 
 
 networks:
