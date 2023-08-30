@@ -28,9 +28,6 @@ else
     docker exec nginx sed -i "s|server blue:8080|server green:8090|" /etc/nginx/conf.d/default.conf
 fi
 
-docker exec nginx nginx -s reload
-
-
 sleep 10
 
 EXIST_AFTER=$(docker compose ps ${AFTER_COMPOSE_COLOR}| grep Up)
