@@ -17,5 +17,5 @@ permissions:
       
 hooks:
   ApplicationStart:
-    - location: scripts/server_start.sh
+    - location: scripts/shell_start.sh
       runas: root
