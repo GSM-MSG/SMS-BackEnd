@@ -26,8 +26,9 @@ class SignInUseCase(
     private val userService: UserService,
     private val studentService: StudentService
 ) {
-    fun execute(request: SignInRequestData): SignInResponseData {
-        try {
+
+    fun execute(request: SignInRequestData): SignInResponseData =
+        runCatching {
             val gAuthToken = gAuthPort.receiveGAuthToken(request.code)
             val gAuthUserInfo = gAuthPort.receiveUserInfo(gAuthToken.accessToken)
 
@@ -50,7 +51,7 @@ class SignInUseCase(
 
             val isStudent = studentService.checkNewStudent(user, role.name)
 
-            return SignInResponseData(
+            SignInResponseData(
                 accessToken = accessToken,
                 accessTokenExp = accessTokenExp,
                 refreshToken = refreshToken,
@@ -58,15 +59,19 @@ class SignInUseCase(
                 role = role,
                 isExist = isStudent
             )
-        } catch (error: GAuthException) {
-            when (error.code) {
-                400 -> throw SecretMismatchException
-                401 -> throw ExpiredCodeException
-                404 -> throw ServiceNotFoundException
-                else -> throw InternalServerErrorException
+        }.getOrElse { error ->
+            when (error) {
+                is GAuthException -> {
+                    when (error.code) {
+                        400 -> throw SecretMismatchException
+                        401 -> throw ExpiredCodeException
+                        404 -> throw ServiceNotFoundException
+                        else -> throw InternalServerErrorException
+                    }
+                }
+                else -> throw error
             }
         }
-    }
 }
 
 private fun getStuNumValid(role: Role, gAuthUserInfo: GAuthUserInfo) =
