@@ -2,6 +2,7 @@ package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.common.util.ProjectUtil
+import team.msg.sms.common.util.ProjectUtil.validatePreviewImageLimit
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.file.model.Image
@@ -194,7 +195,7 @@ class ModifyStudentInfoUseCase(
 
     private fun updateProjects(student: Student, projectsToUpdate: List<ProjectRequestData>, techStacks: List<TechStack>, currentProjects: List<Project>) {
         projectsToUpdate.forEach { modifyProject ->
-            ProjectUtil.validatePreviewImageLimit(modifyProject.previewImages)
+            validatePreviewImageLimit(modifyProject.previewImages)
             val projectModify = toProjectModel(modifyProject, student.id)
             val addedProject = projectService.checkAddedProject(
                 currentProjects,
