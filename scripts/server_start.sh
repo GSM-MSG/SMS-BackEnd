@@ -14,6 +14,7 @@ if [ -z "$EXIST_BLUE" ]; then
     docker compose up -d blue
     BEFORE_COMPOSE_COLOR="green"
     AFTER_COMPOSE_COLOR="blue"
+    sleep 5
     docker compose rm -svf nginx
     docker compose up -d nginx
 else
@@ -21,6 +22,7 @@ else
     docker compose up -d green
     BEFORE_COMPOSE_COLOR="blue"
     AFTER_COMPOSE_COLOR="green"
+    sleep 5
     docker compose rm -svf nginx
     docker compose up -d nginx
     docker exec nginx sed -i "s|server blue:8080|server green:8090|" /etc/nginx/conf.d/default.conf
