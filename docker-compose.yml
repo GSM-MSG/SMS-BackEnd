@@ -7,6 +7,12 @@ services:
       - 8080:8080
     networks:
       - backend
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: "sms-logs"
+        awslogs-region: "ap-northeast-2"
+        awslogs-stream: "backend-start-logs"
 
   green:
     image : ${REPO_URL}/${ECR_REPOSITORY}:latest
@@ -14,11 +20,19 @@ services:
       - 8090:8080
     networks:
       - backend
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: "sms-logs"
+        awslogs-region: "ap-northeast-2"
+        awslogs-stream: "backend-start-logs"
 
   redis:
     image : redis:alpine
     ports:
       - 6379:6379
+    networks:
+      - backend
 
   nginx:
     image : ${NGINX_URL}
@@ -26,6 +40,8 @@ services:
       - 80:80
     networks:
       - backend
+
+
 
 
 networks:
