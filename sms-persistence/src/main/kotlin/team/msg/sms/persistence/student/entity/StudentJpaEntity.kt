@@ -30,7 +30,7 @@ class StudentJpaEntity(
     @Column
     val formOfEmployment: FormOfEmployment,
 
-    @Column
+    @Column(length = 50)
     val introduce: String,
 
     @Column
