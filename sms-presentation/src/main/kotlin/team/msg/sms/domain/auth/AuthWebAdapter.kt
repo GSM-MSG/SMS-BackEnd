@@ -33,9 +33,17 @@ class AuthWebAdapter(
     }
 
     @PatchMapping
-    fun reIssueToken(@Valid @RequestHeader("Refresh-Token") header: String): ResponseEntity<ReIssueTokenWebResponse> =
-        reIssueTokenUseCase.execute(header)
-            .let { ResponseEntity.ok(it.toResponse()) }
+    fun reIssueToken(
+        @Valid @RequestHeader("Refresh-Token") header: String,
+        httpServletResponse: HttpServletResponse
+    ): ResponseEntity<ReIssueTokenWebResponse> {
+        val token: ReIssueTokenResponseData = reIssueTokenUseCase.execute(header)
+
+        createCookie(httpServletResponse, "accessToken", token.accessToken, 3600)
+        createCookie(httpServletResponse, "refreshToken", token.refreshToken, 36000)
+
+        return ResponseEntity.ok(token.toResponse())
+    }
 
     @DeleteMapping
     fun logout(
