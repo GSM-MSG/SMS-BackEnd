@@ -19,7 +19,7 @@ class AwsS3Adapter(
 ) : UploadFilePort {
     override fun upload(file: File): String {
         val fileName = "${UUID.randomUUID().toString()}.${file.extension}"
-        
+
         return inputS3(file, fileName)
             .run { getResourceUrl(fileName = fileName) }
     }

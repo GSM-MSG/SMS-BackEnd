@@ -9,10 +9,10 @@ import javax.persistence.*
 class PrizeJpaEntity(
     override val id: Long,
 
-    @Column
+    @Column(length = 40)
     val name: String,
 
-    @Column
+    @Column(length = 20)
     val type: String,
 
     @Column

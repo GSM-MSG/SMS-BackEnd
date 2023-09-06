@@ -12,13 +12,13 @@ import javax.persistence.*
 class ProjectJpaEntity(
     override val id: Long,
 
-    @Column
+    @Column(length = 30)
     val title: String,
 
     @Column
     val projectIconUrl: String,
 
-    @Column
+    @Column(length = 1000)
     val description: String,
 
     @Column(nullable = true, length = 1000)
