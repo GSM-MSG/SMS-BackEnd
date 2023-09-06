@@ -1,20 +1,22 @@
 package team.msg.sms.domain.student.service.impl
 
 import org.springframework.stereotype.Service
+import team.msg.sms.domain.major.service.MajorService
 import team.msg.sms.domain.student.dto.req.FiltersRequestData
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.FilterStudentService
 
 @Service
 class FilterStudentServiceImpl(
+    private val majorService: MajorService
 ) : FilterStudentService {
     override fun filterStudents(
         students: List<Student.StudentWithUserInfo>,
         filters: FiltersRequestData,
         role: String
     ): List<Student.StudentWithUserInfo> {
-        val otherMajors =
-            listOf("iOS", "Backend", "Android", "Frontend", "Design", "AI", "GameDevelop", "IOT", "DevOps")
+        val otherMajors = majorService.getAllMajor()
+            .map { it.major }
         return when (role) {
             "ROLE_TEACHER" -> this.filterStudentsForTeacher(students, filters, otherMajors)
             "ROLE_STUDENT" -> this.filterStudentsForStudent(students, filters, otherMajors)
