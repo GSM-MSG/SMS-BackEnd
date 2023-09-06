@@ -6,10 +6,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "project_link")
 class ProjectLinkJpaEntity(
-    @Column
+    @Column(length = 50)
     val name: String,
 
-    @Column
+    @Column(length = 5000)
     val url: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
