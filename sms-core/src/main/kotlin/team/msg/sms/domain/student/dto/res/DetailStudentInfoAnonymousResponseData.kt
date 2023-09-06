@@ -8,6 +8,7 @@ data class DetailStudentInfoAnonymousResponseData(
     val introduce: String,
     val major: String,
     val profileImg: String,
+    val contactEmail: String,
     val techStacks: List<String>,
     val projects: List<ProjectResponseData>,
     val prizes: List<PrizeResponseData>
