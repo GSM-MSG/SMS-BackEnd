@@ -1,35 +1,48 @@
 package team.msg.sms.domain.student.service.impl
 
 import org.springframework.stereotype.Service
+import team.msg.sms.domain.major.service.MajorService
 import team.msg.sms.domain.student.dto.req.FiltersRequestData
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.FilterStudentService
 
 @Service
 class FilterStudentServiceImpl(
+    private val majorService: MajorService
 ) : FilterStudentService {
     override fun filterStudents(
         students: List<Student.StudentWithUserInfo>,
         filters: FiltersRequestData,
         role: String
-    ): List<Student.StudentWithUserInfo> =
-        when (role) {
-            "ROLE_TEACHER" -> this.filterStudentsForTeacher(students, filters)
-            "ROLE_STUDENT" -> this.filterStudentsForStudent(students, filters)
-            else -> this.filterStudentsForAnonymous(students, filters)
+    ): List<Student.StudentWithUserInfo> {
+        val otherMajors = majorService.getAllMajor()
+            .map { it.major }
+        return when (role) {
+            "ROLE_TEACHER" -> this.filterStudentsForTeacher(students, filters, otherMajors)
+            "ROLE_STUDENT" -> this.filterStudentsForStudent(students, filters, otherMajors)
+            else -> this.filterStudentsForAnonymous(students, filters, otherMajors)
         }
+    }
 
     private fun filterStudentsForTeacher(
         students: List<Student.StudentWithUserInfo>,
-        filters: FiltersRequestData
+        filters: FiltersRequestData,
+        otherMajors: List<String>
     ): List<Student.StudentWithUserInfo> {
         var filteredStudents = students
 
         filters.majors?.let { majors -> // 전공
-            if (filters.majors.isNotEmpty())
-                filteredStudents = filteredStudents.filter { student ->
-                    student.major in majors
+            if (filters.majors.isNotEmpty()) {
+                if (filters.majors.find { it == "기타" } != null) {
+                    filteredStudents = filteredStudents.filter { student ->
+                        student.major in majors || student.major !in otherMajors
+                    }
+                } else {
+                    filteredStudents = filteredStudents.filter { student ->
+                        student.major in majors
+                    }
                 }
+            }
         }
 
         filters.techStacks?.let { techStacks -> // techStack
@@ -102,16 +115,23 @@ class FilterStudentServiceImpl(
 
     private fun filterStudentsForStudent(
         students: List<Student.StudentWithUserInfo>,
-        filters: FiltersRequestData
+        filters: FiltersRequestData,
+        otherMajors: List<String>
     ): List<Student.StudentWithUserInfo> {
         var filteredStudents = students
 
         filters.majors?.let { majors -> // 전공
-            if (filters.majors.isNotEmpty())
-
-                filteredStudents = filteredStudents.filter { student ->
-                    student.major in majors
+            if (filters.majors.isNotEmpty()) {
+                if (filters.majors.find { it == "기타" } != null) {
+                    filteredStudents = filteredStudents.filter { student ->
+                        student.major in majors || student.major !in otherMajors
+                    }
+                } else {
+                    filteredStudents = filteredStudents.filter { student ->
+                        student.major in majors
+                    }
                 }
+            }
         }
 
         filters.techStacks?.let { techStacks -> // techStack
@@ -156,15 +176,23 @@ class FilterStudentServiceImpl(
 
     private fun filterStudentsForAnonymous(
         students: List<Student.StudentWithUserInfo>,
-        filters: FiltersRequestData
+        filters: FiltersRequestData,
+        otherMajors: List<String>
     ): List<Student.StudentWithUserInfo> {
         var filteredStudents = students
 
         filters.majors?.let { majors -> // 전공
-            if (filters.majors.isNotEmpty())
-                filteredStudents = filteredStudents.filter { student ->
-                    student.major in majors
+            if (filters.majors.isNotEmpty()) {
+                if (filters.majors.find { it == "기타" } != null) {
+                    filteredStudents = filteredStudents.filter { student ->
+                        student.major in majors || student.major !in otherMajors
+                    }
+                } else {
+                    filteredStudents = filteredStudents.filter { student ->
+                        student.major in majors
+                    }
                 }
+            }
         }
 
         filters.techStacks?.let { techStacks -> // techStack
