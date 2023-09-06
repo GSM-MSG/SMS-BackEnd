@@ -75,6 +75,7 @@ class StudentWebAdapter(
             name = this.name,
             introduce = this.introduce,
             major = this.major,
+            contactEmail = this.contactEmail,
             profileImgUrl = this.profileImg,
             profileImg = this.profileImg,
             techStacks = this.techStacks,

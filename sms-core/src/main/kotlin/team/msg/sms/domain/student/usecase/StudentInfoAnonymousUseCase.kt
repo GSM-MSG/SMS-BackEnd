@@ -36,6 +36,7 @@ class StudentInfoAnonymousUseCase(
             introduce = student.introduce,
             major = student.major,
             profileImg = "",
+            contactEmail = student.contactEmail,
             techStacks = studentTechStacks.map { studentTechStack ->
                 techStacks.find { it.id == studentTechStack.techStackId }?.stack ?: ""
             },
@@ -49,7 +50,6 @@ class StudentInfoAnonymousUseCase(
             prizes = PrizeUtil.generatePrizeResponseData(
                 prizes = prizes
             )
-
         )
     }
 }
