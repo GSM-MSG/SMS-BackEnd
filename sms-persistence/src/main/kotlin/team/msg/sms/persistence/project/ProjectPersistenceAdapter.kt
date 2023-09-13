@@ -1,5 +1,6 @@
 package team.msg.sms.persistence.project
 
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.msg.sms.domain.project.exception.ProjectNotFoundException
@@ -7,6 +8,7 @@ import team.msg.sms.domain.project.model.Project
 import team.msg.sms.domain.project.spi.ProjectPort
 import team.msg.sms.domain.student.exception.StudentNotFoundException
 import team.msg.sms.domain.student.model.Student
+import team.msg.sms.persistence.project.entity.QProjectJpaEntity
 import team.msg.sms.persistence.project.mapper.toDomain
 import team.msg.sms.persistence.project.mapper.toEntity
 import team.msg.sms.persistence.project.repository.ProjectJpaRepository
@@ -15,8 +17,9 @@ import java.util.*
 
 @Component
 class ProjectPersistenceAdapter(
-    val projectRepository: ProjectJpaRepository,
-    val studentRepository: StudentJpaRepository,
+    private val projectRepository: ProjectJpaRepository,
+    private val studentRepository: StudentJpaRepository,
+    private val jpaQueryFactory: JPAQueryFactory
 ) : ProjectPort {
     override fun save(project: Project): Project {
         val student = studentRepository.findByIdOrNull(project.studentId) ?: throw StudentNotFoundException
@@ -24,9 +27,13 @@ class ProjectPersistenceAdapter(
     }
 
     override fun deleteAllByStudent(student: Student) {
-        val student = studentRepository.findByIdOrNull(student.id) ?: throw StudentNotFoundException
-        val project = projectRepository.findAllByStudent(student)
-        projectRepository.deleteAll(project)
+        val student = studentRepository.findByIdOrNull(student.id)
+            ?: throw StudentNotFoundException
+        val project = QProjectJpaEntity.projectJpaEntity
+        jpaQueryFactory
+            .delete(project)
+            .where(project.student.id.eq(student.id))
+            .execute()
     }
 
     override fun deleteByProject(project: Project, student: Student) {
