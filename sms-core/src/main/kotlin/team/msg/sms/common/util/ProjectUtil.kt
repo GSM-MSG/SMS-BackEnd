@@ -5,6 +5,7 @@ import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.project.dto.res.ProjectInProgressResponseData
 import team.msg.sms.domain.project.dto.res.ProjectLinkResponseData
 import team.msg.sms.domain.project.dto.res.ProjectResponseData
+import team.msg.sms.domain.project.exception.ProjectLimitExceededException
 import team.msg.sms.domain.project.model.Project
 import team.msg.sms.domain.project.model.ProjectLink
 import team.msg.sms.domain.project.model.ProjectTechStack
@@ -34,6 +35,13 @@ object ProjectUtil {
             )
         }
 
+    fun validatePreviewImageLimit(previewImages: List<String>) {
+        val maxAllowedImages = 4
+        if (previewImages.size > maxAllowedImages) {
+            throw ProjectLimitExceededException
+        }
+    }
+
     private fun toProjectTechStacks(techStacks: List<TechStack>, projectTechStack: ProjectTechStack): TechStack? =
         techStacks.find { it.id == projectTechStack.techStackId }
 
@@ -60,7 +68,6 @@ object ProjectUtil {
 
     private fun toLinkResponseData(projectLink: ProjectLink) =
         ProjectLinkResponseData(
-            id = projectLink.projectId,
             name = projectLink.name,
             url = projectLink.url
         )

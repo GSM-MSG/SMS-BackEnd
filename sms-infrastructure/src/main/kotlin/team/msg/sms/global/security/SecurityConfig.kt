@@ -9,8 +9,6 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.util.matcher.RequestMatcher
 import org.springframework.web.cors.CorsUtils
-import team.msg.sms.domain.student.usecase.ExistStudentUseCase
-import team.msg.sms.domain.user.usecase.QueryUserByUserIdUseCase
 import team.msg.sms.global.filter.FilterConfig
 import team.msg.sms.global.security.token.JwtParser
 
@@ -18,8 +16,6 @@ import team.msg.sms.global.security.token.JwtParser
 class SecurityConfig(
     private val jwtParser: JwtParser,
     private val objectMapper: ObjectMapper,
-    private val existStudentUseCase: ExistStudentUseCase,
-    private val queryUserByUserIdUseCase: QueryUserByUserIdUseCase,
     private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) {
 
@@ -68,7 +64,7 @@ class SecurityConfig(
             .anyRequest().authenticated()
 
         http
-            .apply(FilterConfig(jwtParser, objectMapper, existStudentUseCase, queryUserByUserIdUseCase))
+            .apply(FilterConfig(jwtParser, objectMapper))
 
         http
             .exceptionHandling()

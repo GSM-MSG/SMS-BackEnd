@@ -2,6 +2,8 @@ package team.msg.sms.domain.student.usecase
 
 import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
+import team.msg.sms.common.util.ProjectUtil
+import team.msg.sms.common.util.ProjectUtil.validatePreviewImageLimit
 import team.msg.sms.domain.certificate.model.Certificate
 import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.file.model.Image
@@ -70,6 +72,7 @@ class SignUpUseCase(
         )
 
         signUpData.projects.forEach {
+            validatePreviewImageLimit(it.previewImages)
             val project = projectService.save(project = toProjectModel(it, studentId = student.id))
             projectTechStackValid(techStacks, it.techStacks, project.id)
             saveAllIfNotEmpty(

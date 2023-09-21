@@ -6,7 +6,7 @@ import team.msg.sms.domain.major.service.GetMajorService
 import team.msg.sms.domain.major.spi.MajorPort
 
 @Service
-class QueryMajorServiceImpl(
+class GetMajorServiceImpl(
     private val majorPort: MajorPort
 ) : GetMajorService {
     override fun getAllMajor(): List<Major> =
