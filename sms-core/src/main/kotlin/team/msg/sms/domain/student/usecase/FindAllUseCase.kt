@@ -75,8 +75,9 @@ fun List<Student.StudentWithUserInfo>.toMainStudentsResponseData(): List<MainStu
     this.map {
         MainStudentsResponseData(
             id = it.id,
-            major = it.major,
+            profileImgUrl = it.profileImgUrl,
             profileImg = it.profileImgUrl,
+            major = it.major,
             name = it.name,
             techStacks = it.techStack
         )
