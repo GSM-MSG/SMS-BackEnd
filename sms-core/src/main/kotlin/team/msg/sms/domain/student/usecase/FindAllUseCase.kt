@@ -16,7 +16,7 @@ import team.msg.sms.domain.techstack.service.TechStackService
 class FindAllUseCase(
     private val studentService: StudentService,
     private val techStackService: TechStackService,
-    private val studentTechStackservice: StudentTechStackService,
+    private val studentTechStackService: StudentTechStackService,
     private val securityService: SecurityService
 ) {
     @Transactional
@@ -29,7 +29,7 @@ class FindAllUseCase(
         val students = studentService.getStudents()
         val techStacks = techStackService.getAllTechStack()
         val currentRole = securityService.getCurrentUserRole()
-        val studentTechStacks = studentTechStackservice.getStudentTechStack()
+        val studentTechStacks = studentTechStackService.getStudentTechStack()
 
         val studentsWithUserInfo =
             studentService.matchStudentWithTechStacks(students, techStacks, studentTechStacks, currentRole)
@@ -51,8 +51,6 @@ class FindAllUseCase(
 fun generateCacheKey(page: Int, size: Int): String {
     return "$page-$size"
 }
-
-
 
 fun List<Student.StudentWithUserInfo>.toDomainPageWithUserInfo(page: Int, size: Int): Student.StudentWithPageInfo {
     val startIndex = (page - 1) * size
