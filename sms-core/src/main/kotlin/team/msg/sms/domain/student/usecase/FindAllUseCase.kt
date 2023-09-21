@@ -46,11 +46,13 @@ class FindAllUseCase(
             last = studentPage.last
         )
     }
+
+    fun generateCacheKey(page: Int, size: Int): String {
+        return "$page-$size"
+    }
 }
 
-fun generateCacheKey(page: Int, size: Int): String {
-    return "$page-$size"
-}
+
 
 fun List<Student.StudentWithUserInfo>.toDomainPageWithUserInfo(page: Int, size: Int): Student.StudentWithPageInfo {
     val startIndex = (page - 1) * size
