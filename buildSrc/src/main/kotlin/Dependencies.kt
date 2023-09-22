@@ -45,7 +45,7 @@ object Dependencies {
 
     // test
     const val SPRING_TEST = "org.springframework.boot:spring-boot-starter-test:${PluginVersions.SPRING_BOOT_VERSION}"
-    const val MOCKK = "io.mockk:mockk:${DependencyVersions.MOCKK_VERSION}"
+    const val MOCKITO = "org.mockito.kotlin:mockito-kotlin:${DependencyVersions.MOCKITO_VERSION}"
 
     // kotest
     const val KOTEST_JUNIT5 = "io.kotest:kotest-runner-junit5:${DependencyVersions.KOTEST_VERSION}"
