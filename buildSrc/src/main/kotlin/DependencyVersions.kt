@@ -3,7 +3,7 @@ object DependencyVersions {
     const val JWT_VERSION = "0.9.1"
     const val REDIS_VERSION = "2.7.2"
     const val MYSQL = "8.0.28"
-    const val MOCKK_VERSION = "1.13.2"
+    const val MOCKITO_VERSION = "4.0.0"
     const val AWS_VERSION = "2.2.6.RELEASE"
     const val SERVLET_VERSION = "4.0.1"
     const val GAUTH_VERSION = "2.0.0"
