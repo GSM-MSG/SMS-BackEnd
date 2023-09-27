@@ -90,6 +90,7 @@ class StudentWebAdapter(
             grade = this.grade,
             classNum = this.classNum,
             number = this.number,
+            contactEmail = this.contactEmail,
             department = this.department,
             major = this.major,
             profileImgUrl = this.profileImg,
