@@ -27,7 +27,7 @@ subprojects {
 
 		// test
 		implementation(Dependencies.SPRING_TEST)
-		implementation(Dependencies.MOCKK)
+		implementation(Dependencies.MOCKITO)
 
 		testImplementation(Dependencies.KOTEST_JUNIT5)
 		testImplementation(Dependencies.KOTEST_ASSERTIONS_CORE)
