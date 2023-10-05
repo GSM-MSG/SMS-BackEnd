@@ -8,6 +8,7 @@ data class DetailStudentInfoWebResponse(
     val name: String,
     val introduce: String,
     val grade: Int,
+    val contactEmail: String,
     val classNum: Int,
     val number: Int,
     val department: Department,
