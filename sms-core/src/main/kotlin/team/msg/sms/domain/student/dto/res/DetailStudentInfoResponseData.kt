@@ -6,6 +6,7 @@ import team.msg.sms.domain.student.model.Department
 
 data class DetailStudentInfoResponseData(
     val name: String,
+    val contactEmail: String,
     val introduce: String,
     val grade: Int,
     val classNum: Int,
