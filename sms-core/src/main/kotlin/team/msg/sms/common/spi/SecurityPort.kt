@@ -6,4 +6,6 @@ interface SecurityPort {
     fun getCurrentUserId(): UUID
 
     fun getCurrentUserRole(): String
+
+    fun isCurrentAnonymous(): Boolean
 }

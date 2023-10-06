@@ -1,5 +1,7 @@
 package team.msg.sms.domain.student.usecase
 
+import org.springframework.cache.annotation.Cacheable
+import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.common.service.SecurityService
 import team.msg.sms.domain.student.dto.req.FiltersRequestData
@@ -14,14 +16,20 @@ import team.msg.sms.domain.techstack.service.TechStackService
 class FindAllUseCase(
     private val studentService: StudentService,
     private val techStackService: TechStackService,
-    private val studentTechStackservice: StudentTechStackService,
+    private val studentTechStackService: StudentTechStackService,
     private val securityService: SecurityService
 ) {
+    @Transactional
+    @Cacheable(
+        value = ["StudentInfoListResponseData"],
+        key = "#root.target.generateCacheKey(#page, #size)",
+        cacheManager = "contentCacheManager",
+    )
     fun execute(page: Int, size: Int, filtersData: FiltersRequestData): StudentInfoListResponseData {
         val students = studentService.getStudents()
         val techStacks = techStackService.getAllTechStack()
         val currentRole = securityService.getCurrentUserRole()
-        val studentTechStacks = studentTechStackservice.getStudentTechStack()
+        val studentTechStacks = studentTechStackService.getStudentTechStack()
 
         val studentsWithUserInfo =
             studentService.matchStudentWithTechStacks(students, techStacks, studentTechStacks, currentRole)
@@ -38,7 +46,13 @@ class FindAllUseCase(
             last = studentPage.last
         )
     }
+
+    fun generateCacheKey(page: Int, size: Int): String {
+        return "$page-$size"
+    }
 }
+
+
 
 fun List<Student.StudentWithUserInfo>.toDomainPageWithUserInfo(page: Int, size: Int): Student.StudentWithPageInfo {
     val startIndex = (page - 1) * size
@@ -65,6 +79,6 @@ fun List<Student.StudentWithUserInfo>.toMainStudentsResponseData(): List<MainStu
             profileImg = it.profileImgUrl,
             major = it.major,
             name = it.name,
-            techStacks= it.techStack
+            techStacks = it.techStack
         )
     }
