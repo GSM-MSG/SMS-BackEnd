@@ -14,4 +14,7 @@ class SecurityServiceImpl(
 
     override fun getCurrentUserRole(): String =
         securityPort.getCurrentUserRole()
+
+    override fun isAnonymous(): Boolean =
+        securityPort.isCurrentAnonymous()
 }

@@ -10,4 +10,6 @@ class MainStudentsResponseData(
     val major: String,
     val name: String,
     val techStacks: List<String>
-)
+) {
+    constructor(): this(UUID.randomUUID(), "", "", "", "", arrayListOf())
+}
