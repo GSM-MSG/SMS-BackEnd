@@ -1,0 +1,90 @@
+name: Deploy Feature Branch
+
+on:
+  workflow_dispatch:
+    branches:
+      - 'feat/*'
+      - 'automation/*'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'branch' && startsWith(github.ref_name, 'feat/')
+
+    env:
+      ECR_REPOSITORY: sms-ecr-repo
+      ECS_SERVICE_NAME: ${{ github.ref_name }}
+      ECS_CLUSTER_NAME: sms-test-server
+      TASK_DEFINITION_NAME: sms-feature-server
+      ECS_CONTAINER_NAME: sms-feature
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Extract feature name and set env var
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          FEATURE_NAME="${BRANCH_NAME#feat/}"
+          echo "Full branch name: $BRANCH_NAME"
+          echo "Feature name: $FEATURE_NAME"
+          echo "FEATURE_NAME=$FEATURE_NAME" >> $GITHUB_ENV
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: $FEATURE_NAME
+        run: |
+          docker build -t ${{ secrets.ECR_REPOSITORY }} .
+          docker tag ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG ${{ secrets.REPO_URL }}:$IMAGE_TAG
+          docker push ${{ secrets.REPO_URL }}:$IMAGE_TAG
+
+      - name: Download Task Definition Template
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition $TASK_DEFINITION_NAME \
+            --query taskDefinition \
+            > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.ECS_CONTAINER_NAME }}
+          image: 495740757494.dkr.ecr.ap-northeast-2.amazonaws.com/sms-ecr-repo:${{ env.FEATURE_NAME }}
+
+      - name: Deploy Amazon ECS task definition
+        id: deploy-td
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE_NAME }}
+          cluster: ${{ env.ECS_CLUSTER_NAME }}
+          wait-for-service-stability: true
+
+      - name: Create new ECS service and deploy
+        id: deploy-feature
+        run: |
+          bash ./.github/actions/deploy_feature_branch/deploy_ecs_service.sh
+        env:
+          FEATURE_NAME: ${{ env.FEATURE_NAME }}
+          CLUSTER_NAME: ${{ env.ECS_CLUSTER_NAME }}
+          CONTAINER_NAME: ${{ env.ECS_CONTAINER_NAME }}
+          TARGET_TD: ${{ steps.deploy-td.outputs.task-definition-arn }}
+          HOST_ZONE_ID: ${{ env.HOST_ZONE_ID }}
+          REPOSITORY_NAME: ${{ env.ECR_REPOSITORY }}
+
+
