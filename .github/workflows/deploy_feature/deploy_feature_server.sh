@@ -56,10 +56,20 @@ pull_command_id=$(aws ssm send-command \
 
 sleep 5
 
+while [ "$(aws ssm list-command-invocations \
+    --command-id "${pull_command_id}" \
+    --details \
+    --output text \
+    --query "CommandInvocations[0].Status")" == "InProgress" ]
+do
+  sleep 5
+done
+
 aws ssm list-command-invocations \
     --command-id "${pull_command_id}" \
     --details \
-    --output json
+    --output text \
+    --query "CommandInvocations[0].Status"
 
 #aws ec2 terminate-instances --instance-ids "${instance_id}"
 
