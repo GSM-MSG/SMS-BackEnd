@@ -50,15 +50,15 @@ class SignUpUseCase(
     private fun toStudentModel(signUpData: SignUpRequestData, user: User): Student =
         Student(
             id = UUID.randomUUID(),
+            major = signUpData.major,
+            introduce = signUpData.introduce,
             department = findDepartment(user.stuNum),
             contactEmail = signUpData.contactEmail,
-            major = signUpData.major,
+            formOfEmployment = FormOfEmployment.FULL_TIME,
+            gsmAuthenticationScore = 0,
+            militaryService = MilitaryService.HOPE,
             portfolioUrl = signUpData.portfolioUrl,
-            gsmAuthenticationScore = signUpData.gsmAuthenticationScore,
-            salary = signUpData.salary,
-            formOfEmployment = signUpData.formOfEmployment,
-            introduce = signUpData.introduce,
-            militaryService = signUpData.militaryService,
+            salary = 0,
             profileImgUrl = signUpData.profileImgUrl,
             userId = user.id
         )
