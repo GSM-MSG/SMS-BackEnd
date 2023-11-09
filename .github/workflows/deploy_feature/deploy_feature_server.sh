@@ -12,8 +12,9 @@ do
   sleep 5
 done
 
-sleep 10
-
+# retry until the instance is ready for command
+while [ $install_command_id == "" ]
+do
 install_command_id=$(aws ssm send-command \
     --instance-ids "${instance_id}" \
     --document-name "AWS-RunShellScript" \
@@ -21,8 +22,9 @@ install_command_id=$(aws ssm send-command \
     --cli-input-json file://.github/workflows/deploy_feature/installDocker.json  \
     --output text \
     --query "Command.CommandId")
+    sleep 10
+done
 
-sleep 2
 
 while [ "$(aws ssm list-command-invocations \
     --command-id "${install_command_id}" \
@@ -35,9 +37,9 @@ do
 done
 
 DnsName=$(aws ec2 describe-instances --instance-ids "${instance_id}" --output text --query 'Reservations[*].Instances[*].[PublicDnsName]')
-
-scp -o StrictHostKeyChecking=no -i "sms-key.pem" docker-compose-feature.yml ubuntu@"${DnsName}":~
-scp -o StrictHostKeyChecking=no -i "sms-key.pem" ./.env ubuntu@"${DnsName}":~
+cat ./sms-key.pem
+scp -o StrictHostKeyChecking=no -i "./sms-key.pem" docker-compose-feature.yml ubuntu@"${DnsName}":~
+scp -o StrictHostKeyChecking=no -i "./sms-key.pem" ./.env ubuntu@"${DnsName}":~
 
 pull_command_id=$(aws ssm send-command \
     --instance-ids "${instance_id}" \
