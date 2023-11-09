@@ -18,7 +18,7 @@ install_command_id=$(aws ssm send-command \
     --instance-ids "${instance_id}" \
     --document-name "AWS-RunShellScript" \
     --comment "install Docker" \
-    --cli-input-json file://installDocker.json  \
+    --cli-input-json file://.github/workflows/deploy_feature/installDocker.json  \
     --output text \
     --query "Command.CommandId")
 
@@ -41,7 +41,7 @@ pull_command_id=$(aws ssm send-command \
     --instance-ids "${instance_id}" \
     --document-name "AWS-RunShellScript" \
     --comment "run Docker images" \
-    --cli-input-json file://runImages.json  \
+    --cli-input-json file://.github/workflows/deploy_feature/runImages.json \
     --output text \
     --query "Command.CommandId")
 
