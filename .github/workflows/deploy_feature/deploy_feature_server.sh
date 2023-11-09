@@ -43,6 +43,9 @@ cat ./sms-key.pem
 scp -o StrictHostKeyChecking=no -i ./sms-key.pem docker-compose-feature.yml ubuntu@"${DnsName}":~
 scp -o StrictHostKeyChecking=no -i ./sms-key.pem ./.env ubuntu@"${DnsName}":~
 
+ls
+pwd
+
 pull_command_id=$(aws ssm send-command \
     --instance-ids "${instance_id}" \
     --document-name "AWS-RunShellScript" \
