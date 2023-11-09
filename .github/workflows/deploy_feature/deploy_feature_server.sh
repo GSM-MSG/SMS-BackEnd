@@ -39,7 +39,7 @@ do
 done
 
 DnsName=$(aws ec2 describe-instances --instance-ids "${instance_id}" --output text --query 'Reservations[*].Instances[*].[PublicDnsName]')
-cat ./sms-key.pem
+
 scp -o StrictHostKeyChecking=no -i ./sms-key.pem docker-compose-feature.yml ubuntu@"${DnsName}":~
 scp -o StrictHostKeyChecking=no -i ./sms-key.pem ./.env ubuntu@"${DnsName}":~
 
