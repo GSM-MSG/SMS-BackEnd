@@ -22,6 +22,8 @@ install_command_id=$(aws ssm send-command \
     --output text \
     --query "Command.CommandId")
 
+sleep 2
+
 while [ "$(aws ssm list-command-invocations \
     --command-id "${install_command_id}" \
     --details \
@@ -34,8 +36,8 @@ done
 
 DnsName=$(aws ec2 describe-instances --instance-ids "${instance_id}" --output text --query 'Reservations[*].Instances[*].[PublicDnsName]')
 
-scp -i "sms-key.pem" docker-compose-feature.yml ubuntu@"${DnsName}":~
-scp -i "sms-key.pem" ./.env ubuntu@"${DnsName}":~
+scp -o StrictHostKeyChecking=no -i "sms-key.pem" docker-compose-feature.yml ubuntu@"${DnsName}":~
+scp -o StrictHostKeyChecking=no -i "sms-key.pem" ./.env ubuntu@"${DnsName}":~
 
 pull_command_id=$(aws ssm send-command \
     --instance-ids "${instance_id}" \
