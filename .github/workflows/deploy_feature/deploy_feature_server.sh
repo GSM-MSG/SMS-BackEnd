@@ -54,6 +54,13 @@ pull_command_id=$(aws ssm send-command \
     --output text \
     --query "Command.CommandId")
 
+sleep 5
+
+aws ssm list-command-invocations \
+    --command-id "${pull_command_id}" \
+    --details \
+    --output json
+
 #aws ec2 terminate-instances --instance-ids "${instance_id}"
 
 
