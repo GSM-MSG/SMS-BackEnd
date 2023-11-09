@@ -12,8 +12,8 @@ do
   sleep 5
 done
 
-# retry until the instance is ready for command
-while [ $install_command_id == "" ]
+
+while [ "$install_command_id" == "" ]
 do
 install_command_id=$(aws ssm send-command \
     --instance-ids "${instance_id}" \
@@ -22,6 +22,8 @@ install_command_id=$(aws ssm send-command \
     --cli-input-json file://.github/workflows/deploy_feature/installDocker.json  \
     --output text \
     --query "Command.CommandId")
+
+    echo retry until the instance is ready for command
     sleep 10
 done
 
