@@ -68,8 +68,6 @@ done
 aws ssm list-command-invocations \
     --command-id "${pull_command_id}" \
     --details \
-    --output text \
-    --query "CommandInvocations[0].Status"
 
 #aws ec2 terminate-instances --instance-ids "${instance_id}"
 
