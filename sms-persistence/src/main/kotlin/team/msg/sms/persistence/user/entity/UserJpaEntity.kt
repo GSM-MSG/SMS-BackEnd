@@ -22,7 +22,7 @@ class UserJpaEntity(
     val stuNum: String,
 
     @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "Role", joinColumns = [JoinColumn(name = "user_id")])
     val roles: MutableList<Role> = mutableListOf()
 ) : BaseUuidEntity(id) {
