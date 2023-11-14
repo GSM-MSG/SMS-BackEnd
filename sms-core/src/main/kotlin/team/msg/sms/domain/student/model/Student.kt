@@ -11,10 +11,10 @@ data class Student(
     val department: Department,
     val contactEmail: String,
     val formOfEmployment: FormOfEmployment,
-    val gsmAuthenticationScore: Int,
+    val gsmAuthenticationScore: Int = 0,
     val militaryService: MilitaryService,
     val portfolioUrl: String?,
-    val salary: Int,
+    val salary: Int = 0,
     val profileImgUrl: String,
     val userId: UUID
 ) {

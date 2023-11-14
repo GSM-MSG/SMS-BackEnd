@@ -55,10 +55,8 @@ class SignUpUseCase(
             department = findDepartment(user.stuNum),
             contactEmail = signUpData.contactEmail,
             formOfEmployment = FormOfEmployment.FULL_TIME,
-            gsmAuthenticationScore = 0,
             militaryService = MilitaryService.HOPE,
             portfolioUrl = signUpData.portfolioUrl,
-            salary = 0,
             profileImgUrl = signUpData.profileImgUrl,
             userId = user.id
         )
