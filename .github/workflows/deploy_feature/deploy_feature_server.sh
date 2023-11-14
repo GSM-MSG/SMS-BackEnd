@@ -4,6 +4,7 @@ profile_arn=$FEATURE_SERVER_PROFILE_ARN
 
 # ami = default ubuntu
 instance_id=$(aws ec2 run-instances --image-id ami-086cae3329a3f7d75 --instance-type t2.micro --key-name sms-key --subnet-id subnet-0288374d5ee6ba4c8 --iam-instance-profile Arn="${profile_arn}" --security-group-ids sg-058ec5c5fee753faa --output text --query "Instances[0].InstanceId")
+export instance_id
 
 while [ "$(aws ec2 describe-instances --instance-ids "${instance_id}" --output text --query 'Reservations[*].Instances[*].[State.Name][0][0]')" != "running" ]
 do
