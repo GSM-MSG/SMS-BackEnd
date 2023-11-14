@@ -70,8 +70,8 @@ aws ssm list-command-invocations \
     --details \
 
 public_ip=$(aws ec2 describe-instances --instance-ids "${instance_id}" --output text --query 'Reservations[*].Instances[*].PublicIpAddress')
-echo "export instance_id=$instance_id" >> variable_file.sh
-echo "export public_ip=$public_ip" >> variable_file.sh
+echo "instance_id=$instance_id" >> var_file
+echo "public_ip=$public_ip" >> var_file
 #aws ec2 terminate-instances --instance-ids "${instance_id}"
 
 
