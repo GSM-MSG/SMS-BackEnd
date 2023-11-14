@@ -1,0 +1,123 @@
+name: Deploy Feature Branch
+
+on:
+  workflow_dispatch:
+    branches:
+      - 'feat/*'
+      - 'automation/*'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'branch' && startsWith(github.ref_name, 'feat/')
+
+    env:
+      ECR_REPOSITORY: sms-ecr-repo
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Create application.yml
+        run: |
+          touch ./sms-infrastructure/src/main/resources/application.yml
+          echo "${{ secrets.SMS_BACKEND_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
+        shell: bash
+
+      - name: Run build with Gradle wrapper
+        run: ./gradlew clean build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Extract feature name and set env var
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          FEATURE_NAME="${BRANCH_NAME#feat/}"
+          echo "Full branch name: $BRANCH_NAME"
+          echo "Feature name: $FEATURE_NAME"
+          echo "FEATURE_NAME=$FEATURE_NAME" >> $GITHUB_ENV
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ env.FEATURE_NAME }}
+        run: |
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG .
+          docker tag ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG ${{ secrets.REPO_URL }}:$IMAGE_TAG
+          docker push ${{ secrets.REPO_URL }}:$IMAGE_TAG
+
+      - name: pull key from github secrets
+        env:
+          PEM_KEY: ${{ secrets.FEATURE_SERVER_PEM }}
+          DOTENV: ${{ secrets.FEATURE_SERVER_DOTENV }}
+          REPO_URL: ${{ secrets.ONLY_REPO_URL }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ env.FEATURE_NAME }}
+        run: |
+          echo $PEM_KEY >> ./sms-key.pem
+          chmod 400 ./sms-key.pem
+          echo "REPO_URL=$REPO_URL" >> .env
+          echo "ECR_REPOSITORY=$ECR_REPOSITORY" >> .env
+          echo "IMAGE_TAG=$IMAGE_TAG" >> .env
+
+      - name: Configure SSH Agent
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: |
+            ${{ secrets.FEATURE_SERVER_PEM }}
+
+      - name: add image tag to dotenv
+        env:
+          IMAGE_TAG: ${{ env.FEATURE_NAME }}
+          REPO_URL: ${{ secrets.ONLY_REPO_URL }}
+        run : |
+          sed -i "s|\$imageTag|$FEATURE_NAME|" .env
+          sed -i "s|\$repoUrl|$REPO_URL|" .github/workflows/deploy_feature/runImages.json
+
+      - name: Create new EC2 and deploy
+        id: deploy-feature
+        run: |
+          bash ./.github/workflows/deploy_feature/deploy_feature_server.sh
+          cat var_file >> $GITHUB_ENV
+        env:
+          FEATURE_SERVER_PROFILE_ARN: ${{ secrets.FEATURE_SERVER_PROFILE_ARN }}
+
+      - name: SMS-Backend-feature-CD Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ success() }}
+        with:
+          title: ✅ SMS feature 서버 배포 성공! 테스트 드가자~ ✅
+          content: "${{ env.instance_id }} 인스턴스 종료를 잊지 말 것.\n ${{ env.public_ip }}"
+          webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
+          color: 00FF00
+
+      - name: SMS-Backend-feature-CD Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() }}
+        with:
+          title: ❗️ SMS-Backend-CD 실패! ❗️
+          webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
+          color: FF0000
