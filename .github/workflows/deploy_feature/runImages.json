@@ -1,0 +1,13 @@
+{
+	"Parameters":{
+		"commands": [
+			"#!/bin/bash",
+			"cd /home/ubuntu",
+			"docker compose -f docker-compose-feature.yml up -d redis ",
+			"aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $repoUrl",
+			"sleep 10",
+			"docker compose -f docker-compose-feature.yml up -d main",
+			"echo success!"
+		]
+	}
+}

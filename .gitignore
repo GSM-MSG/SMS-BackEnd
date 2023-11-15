@@ -44,3 +44,6 @@ sms-infrastructure/src/main/resources/application-local.yml
 sms-infrastructure/src/main/resources/application-prod.yml
 
 .DS_Store
+
+*.pem
+**/.env
