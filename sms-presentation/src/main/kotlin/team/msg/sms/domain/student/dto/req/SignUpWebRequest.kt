@@ -20,10 +20,6 @@ data class SignUpWebRequest(
     val introduce: String,
 
     @field:NotBlank
-    @field:Pattern(regexp = "^(https?://).*")
-    val portfolioUrl: String,
-
-    @field:NotBlank
     @field:Email
     val contactEmail: String,
 
@@ -53,7 +49,6 @@ data class SignUpWebRequest(
             techStacks = techStacks,
             profileImgUrl = profileImgUrl,
             introduce = introduce,
-            portfolioUrl = portfolioUrl,
             contactEmail = contactEmail,
             formOfEmployment = formOfEmployment,
             gsmAuthenticationScore = gsmAuthenticationScore,

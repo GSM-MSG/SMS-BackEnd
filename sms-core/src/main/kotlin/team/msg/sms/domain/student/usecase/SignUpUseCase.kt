@@ -2,34 +2,10 @@ package team.msg.sms.domain.student.usecase
 
 import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.common.util.ProjectUtil
-import team.msg.sms.common.util.ProjectUtil.validatePreviewImageLimit
-import team.msg.sms.domain.certificate.model.Certificate
-import team.msg.sms.domain.certificate.service.CertificateService
-import team.msg.sms.domain.file.model.Image
-import team.msg.sms.domain.file.service.ImageService
-import team.msg.sms.domain.languagecertificate.dto.req.LanguageCertificateRequestData
-import team.msg.sms.domain.languagecertificate.model.LanguageCertificate
-import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
-import team.msg.sms.domain.prize.dto.req.PrizeRequestData
-import team.msg.sms.domain.prize.model.Prize
-import team.msg.sms.domain.prize.service.PrizeService
-import team.msg.sms.domain.project.dto.req.LinkRequestData
-import team.msg.sms.domain.project.dto.req.ProjectRequestData
-import team.msg.sms.domain.project.model.Project
-import team.msg.sms.domain.project.model.ProjectLink
-import team.msg.sms.domain.project.model.ProjectTechStack
-import team.msg.sms.domain.project.service.ProjectLinkService
-import team.msg.sms.domain.project.service.ProjectService
-import team.msg.sms.domain.project.service.ProjectTechStackService
-import team.msg.sms.domain.region.model.Region
-import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.dto.req.SignUpRequestData
 import team.msg.sms.domain.student.exception.StuNumNotRightException
 import team.msg.sms.domain.student.exception.StudentNotFoundException
-import team.msg.sms.domain.student.model.Department
-import team.msg.sms.domain.student.model.Student
-import team.msg.sms.domain.student.model.StudentTechStack
+import team.msg.sms.domain.student.model.*
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.student.service.StudentTechStackService
 import team.msg.sms.domain.techstack.model.TechStack
@@ -43,15 +19,7 @@ class SignUpUseCase(
     private val studentService: StudentService,
     private val studentTechStackService: StudentTechStackService,
     private val userService: UserService,
-    private val techStackService: TechStackService,
-    private val regionService: RegionService,
-    private val languageCertificateService: LanguageCertificateService,
-    private val certificateService: CertificateService,
-    private val projectService: ProjectService,
-    private val projectTechStackService: ProjectTechStackService,
-    private val projectLinkService: ProjectLinkService,
-    private val imageService: ImageService,
-    private val prizeService: PrizeService
+    private val techStackService: TechStackService
 ) {
     @Transactional(rollbackFor = [Exception::class])
     fun execute(signUpData: SignUpRequestData) {
@@ -161,15 +129,12 @@ class SignUpUseCase(
     private fun toStudentModel(signUpData: SignUpRequestData, user: User): Student =
         Student(
             id = UUID.randomUUID(),
+            major = signUpData.major,
+            introduce = signUpData.introduce,
             department = findDepartment(user.stuNum),
             contactEmail = signUpData.contactEmail,
-            major = signUpData.major,
-            portfolioUrl = signUpData.portfolioUrl,
-            gsmAuthenticationScore = signUpData.gsmAuthenticationScore,
-            salary = signUpData.salary,
-            formOfEmployment = signUpData.formOfEmployment,
-            introduce = signUpData.introduce,
-            militaryService = signUpData.militaryService,
+            formOfEmployment = FormOfEmployment.FULL_TIME,
+            militaryService = MilitaryService.HOPE,
             profileImgUrl = signUpData.profileImgUrl,
             userId = user.id
         )
