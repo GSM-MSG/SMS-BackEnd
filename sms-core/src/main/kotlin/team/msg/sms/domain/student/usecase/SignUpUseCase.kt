@@ -38,86 +38,7 @@ class SignUpUseCase(
             stack = techStacks,
             studentTechStacks = signUpData.techStacks
         )
-
-        signUpData.projects.forEach {
-            validatePreviewImageLimit(it.previewImages)
-            val project = projectService.save(project = toProjectModel(it, studentId = student.id))
-            projectTechStackValid(techStacks, it.techStacks, project.id)
-            saveAllIfNotEmpty(
-                it.links,
-                { projectLink -> toProjectLinkModel(projectLink = projectLink, projectId = project.id) },
-                projectLinkService::saveAll
-            )
-            saveAllIfNotEmpty(
-                it.previewImages,
-                { previewImage -> toImageModel(url = previewImage, projectId = project.id) },
-                imageService::saveAll
-            )
-        }
-
-        saveAllIfNotEmpty(
-            signUpData.regions,
-            { toRegionModel(region = it, studentId = student.id) },
-            regionService::saveAll
-        )
-
-        saveAllIfNotEmpty(
-            signUpData.languageCertificates,
-            { toLanguageCertificate(languageCertificate = it, studentId = student.id) },
-            languageCertificateService::saveAll
-        )
-
-        saveAllIfNotEmpty(
-            signUpData.certificates,
-            { toCertificate(certificate = it, studentId = student.id) },
-            certificateService::saveAll
-        )
-
-        saveAllIfNotEmpty(
-            signUpData.prizes,
-            { toPrizeModel(prize = it, studentId = student.id) },
-            prizeService::saveAll
-        )
     }
-
-    private fun <T, R> saveAllIfNotEmpty(dataList: List<T>, transform: (T) -> R, saveFunction: (List<R>) -> Unit) {
-        dataList
-            .takeIf { it.isNotEmpty() }
-            ?.map { transform(it) }
-            ?.let { saveFunction(it) }
-    }
-
-    private fun toImageModel(url: String, projectId: Long): Image =
-        Image(
-            id = 0,
-            imageUrl = url,
-            projectId = projectId
-        )
-
-    private fun toRegionModel(region: String, studentId: UUID): Region =
-        Region(
-            id = 0,
-            region = region,
-            studentId = studentId
-        )
-
-    private fun toCertificate(certificate: String, studentId: UUID): Certificate =
-        Certificate(
-            id = 0,
-            certificateName = certificate,
-            studentId = studentId
-        )
-
-    private fun toLanguageCertificate(
-        languageCertificate: LanguageCertificateRequestData,
-        studentId: UUID
-    ): LanguageCertificate =
-        LanguageCertificate(
-            id = 0,
-            languageCertificateName = languageCertificate.languageCertificateName,
-            score = languageCertificate.languageCertificateScore,
-            studentId = studentId
-        )
 
     private fun toStackModel(stack: String): TechStack =
         TechStack(
@@ -139,69 +60,12 @@ class SignUpUseCase(
             userId = user.id
         )
 
-    private fun toProjectModel(projectRequestData: ProjectRequestData, studentId: UUID): Project {
-        return Project(
-            id = 0,
-            description = projectRequestData.description,
-            projectIconUrl = projectRequestData.icon,
-            title = projectRequestData.name,
-            myActivity = projectRequestData.myActivity,
-            startDate = projectRequestData.inProgress.start,
-            endDate = projectRequestData.inProgress.end,
-            studentId = studentId
-        )
-    }
-
-    private fun toProjectTechStackModel(projectId: Long, techStackId: Long): ProjectTechStack =
-        ProjectTechStack(
-            id = 0,
-            projectId = projectId,
-            techStackId = techStackId
-        )
-
-    private fun toProjectLinkModel(projectLink: LinkRequestData, projectId: Long): ProjectLink =
-        ProjectLink(
-            id = 0,
-            name = projectLink.name,
-            url = projectLink.url,
-            projectId = projectId
-        )
-
     private fun toStudentTechStackModel(studentId: UUID, techStackId: Long): StudentTechStack =
         StudentTechStack(
             id = 0,
             studentId = studentId,
             techStackId = techStackId
         )
-
-    private fun toPrizeModel(prize: PrizeRequestData, studentId: UUID) =
-        Prize(
-            id = 0,
-            name = prize.name,
-            type = prize.type,
-            date = prize.date,
-            studentId = studentId
-        )
-
-    private fun projectTechStackValid(
-        stack: MutableList<TechStack>,
-        projectTechStacks: List<String>,
-        projectId: Long
-    ) {
-        for (stackItem in projectTechStacks) {
-            val techStackData = stack.find { it.stack == stackItem }
-            if (techStackData == null) {
-                val techStack = techStackService.save(toStackModel(stackItem))
-                stack.add(0, techStack)
-                projectTechStackService.save(toProjectTechStackModel(projectId, techStack.id))
-
-            } else {
-                val techStack = techStackService.save(techStackData.copy(count = techStackData.count + 1))
-                stack.add(0, techStack)
-                projectTechStackService.save(toProjectTechStackModel(projectId, techStack.id))
-            }
-        }
-    }
 
     private fun studentTechStackValid(
         stack: MutableList<TechStack>,
