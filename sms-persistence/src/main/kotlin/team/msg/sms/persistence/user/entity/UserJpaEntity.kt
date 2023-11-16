@@ -1,8 +1,6 @@
 package team.msg.sms.persistence.user.entity
 
-import org.hibernate.annotations.ColumnDefault
 import team.msg.sms.domain.auth.model.Role
-import team.msg.sms.persistence.BaseIdEntity
 import team.msg.sms.persistence.BaseUuidEntity
 import java.util.UUID
 import javax.persistence.*
