@@ -75,6 +75,6 @@ class SignInUseCase(
 }
 
 private fun getStuNumValid(role: Role, gAuthUserInfo: GAuthUserInfo) =
-    if (role.name != "ROLE_TEACHER") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}" + if (gAuthUserInfo.num < 10) {
-        "0${gAuthUserInfo.num}"
-    } else gAuthUserInfo.num else ""
+    if (role.name != "ROLE_TEACHER") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}${gAuthUserInfo.getNumber()}" else ""
+
+private fun GAuthUserInfo.getNumber() = String.format("%02d", this.num)
