@@ -7,9 +7,12 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
+import org.springframework.data.redis.core.RedisKeyValueAdapter
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import java.time.Duration
 
 @Configuration
+@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 class RedisConfig(
 
     @Value("\${spring.redis.host}")
