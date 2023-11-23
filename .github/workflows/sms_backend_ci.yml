@@ -40,6 +40,8 @@ jobs:
           title: ✅ SMS-Backend-CI 성공! ✅
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
           color: 00FF00
+          description: 무례하군, 성공이야.
+          image: https://thumb.pann.com/tc_480/https://fimg5.pann.com/new/download.jsp?FileID=64108458
 
       - name: SMS Backend CI Discord Notification
         uses: sarisia/actions-status-discord@v1
@@ -48,3 +50,5 @@ jobs:
           title: ❗️ SMS-Backend-CI 실패! ❗️
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
           color: FF0000
+          description: 무례하군, 실패야.
+          image: https://thumb.pann.com/tc_480/https://fimg5.pann.com/new/download.jsp?FileID=64108458
