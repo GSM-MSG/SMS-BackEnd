@@ -80,7 +80,7 @@ jobs:
 
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
-        if: ${{ failure() }}
+        if: ${{ success() }}
         with:
           title: ✅ SMS-Backend-CD 성공! ✅
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
@@ -92,12 +92,12 @@ jobs:
 
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
-        if: ${{ success() }}
+        if: ${{ failure() }}
         with:
           title: ❗️ SMS-Backend-CD 실패! ❗️
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.CD_FAIL_IMAGE }}
           description: 무례하긴, 실패다.
-          color: e74c3c
+          color: FF0000
           username: SMS CD 봇
