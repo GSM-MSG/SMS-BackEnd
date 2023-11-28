@@ -38,39 +38,39 @@ jobs:
               includes: sms-infrastructure
               env:
                 - name: AWS_ACCESS_KEY
-                  var: AWS_ACCESS_KEY
+                  value: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 - name: AWS_REGION_STATIC
-                  var: var: AWS_ACCESS_KEY
+                  value: ${{ secrets.AWS_REGION_STATIC }}
                 - name: AWS_SECRET_KEY
-                  var: AWS_SECRET_KEY
+                  value: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 - name: DB_DRIVER
                   value: ${{ secrets.DB_DRIVER }}
                 - name: DB_PASSWORD
-                  var: DB_PASSWORD
+                  value: ${{ secrets.DB_PASSWORD }}
                 - name: DB_URL
-                  var: DB_URL
+                  value: ${{ secrets.DB_URL }}
                 - name: DB_USERNAME
-                  var: DB_USERNAME
+                  value: ${{ secrets.DB_USERNAME }}
                 - name: GAUTH_CLIENT_ID
-                  var: GAUTH_CLIENT_ID
+                  value: ${{ secrets.GAUTH_CLIENT_ID }}
                 - name: GAUTH_CLIENT_SECRET
-                  var: GAUTH_CLIENT_SECRET
+                  value: ${{ secrets.GAUTH_CLIENT_SECRET }}
                 - name: GAUTH_REDIRECT_URI
-                  var: GAUTH_REDIRECT_URI
+                  value: ${{ secrets.GAUTH_REDIRECT_URI }}
                 - name: JWT_ACCESS_SECRET
-                  var: JWT_ACCESS_SECRET
+                  value: ${{ secrets.JWT_ACCESS_SECRET }}
                 - name: JWT_REFRESH_SECRET
-                  var: JWT_REFRESH_SECRET
+                  value: ${{ secrets.JWT_REFRESH_SECRET }}
                 - name: REDIS_HOST
-                  var: REDIS_HOST
+                  value: ${{ secrets.REDIS_HOST }}
                 - name: REDIS_PORT
-                  var: REDIS_PORT
+                  value: ${{ secrets.REDIS_PORT }}
                 - name: S3_BUCKET
-                  var: S3_BUCKET
+                  value: ${{ secrets.S3_BUCKET }}
                 - name: S3_LOG_BUCKET
-                  var: S3_LOG_BUCKET
+                  value: ${{ secrets.S3_LOG_BUCKET }}
                 - name: SECURITY_SECRET_KEY
-                  var: SECURITY_SECRET_KEY
+                  value: ${{ secrets.SECURITY_SECRET_KEY }}
               start: java -jar sms-infrastructure/build/libs/sms-infrastructure-0.0.1-SNAPSHOT.jar
             context:
               git:
