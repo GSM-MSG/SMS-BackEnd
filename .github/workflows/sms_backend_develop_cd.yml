@@ -99,5 +99,5 @@ jobs:
           status: ${{ job.status }}
           image: ${{ secrets.CD_FAIL_IMAGE }}
           description: 무례하긴, 실패다.
-          color: FF0000
+          color: e74c3c
           username: SMS CD 봇
