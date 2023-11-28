@@ -44,7 +44,7 @@ jobs:
                 - name: AWS_SECRET_KEY
                   var: AWS_SECRET_KEY
                 - name: DB_DRIVER
-                  value: org.mariadb.jdbc.Driver
+                  value: ${{ secrets.DB_DRIVER }}
                 - name: DB_PASSWORD
                   var: DB_PASSWORD
                 - name: DB_URL
