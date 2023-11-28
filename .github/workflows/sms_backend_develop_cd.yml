@@ -38,11 +38,11 @@ jobs:
               includes: sms-infrastructure
               env:
                 - name: AWS_ACCESS_KEY
-                  value: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  value: ${{ secrets.AWS_ACCESS_KEY }}
                 - name: AWS_REGION_STATIC
                   value: ${{ secrets.AWS_REGION_STATIC }}
                 - name: AWS_SECRET_KEY
-                  value: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  value: ${{ secrets.AWS_SECRET_KEY }}
                 - name: DB_DRIVER
                   value: ${{ secrets.DB_DRIVER }}
                 - name: DB_PASSWORD
