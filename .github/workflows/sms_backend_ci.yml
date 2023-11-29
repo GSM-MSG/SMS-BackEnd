@@ -33,22 +33,28 @@ jobs:
       - name: Run build with Gradle wrapper
         run: ./gradlew clean build
 
-      - name: SMS Backend CI Discord Notification
+      - name: SMS-Backend-CI Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
         with:
           title: ✅ SMS-Backend-CI 성공! ✅
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          image: ${{ secrets.CI_SUCCESS_IMAGE }}
+          description: 영역전개 CI 성공
           color: 00FF00
-          description: 무례하군, 성공이야.
-          image: https://thumb.pann.com/tc_480/https://fimg5.pann.com/new/download.jsp?FileID=64108458
+          username: SMS CI 봇
+          url: https://github.com/GSM-MSG/SMS-BackEnd
 
-      - name: SMS Backend CI Discord Notification
+      - name: SMS-Backend-CI Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ failure() }}
         with:
           title: ❗️ SMS-Backend-CI 실패! ❗️
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          image: ${{ secrets.CI_FAIL_IMAGE }}
+          description: 무례하긴, 실패다.
           color: FF0000
-          description: 무례하군, 실패야.
-          image: https://thumb.pann.com/tc_480/https://fimg5.pann.com/new/download.jsp?FileID=64108458
+          username: SMS CI 봇
+          url: https://github.com/GSM-MSG/SMS-BackEnd
