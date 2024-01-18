@@ -11,7 +11,7 @@ class HomeroomTeacherJpaEntity (
     @Column
     val grade: Int,
 
-    @Column(name = "class_name")
+    @Column(name = "class_num")
     val classNum: Int,
 
     @OneToOne(cascade = [CascadeType.ALL])
