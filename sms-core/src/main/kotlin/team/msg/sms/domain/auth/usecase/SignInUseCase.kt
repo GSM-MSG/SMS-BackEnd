@@ -14,7 +14,9 @@ import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
 import team.msg.sms.domain.student.service.StudentService
+import team.msg.sms.domain.teacher.service.TeacherService
 import team.msg.sms.domain.user.exception.InternalServerErrorException
+import team.msg.sms.domain.user.exception.RoleNotExistsException
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 
@@ -24,7 +26,8 @@ class SignInUseCase(
     private val jwtPort: JwtPort,
     private val refreshTokenPort: RefreshTokenPort,
     private val userService: UserService,
-    private val studentService: StudentService
+    private val studentService: StudentService,
+    private val teacherService: TeacherService
 ) {
 
     fun execute(request: SignInRequestData): SignInResponseData =
@@ -49,7 +52,11 @@ class SignInUseCase(
 
             refreshTokenPort.saveRefreshToken(RefreshToken(refreshToken, user.id))
 
-            val isStudent = studentService.checkNewStudent(user, role.name)
+            val isExist = when (role.name) {
+                "ROLE_STUDENT" -> studentService.checkNewStudent(user)
+                "ROLE_TEACHER" -> teacherService.checkNewTeacher(user)
+                else -> throw RoleNotExistsException
+            }
 
             SignInResponseData(
                 accessToken = accessToken,
@@ -57,7 +64,7 @@ class SignInUseCase(
                 refreshToken = refreshToken,
                 refreshTokenExp = refreshTokenExp,
                 role = role,
-                isExist = isStudent
+                isExist = isExist
             )
         }.getOrElse { error ->
             when (error) {
