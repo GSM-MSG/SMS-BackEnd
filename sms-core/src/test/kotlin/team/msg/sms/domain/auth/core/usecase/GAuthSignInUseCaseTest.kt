@@ -158,7 +158,7 @@ class GAuthSignInUseCaseTest {
         given(refreshTokenPort.saveRefreshToken(any()))
             .willReturn(refreshTokenStub)
 
-        given(studentService.checkNewStudent(saveUserStub, role.name))
+        given(studentService.checkNewStudent(saveUserStub))
             .willReturn(false)
 
         // when
