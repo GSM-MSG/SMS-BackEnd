@@ -6,7 +6,7 @@ import team.msg.sms.domain.teacher.service.TeacherService
 import team.msg.sms.domain.user.service.UserService
 
 @UseCase
-class SignUpUseCase(
+class SignUpTeacherUseCase(
     private val userService: UserService,
     private val teacherService: TeacherService
 ) {

@@ -5,12 +5,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import team.msg.sms.domain.teacher.usecase.SignUpUseCase
+import team.msg.sms.domain.teacher.usecase.SignUpTeacherUseCase
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/teacher")
 class TeacherWebAdapter(
-    private val signUpUseCase: SignUpUseCase
+    private val signUpUseCase: SignUpTeacherUseCase
 ) {
     @PostMapping("/common")
     fun signUpTeacher(): ResponseEntity<Void> =
