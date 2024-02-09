@@ -132,9 +132,7 @@ class GAuthSignInUseCaseTest {
             gAuthPort = gAuthPort,
             jwtPort = jwtPort,
             refreshTokenPort = refreshTokenPort,
-            userService = userService,
-            studentService =  studentService,
-            teacherService = teacherService
+            userService = userService
         )
     }
 
@@ -163,7 +161,7 @@ class GAuthSignInUseCaseTest {
         given(refreshTokenPort.saveRefreshToken(any()))
             .willReturn(refreshTokenStub)
 
-        given(studentService.checkNewStudent(saveUserStub))
+        given(userService.checkNewUser(saveUserStub))
             .willReturn(false)
 
         // when
