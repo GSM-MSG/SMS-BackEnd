@@ -11,12 +11,12 @@ import java.util.*
 class CommandTeacherServiceImpl(
     private val teacherPort: TeacherPort
 ) : CommandTeacherService {
-    override fun saveTeacher(user: User): Teacher {
+    override fun saveTeacher(user: User) {
         val teacher = Teacher(
             id = UUID.randomUUID(),
             userId = user.id,
         )
 
-        return teacherPort.saveTeacher(teacher, user)
+        teacherPort.saveTeacher(teacher, user)
     }
 }
