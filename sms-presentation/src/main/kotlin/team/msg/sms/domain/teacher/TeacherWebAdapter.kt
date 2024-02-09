@@ -13,7 +13,7 @@ class TeacherWebAdapter(
     private val signUpUseCase: SignUpTeacherUseCase
 ) {
     @PostMapping("/common")
-    fun signUpTeacher(): ResponseEntity<Void> =
+    fun signUpTeacher(): ResponseEntity<Unit> =
         signUpUseCase.execute()
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 }
