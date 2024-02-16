@@ -1,5 +1,5 @@
 package team.msg.sms.domain.teacher.service
 
 interface CheckHomeroomTeacherService {
-    fun checkHomeroomTeacherExistsByTeacher(grade: Int, classNum: Int)
+    fun checkHomeroomTeacherExistsByGradeAndClassNum(grade: Int, classNum: Int)
 }
