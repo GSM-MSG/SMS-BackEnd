@@ -14,7 +14,7 @@ class HomeroomTeacherJpaEntity (
     @Column(name = "class_num")
     val classNum: Int,
 
-    @OneToOne(cascade = [CascadeType.ALL])
+    @OneToOne
     @JoinColumn(name = "teacher_id")
     val teacher: TeacherJpaEntity
 ) : BaseIdEntity()
