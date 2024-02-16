@@ -5,7 +5,6 @@ import team.msg.sms.domain.student.exception.StudentAlreadyException
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.service.CheckStudentService
 import team.msg.sms.domain.student.spi.StudentPort
-import team.msg.sms.domain.user.exception.RoleNotExistsException
 import team.msg.sms.domain.user.model.User
 
 @Service
@@ -19,13 +18,8 @@ class CheckStudentServiceImpl (
     override fun studentExistsByUser(user: User): Boolean =
         studentPort.existsStudentByUser(user)
 
-    override fun checkNewStudent(user: User, role: String): Boolean {
-        return when (role) {
-            "ROLE_STUDENT" -> studentPort.existsStudentByUser(user)
-            "ROLE_TEACHER" -> true
-            else -> throw RoleNotExistsException
-        }
-    }
+    override fun checkNewStudent(user: User): Boolean =
+        studentPort.existsStudentByUser(user)
 
     override fun checkStudentDataMismatch(student: Student, modifyStudentData: Student): Boolean {
         return if(student.contactEmail != modifyStudentData.contactEmail) true
