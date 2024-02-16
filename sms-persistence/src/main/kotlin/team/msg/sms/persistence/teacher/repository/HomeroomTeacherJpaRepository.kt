@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import team.msg.sms.persistence.teacher.entity.HomeroomTeacherJpaEntity
 
 @Repository
-interface HomeroomTeacherJpaRepository : CrudRepository<HomeroomTeacherJpaEntity, Long>
+interface HomeroomTeacherJpaRepository : CrudRepository<HomeroomTeacherJpaEntity, Long> {
+    fun existsByGradeAndClassNum(grade: Int, classNum: Int): Boolean
+}
