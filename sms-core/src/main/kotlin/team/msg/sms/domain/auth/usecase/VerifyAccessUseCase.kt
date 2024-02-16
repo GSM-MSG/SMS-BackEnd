@@ -13,7 +13,7 @@ class VerifyAccessUseCase(
             .let {
                 VerifyAccessResponseData(
                     userService.checkNewUser(it),
-                    it.roles[0].name
+                    it.roles.joinToString("/")
                 )
             }
 }
