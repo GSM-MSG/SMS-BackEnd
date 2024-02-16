@@ -3,17 +3,27 @@ package team.msg.sms.domain.teacher
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import team.msg.sms.domain.teacher.dto.req.SignUpHomeroomTeacherWebRequest
+import team.msg.sms.domain.teacher.usecase.SignUpHomeroomTeacherUseCase
 import team.msg.sms.domain.teacher.usecase.SignUpTeacherUseCase
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/teacher")
 class TeacherWebAdapter(
-    private val signUpUseCase: SignUpTeacherUseCase
+    private val signUpTeacherUseCase: SignUpTeacherUseCase,
+    private val signUpHomeroomTeacherUseCase: SignUpHomeroomTeacherUseCase
 ) {
     @PostMapping("/common")
     fun signUpTeacher(): ResponseEntity<Unit> =
-        signUpUseCase.execute()
+        signUpTeacherUseCase.execute()
+            .let { ResponseEntity.status(HttpStatus.CREATED).build() }
+
+    @PostMapping("/homeroom")
+    fun signUpHomeroomTeacher(@RequestBody @Valid signUpHomeroomTeacherWebRequest: SignUpHomeroomTeacherWebRequest): ResponseEntity<Unit> =
+        signUpHomeroomTeacherUseCase.execute(signUpHomeroomTeacherWebRequest.toData())
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 }

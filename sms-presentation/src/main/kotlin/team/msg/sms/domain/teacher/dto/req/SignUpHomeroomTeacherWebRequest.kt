@@ -14,4 +14,10 @@ data class SignUpHomeroomTeacherWebRequest(
     @field:Max(4)
     @field:NotNull
     val classNum: Int
-)
+) {
+    fun toData(): SignUpHomeroomTeacherRequestData =
+        SignUpHomeroomTeacherRequestData(
+            grade = grade,
+            classNum = classNum
+        )
+}
