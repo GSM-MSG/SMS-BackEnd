@@ -5,7 +5,7 @@ import java.util.*
 
 @Aggregate
 data class HomeroomTeacher (
-    val id: Long,
+    val id: Long = 0,
     val grade: Int,
     val classNum: Int,
     val teacherId: UUID,
