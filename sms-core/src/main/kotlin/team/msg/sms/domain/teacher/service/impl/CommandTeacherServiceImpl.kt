@@ -15,4 +15,10 @@ class CommandTeacherServiceImpl(
 
     override fun saveDirectorTeacher(teacher: Teacher, user: User) =
         saveTeacher(teacher, user)
+
+    override fun saveDeputyPrincipalTeacher(teacher: Teacher, user: User) =
+        saveTeacher(teacher, user)
+
+    override fun savePrincipalTeacher(teacher: Teacher, user: User) =
+        saveTeacher(teacher, user)
 }
