@@ -64,6 +64,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
 
             .antMatchers(HttpMethod.POST, "/teacher/common").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.POST, "/teacher/director").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.POST, "/teacher/homeroom").hasAuthority(TEACHER)
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
