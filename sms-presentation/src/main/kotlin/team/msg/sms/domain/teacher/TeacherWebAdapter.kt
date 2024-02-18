@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.msg.sms.domain.teacher.dto.req.SignUpHomeroomTeacherWebRequest
+import team.msg.sms.domain.teacher.usecase.SignUpDirectorTeacherUseCase
 import team.msg.sms.domain.teacher.usecase.SignUpHomeroomTeacherUseCase
 import team.msg.sms.domain.teacher.usecase.SignUpTeacherUseCase
 import javax.validation.Valid
@@ -15,11 +16,17 @@ import javax.validation.Valid
 @RequestMapping("/teacher")
 class TeacherWebAdapter(
     private val signUpTeacherUseCase: SignUpTeacherUseCase,
+    private val signUpDirectorTeacherUseCase: SignUpDirectorTeacherUseCase,
     private val signUpHomeroomTeacherUseCase: SignUpHomeroomTeacherUseCase
 ) {
     @PostMapping("/common")
     fun signUpTeacher(): ResponseEntity<Unit> =
         signUpTeacherUseCase.execute()
+            .let { ResponseEntity.status(HttpStatus.CREATED).build() }
+
+    @PostMapping("/director")
+    fun signUpDirectorTeacher(): ResponseEntity<Unit> =
+        signUpDirectorTeacherUseCase.execute()
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 
     @PostMapping("/homeroom")
