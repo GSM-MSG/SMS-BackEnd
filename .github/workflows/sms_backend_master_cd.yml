@@ -57,7 +57,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: latest
+        IMAGE_TAG: ${{ secrets.IMAGE_TAG }}
       run: |
         docker build -t ${{ secrets.ECR_REPOSITORY }} .
         docker tag ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG ${{ secrets.REPO_URL }}:$IMAGE_TAG

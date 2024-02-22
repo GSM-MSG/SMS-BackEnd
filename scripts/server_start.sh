@@ -2,7 +2,7 @@
 
 aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${REPO_URL}
 
-docker pull ${REPO_URL}/${ECR_REPOSITORY}:latest
+docker pull ${REPO_URL}/${ECR_REPOSITORY}:${IMAGE_TAG}
 docker pull ${NGINX_URl}
 
 docker compose up -d redis
