@@ -5,6 +5,9 @@ files:
   - source: /docker-compose.yml
     destination: /home/ubuntu/
     overwrite: yes
+  - source: /docker-compose-develop.yml
+    destination: /home/ubuntu/
+    overwrite: yes
 
 file_exists_behavior: OVERWRITE
 
