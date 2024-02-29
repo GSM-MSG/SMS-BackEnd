@@ -64,7 +64,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker build -t ${{ secrets.ECR_REPOSITORY }} .
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:${{ secrets.DEVELOP_IMAGE_TAG }} .
           docker tag ${{ secrets.ECR_REPOSITORY }}:${{ secrets.DEVELOP_IMAGE_TAG }} ${{ secrets.REPO_URL }}:${{ secrets.DEVELOP_IMAGE_TAG }}
           docker push ${{ secrets.REPO_URL }}:${{ secrets.DEVELOP_IMAGE_TAG }}
 
