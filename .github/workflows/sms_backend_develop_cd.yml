@@ -2,9 +2,10 @@ name: Deploy to Develop server
 
 on:
     push:
-      branches: ??
-        - feature/261-develop-server
+      branches:
         - develop
+        - feature/261-develop-server
+
 jobs:
     CD:
       name: CD
@@ -37,6 +38,8 @@ jobs:
         run: chmod +x gradlew
   
       - name: Create application.yml
+        env:
+          IMAGE_TAG: ${{ secrets.DEVELOP_IMAGE_TAG }}
         run: |
           touch ./sms-infrastructure/src/main/resources/application.yml
           echo "${{ secrets.SMS_BACKEND_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
@@ -60,7 +63,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ secrets.Develop_IMAGE_TAG }}
+          IMAGE_TAG: ${{ secrets.DEVELOP_IMAGE_TAG }}
         run: |
           docker build -t ${{ secrets.ECR_REPOSITORY }} .
           docker tag ${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG ${{ secrets.REPO_URL }}:$IMAGE_TAG
