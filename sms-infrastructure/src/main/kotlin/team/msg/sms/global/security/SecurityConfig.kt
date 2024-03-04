@@ -69,7 +69,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/teacher/principal").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.POST, "/teacher/deputy-principal").hasAuthority(TEACHER)
 
-            .antMatchers(HttpMethod.GET,"/authentication").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.POST,"/authentication").hasAuthority(STUDENT)
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
