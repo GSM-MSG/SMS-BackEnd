@@ -6,11 +6,10 @@ import java.util.*
 
 @Aggregate
 class AuthenticationHistory (
-    val id: Long,
+    val id: Long = 0,
     val reason: String,
-    val activityImages: List<String> = mutableListOf(),
-    val activityStatus: ActivityStatus = ActivityStatus.PENDING,
+    val activityStatus: ActivityStatus,
     val teacherId: UUID? = null,
     val authenticationId: UUID,
-    val createdAt: LocalDate
+    val createdAt: LocalDate = LocalDate.now()
 )

@@ -45,11 +45,14 @@ class GetStudentServiceImpl(
         }
     }
 
-    override fun getStudentByUuid(uuid: UUID): Student =
+    override fun getStudentByUserId(uuid: UUID): Student =
         studentPort.queryStudentByUserId(uuid)
 
     override fun getStudentUserInfoByUuid(uuid: String): Student.StudentWithUserInfo =
-        studentPort.queryStudentById(UUID.fromString(uuid)) ?: throw StudentNotFoundException
+        studentPort.queryStudentWithUserInfoById(UUID.fromString(uuid)) ?: throw StudentNotFoundException
+
+    override fun getStudentById(uuid: UUID): Student =
+        studentPort.queryStudentById(uuid) ?: throw StudentNotFoundException
 
     override fun getStudentByUser(user: User): Student =
         studentPort.queryStudentByUser(user)
