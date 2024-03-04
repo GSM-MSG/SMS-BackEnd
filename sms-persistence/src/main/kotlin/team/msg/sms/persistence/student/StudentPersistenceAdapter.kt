@@ -29,7 +29,7 @@ class StudentPersistenceAdapter(
     override fun deleteById(studentId: UUID) =
         studentJpaRepository.deleteById(studentId)
 
-    override fun queryStudentById(uuid: UUID): Student.StudentWithUserInfo? =
+    override fun queryStudentWithUserInfoById(uuid: UUID): Student.StudentWithUserInfo? =
         studentJpaRepository.findByIdOrNull(uuid)?.toDomainWithUserInfo()
 
     override fun existsStudentById(uuid: UUID): Boolean =

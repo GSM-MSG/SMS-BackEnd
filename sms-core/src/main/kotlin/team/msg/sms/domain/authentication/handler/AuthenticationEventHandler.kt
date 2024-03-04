@@ -22,9 +22,13 @@ class AuthenticationEventHandler(
      */
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     fun authenticationHistoryHandler(event: AuthenticationHistoryEvent) {
+        println(1)
         val authentication = event.authentication
-        val student = studentService.getStudentByUuid(authentication.studentId)
+        println(2)
+        val student = studentService.getStudentByUserId(authentication.studentId)
+        println(3)
         val studentUser = userService.getUserById(student.userId)
+        println(4)
         val history = AuthenticationHistory(
             reason = event.reason,
             activityStatus = authentication.activityStatus,
@@ -32,6 +36,8 @@ class AuthenticationEventHandler(
             authenticationId = authentication.id
         )
 
+        println(5)
         authenticationHistoryPort.save(history, authentication, student, studentUser)
+        println(6)
     }
 }
