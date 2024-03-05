@@ -1,22 +1,24 @@
 package team.msg.sms.domain.authentication.usecase
 
-import org.springframework.context.ApplicationEventPublisher
-import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.authentication.dto.req.CreateAuthenticationRequestData
-import team.msg.sms.domain.authentication.dto.res.CreateAuthenticationResponseData
-import team.msg.sms.domain.authentication.event.AuthenticationHistoryEvent
-import team.msg.sms.domain.authentication.model.Authentication
+import team.msg.sms.domain.authentication.exception.AlreadyAwardedScoreException
+import team.msg.sms.domain.authentication.model.ActivityStatus
 import team.msg.sms.domain.authentication.service.AuthenticationService
 import team.msg.sms.domain.student.service.StudentService
-import team.msg.sms.domain.user.service.UserService
-import java.util.*
+import java.util.UUID
 
 @UseCase
 class DeleteAuthenticationUseCase(
+    private val authenticationService: AuthenticationService,
     private val studentService: StudentService
 ) {
     fun execute(uuid: String) {
-        studentService.deleteByUuid(UUID.fromString(uuid))
+        val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
+        val student = studentService.currentStudent()
+
+        if(authentication.activityStatus == ActivityStatus.APPROVED ||
+           authentication.studentId != student.id) throw AlreadyAwardedScoreException
+
+        authenticationService.deleteAuthenticationByUuid(UUID.fromString(uuid))
     }
 }
