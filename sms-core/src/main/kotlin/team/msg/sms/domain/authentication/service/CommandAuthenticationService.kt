@@ -10,4 +10,6 @@ interface CommandAuthenticationService {
         student: Student,
         user: User
     ): Authentication
+
+    fun deleteAuthenticationByUuid(uuid: String)
 }

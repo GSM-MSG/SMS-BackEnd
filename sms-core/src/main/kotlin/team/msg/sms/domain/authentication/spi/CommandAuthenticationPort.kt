@@ -3,6 +3,7 @@ package team.msg.sms.domain.authentication.spi
 import team.msg.sms.domain.authentication.model.Authentication
 import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.user.model.User
+import java.util.*
 
 interface CommandAuthenticationPort {
     fun save(
@@ -10,4 +11,6 @@ interface CommandAuthenticationPort {
         student: Student,
         user: User
     ): Authentication
+
+    fun deleteAuthenticationByUuid(uuid: UUID)
 }

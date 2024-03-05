@@ -1,3 +1,3 @@
 package team.msg.sms.domain.authentication.spi
 
-interface AuthenticationPort : CommandAuthenticationPort, QueryAuthenticationPort, DeleteAuthenticationPort
+interface AuthenticationPort : CommandAuthenticationPort, QueryAuthenticationPort

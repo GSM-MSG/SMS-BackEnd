@@ -6,7 +6,5 @@ import team.msg.sms.common.annotation.Service
 class AuthenticationService(
     commandAuthenticationService: CommandAuthenticationService,
     getAuthenticationService: GetAuthenticationService,
-    deleteAuthenticationService: DeleteAuthenticationService
 ) : CommandAuthenticationService by commandAuthenticationService,
-    GetAuthenticationService by getAuthenticationService,
-    DeleteAuthenticationService by deleteAuthenticationService
+    GetAuthenticationService by getAuthenticationService
