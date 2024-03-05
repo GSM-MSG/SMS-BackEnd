@@ -10,20 +10,30 @@ import team.msg.sms.domain.authentication.req.CreateAuthenticationWebRequest
 import team.msg.sms.domain.authentication.res.CreateAuthenticationWebResponse
 import team.msg.sms.domain.authentication.res.QueryAuthenticationDetailsWebResponse
 import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
+import team.msg.sms.domain.authentication.usecase.DeleteAuthenticationUseCase
 import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
 import java.util.*
 import javax.validation.Valid
+import javax.validation.constraints.Null
 
 @RestController
 @RequestMapping("/authentication")
 class AuthenticationWebAdapter(
     private val createAuthenticationUseCase: CreateAuthenticationUseCase,
-    private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase
+    private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase,
+    private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
         createAuthenticationUseCase.execute(request.toData())
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it.toResponse()) }
+
+    @DeleteMapping("/{uuid}")
+    fun deleteAuthentication(@PathVariable uuid: String) {
+        if(!isValidUUID(uuid)) throw InvalidUuidException
+        return deleteAuthenticationUseCase.execute(UUID.fromString(uuid))
+            .let { ResponseEntity.ok() }
+    }
 
     @GetMapping("/{uuid}")
     fun queryAuthenticationDetails(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationDetailsWebResponse> {
