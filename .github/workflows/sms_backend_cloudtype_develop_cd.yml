@@ -1,0 +1,105 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - 'feature/cloudtype'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SMS-Backend-CD Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ success() }}
+        with:
+          title: ℹ️ SMS-Backend-CD 시작! ℹ️
+          webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
+          color: 00FF00
+
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: seungwon/movie
+          stage: main
+          yaml: >
+            name: sms-backend
+
+            app: java@11
+
+            options:
+              ports: 8080
+              includes: sms-infrastructure
+              env:
+                - name: AWS_ACCESS_KEY
+                  value: ${{ secrets.AWS_ACCESS_KEY }}
+                - name: AWS_REGION_STATIC
+                  value: ${{ secrets.AWS_REGION_STATIC }}
+                - name: AWS_SECRET_KEY
+                  value: ${{ secrets.AWS_SECRET_KEY }}
+                - name: DB_DRIVER
+                  value: ${{ secrets.DB_DRIVER }}
+                - name: DB_PASSWORD
+                  value: ${{ secrets.DB_PASSWORD }}
+                - name: DB_URL
+                  value: ${{ secrets.DB_URL }}
+                - name: DB_USERNAME
+                  value: ${{ secrets.DB_USERNAME }}
+                - name: GAUTH_CLIENT_ID
+                  value: ${{ secrets.GAUTH_CLIENT_ID }}
+                - name: GAUTH_CLIENT_SECRET
+                  value: ${{ secrets.GAUTH_CLIENT_SECRET }}
+                - name: GAUTH_REDIRECT_URI
+                  value: ${{ secrets.GAUTH_REDIRECT_URI }}
+                - name: JWT_ACCESS_SECRET
+                  value: ${{ secrets.JWT_ACCESS_SECRET }}
+                - name: JWT_REFRESH_SECRET
+                  value: ${{ secrets.JWT_REFRESH_SECRET }}
+                - name: REDIS_HOST
+                  value: ${{ secrets.REDIS_HOST }}
+                - name: REDIS_PORT
+                  value: ${{ secrets.REDIS_PORT }}
+                - name: S3_BUCKET
+                  value: ${{ secrets.S3_BUCKET }}
+                - name: S3_LOG_BUCKET
+                  value: ${{ secrets.S3_LOG_BUCKET }}
+                - name: SECURITY_SECRET_KEY
+                  value: ${{ secrets.SECURITY_SECRET_KEY }}
+              start: java -jar sms-infrastructure/build/libs/sms-infrastructure-0.0.1-SNAPSHOT.jar
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
+              preset: kotlin
+
+      - name: SMS-Backend-CD Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ success() }}
+        with:
+          title: ✅ SMS-Backend-CD 성공! ✅
+          webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          image: ${{ secrets.CD_SUCCESS_IMAGE }}
+          description: 영역전개 CD 성공
+          color: 00FF00
+          username: SMS CD 봇
+          url: https://github.com/GSM-MSG/SMS-BackEnd
+
+      - name: SMS-Backend-CD Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() }}
+        with:
+          title: ❗️ SMS-Backend-CD 실패! ❗️
+          webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          image: ${{ secrets.CD_FAIL_IMAGE }}
+          description: 무례하긴, 실패다.
+          color: FF0000
+          username: SMS CD 봇
+          url: https://github.com/GSM-MSG/SMS-BackEnd

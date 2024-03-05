@@ -1,88 +1,85 @@
-name: Deploy to cloudtype
+name: Deploy to Develop server
+
 on:
-  push:
-    branches:
-      - develop
+    push:
+      branches:
+        - develop
+
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
+    CD:
+      name: CD
+      runs-on: ubuntu-latest
+      environment: production
+  
+      steps:
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
         with:
-          title: ℹ️ SMS-Backend-CD 시작! ℹ️
+          title: ℹ️ SMS-Backend-Develop-CD 시작! ℹ️
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
           color: 00FF00
-
+          
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Connect deploy key
-        uses: cloudtype-github-actions/connect@v1
+        uses: actions/checkout@v3
+  
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
         with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          ghtoken: ${{ secrets.GHP_TOKEN }}
-      - name: Deploy
-        uses: cloudtype-github-actions/deploy@v1
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+  
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+  
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+  
+      - name: Create application.yml
+        env:
+          IMAGE_TAG: ${{ secrets.DEVELOP_IMAGE_TAG }}
+        run: |
+          touch ./sms-infrastructure/src/main/resources/application.yml
+          echo "${{ secrets.SMS_BACKEND_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
+        shell: bash
+  
+      - name: Run build with Gradle wrapper
+        run: ./gradlew clean build
+  
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project: seungwon/movie
-          stage: main
-          yaml: >
-            name: sms-backend
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+  
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+  
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:${{ secrets.DEVELOP_IMAGE_TAG }} .
+          docker tag ${{ secrets.ECR_REPOSITORY }}:${{ secrets.DEVELOP_IMAGE_TAG }} ${{ secrets.REPO_URL }}:${{ secrets.DEVELOP_IMAGE_TAG }}
+          docker push ${{ secrets.REPO_URL }}:${{ secrets.DEVELOP_IMAGE_TAG }}
 
-            app: java@11
-
-            options:
-              ports: 8080
-              includes: sms-infrastructure
-              env:
-                - name: AWS_ACCESS_KEY
-                  value: ${{ secrets.AWS_ACCESS_KEY }}
-                - name: AWS_REGION_STATIC
-                  value: ${{ secrets.AWS_REGION_STATIC }}
-                - name: AWS_SECRET_KEY
-                  value: ${{ secrets.AWS_SECRET_KEY }}
-                - name: DB_DRIVER
-                  value: ${{ secrets.DB_DRIVER }}
-                - name: DB_PASSWORD
-                  value: ${{ secrets.DB_PASSWORD }}
-                - name: DB_URL
-                  value: ${{ secrets.DB_URL }}
-                - name: DB_USERNAME
-                  value: ${{ secrets.DB_USERNAME }}
-                - name: GAUTH_CLIENT_ID
-                  value: ${{ secrets.GAUTH_CLIENT_ID }}
-                - name: GAUTH_CLIENT_SECRET
-                  value: ${{ secrets.GAUTH_CLIENT_SECRET }}
-                - name: GAUTH_REDIRECT_URI
-                  value: ${{ secrets.GAUTH_REDIRECT_URI }}
-                - name: JWT_ACCESS_SECRET
-                  value: ${{ secrets.JWT_ACCESS_SECRET }}
-                - name: JWT_REFRESH_SECRET
-                  value: ${{ secrets.JWT_REFRESH_SECRET }}
-                - name: REDIS_HOST
-                  value: ${{ secrets.REDIS_HOST }}
-                - name: REDIS_PORT
-                  value: ${{ secrets.REDIS_PORT }}
-                - name: S3_BUCKET
-                  value: ${{ secrets.S3_BUCKET }}
-                - name: S3_LOG_BUCKET
-                  value: ${{ secrets.S3_LOG_BUCKET }}
-                - name: SECURITY_SECRET_KEY
-                  value: ${{ secrets.SECURITY_SECRET_KEY }}
-              start: java -jar sms-infrastructure/build/libs/sms-infrastructure-0.0.1-SNAPSHOT.jar
-            context:
-              git:
-                url: git@github.com:${{ github.repository }}.git
-                ref: ${{ github.ref }}
-              preset: kotlin
-
+      - name : CodeDeploy Create Deployment
+        run: |
+          aws deploy create-deployment \
+          --application-name codedeploy-develop-server \
+          --deployment-group-name codedeploy-group \
+          --deployment-config-name CodeDeployDefault.OneAtATime \
+          --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+            
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
         with:
-          title: ✅ SMS-Backend-CD 성공! ✅
+          title: ✅ SMS-Backend-Develop-CD 성공! ✅
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.CD_SUCCESS_IMAGE }}
@@ -90,12 +87,12 @@ jobs:
           color: 00FF00
           username: SMS CD 봇
           url: https://github.com/GSM-MSG/SMS-BackEnd
-
+  
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ failure() }}
         with:
-          title: ❗️ SMS-Backend-CD 실패! ❗️
+          title: ❗️ SMS-Backend-Develop-CD 실패! ❗️
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.CD_FAIL_IMAGE }}

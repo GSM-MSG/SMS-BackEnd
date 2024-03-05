@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  blue:
+  develop:
     image : ${REPO_URL}/${ECR_REPOSITORY}:${IMAGE_TAG}
     ports:
       - 8080:8080
@@ -10,20 +10,7 @@ services:
     logging:
       driver: awslogs
       options:
-        awslogs-group: "sms-logs"
-        awslogs-region: "ap-northeast-2"
-        awslogs-stream: "backend-start-logs"
-
-  green:
-    image : ${REPO_URL}/${ECR_REPOSITORY}:${IMAGE_TAG}
-    ports:
-      - 8090:8080
-    networks:
-      - backend
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: "sms-logs"
+        awslogs-group: "sms-develop-server-logs"
         awslogs-region: "ap-northeast-2"
         awslogs-stream: "backend-start-logs"
 
