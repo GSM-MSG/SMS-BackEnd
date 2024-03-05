@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.res.RequestAuthenticationResponseData
 import team.msg.sms.domain.authentication.event.AuthenticationHistoryEvent
+import team.msg.sms.domain.authentication.exception.UnsuitableActivityStatusException
 import team.msg.sms.domain.authentication.model.ActivityStatus
 import team.msg.sms.domain.authentication.model.Authentication
 import team.msg.sms.domain.authentication.service.AuthenticationService
@@ -22,6 +23,7 @@ class RequestAuthenticationUseCase(
     @Transactional(rollbackFor = [Exception::class])
     fun execute(uuid: String): RequestAuthenticationResponseData {
         val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
+            .isSuitableActivityStatus()
             .run {
                 Authentication(
                     id = id,
@@ -46,4 +48,8 @@ class RequestAuthenticationUseCase(
             id = authenticationService.save(authentication, student, user).id
         )
     }
+
+    private fun Authentication.isSuitableActivityStatus() =
+        if (activityStatus == ActivityStatus.PENDING || activityStatus == ActivityStatus.REJECTED) this
+        else throw UnsuitableActivityStatusException
 }
