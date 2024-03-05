@@ -1,5 +1,6 @@
 package team.msg.sms.domain.authentication.usecase
 
+import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationDetailsResponseData
 import team.msg.sms.domain.authentication.service.AuthenticationHistoryService
@@ -15,6 +16,7 @@ class QueryAuthenticationDetailsUseCase(
     private val studentService: StudentService,
     private val userService: UserService
 ) {
+    @Transactional(readOnly = true)
     fun execute(uuid: String): QueryAuthenticationDetailsResponseData {
         val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
         val student = studentService.getStudentById(authentication.studentId)
