@@ -16,7 +16,7 @@ import java.util.*
 class DeleteAuthenticationUseCase(
     private val studentService: StudentService
 ) {
-    fun execute(uuid: UUID) {
-        studentService.deleteByUuid(uuid)
+    fun execute(uuid: String) {
+        studentService.deleteByUuid(UUID.fromString(uuid))
     }
 }
