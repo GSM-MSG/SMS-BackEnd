@@ -1,3 +1,3 @@
 package team.msg.sms.domain.authentication.spi
 
-interface AuthenticationHistoryPort : CommandAuthenticationHistoryPort
+interface AuthenticationHistoryPort : CommandAuthenticationHistoryPort, QueryAuthenticationHistoryPort
