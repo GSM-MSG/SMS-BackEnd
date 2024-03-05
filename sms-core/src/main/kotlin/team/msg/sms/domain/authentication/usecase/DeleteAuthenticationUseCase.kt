@@ -1,7 +1,7 @@
 package team.msg.sms.domain.authentication.usecase
 
 import team.msg.sms.common.annotation.UseCase
-import team.msg.sms.domain.authentication.exception.AlreadyAwardedScoreException
+import team.msg.sms.domain.authentication.exception.AlreadyApprovedAuthenticationException
 import team.msg.sms.domain.authentication.model.ActivityStatus
 import team.msg.sms.domain.authentication.service.AuthenticationService
 import team.msg.sms.domain.student.service.StudentService
@@ -17,7 +17,7 @@ class DeleteAuthenticationUseCase(
         val student = studentService.currentStudent()
 
         if(authentication.activityStatus == ActivityStatus.APPROVED ||
-           authentication.studentId != student.id) throw AlreadyAwardedScoreException
+           authentication.studentId != student.id) throw AlreadyApprovedAuthenticationException
 
         authenticationService.deleteAuthenticationByUuid(uuid)
     }
