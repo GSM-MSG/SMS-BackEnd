@@ -17,14 +17,13 @@ import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseC
 import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase
 import java.util.*
 import javax.validation.Valid
-import javax.validation.constraints.Null
 
 @RestController
 @RequestMapping("/authentication")
 class AuthenticationWebAdapter(
     private val createAuthenticationUseCase: CreateAuthenticationUseCase,
     private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase,
-    private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase
+    private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase,
     private val requestAuthenticationUseCase: RequestAuthenticationUseCase
 ) {
     @PostMapping
