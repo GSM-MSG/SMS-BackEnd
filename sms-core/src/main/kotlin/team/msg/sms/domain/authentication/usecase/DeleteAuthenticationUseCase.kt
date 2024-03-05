@@ -19,6 +19,6 @@ class DeleteAuthenticationUseCase(
         if(authentication.activityStatus == ActivityStatus.APPROVED ||
            authentication.studentId != student.id) throw AlreadyAwardedScoreException
 
-        authenticationService.deleteAuthenticationByUuid(UUID.fromString(uuid))
+        authenticationService.deleteAuthenticationByUuid(uuid)
     }
 }
