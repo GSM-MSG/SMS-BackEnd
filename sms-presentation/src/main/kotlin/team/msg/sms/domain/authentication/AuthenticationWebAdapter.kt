@@ -6,11 +6,14 @@ import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.authentication.dto.res.CreateAuthenticationResponseData
 import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationDetailsResponseData
+import team.msg.sms.domain.authentication.dto.res.RequestAuthenticationResponseData
 import team.msg.sms.domain.authentication.req.CreateAuthenticationWebRequest
 import team.msg.sms.domain.authentication.res.CreateAuthenticationWebResponse
 import team.msg.sms.domain.authentication.res.QueryAuthenticationDetailsWebResponse
+import team.msg.sms.domain.authentication.res.RequestAuthenticationWebResponse
 import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
 import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
+import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase
 import java.util.*
 import javax.validation.Valid
 
@@ -18,7 +21,8 @@ import javax.validation.Valid
 @RequestMapping("/authentication")
 class AuthenticationWebAdapter(
     private val createAuthenticationUseCase: CreateAuthenticationUseCase,
-    private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase
+    private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase,
+    private val requestAuthenticationUseCase: RequestAuthenticationUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
@@ -29,6 +33,13 @@ class AuthenticationWebAdapter(
     fun queryAuthenticationDetails(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationDetailsWebResponse> {
         if (!isValidUUID(uuid)) throw InvalidUuidException
         return queryAuthenticationDetailsUseCase.execute(uuid)
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
+    @PatchMapping("/{uuid}")
+    fun requestAuthenticationDetails(@PathVariable uuid: String): ResponseEntity<RequestAuthenticationWebResponse> {
+        if (!isValidUUID(uuid)) throw InvalidUuidException
+        return requestAuthenticationUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
 
@@ -44,6 +55,10 @@ class AuthenticationWebAdapter(
         lastModifiedDate = lastModifiedDate,
         score = score,
         activityStatus = activityStatus
+    )
+
+    private fun RequestAuthenticationResponseData.toResponse() = RequestAuthenticationWebResponse(
+        id = id
     )
 
     private fun isValidUUID(uuid: String): Boolean {
