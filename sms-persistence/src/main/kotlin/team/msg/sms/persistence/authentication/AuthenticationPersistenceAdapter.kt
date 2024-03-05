@@ -1,5 +1,6 @@
 package team.msg.sms.persistence.authentication
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.msg.sms.domain.authentication.model.Authentication
 import team.msg.sms.domain.authentication.spi.AuthenticationPort
@@ -10,6 +11,7 @@ import team.msg.sms.persistence.authentication.mapper.toEntity
 import team.msg.sms.persistence.authentication.repository.AuthenticationJpaRepository
 import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.user.mapper.toEntity
+import java.util.*
 
 @Component
 class AuthenticationPersistenceAdapter(
@@ -21,5 +23,8 @@ class AuthenticationPersistenceAdapter(
         user: User
     ): Authentication =
         authenticationJpaRepository.save(authentication.toEntity(student.toEntity(user.toEntity()))).toDomain()
+
+    override fun queryAuthenticationByUuid(uuid: UUID): Authentication? =
+        authenticationJpaRepository.findByIdOrNull(uuid)?.toDomain()
 
 }
