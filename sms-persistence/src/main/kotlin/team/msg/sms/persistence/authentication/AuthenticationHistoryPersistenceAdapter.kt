@@ -23,4 +23,11 @@ class AuthenticationHistoryPersistenceAdapter(
         user: User
     ): AuthenticationHistory =
         authenticationHistoryJpaRepository.save(authenticationHistory.toEntity(authentication.toEntity(student.toEntity(user.toEntity())))).toDomain()
+
+    override fun queryLatestAuthenticationHistory(
+        authentication: Authentication,
+        student: Student,
+        user: User
+    ): AuthenticationHistory =
+        authenticationHistoryJpaRepository.findByAuthenticationOrderByCreatedAtDesc(authentication.toEntity(student.toEntity(user.toEntity()))).toDomain()
 }

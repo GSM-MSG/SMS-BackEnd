@@ -13,7 +13,8 @@ fun AuthenticationHistory.toEntity(
     reason = reason,
     activityStatus = activityStatus,
     teacher = teacher,
-    authentication = authentication
+    authentication = authentication,
+    createdAt = createdAt
 )
 
 fun AuthenticationHistoryJpaEntity.toDomain() = AuthenticationHistory(
@@ -21,5 +22,6 @@ fun AuthenticationHistoryJpaEntity.toDomain() = AuthenticationHistory(
     reason = reason,
     activityStatus = activityStatus,
     teacherId = teacher?.id,
-    authenticationId = authentication.id
+    authenticationId = authentication.id,
+    createdAt = createdAt
 )

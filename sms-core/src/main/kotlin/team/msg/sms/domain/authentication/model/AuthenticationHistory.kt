@@ -1,7 +1,7 @@
 package team.msg.sms.domain.authentication.model
 
 import team.msg.sms.common.annotation.Aggregate
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 @Aggregate
@@ -11,5 +11,5 @@ class AuthenticationHistory (
     val activityStatus: ActivityStatus,
     val teacherId: UUID? = null,
     val authenticationId: UUID,
-    val createdAt: LocalDate = LocalDate.now()
+    val createdAt: LocalDateTime = LocalDateTime.now()
 )
