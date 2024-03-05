@@ -1,8 +1,10 @@
 package team.msg.sms.persistence.authentication.entity
 
+import org.springframework.data.annotation.CreatedDate
 import team.msg.sms.domain.authentication.model.ActivityStatus
 import team.msg.sms.persistence.BaseIdEntity
 import team.msg.sms.persistence.teacher.entity.TeacherJpaEntity
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -22,5 +24,8 @@ class AuthenticationHistoryJpaEntity (
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "authentication_id")
-    val authentication: AuthenticationJpaEntity
+    val authentication: AuthenticationJpaEntity,
+
+    @CreatedDate
+    val createdAt: LocalDateTime
 ) : BaseIdEntity()
