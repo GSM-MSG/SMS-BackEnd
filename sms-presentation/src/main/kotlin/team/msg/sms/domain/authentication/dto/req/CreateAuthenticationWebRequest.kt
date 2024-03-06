@@ -1,6 +1,5 @@
-package team.msg.sms.domain.authentication.req
+package team.msg.sms.domain.authentication.dto.req
 
-import team.msg.sms.domain.authentication.dto.req.CreateAuthenticationRequestData
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size

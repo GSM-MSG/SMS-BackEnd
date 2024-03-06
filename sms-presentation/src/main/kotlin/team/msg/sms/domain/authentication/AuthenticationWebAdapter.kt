@@ -7,10 +7,10 @@ import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.authentication.dto.res.CreateAuthenticationResponseData
 import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationDetailsResponseData
 import team.msg.sms.domain.authentication.dto.res.RequestAuthenticationResponseData
-import team.msg.sms.domain.authentication.req.CreateAuthenticationWebRequest
-import team.msg.sms.domain.authentication.res.CreateAuthenticationWebResponse
-import team.msg.sms.domain.authentication.res.QueryAuthenticationDetailsWebResponse
-import team.msg.sms.domain.authentication.res.RequestAuthenticationWebResponse
+import team.msg.sms.domain.authentication.dto.req.CreateAuthenticationWebRequest
+import team.msg.sms.domain.authentication.dto.res.CreateAuthenticationWebResponse
+import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationDetailsWebResponse
+import team.msg.sms.domain.authentication.dto.res.RequestAuthenticationWebResponse
 import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
 import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
 import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase

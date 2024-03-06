@@ -1,4 +1,4 @@
-package team.msg.sms.domain.authentication.res
+package team.msg.sms.domain.authentication.dto.res
 
 import java.util.UUID
 
