@@ -8,6 +8,7 @@ data class QueryRequestedAuthenticationResponseData (
     val id: UUID,
     val requestTime: LocalDate,
     val stuNum: String,
+    val name: String,
     val department: Department,
     val title: String
 )
