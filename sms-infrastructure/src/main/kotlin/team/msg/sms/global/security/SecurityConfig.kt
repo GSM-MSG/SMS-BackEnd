@@ -72,6 +72,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST,"/authentication").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET,"/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.PATCH,"/authentication/{uuid}").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.GET,"/authentication/teacher").hasAnyAuthority(PRINCIPAL, DEPUTY_PRINCIPAL, DIRECTOR, HOMEROOM)
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
