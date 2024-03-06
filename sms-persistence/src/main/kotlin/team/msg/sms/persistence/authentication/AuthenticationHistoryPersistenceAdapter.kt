@@ -29,5 +29,5 @@ class AuthenticationHistoryPersistenceAdapter(
         student: Student,
         user: User
     ): AuthenticationHistory =
-        authenticationHistoryJpaRepository.findByAuthenticationOrderByCreatedAtDesc(authentication.toEntity(student.toEntity(user.toEntity()))).toDomain()
+        authenticationHistoryJpaRepository.findFirstByAuthenticationOrderByCreatedAtDesc(authentication.toEntity(student.toEntity(user.toEntity()))).toDomain()
 }

@@ -7,5 +7,5 @@ import team.msg.sms.persistence.authentication.entity.AuthenticationJpaEntity
 
 @Repository
 interface AuthenticationHistoryJpaRepository : JpaRepository<AuthenticationHistoryJpaEntity, Long> {
-    fun findByAuthenticationOrderByCreatedAtDesc(authentication: AuthenticationJpaEntity): AuthenticationHistoryJpaEntity
+    fun findFirstByAuthenticationOrderByCreatedAtDesc(authentication: AuthenticationJpaEntity): AuthenticationHistoryJpaEntity
 }
