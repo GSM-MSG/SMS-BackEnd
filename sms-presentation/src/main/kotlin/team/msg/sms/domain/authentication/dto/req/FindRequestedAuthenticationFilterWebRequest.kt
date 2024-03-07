@@ -10,7 +10,7 @@ data class FindRequestedAuthenticationFilterWebRequest(
     @RequestParam("stuNumSort", required = false) val stuNumSort: String?,
     @RequestParam("requestTimeSort", required = false) val requestTimeSort: String?
 ) {
-    fun toData() = FindRequestedAuthenticationFilterRequestData(
+    fun toData() = FilterRequestData(
         grade = grade,
         classNum = classNum,
         department = department,

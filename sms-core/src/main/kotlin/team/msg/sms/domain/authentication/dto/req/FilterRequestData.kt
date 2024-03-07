@@ -2,7 +2,7 @@ package team.msg.sms.domain.authentication.dto.req
 
 import team.msg.sms.domain.student.model.Department
 
-data class FindRequestedAuthenticationFilterRequestData(
+data class FilterRequestData(
     val grade: List<Int>?,
     val classNum: List<Int>?,
     val department: List<Department>?,
