@@ -17,6 +17,7 @@ import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseC
 import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase
 import java.util.*
 import javax.validation.Valid
+import javax.validation.constraints.Null
 
 @RestController
 @RequestMapping("/authentication")
@@ -32,10 +33,10 @@ class AuthenticationWebAdapter(
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it.toResponse()) }
 
     @DeleteMapping("/{uuid}")
-    fun deleteAuthentication(@PathVariable uuid: String) {
+    fun deleteAuthentication(@PathVariable uuid: String): ResponseEntity<Void> {
         if(!isValidUUID(uuid)) throw InvalidUuidException
-        return deleteAuthenticationUseCase.execute(uuid)
-            .let { ResponseEntity.noContent() }
+        deleteAuthenticationUseCase.execute(uuid)
+        return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/{uuid}")
