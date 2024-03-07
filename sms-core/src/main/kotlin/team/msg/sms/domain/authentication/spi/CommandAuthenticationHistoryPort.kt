@@ -12,4 +12,6 @@ interface CommandAuthenticationHistoryPort {
         student: Student,
         user: User
     ): AuthenticationHistory
+
+    fun deleteAuthenticationHistory(authentication: Authentication, student: Student, user: User)
 }

@@ -18,5 +18,4 @@ class GetAuthenticationHistoryServiceImpl(
         user: User
     ): AuthenticationHistory =
         queryAuthenticationHistoryPort.queryLatestAuthenticationHistory(authentication, student, user)
-
 }
