@@ -33,7 +33,7 @@ class AuthenticationWebAdapter(
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it.toResponse()) }
 
     @DeleteMapping("/{uuid}")
-    fun deleteAuthentication(@PathVariable uuid: String): ResponseEntity<Void> {
+    fun deleteAuthentication(@PathVariable uuid: String): ResponseEntity<Unit> {
         if(!isValidUUID(uuid)) throw InvalidUuidException
         deleteAuthenticationUseCase.execute(uuid)
         return ResponseEntity.noContent().build()
