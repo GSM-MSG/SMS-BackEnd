@@ -13,4 +13,7 @@ class GetAuthenticationServiceImpl(
 ) : GetAuthenticationService {
     override fun getAuthenticationByUuid(uuid: UUID): Authentication =
         queryAuthenticationPort.queryAuthenticationByUuid(uuid) ?: throw AuthenticationNotFoundException
+
+    override fun getRequestedAuthentications(): List<Authentication.AuthenticationWithStudentInfoAndRequestedTime> =
+        queryAuthenticationPort.queryRequestedAuthentications()
 }
