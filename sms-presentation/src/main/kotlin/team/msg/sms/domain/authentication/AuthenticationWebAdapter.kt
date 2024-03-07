@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.authentication.dto.req.CreateAuthenticationWebRequest
-import team.msg.sms.domain.authentication.dto.req.FindRequestedAuthenticationFilterWebRequest
+import team.msg.sms.domain.authentication.dto.req.FindRequestedAuthenticationFiltersWebRequest
 import team.msg.sms.domain.authentication.dto.res.*
 import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
 import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
@@ -45,7 +45,7 @@ class AuthenticationWebAdapter(
     fun queryRequestedAuthentication(
         @RequestParam(name = "page") page: Int,
         @RequestParam(name = "size") size: Int,
-        filterRequestData: FindRequestedAuthenticationFilterWebRequest
+        filterRequestData: FindRequestedAuthenticationFiltersWebRequest
     ): ResponseEntity<QueryRequestedAuthenticationWebResponse> =
         queryRequestedAuthenticationUseCase.execute(page, size, filterRequestData.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
