@@ -27,4 +27,7 @@ class AuthenticationPersistenceAdapter(
     override fun queryAuthenticationByUuid(uuid: UUID): Authentication? =
         authenticationJpaRepository.findByIdOrNull(uuid)?.toDomain()
 
+    override fun deleteAuthenticationByUuid(uuid: UUID) {
+        authenticationJpaRepository.deleteById(uuid)
+    }
 }
