@@ -23,4 +23,12 @@ class Authentication (
         val name: String,
         val department: Department,
     )
+
+    class AuthenticationWithPageInfo(
+        val authentications: List<AuthenticationWithStudentInfoAndRequestedTime>,
+        val page: Int,
+        val contentSize: Int,
+        val totalSize: Long,
+        val last: Boolean
+    )
 }

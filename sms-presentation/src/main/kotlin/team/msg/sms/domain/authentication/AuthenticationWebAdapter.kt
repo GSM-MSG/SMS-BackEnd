@@ -46,7 +46,7 @@ class AuthenticationWebAdapter(
         @RequestParam(name = "page") page: Int,
         @RequestParam(name = "size") size: Int,
         filterRequestData: FindRequestedAuthenticationFiltersWebRequest
-    ): ResponseEntity<QueryRequestedAuthenticationWebResponse> =
+    ): ResponseEntity<QueryRequestedAuthenticationListWebResponse> =
         queryRequestedAuthenticationUseCase.execute(page, size, filterRequestData.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
 
@@ -68,13 +68,21 @@ class AuthenticationWebAdapter(
         id = id
     )
 
-    private fun QueryRequestedAuthenticationResponseData.toResponse() = QueryRequestedAuthenticationWebResponse(
+    private fun QueryRequestedAuthenticationListResponseData.toResponse() = QueryRequestedAuthenticationListWebResponse(
+        content = content.map { it.toResponse() },
+        page = page,
+        contentSize = contentSize,
+        totalSize = totalSize,
+        last = last
+    )
+
+    private fun RequestedAuthenticationResponseData.toResponse() = RequestedAuthenticationWebResponse(
         id = id,
-        requestTime = requestTime,
+        requestedTime = requestedTime,
+        title = title,
         stuNum = stuNum,
         name = name,
-        department = department,
-        title = title
+        department = department
     )
 
     private fun isValidUUID(uuid: String): Boolean {

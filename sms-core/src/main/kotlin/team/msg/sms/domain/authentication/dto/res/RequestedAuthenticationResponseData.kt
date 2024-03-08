@@ -4,9 +4,9 @@ import team.msg.sms.domain.student.model.Department
 import java.time.LocalDate
 import java.util.*
 
-data class QueryRequestedAuthenticationWebResponse(
+data class RequestedAuthenticationResponseData (
     val id: UUID,
-    val requestTime: LocalDate,
+    val requestedTime: LocalDate,
     val stuNum: String,
     val name: String,
     val department: Department,
