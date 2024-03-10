@@ -11,4 +11,6 @@ interface AuthenticationHistoryJpaRepository : JpaRepository<AuthenticationHisto
     fun findByAuthenticationOrderByCreatedAtDesc(authentication: AuthenticationJpaEntity): AuthenticationHistoryJpaEntity
 
     fun deleteAuthenticationHistoryJpaEntityByAuthentication(authentication: AuthenticationJpaEntity)
+
+    fun findByAuthentication(authentication: AuthenticationJpaEntity): List<AuthenticationHistoryJpaEntity>
 }

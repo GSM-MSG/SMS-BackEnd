@@ -4,20 +4,15 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
-import team.msg.sms.domain.authentication.dto.res.CreateAuthenticationResponseData
-import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationDetailsResponseData
-import team.msg.sms.domain.authentication.dto.res.RequestAuthenticationResponseData
+import team.msg.sms.domain.authentication.dto.res.*
 import team.msg.sms.domain.authentication.req.CreateAuthenticationWebRequest
 import team.msg.sms.domain.authentication.res.CreateAuthenticationWebResponse
 import team.msg.sms.domain.authentication.res.QueryAuthenticationDetailsWebResponse
+import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebResponse
 import team.msg.sms.domain.authentication.res.RequestAuthenticationWebResponse
-import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
-import team.msg.sms.domain.authentication.usecase.DeleteAuthenticationUseCase
-import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
-import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase
+import team.msg.sms.domain.authentication.usecase.*
 import java.util.*
 import javax.validation.Valid
-import javax.validation.constraints.Null
 
 @RestController
 @RequestMapping("/authentication")
@@ -25,7 +20,8 @@ class AuthenticationWebAdapter(
     private val createAuthenticationUseCase: CreateAuthenticationUseCase,
     private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase,
     private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase,
-    private val requestAuthenticationUseCase: RequestAuthenticationUseCase
+    private val requestAuthenticationUseCase: RequestAuthenticationUseCase,
+    private val queryAuthenticationHistoriesUseCase: QueryAuthenticationHistoriesUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
@@ -46,6 +42,13 @@ class AuthenticationWebAdapter(
             .let { ResponseEntity.ok(it.toResponse()) }
     }
 
+    @GetMapping("/{uuid}/history")
+    fun queryAuthenticationHistories(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationHistoriesWebResponse> {
+        if(!isValidUUID(uuid)) throw InvalidUuidException
+        return queryAuthenticationHistoriesUseCase.execute(uuid)
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
     @PatchMapping("/{uuid}")
     fun requestAuthenticationDetails(@PathVariable uuid: String): ResponseEntity<RequestAuthenticationWebResponse> {
         if (!isValidUUID(uuid)) throw InvalidUuidException
@@ -55,6 +58,10 @@ class AuthenticationWebAdapter(
 
     private fun CreateAuthenticationResponseData.toResponse() = CreateAuthenticationWebResponse(
         id = id
+    )
+
+    private fun QueryAuthenticationHistoriesResponseData.toResponse() = QueryAuthenticationHistoriesWebResponse(
+        histories = histories
     )
 
     private fun QueryAuthenticationDetailsResponseData.toResponse() = QueryAuthenticationDetailsWebResponse(
