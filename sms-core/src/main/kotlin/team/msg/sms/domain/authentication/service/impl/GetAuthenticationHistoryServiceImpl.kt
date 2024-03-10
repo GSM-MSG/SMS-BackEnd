@@ -18,4 +18,11 @@ class GetAuthenticationHistoryServiceImpl(
         user: User
     ): AuthenticationHistory =
         queryAuthenticationHistoryPort.queryLatestAuthenticationHistory(authentication, student, user)
+
+    override fun getAuthenticationHistories(
+        authentication: Authentication,
+        student: Student,
+        user: User
+    ): List<AuthenticationHistory> =
+        queryAuthenticationHistoryPort.queryAuthenticationHistories(authentication, student, user)
 }
