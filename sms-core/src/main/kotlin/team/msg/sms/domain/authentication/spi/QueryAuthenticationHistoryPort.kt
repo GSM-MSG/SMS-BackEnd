@@ -11,4 +11,10 @@ interface QueryAuthenticationHistoryPort {
         student: Student,
         user: User
     ): AuthenticationHistory
+
+    fun queryAuthenticationHistories(
+        authentication: Authentication,
+        student: Student,
+        user: User
+    ): List<AuthenticationHistory>
 }
