@@ -5,5 +5,5 @@ import team.msg.sms.domain.teacher.model.Teacher
 import team.msg.sms.domain.user.model.User
 
 interface GetHomeroomTeacherService {
-    fun getHomeroomTeacherByTeacher(teacher: Teacher): HomeroomTeacher
+    fun getHomeroomTeacherByTeacher(teacher: Teacher, user: User): HomeroomTeacher
 }
