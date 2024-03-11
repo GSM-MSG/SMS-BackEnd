@@ -5,13 +5,16 @@ import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationHistoriesResponseData
 import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationHistoryResponseData
+import team.msg.sms.domain.authentication.exception.InvalidGradeClassException
+import team.msg.sms.domain.authentication.exception.OnlyAccessMyselfException
 import team.msg.sms.domain.authentication.exception.PermissionRoleDeniedException
+import team.msg.sms.domain.authentication.model.Authentication
 import team.msg.sms.domain.authentication.service.AuthenticationHistoryService
 import team.msg.sms.domain.authentication.service.AuthenticationService
 import team.msg.sms.domain.student.service.StudentService
+import team.msg.sms.domain.teacher.service.HomeroomTeacherService
 import team.msg.sms.domain.teacher.service.TeacherService
 import team.msg.sms.domain.user.service.UserService
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @UseCase
@@ -20,17 +23,29 @@ class QueryAuthenticationHistoriesUseCase(
     private val authenticationHistoryService: AuthenticationHistoryService,
     private val studentService: StudentService,
     private val userService: UserService,
+    private val teacherService: TeacherService,
+    private val homeroomTeacherService: HomeroomTeacherService
 ) {
     @Transactional(readOnly = true)
     fun execute(uuid: String): QueryAuthenticationHistoriesResponseData {
-        val allowedRole = arrayOf(Role.ROLE_STUDENT, Role.ROLE_PRINCIPAL, Role.ROLE_DEPUTY_PRINCIPAL, Role.ROLE_DIRECTOR, Role.ROLE_HOMEROOM)
-        if (userService.getCurrentUser().roles.none { it in allowedRole}) throw PermissionRoleDeniedException
-
         val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
         val student = studentService.getStudentById(authentication.studentId)
         val user = userService.getUserById(student.userId)
         val histories = authenticationHistoryService.getAuthenticationHistories(authentication, student, user)
 
+        val currentUser = userService.getCurrentUser()
+
+        val allowedRole = arrayOf(Role.ROLE_STUDENT, Role.ROLE_PRINCIPAL, Role.ROLE_DEPUTY_PRINCIPAL, Role.ROLE_DIRECTOR, Role.ROLE_HOMEROOM)
+        if (currentUser.roles.none { it in allowedRole }) throw PermissionRoleDeniedException
+
+        when{
+            currentUser.roles.contains(Role.ROLE_STUDENT) -> if(currentUser.id != user.id) throw OnlyAccessMyselfException
+            currentUser.roles.contains(Role.ROLE_HOMEROOM) -> {
+                val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByTeacher(teacherService.getTeacherByUser(currentUser))
+                if("${homeroomTeacher.grade}${homeroomTeacher.classNum}" != user.stuNum.substring(0, 1))
+                    throw InvalidGradeClassException
+            }
+        }
 
         return QueryAuthenticationHistoriesResponseData(
             histories.map { history ->
