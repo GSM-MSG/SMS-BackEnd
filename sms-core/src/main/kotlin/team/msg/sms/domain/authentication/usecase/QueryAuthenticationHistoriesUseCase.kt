@@ -24,7 +24,7 @@ class QueryAuthenticationHistoriesUseCase(
     @Transactional(readOnly = true)
     fun execute(uuid: String): QueryAuthenticationHistoriesResponseData {
         val allowedRole = arrayOf(Role.ROLE_STUDENT, Role.ROLE_PRINCIPAL, Role.ROLE_DEPUTY_PRINCIPAL, Role.ROLE_DIRECTOR, Role.ROLE_HOMEROOM)
-        if (userService.getCurrentUser().roles.none { it in allowedRole}) throw PermissionRoleDeniedException
+        if (userService.getCurrentUser().roles.none { it in allowedRole }) throw PermissionRoleDeniedException
 
         val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
         val student = studentService.getStudentById(authentication.studentId)
