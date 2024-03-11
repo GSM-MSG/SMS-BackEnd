@@ -8,7 +8,6 @@ import team.msg.sms.domain.authentication.dto.res.QueryAuthenticationHistoryResp
 import team.msg.sms.domain.authentication.exception.InvalidGradeClassException
 import team.msg.sms.domain.authentication.exception.OnlyAccessMyselfException
 import team.msg.sms.domain.authentication.exception.PermissionRoleDeniedException
-import team.msg.sms.domain.authentication.model.Authentication
 import team.msg.sms.domain.authentication.service.AuthenticationHistoryService
 import team.msg.sms.domain.authentication.service.AuthenticationService
 import team.msg.sms.domain.student.service.StudentService
@@ -39,11 +38,10 @@ class QueryAuthenticationHistoriesUseCase(
         if (currentUser.roles.none { it in allowedRole }) throw PermissionRoleDeniedException
 
         when{
-            currentUser.roles.contains(Role.ROLE_STUDENT) -> if(currentUser.id != user.id) throw OnlyAccessMyselfException
-            currentUser.roles.contains(Role.ROLE_HOMEROOM) -> {
+            Role.ROLE_STUDENT in currentUser.roles -> if(currentUser.id != user.id) throw OnlyAccessMyselfException
+            Role.ROLE_HOMEROOM in currentUser.roles -> {
                 val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByTeacher(teacherService.getTeacherByUser(currentUser))
-                if("${homeroomTeacher.grade}${homeroomTeacher.classNum}" != user.stuNum.substring(0, 1))
-                    throw InvalidGradeClassException
+                if("${homeroomTeacher.grade}${homeroomTeacher.classNum}" != user.stuNum.substring(0, 1)) throw InvalidGradeClassException
             }
         }
 
