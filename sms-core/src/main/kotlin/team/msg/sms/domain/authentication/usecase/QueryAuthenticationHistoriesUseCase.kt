@@ -40,7 +40,7 @@ class QueryAuthenticationHistoriesUseCase(
         when{
             Role.ROLE_STUDENT in currentUser.roles -> if(currentUser.id != user.id) throw OnlyAccessMyselfException
             Role.ROLE_HOMEROOM in currentUser.roles -> {
-                val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByTeacher(teacherService.getTeacherByUser(currentUser))
+                val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByTeacher(teacherService.getTeacherByUser(currentUser), currentUser)
                 if("${homeroomTeacher.grade}${homeroomTeacher.classNum}" != user.stuNum.substring(0, 1)) throw InvalidGradeClassException
             }
         }
