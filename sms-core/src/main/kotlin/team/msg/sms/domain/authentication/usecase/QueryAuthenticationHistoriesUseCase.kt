@@ -41,9 +41,9 @@ class QueryAuthenticationHistoriesUseCase(
                 QueryAuthenticationHistoryResponseData(
                     authenticationId = history.authenticationId.toString(),
                     teacherName = teacherName,
-                    gradedDate = history.createdAt.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")),
+                    gradedDate = history.createdAt.toLocalDate(),
                     score = authentication.score,
-                    activityStatus = history.activityStatus.name,
+                    activityStatus = history.activityStatus,
                     reason = history.reason
                 )
             }
