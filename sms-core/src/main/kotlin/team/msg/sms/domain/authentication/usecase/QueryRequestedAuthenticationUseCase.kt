@@ -6,7 +6,6 @@ import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.authentication.dto.req.FiltersRequestData
 import team.msg.sms.domain.authentication.dto.res.QueryRequestedAuthenticationListResponseData
 import team.msg.sms.domain.authentication.dto.res.RequestedAuthenticationResponseData
-import team.msg.sms.domain.authentication.exception.InvalidGradeClassException
 import team.msg.sms.domain.authentication.exception.PermissionRoleDeniedException
 import team.msg.sms.domain.authentication.service.AuthenticationService
 import team.msg.sms.domain.teacher.service.HomeroomTeacherService
@@ -29,14 +28,8 @@ class QueryRequestedAuthenticationUseCase(
         val authentications = authenticationService.getRequestedAuthentications()
 
         val filteredAuthentications = when {
-            Role.ROLE_HOMEROOM in user.roles -> {
-                val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByUserId(user.id)
-
-                if("${homeroomTeacher.grade}${homeroomTeacher.classNum}" != user.stuNum.substring(0, 1))
-                    throw InvalidGradeClassException
-
-                authenticationService.filterAuthenticationsForHomeroomTeacher(authentications, filterRequestData, homeroomTeacher)
-            }
+            Role.ROLE_HOMEROOM in user.roles -> homeroomTeacherService.getHomeroomTeacherByUserId(user.id)
+                .let { authenticationService.filterAuthenticationsForHomeroomTeacher(authentications, filterRequestData, it) }
             Role.ROLE_DIRECTOR in user.roles ||
             Role.ROLE_PRINCIPAL in user.roles ||
             Role.ROLE_DEPUTY_PRINCIPAL in user.roles -> {
