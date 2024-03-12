@@ -11,4 +11,10 @@ interface GetAuthenticationHistoryService {
         student: Student,
         user: User
     ): AuthenticationHistory
+
+    fun getAuthenticationHistories(
+        authentication: Authentication,
+        student: Student,
+        user: User
+    ): List<AuthenticationHistory>
 }

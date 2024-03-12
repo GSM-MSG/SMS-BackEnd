@@ -9,4 +9,5 @@ import java.util.*
 @Repository
 interface TeacherJpaRepository : JpaRepository<TeacherJpaEntity, UUID>{
     fun existsByUser(user: UserJpaEntity): Boolean
+    fun findByUser(user: UserJpaEntity): TeacherJpaEntity
 }

@@ -33,8 +33,12 @@ class AuthenticationPersistenceAdapter(
     override fun queryAuthenticationByUuid(uuid: UUID): Authentication? =
         authenticationJpaRepository.findByIdOrNull(uuid)?.toDomain()
 
+    override fun deleteAuthenticationByUuid(uuid: UUID) {
+        authenticationJpaRepository.deleteById(uuid)
+    }
+
     override fun queryRequestedAuthentications(): List<Authentication.AuthenticationWithStudentInfoAndRequestedTime> =
-        queryFactory.select(authentication, history)
+        queryFactory.select(authentication,history)
             .from(authentication)
             .leftJoin(history).on(authentication.eq(history.authentication))
             .where(
@@ -50,5 +54,6 @@ class AuthenticationPersistenceAdapter(
         queryFactory
             .select(history.createdAt.max())
             .from(history)
-            .where(history.authentication.eq(authentication))
+            .where(
+                history.authentication.eq(authentication))
 }

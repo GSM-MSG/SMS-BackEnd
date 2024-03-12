@@ -8,7 +8,11 @@ enum class AuthenticationErrorCode(
     private val message: String
 ) : ErrorProperty {
     AUTHENTICATION_NOT_FOUND(ErrorStatus.NOT_FOUND, "인증제 활동을 찾을 수 없습니다."),
-    UNSUITABLE_ACTIVITY_STATUS(ErrorStatus.CONFLICT, "요청을 처리하기에 적합하지 않은 인증제 활동 상태입니다.")
+    UNSUITABLE_ACTIVITY_STATUS(ErrorStatus.CONFLICT, "요청을 처리하기에 적합하지 않은 인증제 활동 상태입니다."),
+    ALREADY_AWARDED_SCORE(ErrorStatus.CONFLICT, "활동에 이미 점수가 부여된 상태입니다."),
+    PERMISSION_ROLE_DENIED(ErrorStatus.FORBIDDEN, "학생이거나 교장, 교감, 부장, 담임 선생님만 조회할 수 있습니다."),
+    ONLY_ACCESS_MYSELF(ErrorStatus.FORBIDDEN, "자기 자신만 조회할 수 있습니다."),
+    INVALID_GRADE_CLASS(ErrorStatus.FORBIDDEN, "담임 선생님만 조회할 수 있습니다.")
     ;
 
     override fun status(): Int = status

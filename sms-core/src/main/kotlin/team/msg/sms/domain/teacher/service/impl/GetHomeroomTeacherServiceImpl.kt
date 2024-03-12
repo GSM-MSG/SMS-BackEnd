@@ -6,6 +6,8 @@ import team.msg.sms.domain.teacher.model.HomeroomTeacher
 import team.msg.sms.domain.teacher.service.GetHomeroomTeacherService
 import team.msg.sms.domain.teacher.spi.HomeroomTeacherPort
 import java.util.*
+import team.msg.sms.domain.teacher.model.Teacher
+import team.msg.sms.domain.user.model.User
 
 @Service
 class GetHomeroomTeacherServiceImpl(
@@ -13,4 +15,8 @@ class GetHomeroomTeacherServiceImpl(
 ) : GetHomeroomTeacherService {
     override fun getHomeroomTeacherByUserId(userId: UUID): HomeroomTeacher =
         homeroomTeacherPort.queryHomeroomTeacherByUserId(userId) ?: throw HomeroomTeacherNotFoundException
+
+    override fun getHomeroomTeacherByTeacher(teacher: Teacher, user: User): HomeroomTeacher {
+        return homeroomTeacherPort.findHomeroomTeacherByTeacher(teacher, user)
+    }
 }
