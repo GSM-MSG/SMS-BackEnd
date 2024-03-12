@@ -6,6 +6,8 @@ import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.authentication.dto.req.FiltersRequestData
 import team.msg.sms.domain.authentication.dto.res.QueryRequestedAuthenticationListResponseData
 import team.msg.sms.domain.authentication.dto.res.RequestedAuthenticationResponseData
+import team.msg.sms.domain.authentication.exception.InvalidGradeClassException
+import team.msg.sms.domain.authentication.exception.PermissionRoleDeniedException
 import team.msg.sms.domain.authentication.service.AuthenticationService
 import team.msg.sms.domain.teacher.service.HomeroomTeacherService
 import team.msg.sms.domain.user.service.UserService
@@ -26,11 +28,21 @@ class QueryRequestedAuthenticationUseCase(
         val user = userService.getCurrentUser()
         val authentications = authenticationService.getRequestedAuthentications()
 
-        val filteredAuthentications = if(user.roles.contains(Role.ROLE_HOMEROOM)){
-            val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByUserId(user.id)
-            authenticationService.filterAuthenticationsForHomeroomTeacher(authentications, filterRequestData, homeroomTeacher)
-        } else {
-            authenticationService.filterAuthenticationsForTeacher(authentications, filterRequestData)
+        val filteredAuthentications = when {
+            Role.ROLE_HOMEROOM in user.roles -> {
+                val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByUserId(user.id)
+
+                if("${homeroomTeacher.grade}${homeroomTeacher.classNum}" != user.stuNum.substring(0, 1))
+                    throw InvalidGradeClassException
+
+                authenticationService.filterAuthenticationsForHomeroomTeacher(authentications, filterRequestData, homeroomTeacher)
+            }
+            Role.ROLE_DIRECTOR in user.roles ||
+            Role.ROLE_PRINCIPAL in user.roles ||
+            Role.ROLE_DEPUTY_PRINCIPAL in user.roles -> {
+                authenticationService.filterAuthenticationsForTeacher(authentications, filterRequestData)
+            }
+            else -> throw PermissionRoleDeniedException
         }
 
         val authenticationPage = filteredAuthentications.toDomainPageWithUserInfo(page, size)
