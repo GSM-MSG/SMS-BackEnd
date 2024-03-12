@@ -5,4 +5,5 @@ import java.util.UUID
 
 interface GetAuthenticationService {
     fun getAuthenticationByUuid(uuid: UUID): Authentication
+    fun getRequestedAuthentications(): List<Authentication.AuthenticationWithStudentInfoAndRequestedTime>
 }

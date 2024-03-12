@@ -5,4 +5,5 @@ import java.util.UUID
 
 interface QueryAuthenticationPort {
     fun queryAuthenticationByUuid(uuid: UUID): Authentication?
+    fun queryRequestedAuthentications(): List<Authentication.AuthenticationWithStudentInfoAndRequestedTime>
 }

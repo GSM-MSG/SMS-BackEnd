@@ -21,7 +21,7 @@ class TeacherPersistenceAdapter(
         teacherJpaRepository.existsByUser(user.toEntity())
 
     override fun findTeacherByUser(user: User): Teacher {
-        return teacherJpaRepository.findByUser(user).toDomain()
+        return teacherJpaRepository.findByUser(user.toEntity()).toDomain()
     }
 
     override fun saveTeacher(teacher: Teacher, user: User) =

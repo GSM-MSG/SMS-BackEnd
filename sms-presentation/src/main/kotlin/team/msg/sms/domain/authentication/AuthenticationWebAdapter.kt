@@ -5,12 +5,14 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.authentication.dto.res.*
-import team.msg.sms.domain.authentication.req.CreateAuthenticationWebRequest
-import team.msg.sms.domain.authentication.res.CreateAuthenticationWebResponse
-import team.msg.sms.domain.authentication.res.QueryAuthenticationDetailsWebResponse
 import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebResponse
-import team.msg.sms.domain.authentication.res.RequestAuthenticationWebResponse
 import team.msg.sms.domain.authentication.usecase.*
+import team.msg.sms.domain.authentication.dto.req.CreateAuthenticationWebRequest
+import team.msg.sms.domain.authentication.dto.req.FindRequestedAuthenticationFiltersWebRequest
+import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
+import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
+import team.msg.sms.domain.authentication.usecase.QueryRequestedAuthenticationUseCase
+import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase
 import java.util.*
 import javax.validation.Valid
 
@@ -19,6 +21,7 @@ import javax.validation.Valid
 class AuthenticationWebAdapter(
     private val createAuthenticationUseCase: CreateAuthenticationUseCase,
     private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase,
+    private val queryRequestedAuthenticationUseCase: QueryRequestedAuthenticationUseCase,
     private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase,
     private val requestAuthenticationUseCase: RequestAuthenticationUseCase,
     private val queryAuthenticationHistoriesUseCase: QueryAuthenticationHistoriesUseCase
@@ -56,6 +59,15 @@ class AuthenticationWebAdapter(
             .let { ResponseEntity.ok(it.toResponse()) }
     }
 
+    @GetMapping("/teacher")
+    fun queryRequestedAuthentication(
+        @RequestParam(name = "page") page: Int,
+        @RequestParam(name = "size") size: Int,
+        filterRequestData: FindRequestedAuthenticationFiltersWebRequest
+    ): ResponseEntity<QueryRequestedAuthenticationListWebResponse> =
+        queryRequestedAuthenticationUseCase.execute(page, size, filterRequestData.toData())
+            .let { ResponseEntity.ok(it.toResponse()) }
+
     private fun CreateAuthenticationResponseData.toResponse() = CreateAuthenticationWebResponse(
         id = id
     )
@@ -76,6 +88,23 @@ class AuthenticationWebAdapter(
 
     private fun RequestAuthenticationResponseData.toResponse() = RequestAuthenticationWebResponse(
         id = id
+    )
+
+    private fun QueryRequestedAuthenticationListResponseData.toResponse() = QueryRequestedAuthenticationListWebResponse(
+        content = content.map { it.toResponse() },
+        page = page,
+        contentSize = contentSize,
+        totalSize = totalSize,
+        last = last
+    )
+
+    private fun RequestedAuthenticationResponseData.toResponse() = RequestedAuthenticationWebResponse(
+        id = id,
+        requestedTime = requestedTime,
+        title = title,
+        stuNum = stuNum,
+        name = name,
+        department = department
     )
 
     private fun isValidUUID(uuid: String): Boolean {

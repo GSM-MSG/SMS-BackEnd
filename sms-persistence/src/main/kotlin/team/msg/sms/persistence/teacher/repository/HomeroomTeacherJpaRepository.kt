@@ -2,8 +2,6 @@ package team.msg.sms.persistence.teacher.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import team.msg.sms.domain.teacher.model.HomeroomTeacher
-import team.msg.sms.domain.teacher.model.Teacher
 import team.msg.sms.persistence.teacher.entity.HomeroomTeacherJpaEntity
 import team.msg.sms.persistence.teacher.entity.TeacherJpaEntity
 
