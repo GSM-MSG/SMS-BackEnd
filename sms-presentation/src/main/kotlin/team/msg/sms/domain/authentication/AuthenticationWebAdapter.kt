@@ -24,12 +24,19 @@ class AuthenticationWebAdapter(
     private val queryRequestedAuthenticationUseCase: QueryRequestedAuthenticationUseCase,
     private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase,
     private val requestAuthenticationUseCase: RequestAuthenticationUseCase,
-    private val queryAuthenticationHistoriesUseCase: QueryAuthenticationHistoriesUseCase
+    private val queryAuthenticationHistoriesUseCase: QueryAuthenticationHistoriesUseCase,
+    private val queryMyAuthenticationUseCase: QueryMyAuthenticationUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
         createAuthenticationUseCase.execute(request.toData())
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it.toResponse()) }
+
+    @GetMapping("/my")
+    fun queryMyAuthentication(): ResponseEntity<QueryMyAuthenticationListWebResponse> {
+        return queryMyAuthenticationUseCase.execute()
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
 
     @DeleteMapping("/{uuid}")
     fun deleteAuthentication(@PathVariable uuid: String): ResponseEntity<Unit> {
@@ -67,6 +74,10 @@ class AuthenticationWebAdapter(
     ): ResponseEntity<QueryRequestedAuthenticationListWebResponse> =
         queryRequestedAuthenticationUseCase.execute(page, size, filterRequestData.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
+
+    private fun QueryMyAuthenticationListResponseData.toResponse() = QueryMyAuthenticationListWebResponse(
+        activities = activities
+    )
 
     private fun CreateAuthenticationResponseData.toResponse() = CreateAuthenticationWebResponse(
         id = id
