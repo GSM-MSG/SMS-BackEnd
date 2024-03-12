@@ -5,6 +5,8 @@ import team.msg.sms.domain.authentication.exception.AuthenticationNotFoundExcept
 import team.msg.sms.domain.authentication.model.Authentication
 import team.msg.sms.domain.authentication.service.GetAuthenticationService
 import team.msg.sms.domain.authentication.spi.QueryAuthenticationPort
+import team.msg.sms.domain.student.model.Student
+import team.msg.sms.domain.user.model.User
 import java.util.UUID
 
 @Service
@@ -16,4 +18,7 @@ class GetAuthenticationServiceImpl(
 
     override fun getRequestedAuthentications(): List<Authentication.AuthenticationWithStudentInfoAndRequestedTime> =
         queryAuthenticationPort.queryRequestedAuthentications()
+
+    override fun getAuthenticationByStudent(student: Student, user: User): List<Authentication> =
+        queryAuthenticationPort.queryMyAuthenticationByStudent(student, user)
 }
