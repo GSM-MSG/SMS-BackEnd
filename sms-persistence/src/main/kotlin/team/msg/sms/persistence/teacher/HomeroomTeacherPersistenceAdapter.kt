@@ -17,6 +17,10 @@ class HomeroomTeacherPersistenceAdapter(
     override fun existsHomeroomTeacherByGradeAndClassNum(grade: Int, classNum: Int): Boolean =
         homeroomTeacherJpaRepository.existsByGradeAndClassNum(grade, classNum)
 
+    override fun findHomeroomTeacherByTeacher(teacher: Teacher, user: User): HomeroomTeacher {
+        return homeroomTeacherJpaRepository.findByTeacher(teacher.toEntity(user.toEntity())).toDomain()
+    }
+
     override fun saveHomeroomTeacher(homeroomTeacher: HomeroomTeacher, teacher: Teacher, user: User): HomeroomTeacher =
         homeroomTeacherJpaRepository.save(homeroomTeacher.toEntity(teacher.toEntity(user.toEntity()))).toDomain()
 }

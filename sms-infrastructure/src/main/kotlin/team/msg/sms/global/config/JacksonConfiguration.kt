@@ -13,5 +13,5 @@ class JacksonConfiguration {
     fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder =
         Jackson2ObjectMapperBuilder()
             .serializers(LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")))
-            .serializers(LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-d")))
+            .serializers(LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
 }
