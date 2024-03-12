@@ -12,30 +12,42 @@ class FilterAuthenticationServiceImpl : FilterAuthenticationService {
         authentications: List<AuthenticationWithStudentInfoAndRequestedTime>,
         filters: FiltersRequestData
     ) : List<AuthenticationWithStudentInfoAndRequestedTime> {
-        var filteredAuthentication = authentications
+        var filteredAuthentications = authentications
 
         filters.grade?.let { grade ->
             if (filters.grade.isNotEmpty())
-                filteredAuthentication = filteredAuthentication.filter { authentication ->
+                filteredAuthentications = filteredAuthentications.filter { authentication ->
                     authentication.stuNum.substring(0, 1).toInt() in grade
                 }
         }
 
         filters.classNum?.let { classNum ->
             if (filters.classNum.isNotEmpty())
-                filteredAuthentication = filteredAuthentication.filter { authentication ->
+                filteredAuthentications = filteredAuthentications.filter { authentication ->
                     authentication.stuNum.substring(1, 2).toInt() in classNum
                 }
         }
 
         filters.department?.let { departments ->
             if (filters.department.isNotEmpty())
-                filteredAuthentication = filteredAuthentication.filter { authentication ->
+                filteredAuthentications = filteredAuthentications.filter { authentication ->
                     authentication.department in departments
                 }
         }
 
-        return filteredAuthentication
+        filters.stuNumSort?.let { stuNumSort ->
+            filteredAuthentications =
+                if (stuNumSort == "ASCENDING") filteredAuthentications.sortedBy { it.stuNum }
+                else filteredAuthentications.sortedBy { it.stuNum }.reversed()
+        }
+
+        filters.requestTimeSort?.let { requestTimeSort ->
+            filteredAuthentications =
+                if (requestTimeSort == "ASCENDING") filteredAuthentications.sortedBy { it.requestedTime }
+                else filteredAuthentications.sortedBy { it.requestedTime }.reversed()
+        }
+
+        return filteredAuthentications
     }
 
     override fun filterAuthenticationsForHomeroomTeacher(
@@ -43,16 +55,28 @@ class FilterAuthenticationServiceImpl : FilterAuthenticationService {
         filters: FiltersRequestData,
         homeroomTeacher: HomeroomTeacher
     ) : List<AuthenticationWithStudentInfoAndRequestedTime> {
-        var filteredAuthentication = authentications
+        var filteredAuthentications = authentications
 
-        filteredAuthentication = filteredAuthentication.filter { authentication ->
+        filteredAuthentications = filteredAuthentications.filter { authentication ->
             authentication.stuNum.substring(0, 1).toInt() == homeroomTeacher.grade
         }
 
-        filteredAuthentication = filteredAuthentication.filter { authentication ->
+        filteredAuthentications = filteredAuthentications.filter { authentication ->
             authentication.stuNum.substring(1, 2).toInt() == homeroomTeacher.classNum
         }
 
-        return filteredAuthentication
+        filters.stuNumSort?.let { stuNumSort ->
+            filteredAuthentications =
+                if (stuNumSort == "ASCENDING") filteredAuthentications.sortedBy { it.stuNum }
+                else filteredAuthentications.sortedBy { it.stuNum }.reversed()
+        }
+
+        filters.requestTimeSort?.let { requestTimeSort ->
+            filteredAuthentications =
+                if (requestTimeSort == "ASCENDING") filteredAuthentications.sortedBy { it.requestedTime }
+                else filteredAuthentications.sortedBy { it.requestedTime }.reversed()
+        }
+
+        return filteredAuthentications
     }
 }
