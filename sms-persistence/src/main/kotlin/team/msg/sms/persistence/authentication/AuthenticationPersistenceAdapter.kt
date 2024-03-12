@@ -38,7 +38,7 @@ class AuthenticationPersistenceAdapter(
     }
 
     override fun queryRequestedAuthentications(): List<Authentication.AuthenticationWithStudentInfoAndRequestedTime> =
-        queryFactory.select(authentication,history)
+        queryFactory.select(authentication,history.createdAt)
             .from(authentication)
             .leftJoin(history).on(authentication.eq(history.authentication))
             .where(
@@ -47,7 +47,7 @@ class AuthenticationPersistenceAdapter(
             )
             .fetch()
             .map {
-                it[authentication]!!.toDomainWithUserInfoAndRequestedTime(it[history]!!.createdAt)
+                it[authentication]!!.toDomainWithUserInfoAndRequestedTime(it[history.createdAt]!!)
             }
 
     private fun queryLastedAuthentication() =
