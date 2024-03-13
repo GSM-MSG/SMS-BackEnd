@@ -37,6 +37,11 @@ class AuthenticationPersistenceAdapter(
         authenticationJpaRepository.deleteById(uuid)
     }
 
+    override fun queryMyAuthenticationByStudent(student: Student, user: User): List<Authentication> {
+        return authenticationJpaRepository.findByStudent(student.toEntity(user.toEntity()))
+            .map { authenticationJpaEntity -> authenticationJpaEntity.toDomain() }
+    }
+
     override fun queryRequestedAuthentications(): List<Authentication.AuthenticationWithStudentInfoAndRequestedTime> =
         queryFactory.select(authentication,history.createdAt)
             .from(authentication)
