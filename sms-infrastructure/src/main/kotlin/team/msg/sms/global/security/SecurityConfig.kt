@@ -69,10 +69,10 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/teacher/principal").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.POST, "/teacher/deputy-principal").hasAuthority(TEACHER)
 
+            .antMatchers(HttpMethod.GET,"/authentication/student/{student_uuid}").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.GET,"/authentication/teacher").hasAuthority(TEACHER)
-            .antMatchers(HttpMethod.GET,"/authentication/{uuid}/history").hasAnyAuthority(STUDENT, TEACHER )
+            .antMatchers(HttpMethod.GET,"/authentication/{uuid}/history").hasAnyAuthority(STUDENT, TEACHER)
             .antMatchers(HttpMethod.GET,"/authentication/my").hasAuthority(STUDENT)
-            .antMatchers(HttpMethod.GET,"/authentication/student/{student_uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST,"/authentication").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET,"/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.DELETE, "/authentication/{uuid}").hasAuthority(STUDENT)
