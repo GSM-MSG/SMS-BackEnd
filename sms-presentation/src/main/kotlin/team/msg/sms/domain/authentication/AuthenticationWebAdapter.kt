@@ -25,7 +25,8 @@ class AuthenticationWebAdapter(
     private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase,
     private val requestAuthenticationUseCase: RequestAuthenticationUseCase,
     private val queryAuthenticationHistoriesUseCase: QueryAuthenticationHistoriesUseCase,
-    private val queryMyAuthenticationUseCase: QueryMyAuthenticationUseCase
+    private val queryMyAuthenticationUseCase: QueryMyAuthenticationUseCase,
+    private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
@@ -74,6 +75,16 @@ class AuthenticationWebAdapter(
     ): ResponseEntity<QueryRequestedAuthenticationListWebResponse> =
         queryRequestedAuthenticationUseCase.execute(page, size, filterRequestData.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
+
+    @GetMapping("/student/{student_id}")
+    fun queryStudentAuthentication(@PathVariable(name = "student_id") studentUuid: String){
+        queryStudentAuthenticationUseCase.execute(studentUuid)
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
+    private fun QueryStudentAuthenticationListResponseData.toResponse() = QueryStudentAuthenticationListWebResponse(
+        activities = activities
+    )
 
     private fun QueryMyAuthenticationListResponseData.toResponse() = QueryMyAuthenticationListWebResponse(
         activities = activities
