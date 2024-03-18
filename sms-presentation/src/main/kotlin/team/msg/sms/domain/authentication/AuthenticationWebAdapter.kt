@@ -4,13 +4,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
-import team.msg.sms.domain.authentication.dto.req.ApproveAuthenticationWebRequest
+import team.msg.sms.domain.authentication.dto.req.*
 import team.msg.sms.domain.authentication.dto.res.*
 import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebResponse
 import team.msg.sms.domain.authentication.usecase.*
-import team.msg.sms.domain.authentication.dto.req.CreateAuthenticationWebRequest
-import team.msg.sms.domain.authentication.dto.req.FindRequestedAuthenticationFiltersWebRequest
-import team.msg.sms.domain.authentication.dto.req.UpdateAuthenticationWebRequest
 import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
 import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
 import team.msg.sms.domain.authentication.usecase.QueryRequestedAuthenticationUseCase
@@ -31,7 +28,8 @@ class AuthenticationWebAdapter(
     private val queryMyAuthenticationUseCase: QueryMyAuthenticationUseCase,
     private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase,
     private val approveRequestAuthenticationUseCase: ApproveRequestAuthenticationUseCase,
-    private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase
+    private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase,
+    private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
@@ -107,6 +105,15 @@ class AuthenticationWebAdapter(
         approveAuthenticationWebRequest: ApproveAuthenticationWebRequest
     ): ResponseEntity<Unit> {
         approveRequestAuthenticationUseCase.execute(approveAuthenticationWebRequest.toData(), uuid)
+        return ResponseEntity.noContent().build()
+    }
+
+    @PatchMapping("/teacher/{uuid}/reject")
+    fun rejectAuthentication(
+        @PathVariable(name = "uuid") uuid: String,
+        rejectAuthenticationWebRequest: RejectAuthenticationWebRequest
+    ): ResponseEntity<Unit> {
+        rejectRequestAuthenticationUseCase.execute(rejectAuthenticationWebRequest.toData(), uuid)
         return ResponseEntity.noContent().build()
     }
 

@@ -4,7 +4,6 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.auth.model.Role
-import team.msg.sms.domain.authentication.dto.req.ApproveAuthenticationRequestData
 import team.msg.sms.domain.authentication.dto.req.RejectAuthenticationRequestData
 import team.msg.sms.domain.authentication.event.AuthenticationHistoryEvent
 import team.msg.sms.domain.authentication.exception.AlreadyGivenScoreException
@@ -20,7 +19,7 @@ import team.msg.sms.domain.user.service.UserService
 import java.util.*
 
 @UseCase
-class ApproveRequestAuthenticationUseCase(
+class RejectRequestAuthenticationUseCase(
     private val authenticationService: AuthenticationService,
     private val studentService: StudentService,
     private val userService: UserService,
@@ -29,7 +28,7 @@ class ApproveRequestAuthenticationUseCase(
     private val homeroomTeacherService: HomeroomTeacherService
 ) {
     @Transactional(rollbackFor = [Exception::class])
-    fun execute(approveAuthenticationRequestData: ApproveAuthenticationRequestData, uuid: String) {
+    fun execute(approveAuthenticationRequestData: RejectAuthenticationRequestData, uuid: String) {
         val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
         val student = studentService.getStudentById(authentication.studentId)
         val user = userService.getUserById(student.userId)
@@ -52,7 +51,7 @@ class ApproveRequestAuthenticationUseCase(
 
         val updatedAuthentication = Authentication(
             score = approveAuthenticationRequestData.score,
-            activityStatus = ActivityStatus.APPROVED,
+            activityStatus = ActivityStatus.REJECTED,
             id = authentication.id,
             title = authentication.title,
             content = authentication.content,
