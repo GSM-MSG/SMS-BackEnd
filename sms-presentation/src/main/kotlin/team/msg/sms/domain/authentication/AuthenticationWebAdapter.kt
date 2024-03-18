@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
+import team.msg.sms.domain.authentication.dto.req.ApproveAuthenticationWebRequest
 import team.msg.sms.domain.authentication.dto.res.*
 import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebResponse
 import team.msg.sms.domain.authentication.usecase.*
@@ -29,6 +30,7 @@ class AuthenticationWebAdapter(
     private val queryAuthenticationHistoriesUseCase: QueryAuthenticationHistoriesUseCase,
     private val queryMyAuthenticationUseCase: QueryMyAuthenticationUseCase,
     private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase,
+    private val approveRequestAuthenticationUseCase: ApproveRequestAuthenticationUseCase,
     private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase
 ) {
     @PostMapping
@@ -97,6 +99,15 @@ class AuthenticationWebAdapter(
     fun queryStudentAuthentication(@PathVariable(name = "student_id") studentUuid: String){
         queryStudentAuthenticationUseCase.execute(studentUuid)
             .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
+    @PatchMapping("/teacher/{uuid}/approve")
+    fun approveAuthentication(
+        @PathVariable(name = "uuid") uuid: String,
+        approveAuthenticationWebRequest: ApproveAuthenticationWebRequest
+    ): ResponseEntity<Unit> {
+        approveRequestAuthenticationUseCase.execute(approveAuthenticationWebRequest.toData(), uuid)
+        return ResponseEntity.noContent().build()
     }
 
     private fun QueryStudentAuthenticationListResponseData.toResponse() = QueryStudentAuthenticationListWebResponse(
