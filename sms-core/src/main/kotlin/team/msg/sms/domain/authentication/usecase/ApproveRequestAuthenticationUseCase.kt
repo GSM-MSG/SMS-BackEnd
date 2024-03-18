@@ -37,10 +37,9 @@ class ApproveRequestAuthenticationUseCase(
         val teacher = teacherService.getTeacherByUser(currentUser)
         val homeroomTeacher = homeroomTeacherService.getHomeroomTeacherByUserId(currentUser.id)
 
-        if(user.stuNum.substring(0, 1) != "${homeroomTeacher.grade}${homeroomTeacher.classNum}" &&
-            Role.ROLE_DIRECTOR !in currentUser.roles &&
-            Role.ROLE_HOMEROOM in currentUser.roles){
-            throw PermissionRoleDeniedException
+        if(Role.ROLE_DIRECTOR !in currentUser.roles && Role.ROLE_HOMEROOM in currentUser.roles){
+            if(user.stuNum.substring(0, 1) != "${homeroomTeacher.grade}${homeroomTeacher.classNum}")
+                throw PermissionRoleDeniedException
         }
 
         if(authentication.score != 0) throw AlreadyGivenScoreException
