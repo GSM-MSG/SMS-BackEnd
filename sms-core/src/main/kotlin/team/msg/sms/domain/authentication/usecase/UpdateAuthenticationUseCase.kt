@@ -29,7 +29,7 @@ class UpdateAuthenticationUseCase(
 
         val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
 
-        if(authentication.studentId == student.id)
+        if(authentication.studentId != student.id)
             throw OnlyAccessMyselfException
 
         if(authentication.activityStatus == ActivityStatus.REQUESTED || authentication.activityStatus == ActivityStatus.APPROVED)
