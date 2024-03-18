@@ -9,6 +9,7 @@ import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebRes
 import team.msg.sms.domain.authentication.usecase.*
 import team.msg.sms.domain.authentication.dto.req.CreateAuthenticationWebRequest
 import team.msg.sms.domain.authentication.dto.req.FindRequestedAuthenticationFiltersWebRequest
+import team.msg.sms.domain.authentication.dto.req.UpdateAuthenticationWebRequest
 import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
 import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
 import team.msg.sms.domain.authentication.usecase.QueryRequestedAuthenticationUseCase
@@ -20,6 +21,7 @@ import javax.validation.Valid
 @RequestMapping("/authentication")
 class AuthenticationWebAdapter(
     private val createAuthenticationUseCase: CreateAuthenticationUseCase,
+    private val updateAuthenticationUseCase: UpdateAuthenticationUseCase,
     private val queryAuthenticationDetailsUseCase: QueryAuthenticationDetailsUseCase,
     private val queryRequestedAuthenticationUseCase: QueryRequestedAuthenticationUseCase,
     private val deleteAuthenticationUseCase: DeleteAuthenticationUseCase,
@@ -51,6 +53,13 @@ class AuthenticationWebAdapter(
     fun queryAuthenticationDetails(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationDetailsWebResponse> {
         if (!isValidUUID(uuid)) throw InvalidUuidException
         return queryAuthenticationDetailsUseCase.execute(uuid)
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
+    @PutMapping("/{uuid}")
+    fun updateAuthentication(@PathVariable uuid: String, @Valid @RequestBody request: UpdateAuthenticationWebRequest): ResponseEntity<UpdateAuthenticationWebResponse> {
+        if (!isValidUUID(uuid)) throw InvalidUuidException
+        return updateAuthenticationUseCase.execute(uuid, request.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
     }
 
@@ -99,6 +108,10 @@ class AuthenticationWebAdapter(
     )
 
     private fun CreateAuthenticationResponseData.toResponse() = CreateAuthenticationWebResponse(
+        id = id
+    )
+
+    private fun UpdateAuthenticationResponseData.toResponse() = UpdateAuthenticationWebResponse(
         id = id
     )
 
