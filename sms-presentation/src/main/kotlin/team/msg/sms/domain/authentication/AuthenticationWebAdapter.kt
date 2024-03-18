@@ -28,7 +28,8 @@ class AuthenticationWebAdapter(
     private val queryMyAuthenticationUseCase: QueryMyAuthenticationUseCase,
     private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase,
     private val approveRequestAuthenticationUseCase: ApproveRequestAuthenticationUseCase,
-    private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase
+    private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase,
+    private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
@@ -112,7 +113,7 @@ class AuthenticationWebAdapter(
         @PathVariable(name = "uuid") uuid: String,
         rejectAuthenticationWebRequest: RejectAuthenticationWebRequest
     ): ResponseEntity<Unit> {
-        approveRequestAuthenticationUseCase.execute(rejectAuthenticationWebRequest.toData(), uuid)
+        rejectRequestAuthenticationUseCase.execute(rejectAuthenticationWebRequest.toData(), uuid)
         return ResponseEntity.noContent().build()
     }
 

@@ -29,7 +29,7 @@ class ApproveRequestAuthenticationUseCase(
     private val homeroomTeacherService: HomeroomTeacherService
 ) {
     @Transactional(rollbackFor = [Exception::class])
-    fun execute(rejectAuthenticationRequestData: RejectAuthenticationRequestData, uuid: String) {
+    fun execute(approveAuthenticationRequestData: ApproveAuthenticationRequestData, uuid: String) {
         val authentication = authenticationService.getAuthenticationByUuid(UUID.fromString(uuid))
         val student = studentService.getStudentById(authentication.studentId)
         val user = userService.getUserById(student.userId)
@@ -51,7 +51,7 @@ class ApproveRequestAuthenticationUseCase(
         if(authentication.activityStatus != ActivityStatus.REQUESTED) throw NoRequestedActivityException
 
         val updatedAuthentication = Authentication(
-            score = rejectAuthenticationRequestData.score,
+            score = approveAuthenticationRequestData.score,
             activityStatus = ActivityStatus.APPROVED,
             id = authentication.id,
             title = authentication.title,
@@ -64,7 +64,7 @@ class ApproveRequestAuthenticationUseCase(
 
         applicationEventPublisher.publishEvent(AuthenticationHistoryEvent(
             authentication = updatedAuthentication,
-            reason = rejectAuthenticationRequestData.reason,
+            reason = approveAuthenticationRequestData.reason,
             teacherId = teacher.id
         ))
     }
