@@ -9,7 +9,7 @@ data class RejectAuthenticationWebRequest (
     @field:NotBlank
     val reason: String,
 ) {
-    fun toData() = ApproveAuthenticationRequestData(
+    fun toData() = RejectAuthenticationRequestData(
         score = score,
         reason = reason
     )
