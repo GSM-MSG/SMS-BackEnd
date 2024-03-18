@@ -1,17 +1,14 @@
 package team.msg.sms.domain.authentication.usecase
 
-import org.springframework.context.ApplicationEvent
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.authentication.dto.req.ApproveAuthenticationRequestData
-import team.msg.sms.domain.authentication.dto.res.RequestAuthenticationResponseData
 import team.msg.sms.domain.authentication.event.AuthenticationHistoryEvent
 import team.msg.sms.domain.authentication.exception.AlreadyGivenScoreException
 import team.msg.sms.domain.authentication.exception.NoRequestedActivityException
 import team.msg.sms.domain.authentication.exception.PermissionRoleDeniedException
-import team.msg.sms.domain.authentication.exception.UnsuitableActivityStatusException
 import team.msg.sms.domain.authentication.model.ActivityStatus
 import team.msg.sms.domain.authentication.model.Authentication
 import team.msg.sms.domain.authentication.service.AuthenticationService
