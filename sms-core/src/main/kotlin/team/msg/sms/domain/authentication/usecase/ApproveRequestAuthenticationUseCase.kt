@@ -51,11 +51,11 @@ class ApproveRequestAuthenticationUseCase(
 
         val updatedAuthentication = Authentication(
             score = approveAuthenticationRequestData.score,
+            activityStatus = ActivityStatus.APPROVED,
             id = authentication.id,
             title = authentication.title,
             content = authentication.content,
             activityImages = authentication.activityImages,
-            activityStatus = authentication.activityStatus,
             studentId = authentication.studentId,
         )
 
