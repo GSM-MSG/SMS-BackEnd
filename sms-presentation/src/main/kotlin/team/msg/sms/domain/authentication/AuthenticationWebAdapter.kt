@@ -26,7 +26,8 @@ class AuthenticationWebAdapter(
     private val requestAuthenticationUseCase: RequestAuthenticationUseCase,
     private val queryAuthenticationHistoriesUseCase: QueryAuthenticationHistoriesUseCase,
     private val queryMyAuthenticationUseCase: QueryMyAuthenticationUseCase,
-    private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase
+    private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase,
+    private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase
 ) {
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
@@ -76,6 +77,13 @@ class AuthenticationWebAdapter(
         queryRequestedAuthenticationUseCase.execute(page, size, filterRequestData.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
 
+    @GetMapping("/teacher/{uuid}")
+    fun queryRequestedAuthenticationDetails(@PathVariable uuid: String): ResponseEntity<QueryRequestedAuthenticationDetailsWebResponse> {
+        if (!isValidUUID(uuid)) throw InvalidUuidException
+        return queryRequestedAuthenticationDetailsUseCase.execute(uuid)
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
     @GetMapping("/student/{student_id}")
     fun queryStudentAuthentication(@PathVariable(name = "student_id") studentUuid: String){
         queryStudentAuthenticationUseCase.execute(studentUuid)
@@ -106,6 +114,15 @@ class AuthenticationWebAdapter(
         lastModifiedDate = lastModifiedDate,
         score = score,
         activityStatus = activityStatus
+    )
+
+    private fun QueryRequestedAuthenticationDetailsResponseData.toResponse() = QueryRequestedAuthenticationDetailsWebResponse(
+        id = id,
+        title = title,
+        content = content,
+        activityImages = activityImages,
+        lastModifiedDate = lastModifiedDate,
+        score = score
     )
 
     private fun RequestAuthenticationResponseData.toResponse() = RequestAuthenticationWebResponse(
