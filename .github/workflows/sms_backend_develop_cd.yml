@@ -3,7 +3,7 @@ name: Deploy to Develop server
 on:
     push:
       branches:
-        - develop
+        - aws-develop-server
 
 jobs:
     CD:
