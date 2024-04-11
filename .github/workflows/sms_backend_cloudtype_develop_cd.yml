@@ -26,7 +26,7 @@ jobs:
         uses: cloudtype-github-actions/deploy@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project: sms-backend/sms-dev
+          project: ${{ secrets.PROJECT_NAME }}
           stage: main
           yaml: >
             name: sms-backend
