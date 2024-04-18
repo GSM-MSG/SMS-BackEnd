@@ -6,7 +6,7 @@ object DependencyVersions {
     const val MOCKITO_VERSION = "4.0.0"
     const val AWS_VERSION = "2.2.6.RELEASE"
     const val SERVLET_VERSION = "4.0.1"
-    const val GAUTH_VERSION = "2.0.0"
+    const val GAUTH_VERSION = "3.0.0"
     const val SPRING_TRANSACTION = "5.3.22"
     const val QUERYDSL = "5.0.0"
     const val MARIA_VERSION = "2.1.2"
