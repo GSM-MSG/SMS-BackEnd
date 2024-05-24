@@ -19,6 +19,7 @@ import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
 import team.msg.sms.domain.auth.usecase.SignInUseCase
 import team.msg.sms.domain.student.service.StudentService
+import team.msg.sms.domain.teacher.service.TeacherService
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
 import team.msg.sms.global.annotation.SmsTest
@@ -41,6 +42,9 @@ class GAuthSignInUseCaseTest {
 
     @Mock
     private lateinit var studentService: StudentService
+
+    @Mock
+    private lateinit var teacherService: TeacherService
 
     private lateinit var signInUseCase: SignInUseCase
 
@@ -128,8 +132,7 @@ class GAuthSignInUseCaseTest {
             gAuthPort = gAuthPort,
             jwtPort = jwtPort,
             refreshTokenPort = refreshTokenPort,
-            userService = userService,
-            studentService =  studentService
+            userService = userService
         )
     }
 
@@ -158,7 +161,7 @@ class GAuthSignInUseCaseTest {
         given(refreshTokenPort.saveRefreshToken(any()))
             .willReturn(refreshTokenStub)
 
-        given(studentService.checkNewStudent(saveUserStub, role.name))
+        given(userService.checkNewUser(saveUserStub))
             .willReturn(false)
 
         // when

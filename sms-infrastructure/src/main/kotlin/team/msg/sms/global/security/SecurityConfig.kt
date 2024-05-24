@@ -19,6 +19,15 @@ class SecurityConfig(
     private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) {
 
+    companion object {
+        const val STUDENT = "ROLE_STUDENT" // 학생
+        const val TEACHER = "ROLE_TEACHER" // 선생님
+        const val PRINCIPAL = "ROLE_PRINCIPAL" // 교장선생님
+        const val DEPUTY_PRINCIPAL = "ROLE_DEPUTY_PRINCIPAL" // 교감선생님
+        const val DIRECTOR = "ROLE_DIRECTOR" // 부장선생님
+        const val HOMEROOM = "ROLE_HOMEROOM" // 담임선생님
+    }
+
     @Bean
     protected fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
@@ -47,12 +56,14 @@ class SecurityConfig(
             .antMatchers(HttpMethod.DELETE, "/auth/withdrawal").authenticated()
 
             .antMatchers(HttpMethod.GET, "/user/profile/img").permitAll()
-            .antMatchers(HttpMethod.GET,"/user/profile").hasAuthority("ROLE_STUDENT")
+            .antMatchers(HttpMethod.GET,"/user/profile").hasAuthority(STUDENT)
 
-            .antMatchers(HttpMethod.POST, "/student").hasAuthority("ROLE_STUDENT")
+            .antMatchers(HttpMethod.POST, "/student").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET, "/student").permitAll()
-            .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
+            .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority(STUDENT, TEACHER)
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
+
+            .antMatchers(HttpMethod.POST, "/teacher/common").hasAuthority(TEACHER)
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()
