@@ -15,7 +15,7 @@ class CreateStudentLinkUseCase (
 	private val studentLinkService: StudentLinkService,
 ) {
 	fun execute(createStudentLinkData: CreateStudentLinkRequestData): CreateStudentLinkResponseData {
-		val student = studentService.getStudentById(UUID.fromString(createStudentLinkData.studentId))
+		val student = studentService.getStudentById(createStudentLinkData.studentId)
 		val token = generateSecret(32)
 
 		val studentLink = StudentLink(

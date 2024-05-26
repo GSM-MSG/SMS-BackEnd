@@ -1,7 +1,9 @@
 package team.msg.sms.domain.student.dto.req
 
+import java.util.UUID
+
 data class CreateStudentLinkWebRequest (
-	val studentId: String,
+	val studentId: UUID,
 	val periodDay: Long
 ) {
 	fun toData(): CreateStudentLinkRequestData =
