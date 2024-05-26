@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository
 import team.msg.sms.persistence.student.entity.StudentLinkEntity
 
 @Repository
-interface StudentLinkRepository: CrudRepository<StudentLinkEntity, Long> {
+interface StudentLinkRepository : CrudRepository<StudentLinkEntity, Long> {
 	fun existsByToken(token: String): Boolean
 }

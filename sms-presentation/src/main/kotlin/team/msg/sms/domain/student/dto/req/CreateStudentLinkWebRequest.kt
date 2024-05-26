@@ -8,7 +8,7 @@ data class CreateStudentLinkWebRequest (
 ) {
 	fun toData(): CreateStudentLinkRequestData =
 		CreateStudentLinkRequestData(
-		studentId,
-		periodDay
-	)
+			studentId,
+			periodDay
+		)
 }
