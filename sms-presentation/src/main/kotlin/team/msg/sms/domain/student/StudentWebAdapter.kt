@@ -3,6 +3,7 @@ package team.msg.sms.domain.student
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
+import team.msg.sms.domain.student.dto.req.CreateStudentLinkWebRequest
 import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
 import team.msg.sms.domain.student.dto.req.ModifyStudentInfoWebRequest
 import team.msg.sms.domain.student.dto.req.SignUpWebRequest
@@ -19,7 +20,8 @@ class StudentWebAdapter(
     private val studentInfoAnonymousUseCase: StudentInfoAnonymousUseCase,
     private val studentInfoDetailUseCase: StudentInfoDetailUseCase,
     private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase,
-    private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase
+    private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase,
+    private val createStudentLinkUseCase: CreateStudentLinkUseCase
 ) {
     @GetMapping
     fun findAll(
@@ -34,6 +36,12 @@ class StudentWebAdapter(
     fun signUpStudent(@RequestBody @Valid signUpWebRequest: SignUpWebRequest): ResponseEntity<Void> =
         signUpUseCase.execute(signUpWebRequest.toData())
             .run { ResponseEntity.ok().build() }
+
+    @PostMapping("/link")
+    fun createStudentLink(@RequestBody @Valid createStudentLinkWebRequest: CreateStudentLinkWebRequest): ResponseEntity<CreateStudentLinkWebResponse> {
+        return createStudentLinkUseCase.execute(createStudentLinkWebRequest.toData())
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
 
     @PutMapping
     fun modifyStudentInfo(@RequestBody modifyStudentInfoWebRequest: ModifyStudentInfoWebRequest) {
@@ -123,6 +131,11 @@ class StudentWebAdapter(
             techStacks = this.techStacks,
             projects = this.projects,
             prizes = this.prizes
+        )
+
+    fun CreateStudentLinkResponseData.toResponse(): CreateStudentLinkWebResponse =
+        CreateStudentLinkWebResponse(
+            token = this.token
         )
 
     private fun isValidUUID(uuid: String): Boolean {
