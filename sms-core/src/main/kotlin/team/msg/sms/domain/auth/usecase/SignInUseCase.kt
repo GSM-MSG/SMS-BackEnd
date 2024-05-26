@@ -13,7 +13,6 @@ import team.msg.sms.domain.auth.model.RefreshToken
 import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.auth.spi.JwtPort
 import team.msg.sms.domain.auth.spi.RefreshTokenPort
-import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.user.exception.InternalServerErrorException
 import team.msg.sms.domain.user.model.User
 import team.msg.sms.domain.user.service.UserService
@@ -23,8 +22,7 @@ class SignInUseCase(
     private val gAuthPort: GAuthPort,
     private val jwtPort: JwtPort,
     private val refreshTokenPort: RefreshTokenPort,
-    private val userService: UserService,
-    private val studentService: StudentService
+    private val userService: UserService
 ) {
 
     fun execute(request: SignInRequestData): SignInResponseData =
@@ -49,7 +47,7 @@ class SignInUseCase(
 
             refreshTokenPort.saveRefreshToken(RefreshToken(refreshToken, user.id))
 
-            val isStudent = studentService.checkNewStudent(user, role.name)
+            val isExist = userService.checkNewUser(user)
 
             SignInResponseData(
                 accessToken = accessToken,
@@ -57,7 +55,7 @@ class SignInUseCase(
                 refreshToken = refreshToken,
                 refreshTokenExp = refreshTokenExp,
                 role = role,
-                isExist = isStudent
+                isExist = isExist
             )
         }.getOrElse { error ->
             when (error) {
@@ -75,6 +73,6 @@ class SignInUseCase(
 }
 
 private fun getStuNumValid(role: Role, gAuthUserInfo: GAuthUserInfo) =
-    if (role.name != "ROLE_TEACHER") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}${gAuthUserInfo.getNumber()}" else ""
+    if (role.name == "ROLE_STUDENT") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}${gAuthUserInfo.getNumber()}" else ""
 
 private fun GAuthUserInfo.getNumber() = String.format("%02d", this.num)
