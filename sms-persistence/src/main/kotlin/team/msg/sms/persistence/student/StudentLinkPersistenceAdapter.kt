@@ -7,6 +7,7 @@ import team.msg.sms.persistence.student.mapper.toDomain
 import team.msg.sms.persistence.student.mapper.toEntity
 import team.msg.sms.persistence.student.repository.StudentJpaRepository
 import team.msg.sms.persistence.student.repository.StudentLinkRepository
+import java.util.*
 
 @Component
 class StudentLinkPersistenceAdapter(
@@ -20,5 +21,9 @@ class StudentLinkPersistenceAdapter(
 
     override fun existsByToken(token: String): Boolean {
         return studentLinkRepository.existsByToken(token)
+    }
+
+    override fun findStudentIdByToken(token: String): UUID? {
+        return studentLinkRepository.findByToken(token)?.studentId
     }
 }
