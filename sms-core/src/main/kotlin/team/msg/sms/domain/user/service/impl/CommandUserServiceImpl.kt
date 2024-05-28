@@ -16,9 +16,16 @@ class CommandUserServiceImpl(
         return if(existUser) {
             userPort.queryUserByEmail(user.email) ?: throw UserNotFoundException
         } else {
-            userPort.saveUser(user)!!
+            userPort.saveUser(user)
         }
     }
+
+    override fun updateStuNum(user: User, stuNum: String) =
+        userPort.saveUser(
+            user.copy(
+                stuNum = stuNum
+            )
+        )
 
     override fun saveRoles(user: User, role: List<Role>): User {
         user.roles.addAll(role)

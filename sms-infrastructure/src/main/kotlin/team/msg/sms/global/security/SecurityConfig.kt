@@ -60,6 +60,8 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.POST, "/student").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET, "/student").permitAll()
+            .antMatchers(HttpMethod.POST, "/student/link").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.GET, "/student/link").permitAll()
             .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority(STUDENT, TEACHER)
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
 
@@ -68,6 +70,19 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/teacher/homeroom").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.POST, "/teacher/principal").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.POST, "/teacher/deputy-principal").hasAuthority(TEACHER)
+
+            .antMatchers(HttpMethod.GET,"/authentication/student/{student_uuid}").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.GET,"/authentication/teacher").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.PATCH,"/authentication/teacher/{uuid}/approve").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.PATCH,"/authentication/teacher/{uuid}/reject").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.GET,"/authentication/teacher/{uuid}").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.GET,"/authentication/{uuid}/history").hasAnyAuthority(STUDENT, TEACHER)
+            .antMatchers(HttpMethod.GET,"/authentication/my").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.POST,"/authentication").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.GET,"/authentication/{uuid}").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.DELETE, "/authentication/{uuid}").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.PATCH,"/authentication/{uuid}").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.PUT,"/authentication/{uuid}").hasAuthority(STUDENT)
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()

@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  develop:
+    image : ${REPO_URL}/${ECR_REPOSITORY}:${IMAGE_TAG}
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: "sms-develop-server-logs"
+        awslogs-region: "ap-northeast-2"
+        awslogs-stream: "backend-start-logs"
+
+  redis:
+    image : redis:alpine
+    ports:
+      - 6379:6379
+    networks:
+      - backend
+
+  nginx:
+    image : ${NGINX_URL}
+    ports:
+      - 80:80
+    networks:
+      - backend
+
+
+
+
+networks:
+  backend:
+    driver: bridge

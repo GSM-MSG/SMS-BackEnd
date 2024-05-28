@@ -18,7 +18,9 @@ interface GetStudentService {
 
     fun getStudentUserInfoByUuid(uuid: String): Student.StudentWithUserInfo
 
-    fun getStudentByUuid(uuid: UUID): Student
+    fun getStudentById(uuid: UUID): Student
+
+    fun getStudentByUserId(uuid: UUID): Student
 
     fun getStudentByUser(user: User): Student
 
