@@ -20,6 +20,7 @@ class StudentWebAdapter(
     private val studentInfoAnonymousUseCase: StudentInfoAnonymousUseCase,
     private val studentInfoDetailUseCase: StudentInfoDetailUseCase,
     private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase,
+    private val studentInfoTokenUseCase: StudentInfoTokenUseCase,
     private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase,
     private val createStudentLinkUseCase: CreateStudentLinkUseCase
 ) {
@@ -42,6 +43,11 @@ class StudentWebAdapter(
         return createStudentLinkUseCase.execute(createStudentLinkWebRequest.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
     }
+
+    @GetMapping("/link")
+    fun findByToken(@RequestParam token: String): ResponseEntity<DetailStudentInfoTokenWebResponse> =
+        studentInfoTokenUseCase.execute(token)
+            .let { ResponseEntity.ok(it.toResponse()) }
 
     @PutMapping
     fun modifyStudentInfo(@RequestBody modifyStudentInfoWebRequest: ModifyStudentInfoWebRequest) {
@@ -136,6 +142,31 @@ class StudentWebAdapter(
     fun CreateStudentLinkResponseData.toResponse(): CreateStudentLinkWebResponse =
         CreateStudentLinkWebResponse(
             token = this.token
+        )
+
+    fun DetailStudentInfoTokenResponseData.toResponse(): DetailStudentInfoTokenWebResponse =
+        DetailStudentInfoTokenWebResponse(
+            name = this.name,
+            introduce = this.introduce,
+            portfolioUrl = this.portfolioUrl,
+            grade = this.grade,
+            classNum = this.classNum,
+            number = this.number,
+            department = this.department,
+            major = this.major,
+            profileImgUrl = this.profileImg,
+            profileImg = this.profileImg,
+            contactEmail = this.contactEmail,
+            gsmAuthenticationScore = this.gsmAuthenticationScore,
+            formOfEmployment = this.formOfEmployment,
+            regions = this.regions,
+            militaryService = this.militaryService,
+            salary = this.salary,
+            languageCertificates = this.languageCertificates,
+            certificates = this.certificates,
+            techStacks = this.techStacks,
+            projects = this.projects,
+            prizes = this.prizes
         )
 
     private fun isValidUUID(uuid: String): Boolean {
