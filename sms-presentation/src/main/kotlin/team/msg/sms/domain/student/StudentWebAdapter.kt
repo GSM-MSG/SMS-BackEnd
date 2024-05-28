@@ -3,6 +3,7 @@ package team.msg.sms.domain.student
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
+import team.msg.sms.domain.student.dto.req.CreateStudentLinkWebRequest
 import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
 import team.msg.sms.domain.student.dto.req.ModifyStudentInfoWebRequest
 import team.msg.sms.domain.student.dto.req.SignUpWebRequest
@@ -19,7 +20,9 @@ class StudentWebAdapter(
     private val studentInfoAnonymousUseCase: StudentInfoAnonymousUseCase,
     private val studentInfoDetailUseCase: StudentInfoDetailUseCase,
     private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase,
-    private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase
+    private val studentInfoTokenUseCase: StudentInfoTokenUseCase,
+    private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase,
+    private val createStudentLinkUseCase: CreateStudentLinkUseCase
 ) {
     @GetMapping
     fun findAll(
@@ -34,6 +37,17 @@ class StudentWebAdapter(
     fun signUpStudent(@RequestBody @Valid signUpWebRequest: SignUpWebRequest): ResponseEntity<Void> =
         signUpUseCase.execute(signUpWebRequest.toData())
             .run { ResponseEntity.ok().build() }
+
+    @PostMapping("/link")
+    fun createStudentLink(@RequestBody @Valid createStudentLinkWebRequest: CreateStudentLinkWebRequest): ResponseEntity<CreateStudentLinkWebResponse> {
+        return createStudentLinkUseCase.execute(createStudentLinkWebRequest.toData())
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
+    @GetMapping("/link")
+    fun findByToken(@RequestParam token: String): ResponseEntity<DetailStudentInfoTokenWebResponse> =
+        studentInfoTokenUseCase.execute(token)
+            .let { ResponseEntity.ok(it.toResponse()) }
 
     @PutMapping
     fun modifyStudentInfo(@RequestBody modifyStudentInfoWebRequest: ModifyStudentInfoWebRequest) {
@@ -102,6 +116,36 @@ class StudentWebAdapter(
 
     fun DetailStudentInfoTeacherResponseData.toResponse(): DetailStudentInfoTeacherWebResponse =
         DetailStudentInfoTeacherWebResponse(
+            name = this.name,
+            introduce = this.introduce,
+            portfolioUrl = this.portfolioUrl,
+            grade = this.grade,
+            classNum = this.classNum,
+            number = this.number,
+            department = this.department,
+            major = this.major,
+            profileImgUrl = this.profileImg,
+            profileImg = this.profileImg,
+            contactEmail = this.contactEmail,
+            gsmAuthenticationScore = this.gsmAuthenticationScore,
+            formOfEmployment = this.formOfEmployment,
+            regions = this.regions,
+            militaryService = this.militaryService,
+            salary = this.salary,
+            languageCertificates = this.languageCertificates,
+            certificates = this.certificates,
+            techStacks = this.techStacks,
+            projects = this.projects,
+            prizes = this.prizes
+        )
+
+    fun CreateStudentLinkResponseData.toResponse(): CreateStudentLinkWebResponse =
+        CreateStudentLinkWebResponse(
+            token = this.token
+        )
+
+    fun DetailStudentInfoTokenResponseData.toResponse(): DetailStudentInfoTokenWebResponse =
+        DetailStudentInfoTokenWebResponse(
             name = this.name,
             introduce = this.introduce,
             portfolioUrl = this.portfolioUrl,

@@ -33,15 +33,21 @@ class SignInUseCase(
             val role = userService.getRoleByGAuthInfo(gAuthUserInfo.email, gAuthUserInfo.role)
 
             val isExistsUser = userService.checkUserExistByEmail(gAuthUserInfo.email)
+
+            val stuNum = getStuNumValid(role, gAuthUserInfo)
+
             val user = userService.createUserWhenNotExistUser(
                 isExistsUser,
                 User(
                     name = gAuthUserInfo.name,
                     email = gAuthUserInfo.email,
-                    stuNum = getStuNumValid(role, gAuthUserInfo),
+                    stuNum = stuNum,
                     roles = mutableListOf(role)
                 )
             )
+
+            if(user.stuNum != stuNum)
+                userService.updateStuNum(user, stuNum)
 
             val (accessToken, accessTokenExp, refreshToken, refreshTokenExp) = jwtPort.receiveToken(user.id, role)
 
