@@ -18,7 +18,7 @@ class GetUserServiceImpl(
 ) : GetUserService {
     override fun getRoleByGAuthInfo(email: String, role: String): Role {
         val user = queryUserPort.queryUserByEmail(email) ?: return when (role) {
-            "ROLE_STUDENT" -> Role.ROLE_STUDENT
+            "ROLE_STUDENT", "ROLE_GRADUATE" -> Role.ROLE_STUDENT
             "ROLE_TEACHER" -> Role.ROLE_TEACHER
             else -> throw RoleNotExistsException
         }

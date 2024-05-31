@@ -29,7 +29,7 @@ class WithdrawalUseCase(
 ) {
     fun execute() {
         val user = userService.getCurrentUser()
-        if (user.roles[0].name == "ROLE_STUDENT") {
+        if (user.roles[0].name == "ROLE_STUDENT" || user.roles[0].name == "ROLE_GRADUATE") {
             val student = studentService.getStudentByUser(user)
             val project = projectService.getAllProjectByStudentId(student.id)
 
