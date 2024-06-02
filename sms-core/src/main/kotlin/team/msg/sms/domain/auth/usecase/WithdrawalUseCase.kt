@@ -1,6 +1,7 @@
 package team.msg.sms.domain.auth.usecase
 
 import team.msg.sms.common.annotation.UseCase
+import team.msg.sms.domain.auth.model.Role
 import team.msg.sms.domain.certificate.service.CertificateService
 import team.msg.sms.domain.file.service.ImageService
 import team.msg.sms.domain.languagecertificate.service.LanguageCertificateService
@@ -29,7 +30,7 @@ class WithdrawalUseCase(
 ) {
     fun execute() {
         val user = userService.getCurrentUser()
-        if (user.roles[0].name == "ROLE_STUDENT") {
+        if (user.roles[0] == Role.ROLE_STUDENT) {
             val student = studentService.getStudentByUser(user)
             val project = projectService.getAllProjectByStudentId(student.id)
 

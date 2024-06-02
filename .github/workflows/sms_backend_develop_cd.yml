@@ -3,7 +3,7 @@ name: Deploy to Develop server
 on:
     push:
       branches:
-        - aws-develop-server
+        - develop
 
 jobs:
     CD:
@@ -37,11 +37,9 @@ jobs:
         run: chmod +x gradlew
   
       - name: Create application.yml
-        env:
-          IMAGE_TAG: ${{ secrets.DEVELOP_IMAGE_TAG }}
         run: |
           touch ./sms-infrastructure/src/main/resources/application.yml
-          echo "${{ secrets.SMS_BACKEND_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
+          echo "${{ secrets.SMS_BACKEND_TEST_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
         shell: bash
   
       - name: Run build with Gradle wrapper
