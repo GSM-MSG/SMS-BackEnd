@@ -19,9 +19,8 @@ data class ModifyStudentInfoWebRequest(
     @field:Size(max = 50)
     val introduce: String,
 
-    @field:NotBlank
     @field:Pattern(regexp = "^(https?://).*")
-    val portfolioUrl: String,
+    val portfolioUrl: String?,
 
     @field:NotBlank
     @field:Email
