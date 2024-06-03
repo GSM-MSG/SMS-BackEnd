@@ -39,7 +39,7 @@ jobs:
       - name: Create application.yml
         run: |
           touch ./sms-infrastructure/src/main/resources/application.yml
-          echo "${{ secrets.SMS_BACKEND_TEST_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
+          echo "${{ secrets.SMS_BACKEND_DEV_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
         shell: bash
   
       - name: Run build with Gradle wrapper
