@@ -4,12 +4,12 @@ import java.util.UUID
 import javax.validation.constraints.*
 
 data class CreateStudentLinkWebRequest (
-	@field:NotBlank
+	@field:NotNull
 	val studentId: UUID,
 
 	@field:Min(1)
 	@field:Max(30)
-	@field:NotBlank
+	@field:NotNull
 	val periodDay: Long
 ) {
 	fun toData(): CreateStudentLinkRequestData =
