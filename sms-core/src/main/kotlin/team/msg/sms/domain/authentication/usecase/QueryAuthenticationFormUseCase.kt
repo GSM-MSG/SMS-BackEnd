@@ -1,5 +1,6 @@
 package team.msg.sms.domain.authentication.usecase
 
+import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.res.*
 import team.msg.sms.domain.authentication.model.SectionType
@@ -18,6 +19,7 @@ class QueryAuthenticationFormUseCase(
     private val selectorSectionValueService: SelectorSectionValueService,
     private val groupAuthenticationAreaService: GroupAuthenticationAreaService
 ) {
+    @Transactional(readOnly = true)
     fun execute(): QueryAuthenticationFormResponseData {
         val groups = groupAuthenticationAreaService.getGroupAuthenticationArea()
         val groupIds = groups.map { it.id }
