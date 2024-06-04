@@ -48,7 +48,8 @@ class FindAllUseCase(
     }
 
     fun generateCacheKey(page: Int, size: Int): String {
-        return "$page-$size"
+        val currentRole = securityService.getCurrentUserRole()
+        return "$page-$size:$currentRole"
     }
 }
 
