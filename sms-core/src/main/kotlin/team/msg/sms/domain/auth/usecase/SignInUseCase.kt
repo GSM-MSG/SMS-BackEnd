@@ -46,7 +46,7 @@ class SignInUseCase(
                 )
             )
 
-            if(user.stuNum != stuNum)
+            if (user.stuNum != stuNum)
                 userService.updateStuNum(user, stuNum)
 
             val (accessToken, accessTokenExp, refreshToken, refreshTokenExp) = jwtPort.receiveToken(user.id, role)
@@ -73,12 +73,21 @@ class SignInUseCase(
                         else -> throw InternalServerErrorException
                     }
                 }
+
                 else -> throw error
             }
         }
 }
 
 private fun getStuNumValid(role: Role, gAuthUserInfo: GAuthUserInfo) =
-    if (role.name == "ROLE_STUDENT") "${gAuthUserInfo.grade}${gAuthUserInfo.classNum}${gAuthUserInfo.getNumber()}" else ""
+    if (role.name == "ROLE_STUDENT") {
+        val grade = gAuthUserInfo.grade ?: 0
+        val classNum = gAuthUserInfo.classNum ?: 0
+        val number = if (gAuthUserInfo.getNumber() == null) 0 else gAuthUserInfo.getNumber()
+        "$grade$classNum$number"
+    } else ""
 
-private fun GAuthUserInfo.getNumber() = String.format("%02d", this.num)
+private fun GAuthUserInfo.getNumber(): String {
+    val number = this.num ?: 0
+    return String.format("%02d", number)
+}
