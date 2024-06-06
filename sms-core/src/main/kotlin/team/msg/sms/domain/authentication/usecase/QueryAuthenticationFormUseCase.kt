@@ -39,7 +39,7 @@ class QueryAuthenticationFormUseCase(
 
         return QueryAuthenticationFormResponseData(
             content = groups.map { group ->
-                AuthenticationFormResponseData(
+                AuthenticationAreaFormResponseData(
                     title = group.title,
                     files = fileResponseMap[group.id] ?: emptyList(),
                     items = authenticationSections
