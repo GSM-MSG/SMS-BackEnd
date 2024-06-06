@@ -6,9 +6,9 @@ import team.msg.sms.domain.authentication.service.GetSelectorSectionValueService
 import team.msg.sms.domain.authentication.spi.SelectorSectionValuePort
 
 @Service
-class GetSelectorSectionValueServiceImpl (
+class GetSelectorSectionValueServiceImpl(
     private val selectorSectionValuePort: SelectorSectionValuePort
-): GetSelectorSectionValueService{
+) : GetSelectorSectionValueService {
     override fun getSelectorSectionValue(): List<SelectorSectionValue> =
         selectorSectionValuePort.querySelectorSectionValue()
 }
