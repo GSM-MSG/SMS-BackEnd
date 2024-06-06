@@ -29,8 +29,14 @@ class AuthenticationWebAdapter(
     private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase,
     private val approveRequestAuthenticationUseCase: ApproveRequestAuthenticationUseCase,
     private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase,
-    private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase
+    private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase,
+    private val queryAuthenticationFormUseCase: QueryAuthenticationFormUseCase
 ) {
+    @GetMapping
+    fun queryAuthenticationForm(): ResponseEntity<QueryAuthenticationFormWebResponse> =
+        queryAuthenticationFormUseCase.execute()
+            .let { ResponseEntity.ok(it.toResponse()) }
+
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
         createAuthenticationUseCase.execute(request.toData())
@@ -44,7 +50,7 @@ class AuthenticationWebAdapter(
 
     @DeleteMapping("/{uuid}")
     fun deleteAuthentication(@PathVariable uuid: String): ResponseEntity<Unit> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         deleteAuthenticationUseCase.execute(uuid)
         return ResponseEntity.noContent().build()
     }
@@ -57,7 +63,10 @@ class AuthenticationWebAdapter(
     }
 
     @PutMapping("/{uuid}")
-    fun updateAuthentication(@PathVariable uuid: String, @Valid @RequestBody request: UpdateAuthenticationWebRequest): ResponseEntity<UpdateAuthenticationWebResponse> {
+    fun updateAuthentication(
+        @PathVariable uuid: String,
+        @Valid @RequestBody request: UpdateAuthenticationWebRequest
+    ): ResponseEntity<UpdateAuthenticationWebResponse> {
         if (!isValidUUID(uuid)) throw InvalidUuidException
         return updateAuthenticationUseCase.execute(uuid, request.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
@@ -65,7 +74,7 @@ class AuthenticationWebAdapter(
 
     @GetMapping("/{uuid}/history")
     fun queryAuthenticationHistories(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationHistoriesWebResponse> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         return queryAuthenticationHistoriesUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -94,7 +103,7 @@ class AuthenticationWebAdapter(
     }
 
     @GetMapping("/student/{student_id}")
-    fun queryStudentAuthentication(@PathVariable(name = "student_id") studentUuid: String){
+    fun queryStudentAuthentication(@PathVariable(name = "student_id") studentUuid: String) {
         queryStudentAuthenticationUseCase.execute(studentUuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -116,6 +125,10 @@ class AuthenticationWebAdapter(
         rejectRequestAuthenticationUseCase.execute(rejectAuthenticationWebRequest.toData(), uuid)
         return ResponseEntity.noContent().build()
     }
+
+    private fun QueryAuthenticationFormResponseData.toResponse() = QueryAuthenticationFormWebResponse(
+        content = content
+    )
 
     private fun QueryStudentAuthenticationListResponseData.toResponse() = QueryStudentAuthenticationListWebResponse(
         activities = activities
@@ -147,14 +160,15 @@ class AuthenticationWebAdapter(
         activityStatus = activityStatus
     )
 
-    private fun QueryRequestedAuthenticationDetailsResponseData.toResponse() = QueryRequestedAuthenticationDetailsWebResponse(
-        id = id,
-        title = title,
-        content = content,
-        activityImages = activityImages,
-        lastModifiedDate = lastModifiedDate,
-        score = score
-    )
+    private fun QueryRequestedAuthenticationDetailsResponseData.toResponse() =
+        QueryRequestedAuthenticationDetailsWebResponse(
+            id = id,
+            title = title,
+            content = content,
+            activityImages = activityImages,
+            lastModifiedDate = lastModifiedDate,
+            score = score
+        )
 
     private fun RequestAuthenticationResponseData.toResponse() = RequestAuthenticationWebResponse(
         id = id

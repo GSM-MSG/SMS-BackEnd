@@ -1,0 +1,10 @@
+package team.msg.sms.persistence.file.Repository
+
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
+import team.msg.sms.persistence.file.entity.FileJpaEntity
+import java.util.UUID
+
+@Repository
+interface FileRepository : CrudRepository<FileJpaEntity, UUID> {
+}
