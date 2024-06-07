@@ -5,7 +5,7 @@ import java.util.*
 
 data class SubmitUserFormRequestData(
     val authenticationSectionId: UUID,
-    val value:String?,
+    val value: String?,
     val sectionType: SectionType,
     val targetId: UUID?
 )
