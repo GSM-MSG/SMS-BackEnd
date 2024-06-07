@@ -21,4 +21,4 @@ class SelectorSectionValueJpaEntity(
     val name: String,
 
     val sort: Int
-): BaseUuidEntity(id)
+) : BaseUuidEntity(id)

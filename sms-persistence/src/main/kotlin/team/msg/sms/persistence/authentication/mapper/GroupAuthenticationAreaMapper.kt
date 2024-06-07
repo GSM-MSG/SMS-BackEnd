@@ -7,7 +7,8 @@ fun GroupAuthenticationAreaJpaEntity.toDomain() =
     GroupAuthenticationArea(
         id = id,
         title = title,
-        sort = sort
+        sort = sort,
+        authenticationFormId = authenticationFormId
     )
 
 fun GroupAuthenticationArea.toEntity() =
@@ -15,4 +16,5 @@ fun GroupAuthenticationArea.toEntity() =
         id = id,
         title = title,
         sort = sort,
+        authenticationFormId = authenticationFormId
     )
