@@ -9,7 +9,7 @@ class AuthenticationSection(
     val groupId: UUID,
     val sectionName: String,
     val description: String,
-    val placeHolder: String,
+    val placeHolder: String?,
     val sectionType: SectionType,
     val sectionScore: Int,
     val maxCount: Int
