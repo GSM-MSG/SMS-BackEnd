@@ -8,4 +8,5 @@ interface QueryTeacherPort {
     fun existsTeacherById(uuid: UUID): Boolean
     fun existsTeacherByUser(user: User): Boolean
     fun findTeacherByUser(user: User): Teacher
+    fun queryTeacherByUserId(userId: UUID): Teacher
 }
