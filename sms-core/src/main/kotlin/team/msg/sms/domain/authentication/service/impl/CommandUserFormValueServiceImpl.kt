@@ -9,7 +9,7 @@ import team.msg.sms.domain.authentication.spi.UserFormValuePort
 class CommandUserFormValueServiceImpl(
     private val userFormValuePort: UserFormValuePort
 ) : CommandUserFormValueService {
-    override fun save(userFormValue: UserFormValue): UserFormValue {
-        return userFormValuePort.save(userFormValue)
+    override fun saveAll(userFormValueList: List<UserFormValue>): List<UserFormValue> {
+        return userFormValuePort.saveAll(userFormValueList)
     }
 }
