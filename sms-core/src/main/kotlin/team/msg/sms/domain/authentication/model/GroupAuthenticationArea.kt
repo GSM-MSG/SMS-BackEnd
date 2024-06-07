@@ -8,4 +8,5 @@ class GroupAuthenticationArea(
     val id: UUID,
     val title: String,
     val sort: Int,
+    val authenticationFormId: UUID
 )
