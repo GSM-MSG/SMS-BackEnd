@@ -31,7 +31,8 @@ class AuthenticationWebAdapter(
     private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase,
     private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase,
     private val queryAuthenticationFormUseCase: QueryAuthenticationFormUseCase,
-    private val submitUserFormDataUseCase: SubmitUserFormDataUseCase
+    private val submitUserFormDataUseCase: SubmitUserFormDataUseCase,
+    private val createAuthenticationFormUseCase: CreateAuthenticationFormUseCase
 ) {
     @GetMapping
     fun queryAuthenticationForm(): ResponseEntity<QueryAuthenticationFormWebResponse> =
@@ -45,6 +46,11 @@ class AuthenticationWebAdapter(
     ): ResponseEntity<Unit> =
         submitUserFormDataUseCase.execute(request.content, UUID.fromString(uuid))
             .let { ResponseEntity.ok().build() }
+
+    @PostMapping("/create")
+    fun createAuthenticationForm(@Valid @RequestBody request: CreateAuthenticationFormWebRequest): ResponseEntity<Unit> =
+        createAuthenticationFormUseCase.execute(request.toData())
+            .run { ResponseEntity.status(HttpStatus.CREATED).build() }
 
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
