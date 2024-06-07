@@ -92,18 +92,18 @@ class SignUpUseCase(
             throw StudentNotFoundException
         val departmentCode = stuNum.slice(IntRange(1, 1))
         return when {
-            stuNum.startsWith("1") -> when (departmentCode) {
+            stuNum.startsWith("3") -> when (departmentCode) {
                 "0" -> Department.SW_DEVELOPMENT
                 "1", "2" -> Department.SW_DEVELOPMENT
-                "3" -> Department.SMART_IOT_DEVELOPMENT
-                "4" -> Department.AI_DEVELOPMENT
+                "3", "4" -> Department.SMART_IOT_DEVELOPMENT
                 else -> throw StuNumNotRightException
             }
 
             else -> when (departmentCode) {
                 "0" -> Department.SW_DEVELOPMENT
                 "1", "2" -> Department.SW_DEVELOPMENT
-                "3", "4" -> Department.SMART_IOT_DEVELOPMENT
+                "3" -> Department.SMART_IOT_DEVELOPMENT
+                "4" -> Department.AI_DEVELOPMENT
                 else -> throw StuNumNotRightException
             }
         }
