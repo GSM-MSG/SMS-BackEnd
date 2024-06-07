@@ -11,8 +11,8 @@ import team.msg.sms.persistence.authentication.repository.UserFormValueRepositor
 class UserFormValuePersistenceAdapter(
     private val userFormValueRepository: UserFormValueRepository
 ) : UserFormValuePort {
-    override fun save(userFormValue: UserFormValue): UserFormValue {
-        return userFormValueRepository.save(userFormValue.toEntity())
-            .toDomain()
+    override fun save(userFormValueList: List<UserFormValue>): List<UserFormValue> {
+        return userFormValueRepository.saveAll(userFormValueList.map { it.toEntity() })
+            .map { it.toDomain() }
     }
 }
