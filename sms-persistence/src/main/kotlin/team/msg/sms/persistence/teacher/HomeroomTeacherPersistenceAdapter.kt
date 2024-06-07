@@ -16,7 +16,7 @@ import team.msg.sms.persistence.user.mapper.toEntity
 import java.util.UUID
 
 @Component
-class HomeroomTeacherPersistxenceAdapter(
+class HomeroomTeacherPersistenceAdapter(
     private val homeroomTeacherJpaRepository: HomeroomTeacherJpaRepository,
     private val queryFactory: JPAQueryFactory
 ) : HomeroomTeacherPort {
