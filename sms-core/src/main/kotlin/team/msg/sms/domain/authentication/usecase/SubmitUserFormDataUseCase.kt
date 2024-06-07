@@ -26,34 +26,33 @@ class SubmitUserFormDataUseCase(
             }
         )
     }
-}
 
-private fun generateSelectorValueBySelectorType(
-    submitData: SubmitUserFormRequestData,
-    studentId: UUID,
-    authenticationFormId: UUID
-): UserFormValue {
-    val value = when (submitData.sectionType) {
-        SectionType.SELECT_VALUE -> submitData.value
-        SectionType.SELECT, SectionType.BOOLEAN -> null
-        else -> submitData.value
+    private fun generateSelectorValueBySelectorType(
+        submitData: SubmitUserFormRequestData,
+        studentId: UUID,
+        authenticationFormId: UUID
+    ): UserFormValue {
+        val value = when (submitData.sectionType) {
+            SectionType.SELECT_VALUE -> submitData.value
+            SectionType.SELECT, SectionType.BOOLEAN -> null
+            else -> submitData.value
+        }
+
+        val targetId = when (submitData.sectionType) {
+            SectionType.SELECT_VALUE, SectionType.SELECT, SectionType.BOOLEAN -> submitData.targetId
+            else -> null
+        }
+
+        return UserFormValue(
+            id = UUID.randomUUID(),
+            authenticationSectionId = submitData.authenticationSectionId,
+            value = value,
+            score = 0,
+            sectionType = submitData.sectionType,
+            targetId = targetId,
+            createdAt = LocalDateTime.now(),
+            createdBy = studentId,
+            authenticationFormId = authenticationFormId
+        )
     }
-
-    val targetId = when (submitData.sectionType) {
-        SectionType.SELECT_VALUE, SectionType.SELECT, SectionType.BOOLEAN -> submitData.targetId
-        else -> null
-    }
-
-    return UserFormValue(
-        id = UUID.randomUUID(),
-        authenticationSectionId = submitData.authenticationSectionId,
-        value = value,
-        score = 0,
-        sectionType = submitData.sectionType,
-        targetId = targetId,
-        createdAt = LocalDateTime.now(),
-        createdBy = studentId,
-        authenticationFormId = authenticationFormId
-    )
-}
 }
