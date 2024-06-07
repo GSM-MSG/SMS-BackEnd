@@ -3,6 +3,7 @@ package team.msg.sms.persistence.authentication.entity
 import org.hibernate.annotations.GenericGenerator
 import team.msg.sms.domain.authentication.model.SectionType
 import team.msg.sms.persistence.BaseUuidEntity
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -16,7 +17,7 @@ class UserFormValueJpaEntity(
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     val authenticationSectionId: UUID,
 
-    val value: String,
+    val value: String?,
 
     val score: Int,
 
@@ -25,6 +26,18 @@ class UserFormValueJpaEntity(
 
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)", nullable = false)
-    val targetId: UUID
-): BaseUuidEntity(id)
+    @Column(columnDefinition = "BINARY(16)")
+    val targetId: UUID?,
+
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    val createdBy: UUID,
+
+    val createdAt: LocalDateTime,
+
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    val authenticationFormId: UUID
+) : BaseUuidEntity(id)

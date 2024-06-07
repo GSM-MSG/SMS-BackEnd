@@ -10,7 +10,10 @@ fun UserFormValueJpaEntity.toDomain() =
         value = value,
         score = score,
         sectionType = sectionType,
-        targetId = targetId
+        targetId = targetId,
+        createdBy = createdBy,
+        createdAt = createdAt,
+        authenticationFormId = authenticationFormId
     )
 
 fun UserFormValue.toEntity() =
@@ -20,5 +23,8 @@ fun UserFormValue.toEntity() =
         value = value,
         score = score,
         sectionType = sectionType,
-        targetId = targetId
+        targetId = targetId,
+        createdBy = createdBy,
+        createdAt = createdAt,
+        authenticationFormId = authenticationFormId
     )
