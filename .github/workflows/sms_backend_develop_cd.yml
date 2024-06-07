@@ -10,7 +10,7 @@ jobs:
       name: CD
       runs-on: ubuntu-latest
       environment: production
-  
+
       steps:
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
@@ -19,43 +19,43 @@ jobs:
           title: ℹ️ SMS-Backend-Develop-CD 시작! ℹ️
           webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
           color: 00FF00
-          
+
       - name: Checkout
         uses: actions/checkout@v3
-  
+
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-  
+
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-  
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-  
+
       - name: Create application.yml
         run: |
           touch ./sms-infrastructure/src/main/resources/application.yml
           echo "${{ secrets.SMS_BACKEND_DEV_ENV }}" > ./sms-infrastructure/src/main/resources/application.yml
         shell: bash
-  
+
       - name: Run build with Gradle wrapper
         run: ./gradlew clean build
-  
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-  
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-  
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
@@ -65,14 +65,14 @@ jobs:
           docker tag ${{ secrets.ECR_REPOSITORY }}:${{ secrets.DEVELOP_IMAGE_TAG }} ${{ secrets.REPO_URL }}:${{ secrets.DEVELOP_IMAGE_TAG }}
           docker push ${{ secrets.REPO_URL }}:${{ secrets.DEVELOP_IMAGE_TAG }}
 
-      - name : CodeDeploy Create Deployment
-        run: |
-          aws deploy create-deployment \
-          --application-name codedeploy-develop-server \
-          --deployment-group-name codedeploy-group \
-          --deployment-config-name CodeDeployDefault.OneAtATime \
-          --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
-            
+#      - name : CodeDeploy Create Deployment
+#        run: |
+#          aws deploy create-deployment \
+#          --application-name codedeploy-develop-server \
+#          --deployment-group-name codedeploy-group \
+#          --deployment-config-name CodeDeployDefault.OneAtATime \
+#          --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
@@ -85,7 +85,7 @@ jobs:
           color: 00FF00
           username: SMS CD 봇
           url: https://github.com/GSM-MSG/SMS-BackEnd
-  
+
       - name: SMS-Backend-CD Discord Notification
         uses: sarisia/actions-status-discord@v1
         if: ${{ failure() }}
