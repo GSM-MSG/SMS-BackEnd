@@ -21,4 +21,4 @@ class GroupAuthenticationAreaJpaEntity(
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     val authenticationFormId: UUID
-): BaseUuidEntity(id)
+) : BaseUuidEntity(id)
