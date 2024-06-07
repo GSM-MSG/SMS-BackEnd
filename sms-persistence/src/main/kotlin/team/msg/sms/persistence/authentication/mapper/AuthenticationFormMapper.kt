@@ -7,12 +7,16 @@ fun AuthenticationFormJpaEntity.toDomain() =
     AuthenticationForm(
         id = id,
         title = title,
-        version = version
+        version = version,
+        createdBy = createdBy,
+        createdAt = createdAt
     )
 
 fun AuthenticationForm.toEntity() =
     AuthenticationFormJpaEntity(
         id = id,
         title = title,
-        version = version
+        version = version,
+        createdBy = createdBy,
+        createdAt = createdAt
     )
