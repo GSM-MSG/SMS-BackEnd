@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import team.msg.sms.domain.authentication.model.SelectorSectionValue
 import team.msg.sms.domain.authentication.spi.SelectorSectionValuePort
 import team.msg.sms.persistence.authentication.mapper.toDomain
+import team.msg.sms.persistence.authentication.mapper.toEntity
 import team.msg.sms.persistence.authentication.repository.SelectorSectionValueRepository
 
 @Component
@@ -12,4 +13,10 @@ class SelectorSectionValuePersistenceAdapter(
 ) : SelectorSectionValuePort {
     override fun querySelectorSectionValue(): List<SelectorSectionValue> =
         selectorSectionValueRepository.findAll().map { it.toDomain() }
+
+    override fun saveAll(selectorSectionValueList: List<SelectorSectionValue>) {
+        selectorSectionValueRepository.saveAll(
+            selectorSectionValueList.map { it.toEntity() }
+        )
+    }
 }

@@ -4,5 +4,7 @@ import team.msg.sms.common.annotation.Service
 
 @Service
 class SelectorSectionValueService(
-    getSelectorSectionValueService: GetSelectorSectionValueService
-) : GetSelectorSectionValueService by getSelectorSectionValueService
+    getSelectorSectionValueService: GetSelectorSectionValueService,
+    commandSelectorSectionValueService: CommandSelectorSectionValueService
+) : GetSelectorSectionValueService by getSelectorSectionValueService,
+    CommandSelectorSectionValueService by commandSelectorSectionValueService
