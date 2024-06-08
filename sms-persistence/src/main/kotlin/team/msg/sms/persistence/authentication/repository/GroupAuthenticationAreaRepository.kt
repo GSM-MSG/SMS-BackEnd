@@ -8,5 +8,5 @@ import java.util.UUID
 
 @Repository
 interface GroupAuthenticationAreaRepository : JpaRepository<GroupAuthenticationAreaJpaEntity, UUID> {
-    override fun findAll(): List<GroupAuthenticationAreaJpaEntity>
+    fun findByAuthenticationFormId(authenticationFormId: UUID): List<GroupAuthenticationAreaJpaEntity>
 }

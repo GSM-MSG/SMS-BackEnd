@@ -7,13 +7,14 @@ import team.msg.sms.domain.authentication.spi.GroupAuthenticationAreaPort
 import team.msg.sms.persistence.authentication.mapper.toDomain
 import team.msg.sms.persistence.authentication.mapper.toEntity
 import team.msg.sms.persistence.authentication.repository.GroupAuthenticationAreaRepository
+import java.util.UUID
 
 @Component
 class GroupAuthenticationAreaPersistenceAdapter(
     private val groupAuthenticationAreaRepository: GroupAuthenticationAreaRepository
 ) : GroupAuthenticationAreaPort {
-    override fun queryGroupAuthenticationArea(): List<GroupAuthenticationArea> =
-        groupAuthenticationAreaRepository.findAll().sortedBy { it.sort }.map { it.toDomain() }
+    override fun queryGroupAuthenticationAreaByAuthenticationFormId(authenticationFormId: UUID): List<GroupAuthenticationArea> =
+        groupAuthenticationAreaRepository.findByAuthenticationFormId(authenticationFormId).sortedBy { it.sort }.map { it.toDomain() }
 
     override fun save(groupAuthenticationArea: GroupAuthenticationArea): GroupAuthenticationArea =
         groupAuthenticationAreaRepository.save(groupAuthenticationArea.toEntity()).toDomain()

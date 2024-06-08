@@ -20,8 +20,8 @@ class QueryAuthenticationFormUseCase(
     private val groupAuthenticationAreaService: GroupAuthenticationAreaService
 ) {
     @Transactional(readOnly = true)
-    fun execute(): QueryAuthenticationFormResponseData {
-        val groups = groupAuthenticationAreaService.getGroupAuthenticationArea()
+    fun execute(authenticationFormId: UUID): QueryAuthenticationFormResponseData {
+        val groups = groupAuthenticationAreaService.getGroupAuthenticationAreaByAuthenticationFormId(authenticationFormId)
         val groupIds = groups.map { it.id }
         val files = fileService.getFileByTargetUuidsAndTypeEqualsAuthentication(targetIds = groupIds)
         val authenticationSections =
