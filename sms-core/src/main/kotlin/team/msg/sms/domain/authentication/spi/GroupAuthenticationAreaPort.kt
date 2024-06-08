@@ -1,4 +1,3 @@
 package team.msg.sms.domain.authentication.spi
 
-interface GroupAuthenticationAreaPort : QueryGroupAuthenticationAreaPort {
-}
+interface GroupAuthenticationAreaPort : QueryGroupAuthenticationAreaPort, CommandGroupAuthenticationAreaPort

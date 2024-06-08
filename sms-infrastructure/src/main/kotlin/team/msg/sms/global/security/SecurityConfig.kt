@@ -85,6 +85,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PUT, "/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET, "/").hasAnyAuthority(STUDENT, TEACHER)
             .antMatchers(HttpMethod.POST, "/submit/{uuid}").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.POST, "/create").hasAuthority(TEACHER)
 
             .antMatchers(HttpMethod.POST, "/file").authenticated()
             .antMatchers(HttpMethod.POST, "/file/image").authenticated()

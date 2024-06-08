@@ -20,7 +20,7 @@ class AuthenticationSectionJpaEntity(
 
     val description: String,
 
-    val placeHolder: String,
+    val placeHolder: String?,
 
     @Enumerated(EnumType.STRING)
     val sectionType: SectionType,

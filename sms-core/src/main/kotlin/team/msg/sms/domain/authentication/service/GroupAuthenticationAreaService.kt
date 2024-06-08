@@ -4,5 +4,7 @@ import team.msg.sms.common.annotation.Service
 
 @Service
 class GroupAuthenticationAreaService(
-    getGroupAuthenticationAreaService: GetGroupAuthenticationAreaService
-) : GetGroupAuthenticationAreaService by getGroupAuthenticationAreaService
+    getGroupAuthenticationAreaService: GetGroupAuthenticationAreaService,
+    commandGroupAuthenticationAreaService: CommandGroupAuthenticationAreaService
+) : GetGroupAuthenticationAreaService by getGroupAuthenticationAreaService,
+    CommandGroupAuthenticationAreaService by commandGroupAuthenticationAreaService
