@@ -14,6 +14,7 @@ data class Student(
     val gsmAuthenticationScore: Int = 0,
     val militaryService: MilitaryService,
     val portfolioUrl: String? = null,
+    val portfolioFileUrl: String? = null,
     val salary: Int = 0,
     val profileImgUrl: String,
     val userId: UUID
@@ -29,6 +30,7 @@ data class Student(
         val gsmAuthenticationScore: Int,
         val militaryService: MilitaryService,
         val portfolioUrl: String?,
+        val portfolioFileUrl: String?,
         val salary: Int,
         val name: String,
         val profileImgUrl: String,
