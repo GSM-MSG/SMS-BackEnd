@@ -4,5 +4,5 @@ import team.msg.sms.domain.authentication.model.GroupAuthenticationArea
 import java.util.UUID
 
 interface GetGroupAuthenticationAreaService {
-    fun getGroupAuthenticationArea(): List<GroupAuthenticationArea>
+    fun getGroupAuthenticationAreaByAuthenticationFormId(authenticationFormId: UUID): List<GroupAuthenticationArea>
 }
