@@ -20,7 +20,10 @@ class ModifyStudentPortfolioFileUseCase(
             studentService.saveStudent(student.copy(portfolioFileUrl = null), user)
         } else {
             val portfolioFileUrl = uploadFilePort.upload(portfolioFile)
-            studentService.saveStudent(student.copy(portfolioFileUrl = portfolioFileUrl), user)
+            studentService.saveStudent(
+                student.copy(portfolioFileUrl = portfolioFileUrl, portfolioUrl = null),
+                user
+            )
         }
     }
 }
