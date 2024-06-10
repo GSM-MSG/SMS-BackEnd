@@ -1,7 +1,10 @@
 package team.msg.sms.domain.student.usecase
 
 import team.msg.sms.common.annotation.UseCase
+import team.msg.sms.common.util.FileUtil
+import team.msg.sms.common.util.FileUtil.isPDFCorrectExtension
 import team.msg.sms.domain.file.spi.UploadFilePort
+import team.msg.sms.domain.student.exception.PortfolioInvalidExtensionException
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.user.service.UserService
 import java.io.File
@@ -19,6 +22,10 @@ class ModifyStudentPortfolioFileUseCase(
         if(portfolioFile == null){
             studentService.saveStudent(student.copy(portfolioFileUrl = null), user)
         } else {
+            if(!portfolioFile.extension.isPDFCorrectExtension()){
+                throw PortfolioInvalidExtensionException
+            }
+
             val portfolioFileUrl = uploadFilePort.upload(portfolioFile)
             studentService.saveStudent(
                 student.copy(portfolioFileUrl = portfolioFileUrl, portfolioUrl = null),
