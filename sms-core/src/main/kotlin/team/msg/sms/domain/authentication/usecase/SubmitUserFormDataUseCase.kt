@@ -16,40 +16,47 @@ class SubmitUserFormDataUseCase(
 ) {
     fun execute(submitDataList: List<SubmitUserFormRequestData>, authenticationFormId: UUID) {
         val student = studentService.currentStudent()
-        userFormValueService.saveAll(
-            userFormValueList = submitDataList.map { submitData ->
+
+        val userFormValues = submitDataList.flatMap { submitData ->
+            submitData.objects.map { submitValue ->
                 generateSelectorValueBySelectorType(
-                    submitData = submitData,
+                    sectionId = submitData.sectionId,
+                    sectionType = submitData.sectionType,
+                    submitData = submitValue,
                     studentId = student.id,
                     authenticationFormId = authenticationFormId
                 )
             }
-        )
+        }
+
+        userFormValueService.saveAll(userFormValues)
     }
 
     private fun generateSelectorValueBySelectorType(
-        submitData: SubmitUserFormRequestData,
+        sectionId: UUID,
+        sectionType: SectionType,
+        submitData: SubmitUserFormRequestData.SubmitValueRequestData,
         studentId: UUID,
         authenticationFormId: UUID
     ): UserFormValue {
-        val value = when (submitData.sectionType) {
+        val value = when (sectionType) {
             SectionType.SELECT_VALUE -> submitData.value
             SectionType.SELECT, SectionType.BOOLEAN -> null
             else -> submitData.value
         }
 
-        val targetId = when (submitData.sectionType) {
-            SectionType.SELECT_VALUE, SectionType.SELECT, SectionType.BOOLEAN -> submitData.targetId
+        val selectId = when (sectionType) {
+            SectionType.SELECT_VALUE, SectionType.SELECT, SectionType.BOOLEAN -> submitData.selectId
             else -> null
         }
 
         return UserFormValue(
             id = UUID.randomUUID(),
-            authenticationSectionId = submitData.authenticationSectionId,
+            authenticationSectionId = sectionId,
             value = value,
             score = 0,
-            sectionType = submitData.sectionType,
-            targetId = targetId,
+            sectionType = sectionType,
+            targetId = selectId,
             createdAt = LocalDateTime.now(),
             createdBy = studentId,
             authenticationFormId = authenticationFormId

@@ -4,8 +4,12 @@ import team.msg.sms.domain.authentication.model.SectionType
 import java.util.*
 
 data class SubmitUserFormRequestData(
-    val authenticationSectionId: UUID,
-    val value: String?,
+    val sectionId: UUID,
     val sectionType: SectionType,
-    val targetId: UUID?
-)
+    val objects: List<SubmitValueRequestData>
+) {
+    data class SubmitValueRequestData(
+        val selectId: UUID?,
+        val value: String?
+    )
+}
