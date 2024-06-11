@@ -28,32 +28,28 @@ class QueryAuthenticationFormUseCase(
             authenticationSectionService.getAuthenticationSectionByGroupIds(groupIds = groupIds)
         val selectorSectionValues = selectorSectionValueService.getSelectorSectionValue()
 
-        val fileResponseMap = files.groupBy { it.targetId }.mapValues { data ->
-            data.value.map { file ->
+        return QueryAuthenticationFormResponseData(
+            files = files.map { file ->
                 FileResponseData(
                     name = file.fileName,
                     url = file.fileUrl
                 )
-            }
-        }
-
-        return QueryAuthenticationFormResponseData(
+            },
             content = groups.map { group ->
                 AuthenticationAreaFormResponseData(
                     title = group.title,
-                    files = fileResponseMap[group.id] ?: emptyList(),
-                    items = authenticationSections
+                    sections = authenticationSections
                         .filter { it.groupId == group.id }
                         .map { authenticationSection ->
                             AuthenticationSectionResponseData(
+                                sectionId = authenticationSection.id,
                                 section = authenticationSection.sectionName,
                                 scoreDescription = authenticationSection.description,
                                 sectionScore = authenticationSection.sectionScore,
                                 maxCount = authenticationSection.maxCount,
                                 fields = listOf(
                                     AuthenticationSectionFieldResponseData(
-                                        key = authenticationSection.id,
-                                        type = authenticationSection.sectionType,
+                                        sectionType = authenticationSection.sectionType,
                                         values = generateSelectorValues(
                                             type = authenticationSection.sectionType,
                                             sectionValue = selectorSectionValues,
