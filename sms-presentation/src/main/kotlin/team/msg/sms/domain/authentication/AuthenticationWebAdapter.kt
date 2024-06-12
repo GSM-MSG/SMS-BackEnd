@@ -44,7 +44,7 @@ class AuthenticationWebAdapter(
         @RequestBody request: SubmitUserFormDataWebRequest,
         @PathVariable uuid: String
     ): ResponseEntity<Unit> =
-        submitUserFormDataUseCase.execute(request.content, UUID.fromString(uuid))
+        submitUserFormDataUseCase.execute(request.contents, UUID.fromString(uuid))
             .let { ResponseEntity.ok().build() }
 
     @PostMapping("/create")
@@ -142,7 +142,8 @@ class AuthenticationWebAdapter(
     }
 
     private fun QueryAuthenticationFormResponseData.toResponse() = QueryAuthenticationFormWebResponse(
-        content = content
+        files = files,
+        contents = content
     )
 
     private fun QueryStudentAuthenticationListResponseData.toResponse() = QueryStudentAuthenticationListWebResponse(

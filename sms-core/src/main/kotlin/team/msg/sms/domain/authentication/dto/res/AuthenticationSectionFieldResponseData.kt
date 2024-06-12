@@ -4,8 +4,7 @@ import team.msg.sms.domain.authentication.model.SectionType
 import java.util.*
 
 data class AuthenticationSectionFieldResponseData(
-    val key: UUID,
-    val type: SectionType,
+    val sectionType: SectionType,
     val values: List<AuthenticationSelectorValueResponseData>?,
     val example: String?
 )
