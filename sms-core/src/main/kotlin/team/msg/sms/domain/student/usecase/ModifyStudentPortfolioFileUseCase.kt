@@ -26,7 +26,11 @@ class ModifyStudentPortfolioFileUseCase(
                 throw PortfolioInvalidExtensionException
             }
 
-            val portfolioFileUrl = uploadFilePort.upload(portfolioFile)
+            val portfolioFileUrl = uploadFilePort.uploadWithName(
+                portfolioFile,
+                "${user.stuNum}_${user.name}_포트폴리오"
+            )
+
             studentService.saveStudent(
                 student.copy(portfolioFileUrl = portfolioFileUrl, portfolioUrl = null),
                 user
