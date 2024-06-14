@@ -5,4 +5,6 @@ import java.util.UUID
 
 interface GetAuthenticationSectionService {
     fun getAuthenticationSectionByGroupIds(groupIds: List<UUID>): List<AuthenticationSection>
+
+    fun getMaxCountById(sectionId: UUID): Int
 }

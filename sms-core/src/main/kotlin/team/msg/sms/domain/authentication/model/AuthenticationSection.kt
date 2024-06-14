@@ -8,9 +8,6 @@ class AuthenticationSection(
     val id: UUID,
     val groupId: UUID,
     val sectionName: String,
-    val description: String,
-    val placeHolder: String?,
-    val sectionType: SectionType,
-    val sectionScore: Int,
-    val maxCount: Int
+    val maxCount: Int,
+    val sort: Int
 )

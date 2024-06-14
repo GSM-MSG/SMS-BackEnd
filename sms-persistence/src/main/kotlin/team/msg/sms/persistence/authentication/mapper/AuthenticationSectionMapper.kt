@@ -7,20 +7,14 @@ fun AuthenticationSection.toEntity() = AuthenticationSectionJpaEntity(
     id = id,
     groupId = groupId,
     sectionName = sectionName,
-    description = description,
-    placeHolder = placeHolder,
-    sectionType = sectionType,
-    sectionScore = sectionScore,
-    maxCount = maxCount
+    maxCount = maxCount,
+    sort = sort
 )
 
 fun AuthenticationSectionJpaEntity.toDomain() = AuthenticationSection(
     id = id,
     groupId = groupId,
     sectionName = sectionName,
-    description = description,
-    placeHolder = placeHolder,
-    sectionType = sectionType,
-    sectionScore = sectionScore,
-    maxCount = maxCount
+    maxCount = maxCount,
+    sort = sort
 )
