@@ -16,7 +16,7 @@ class SelectorSectionValueJpaEntity(
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)", nullable = false)
-    val authenticationSectionId: UUID,
+    val authenticationFieldId: UUID,
 
     val name: String,
 

@@ -5,14 +5,14 @@ import team.msg.sms.persistence.authentication.entity.SelectorSectionValueJpaEnt
 
 fun SelectorSectionValue.toEntity() = SelectorSectionValueJpaEntity(
     id = id,
-    authenticationSectionId = authenticationSectionId,
+    authenticationFieldId = authenticationFieldId,
     name = name,
     sort = sort
 )
 
 fun SelectorSectionValueJpaEntity.toDomain() = SelectorSectionValue(
     id = id,
-    authenticationSectionId = authenticationSectionId,
+    authenticationFieldId = authenticationFieldId,
     name = name,
     sort = sort
 )
