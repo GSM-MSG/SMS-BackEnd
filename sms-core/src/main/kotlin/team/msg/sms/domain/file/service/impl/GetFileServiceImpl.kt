@@ -10,6 +10,6 @@ import java.util.*
 class GetFileServiceImpl(
     private val filePort: FilePort
 ) : GetFileService {
-    override fun getFileByTargetUuidsAndTypeEqualsAuthentication(targetIds: List<UUID>): List<File> =
-        filePort.queryFileByTargetUuidsAndTypeEqualsAuthentication(targetIds)
+    override fun getFileByTargetUuidAndTypeEqualsAuthentication(targetId: UUID): List<File> =
+        filePort.queryFileByTargetUuidsAndTypeEqualsAuthentication(targetId)
 }
