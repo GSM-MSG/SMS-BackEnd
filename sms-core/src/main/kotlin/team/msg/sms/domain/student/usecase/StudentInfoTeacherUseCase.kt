@@ -49,6 +49,7 @@ class StudentInfoTeacherUseCase(
             name = student.name,
             introduce = student.introduce,
             portfolioUrl = student.portfolioUrl,
+            portfolioFileUrl = student.portfolioFileUrl,
             grade = student.stuNum.substring(0, 1).toInt(),
             classNum = student.stuNum.substring(1, 2).toInt(),
             number = student.stuNum.substring(2, 4).toInt(),
