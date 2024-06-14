@@ -4,6 +4,7 @@ import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.req.SubmitUserFormRequestData
 import team.msg.sms.domain.authentication.model.SectionType
 import team.msg.sms.domain.authentication.model.UserFormValue
+import team.msg.sms.domain.authentication.service.AuthenticationSectionService
 import team.msg.sms.domain.authentication.service.UserFormValueService
 import team.msg.sms.domain.student.service.StudentService
 import java.time.LocalDateTime
@@ -12,17 +13,21 @@ import java.util.*
 @UseCase
 class SubmitUserFormDataUseCase(
     private val userFormValueService: UserFormValueService,
+    private val authenticationSectionService: AuthenticationSectionService,
     private val studentService: StudentService
 ) {
     fun execute(submitDataList: List<SubmitUserFormRequestData>, authenticationFormId: UUID) {
         val student = studentService.currentStudent()
 
         val userFormValues = submitDataList.flatMap { submitData ->
+            val maxCount = authenticationSectionService.getMaxCountById(submitData.sectionId)
+            val groupId = if (maxCount > 1) UUID.randomUUID() else null
+
             submitData.objects.map { submitValue ->
-                generateSelectorValueBySelectorType(
+                createUserFormValue(
                     sectionId = submitData.sectionId,
-                    sectionType = submitData.sectionType,
                     submitData = submitValue,
+                    groupId = groupId,
                     studentId = student.id,
                     authenticationFormId = authenticationFormId
                 )
@@ -32,34 +37,36 @@ class SubmitUserFormDataUseCase(
         userFormValueService.saveAll(userFormValues)
     }
 
-    private fun generateSelectorValueBySelectorType(
+    private fun createUserFormValue(
         sectionId: UUID,
-        sectionType: SectionType,
         submitData: SubmitUserFormRequestData.SubmitValueRequestData,
+        groupId: UUID?,
         studentId: UUID,
         authenticationFormId: UUID
     ): UserFormValue {
-        val value = when (sectionType) {
+        val value = when (submitData.sectionType) {
             SectionType.SELECT_VALUE -> submitData.value
             SectionType.SELECT, SectionType.BOOLEAN -> null
             else -> submitData.value
         }
 
-        val selectId = when (sectionType) {
+        val selectId = when (submitData.sectionType) {
             SectionType.SELECT_VALUE, SectionType.SELECT, SectionType.BOOLEAN -> submitData.selectId
             else -> null
         }
 
         return UserFormValue(
             id = UUID.randomUUID(),
+            groupId = groupId,
             authenticationSectionId = sectionId,
             value = value,
             score = 0,
-            sectionType = sectionType,
+            sectionType = submitData.sectionType,
             targetId = selectId,
             createdAt = LocalDateTime.now(),
             createdBy = studentId,
-            authenticationFormId = authenticationFormId
+            authenticationFormId = authenticationFormId,
+            authenticationFieldId = submitData.fieldId
         )
     }
 }
