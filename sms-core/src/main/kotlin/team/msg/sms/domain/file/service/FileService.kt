@@ -4,5 +4,7 @@ import team.msg.sms.common.annotation.Service
 
 @Service
 class FileService(
-    getFileService: GetFileService
-) : GetFileService by getFileService
+    getFileService: GetFileService,
+    commandFileService: CommandFileService
+) : GetFileService by getFileService,
+    CommandFileService by commandFileService
