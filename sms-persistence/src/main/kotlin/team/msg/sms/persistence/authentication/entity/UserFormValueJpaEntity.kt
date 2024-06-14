@@ -12,10 +12,14 @@ import javax.persistence.*
 class UserFormValueJpaEntity(
     override val id: UUID,
 
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    val groupId: UUID?,
+
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     val authenticationSectionId: UUID,
+
+    @Column(columnDefinition = "BINARY(16)", nullable = false)
+    val authenticationFieldId:UUID,
 
     val value: String?,
 

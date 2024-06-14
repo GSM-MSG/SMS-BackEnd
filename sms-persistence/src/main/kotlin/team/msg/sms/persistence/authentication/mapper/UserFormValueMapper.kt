@@ -13,7 +13,9 @@ fun UserFormValueJpaEntity.toDomain() =
         targetId = targetId,
         createdBy = createdBy,
         createdAt = createdAt,
-        authenticationFormId = authenticationFormId
+        authenticationFormId = authenticationFormId,
+        authenticationFieldId = authenticationFieldId,
+        groupId = groupId
     )
 
 fun UserFormValue.toEntity() =
@@ -26,5 +28,7 @@ fun UserFormValue.toEntity() =
         targetId = targetId,
         createdBy = createdBy,
         createdAt = createdAt,
-        authenticationFormId = authenticationFormId
+        authenticationFormId = authenticationFormId,
+        authenticationFieldId = authenticationFieldId,
+        groupId = groupId
     )

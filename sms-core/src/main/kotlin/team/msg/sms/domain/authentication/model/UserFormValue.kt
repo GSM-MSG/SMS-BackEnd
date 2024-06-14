@@ -7,7 +7,9 @@ import java.util.UUID
 @Aggregate
 class UserFormValue(
     val id: UUID,
+    val groupId: UUID?,
     val authenticationSectionId: UUID,
+    val authenticationFieldId: UUID,
     val value: String?,
     val score: Int,
     val sectionType: SectionType,
