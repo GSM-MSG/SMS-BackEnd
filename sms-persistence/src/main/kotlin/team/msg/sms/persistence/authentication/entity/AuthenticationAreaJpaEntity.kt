@@ -9,8 +9,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Table
 
 @Entity
-@Table(name = "group_authentication_area")
-class GroupAuthenticationAreaJpaEntity(
+@Table(name = "authentication_area")
+class AuthenticationAreaJpaEntity(
     override val id: UUID,
 
     val title: String,
