@@ -70,7 +70,17 @@ class ModifyStudentInfoUseCase(
         // 학생 정보 수정
         val checkStudentMismatch = studentService.checkStudentDataMismatch(student, modifyStudentInfoDataModel)
         if (checkStudentMismatch) {
-            studentService.saveStudent(modifyStudentInfoDataModel.copy(id = student.id), user)
+            val portfolioFileUrl =
+                if(student.portfolioUrl != modifyStudentInfoDataModel.portfolioUrl
+                    && modifyStudentInfoData.portfolioUrl != null) null
+                else student.portfolioFileUrl
+
+            studentService.saveStudent(
+                modifyStudentInfoDataModel.copy(
+                    id = student.id,
+                    portfolioFileUrl = portfolioFileUrl
+                ), user
+            )
         }
 
         // 기술 스택 지우기 수정
