@@ -18,14 +18,7 @@ class AuthenticationSectionJpaEntity(
 
     val sectionName: String,
 
-    val description: String,
-
-    val placeHolder: String?,
-
-    @Enumerated(EnumType.STRING)
-    val sectionType: SectionType,
-
-    val sectionScore:  Int,
-
     val maxCount: Int,
+
+    val sort: Int
 ): BaseUuidEntity(id)

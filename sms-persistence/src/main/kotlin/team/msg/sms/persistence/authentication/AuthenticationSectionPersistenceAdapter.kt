@@ -17,6 +17,9 @@ class AuthenticationSectionPersistenceAdapter(
     override fun getAuthenticationSectionByGroupIds(groupIds: List<UUID>): List<AuthenticationSection> =
         authenticationSectionRepositoryCustom.getAuthenticationSectionByGroupIds(groupIds).map { it.toDomain() }
 
+    override fun getMaxCountById(id: UUID): Int? = authenticationSectionRepositoryCustom.findMaxCountById(id)
+
+
     override fun save(authenticationSection: AuthenticationSection): AuthenticationSection =
         authenticationSectionJpaRepository.save(authenticationSection.toEntity()).toDomain()
 

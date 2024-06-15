@@ -5,4 +5,5 @@ import java.util.UUID
 
 interface QueryAuthenticationSectionPort {
     fun getAuthenticationSectionByGroupIds(groupIds: List<UUID>): List<AuthenticationSection>
+    fun getMaxCountById(id: UUID): Int?
 }

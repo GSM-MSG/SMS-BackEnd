@@ -20,4 +20,13 @@ class AuthenticationSectionRepositoryImpl(
             .fetch()
             .toList()
     }
+
+    override fun findMaxCountById(id: UUID): Int? {
+        val qAuthenticationSection = QAuthenticationSectionJpaEntity.authenticationSectionJpaEntity
+        return jpaQueryFactory
+            .select(qAuthenticationSection.maxCount)
+            .from(qAuthenticationSection)
+            .where(qAuthenticationSection.id.eq(id))
+            .fetchOne()
+    }
 }

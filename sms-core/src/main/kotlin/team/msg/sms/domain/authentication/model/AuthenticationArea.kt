@@ -4,7 +4,7 @@ import team.msg.sms.common.annotation.Aggregate
 import java.util.UUID
 
 @Aggregate
-class GroupAuthenticationArea(
+class AuthenticationArea(
     val id: UUID,
     val title: String,
     val sort: Int,

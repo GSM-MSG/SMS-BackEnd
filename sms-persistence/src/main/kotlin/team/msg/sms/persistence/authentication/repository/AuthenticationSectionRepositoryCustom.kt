@@ -6,4 +6,5 @@ import java.util.UUID
 
 interface AuthenticationSectionRepositoryCustom {
     fun getAuthenticationSectionByGroupIds(groupIds: List<UUID>): List<AuthenticationSectionJpaEntity>
+    fun findMaxCountById(id: UUID): Int?
 }

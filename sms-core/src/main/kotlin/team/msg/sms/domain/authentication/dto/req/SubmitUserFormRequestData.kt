@@ -5,11 +5,12 @@ import java.util.*
 
 data class SubmitUserFormRequestData(
     val sectionId: UUID,
-    val sectionType: SectionType,
     val objects: List<SubmitValueRequestData>
 ) {
     data class SubmitValueRequestData(
+        val fieldId: UUID,
         val selectId: UUID?,
+        val sectionType: SectionType,
         val value: String?
-    )
+        )
 }

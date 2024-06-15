@@ -6,7 +6,7 @@ import java.util.*
 @Aggregate
 class SelectorSectionValue(
     val id: UUID,
-    val authenticationSectionId: UUID,
+    val authenticationFieldId: UUID,
     val name: String,
     val sort: Int
 )
