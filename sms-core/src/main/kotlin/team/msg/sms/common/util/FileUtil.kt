@@ -12,4 +12,10 @@ object FileUtil {
             "hwp", "hwpx" -> true
             else -> false
         }
+
+    fun String.isPDFCorrectExtension() =
+        when (this.lowercase()) {
+            "pdf" -> true
+            else -> false
+        }
 }

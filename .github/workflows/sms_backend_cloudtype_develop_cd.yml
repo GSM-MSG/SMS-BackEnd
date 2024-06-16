@@ -1,12 +1,10 @@
 name: Deploy to cloudtype
-
 on:
   push:
     branches:
       - develop
   schedule:
-    - cron: '30 22 * * *'
-
+    - cron: '35 4 * * *'
 jobs:
   deploy:
     runs-on: ubuntu-latest
