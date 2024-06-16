@@ -1,6 +1,6 @@
 package team.msg.sms.domain.authentication.model
 
-enum class SectionType {
+enum class FieldType {
     TEXT,
     FILE,
     SELECT,

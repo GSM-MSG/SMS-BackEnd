@@ -1,7 +1,7 @@
 package team.msg.sms.persistence.authentication.entity
 
 import org.hibernate.annotations.GenericGenerator
-import team.msg.sms.domain.authentication.model.SectionType
+import team.msg.sms.domain.authentication.model.FieldType
 import team.msg.sms.persistence.BaseUuidEntity
 import java.time.LocalDateTime
 import java.util.*
@@ -26,7 +26,7 @@ class UserFormValueJpaEntity(
     val score: Int,
 
     @Enumerated(EnumType.STRING)
-    val sectionType: SectionType,
+    val fieldType: FieldType,
 
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

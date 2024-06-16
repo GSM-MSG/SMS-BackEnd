@@ -12,7 +12,7 @@ class UserFormValue(
     val authenticationFieldId: UUID,
     val value: String?,
     val score: Int,
-    val sectionType: SectionType,
+    val fieldType: FieldType,
     val targetId: UUID?,
     val createdBy: UUID,
     val createdAt: LocalDateTime,

@@ -7,7 +7,7 @@ data class AuthenticationField(
     val sectionId: UUID,
     val description: String?,
     val placeHolder: String?,
-    val fieldInputType: SectionType,
+    val fieldInputType: FieldType,
     val fieldScore: Double,
     val sort: Int
 )

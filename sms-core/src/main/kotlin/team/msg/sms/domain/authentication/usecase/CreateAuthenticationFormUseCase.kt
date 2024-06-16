@@ -147,9 +147,9 @@ class CreateAuthenticationFormUseCase(
         field: AuthenticationField
     ) {
         if (fieldData.fieldInputType in listOf(
-                SectionType.SELECT,
-                SectionType.SELECT_VALUE,
-                SectionType.BOOLEAN
+                FieldType.SELECT,
+                FieldType.SELECT_VALUE,
+                FieldType.BOOLEAN
             )
         ) {
             val selectorSectionValues = fieldData.selectorSectionName.mapIndexed { selectorIndex, name ->
