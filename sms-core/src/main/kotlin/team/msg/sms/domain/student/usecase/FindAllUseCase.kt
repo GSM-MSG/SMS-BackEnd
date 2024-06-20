@@ -1,6 +1,5 @@
 package team.msg.sms.domain.student.usecase
 
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.transaction.annotation.Transactional
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.common.service.SecurityService
@@ -20,11 +19,11 @@ class FindAllUseCase(
     private val securityService: SecurityService
 ) {
     @Transactional
-    @Cacheable(
-        value = ["StudentInfoListResponseData"],
-        key = "#root.target.generateCacheKey(#page, #size)",
-        cacheManager = "contentCacheManager",
-    )
+//    @Cacheable(
+//        value = ["StudentInfoListResponseData"],
+//        key = "#root.target.generateCacheKey(#page, #size)",
+//        cacheManager = "contentCacheManager",
+//    )
     fun execute(page: Int, size: Int, filtersData: FiltersRequestData): StudentInfoListResponseData {
         val students = studentService.getStudents()
         val techStacks = techStackService.getAllTechStack()
