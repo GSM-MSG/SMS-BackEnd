@@ -26,6 +26,9 @@ class StudentJpaEntity(
     @Column(nullable = true)
     val portfolioUrl: String?,
 
+    @Column(nullable = true)
+    val portfolioFileUrl: String?,
+
     @Enumerated(EnumType.STRING)
     @Column
     val formOfEmployment: FormOfEmployment,

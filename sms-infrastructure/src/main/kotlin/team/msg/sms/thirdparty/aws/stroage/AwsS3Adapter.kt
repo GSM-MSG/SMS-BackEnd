@@ -24,6 +24,12 @@ class AwsS3Adapter(
             .run { getResourceUrl(fileName = fileName) }
     }
 
+    // ex. fileName = "2301_김동학_포트폴리오"
+    override fun uploadWithName(file: File, fileName: String): String {
+        return inputS3(file, "${fileName}.${file.extension}")
+            .run { getResourceUrl(fileName = fileName) }
+    }
+
     private fun inputS3(file: File, fileName: String) {
         val objectMetadata = ObjectMetadata()
         objectMetadata.contentLength = file.length()
