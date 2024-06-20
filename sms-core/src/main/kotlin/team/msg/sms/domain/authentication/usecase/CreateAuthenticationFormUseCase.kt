@@ -135,7 +135,7 @@ class CreateAuthenticationFormUseCase(
                 sectionId = sectionId,
                 description = fieldData.description,
                 placeHolder = fieldData.placeHolder,
-                fieldInputType = fieldData.fieldInputType,
+                fieldInputType = fieldData.fieldType,
                 fieldScore = 0.0,
                 sort = index
             )
@@ -146,7 +146,7 @@ class CreateAuthenticationFormUseCase(
         fieldData: CreateAuthenticationFieldRequestData,
         field: AuthenticationField
     ) {
-        if (fieldData.fieldInputType in listOf(
+        if (fieldData.fieldType in listOf(
                 FieldType.SELECT,
                 FieldType.SELECT_VALUE,
                 FieldType.BOOLEAN
