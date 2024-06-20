@@ -1,7 +1,6 @@
 package team.msg.sms.persistence.authentication.entity
 
 import org.hibernate.annotations.GenericGenerator
-import team.msg.sms.domain.authentication.model.SectionType
 import team.msg.sms.persistence.BaseUuidEntity
 import java.util.*
 import javax.persistence.*

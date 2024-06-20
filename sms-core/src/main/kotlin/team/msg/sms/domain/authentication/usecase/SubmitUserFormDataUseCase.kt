@@ -2,7 +2,7 @@ package team.msg.sms.domain.authentication.usecase
 
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.req.SubmitUserFormRequestData
-import team.msg.sms.domain.authentication.model.SectionType
+import team.msg.sms.domain.authentication.model.FieldType
 import team.msg.sms.domain.authentication.model.UserFormValue
 import team.msg.sms.domain.authentication.service.AuthenticationSectionService
 import team.msg.sms.domain.authentication.service.UserFormValueService
@@ -44,14 +44,14 @@ class SubmitUserFormDataUseCase(
         studentId: UUID,
         authenticationFormId: UUID
     ): UserFormValue {
-        val value = when (submitData.sectionType) {
-            SectionType.SELECT_VALUE -> submitData.value
-            SectionType.SELECT, SectionType.BOOLEAN -> null
+        val value = when (submitData.fieldType) {
+            FieldType.SELECT_VALUE -> submitData.value
+            FieldType.SELECT, FieldType.BOOLEAN -> null
             else -> submitData.value
         }
 
-        val selectId = when (submitData.sectionType) {
-            SectionType.SELECT_VALUE, SectionType.SELECT, SectionType.BOOLEAN -> submitData.selectId
+        val selectId = when (submitData.fieldType) {
+            FieldType.SELECT_VALUE, FieldType.SELECT, FieldType.BOOLEAN -> submitData.selectId
             else -> null
         }
 
@@ -61,7 +61,7 @@ class SubmitUserFormDataUseCase(
             authenticationSectionId = sectionId,
             value = value,
             score = 0,
-            sectionType = submitData.sectionType,
+            fieldType = submitData.fieldType,
             targetId = selectId,
             createdAt = LocalDateTime.now(),
             createdBy = studentId,

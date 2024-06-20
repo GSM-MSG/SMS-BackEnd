@@ -1,8 +1,7 @@
 package team.msg.sms.persistence.authentication.entity
 
-import team.msg.sms.domain.authentication.model.SectionType
+import team.msg.sms.domain.authentication.model.FieldType
 import team.msg.sms.persistence.BaseUuidEntity
-import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -21,7 +20,7 @@ class AuthenticationFieldJpaEntity(
     val placeHolder: String?,
 
     @Enumerated(EnumType.STRING)
-    val fieldInputType: SectionType,
+    val fieldInputType: FieldType,
 
     val fieldScore: Double,
 

@@ -1,6 +1,6 @@
 package team.msg.sms.domain.authentication.dto.req
 
-import team.msg.sms.domain.authentication.model.SectionType
+import team.msg.sms.domain.authentication.model.FieldType
 import java.util.*
 
 data class SubmitUserFormRequestData(
@@ -10,7 +10,7 @@ data class SubmitUserFormRequestData(
     data class SubmitValueRequestData(
         val fieldId: UUID,
         val selectId: UUID?,
-        val sectionType: SectionType,
+        val fieldType: FieldType,
         val value: String?
         )
 }

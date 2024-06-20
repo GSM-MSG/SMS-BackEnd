@@ -5,7 +5,7 @@ import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.res.*
 import team.msg.sms.domain.authentication.model.AuthenticationSection
 import team.msg.sms.domain.authentication.model.AuthenticationArea
-import team.msg.sms.domain.authentication.model.SectionType
+import team.msg.sms.domain.authentication.model.FieldType
 import team.msg.sms.domain.authentication.model.SelectorSectionValue
 import team.msg.sms.domain.authentication.service.AuthenticationFieldService
 import team.msg.sms.domain.authentication.service.AuthenticationSectionService
@@ -13,6 +13,7 @@ import team.msg.sms.domain.authentication.service.AuthenticationAreaService
 import team.msg.sms.domain.authentication.service.SelectorSectionValueService
 import team.msg.sms.domain.file.dto.res.FileResponseData
 import team.msg.sms.domain.file.service.FileService
+import team.msg.sms.domain.user.model.User
 import java.util.*
 
 @UseCase
@@ -88,7 +89,7 @@ class QueryAuthenticationFormUseCase(
                     fieldId = authenticationField.id,
                     scoreDescription = authenticationField.description,
                     example = authenticationField.placeHolder,
-                    sectionType = authenticationField.fieldInputType,
+                    fieldType = authenticationField.fieldInputType,
                     values = generateSelectorValues(
                         authenticationField.fieldInputType,
                         selectorSectionValues,
@@ -99,11 +100,11 @@ class QueryAuthenticationFormUseCase(
     }
 
     private fun generateSelectorValues(
-        type: SectionType,
+        type: FieldType,
         sectionValue: List<SelectorSectionValue>,
         authenticationFieldId: UUID
     ): List<AuthenticationSelectorValueResponseData>? {
-        return if (type in listOf(SectionType.SELECT_VALUE, SectionType.SELECT, SectionType.BOOLEAN)) {
+        return if (type in listOf(FieldType.SELECT_VALUE, FieldType.SELECT, FieldType.BOOLEAN)) {
             sectionValue.filter { it.authenticationFieldId == authenticationFieldId }
                 .map {
                     AuthenticationSelectorValueResponseData(
