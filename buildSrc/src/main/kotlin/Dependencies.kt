@@ -43,6 +43,9 @@ object Dependencies {
     const val QUERYDSL = "com.querydsl:querydsl-jpa:${DependencyVersions.QUERYDSL}"
     const val QUERYDSL_PROCESSOR = "com.querydsl:querydsl-apt:${DependencyVersions.QUERYDSL}:jpa"
 
+    //firebase
+    const val FIREBASE = "com.google.firebase:firebase-admin:9.2.0"
+
     // test
     const val SPRING_TEST = "org.springframework.boot:spring-boot-starter-test:${PluginVersions.SPRING_BOOT_VERSION}"
     const val MOCKITO = "org.mockito.kotlin:mockito-kotlin:${DependencyVersions.MOCKITO_VERSION}"

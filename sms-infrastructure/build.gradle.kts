@@ -31,6 +31,8 @@ dependencies {
     // jackson
     implementation(Dependencies.JACKSON_TYPE)
 
+    // firebase
+    implementation(Dependencies.FIREBASE)
 }
 
 tasks.getByName<Jar>("jar") {
