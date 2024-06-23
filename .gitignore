@@ -39,6 +39,7 @@ out/
 
 *.log
 
+sms-infrastructure/src/main/resources/firebase/Firebase-adminsdk-97zws.json
 sms-infrastructure/src/main/resources/application-dev.yml
 sms-infrastructure/src/main/resources/application-local.yml
 sms-infrastructure/src/main/resources/application-prod.yml
