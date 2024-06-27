@@ -6,5 +6,5 @@ data class AuthenticationSectionResponseData(
     val sectionId: UUID,
     val sectionName: String,
     val maxCount: Int,
-    val fields: List<AuthenticationSectionFieldResponseData>
+    val groups: List<AuthenticationFieldGroupResponseData>
 )
