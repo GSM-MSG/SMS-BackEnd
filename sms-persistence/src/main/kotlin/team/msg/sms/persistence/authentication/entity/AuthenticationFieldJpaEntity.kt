@@ -12,17 +12,15 @@ import javax.persistence.Enumerated
 class AuthenticationFieldJpaEntity(
     override val id: UUID,
 
-    @Column(columnDefinition = "BINARY(16)", nullable = false)
-    val sectionId: UUID,
-
     val description: String?,
+
+    @Column(columnDefinition = "BINARY(16)", nullable = false)
+    val groupId: UUID,
 
     val placeHolder: String?,
 
     @Enumerated(EnumType.STRING)
     val fieldInputType: FieldType,
-
-    val fieldScore: Double,
 
     val sort: Int
 ) : BaseUuidEntity(id)
