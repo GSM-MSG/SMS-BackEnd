@@ -96,7 +96,7 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.GET, "/stack/list").permitAll()
 
-            .anyRequest().authenticated()
+            .anyRequest().denyAll()
 
         http
             .apply(FilterConfig(jwtParser, objectMapper))
