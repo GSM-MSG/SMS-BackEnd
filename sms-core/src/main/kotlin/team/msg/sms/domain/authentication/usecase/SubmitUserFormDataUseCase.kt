@@ -18,29 +18,31 @@ class SubmitUserFormDataUseCase(
 ) {
     fun execute(submitDataList: List<SubmitUserFormRequestData>, authenticationFormId: UUID) {
         val student = studentService.currentStudent()
-
         val userFormValues = submitDataList.flatMap { submitData ->
             val maxCount = authenticationSectionService.getMaxCountById(submitData.sectionId)
             val groupId = if (maxCount > 1) UUID.randomUUID() else null
 
-            submitData.objects.map { submitValue ->
-                createUserFormValue(
-                    sectionId = submitData.sectionId,
-                    submitData = submitValue,
-                    groupId = groupId,
-                    studentId = student.id,
-                    authenticationFormId = authenticationFormId
-                )
+            submitData.objects.flatMap { submitValue ->
+                submitValue.fields.map { submitFieldValue ->
+                    createUserFormValue(
+                        sectionId = submitData.sectionId,
+                        submitData = submitFieldValue,
+                        authenticationFieldGroupId = submitValue.groupId,
+                        groupId = groupId,
+                        studentId = student.id,
+                        authenticationFormId = authenticationFormId
+                    )
+                }
             }
         }
-
         userFormValueService.saveAll(userFormValues)
     }
 
     private fun createUserFormValue(
         sectionId: UUID,
-        submitData: SubmitUserFormRequestData.SubmitValueRequestData,
+        submitData: SubmitUserFormRequestData.SubmitFieldValueRequestData,
         groupId: UUID?,
+        authenticationFieldGroupId: UUID,
         studentId: UUID,
         authenticationFormId: UUID
     ): UserFormValue {
@@ -57,8 +59,9 @@ class SubmitUserFormDataUseCase(
 
         return UserFormValue(
             id = UUID.randomUUID(),
-            groupId = groupId,
+            setId = groupId,
             authenticationSectionId = sectionId,
+            authenticationFieldGroupId = authenticationFieldGroupId,
             value = value,
             score = 0,
             fieldType = submitData.fieldType,
