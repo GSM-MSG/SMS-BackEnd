@@ -6,12 +6,12 @@ import team.msg.sms.domain.authentication.model.AuthenticationArea
 import team.msg.sms.domain.authentication.spi.AuthenticationAreaPort
 import team.msg.sms.persistence.authentication.mapper.toDomain
 import team.msg.sms.persistence.authentication.mapper.toEntity
-import team.msg.sms.persistence.authentication.repository.AuthenticationAreaRepository
+import team.msg.sms.persistence.authentication.repository.AuthenticationAreaJpaRepository
 import java.util.UUID
 
 @Component
 class AuthenticationAreaPersistenceAdapter(
-    private val authenticationAreaRepository: AuthenticationAreaRepository
+    private val authenticationAreaRepository: AuthenticationAreaJpaRepository
 ) : AuthenticationAreaPort {
     override fun queryGroupAuthenticationAreaByAuthenticationFormId(authenticationFormId: UUID): List<AuthenticationArea> =
         authenticationAreaRepository.findAuthenticationAreaJpaEntitiesByAuthenticationFormId(authenticationFormId)

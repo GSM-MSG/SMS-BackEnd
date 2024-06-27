@@ -6,5 +6,5 @@ import team.msg.sms.persistence.authentication.entity.SelectorSectionValueJpaEnt
 import java.util.UUID
 
 @Repository
-interface SelectorSectionValueRepository : CrudRepository<SelectorSectionValueJpaEntity, UUID> {
+interface SelectorSectionValueJpaRepository : CrudRepository<SelectorSectionValueJpaEntity, UUID> {
 }
