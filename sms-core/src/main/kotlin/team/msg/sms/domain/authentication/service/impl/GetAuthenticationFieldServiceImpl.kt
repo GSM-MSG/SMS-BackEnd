@@ -10,6 +10,6 @@ import java.util.*
 class GetAuthenticationFieldServiceImpl(
     private val authenticationFieldPort: AuthenticationFieldPort
 ) : GetAuthenticationFieldService {
-    override fun getAuthenticationFieldsBySectionId(sectionId: UUID): List<AuthenticationField> =
-        authenticationFieldPort.queryAuthenticationFieldsBySectionId(sectionId)
+    override fun getAuthenticationFieldsByGroupId(groupId: UUID): List<AuthenticationField> =
+        authenticationFieldPort.queryAuthenticationFieldsByGroupId(groupId)
 }
