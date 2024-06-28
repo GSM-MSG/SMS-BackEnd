@@ -63,6 +63,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/student/link").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.GET, "/student/link").permitAll()
             .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority(STUDENT, TEACHER)
+            .antMatchers(HttpMethod.PUT, "/student/pdf").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
 
             .antMatchers(HttpMethod.POST, "/teacher/common").hasAuthority(TEACHER)
@@ -95,7 +96,7 @@ class SecurityConfig(
 
             .antMatchers(HttpMethod.GET, "/stack/list").permitAll()
 
-            .anyRequest().authenticated()
+            .anyRequest().denyAll()
 
         http
             .apply(FilterConfig(jwtParser, objectMapper))
