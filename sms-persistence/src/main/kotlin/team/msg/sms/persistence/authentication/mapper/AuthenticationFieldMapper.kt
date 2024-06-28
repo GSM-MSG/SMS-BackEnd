@@ -6,21 +6,19 @@ import team.msg.sms.persistence.authentication.entity.AuthenticationFieldJpaEnti
 fun AuthenticationFieldJpaEntity.toDomain() =
     AuthenticationField(
         id = id,
-        sectionId = sectionId,
         description = description,
         placeHolder = placeHolder,
+        groupId = groupId,
         fieldInputType = fieldInputType,
-        fieldScore = fieldScore,
         sort = sort
     )
 
 fun AuthenticationField.toEntity() =
     AuthenticationFieldJpaEntity(
         id = id,
-        sectionId = sectionId,
         description = description,
         placeHolder = placeHolder,
+        groupId = groupId,
         fieldInputType = fieldInputType,
-        fieldScore = fieldScore,
         sort = sort
     )

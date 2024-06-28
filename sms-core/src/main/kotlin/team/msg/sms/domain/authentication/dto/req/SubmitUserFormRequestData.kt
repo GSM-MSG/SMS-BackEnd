@@ -8,9 +8,14 @@ data class SubmitUserFormRequestData(
     val objects: List<SubmitValueRequestData>
 ) {
     data class SubmitValueRequestData(
+        val groupId: UUID,
+        val fields: List<SubmitFieldValueRequestData>
+    )
+
+    data class SubmitFieldValueRequestData(
         val fieldId: UUID,
         val selectId: UUID?,
         val fieldType: FieldType,
         val value: String?
-        )
+    )
 }

@@ -6,29 +6,31 @@ import team.msg.sms.persistence.authentication.entity.UserFormValueJpaEntity
 fun UserFormValueJpaEntity.toDomain() =
     UserFormValue(
         id = id,
-        authenticationSectionId = authenticationSectionId,
         value = value,
         score = score,
         fieldType = fieldType,
         targetId = targetId,
         createdBy = createdBy,
         createdAt = createdAt,
+        setId = setId,
         authenticationFormId = authenticationFormId,
+        authenticationSectionId = authenticationSectionId,
         authenticationFieldId = authenticationFieldId,
-        groupId = groupId
+        authenticationFieldGroupId = authenticationFieldGroupId
     )
 
 fun UserFormValue.toEntity() =
     UserFormValueJpaEntity(
         id = id,
-        authenticationSectionId = authenticationSectionId,
         value = value,
         score = score,
         fieldType = fieldType,
         targetId = targetId,
         createdBy = createdBy,
         createdAt = createdAt,
+        setId = setId,
         authenticationFormId = authenticationFormId,
+        authenticationSectionId = authenticationSectionId,
         authenticationFieldId = authenticationFieldId,
-        groupId = groupId
+        authenticationFieldGroupId = authenticationFieldGroupId
     )

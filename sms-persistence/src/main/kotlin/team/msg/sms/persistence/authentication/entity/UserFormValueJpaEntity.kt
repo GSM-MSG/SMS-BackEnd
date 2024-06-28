@@ -13,10 +13,13 @@ class UserFormValueJpaEntity(
     override val id: UUID,
 
     @Column(columnDefinition = "BINARY(16)")
-    val groupId: UUID?,
+    val setId: UUID?,
 
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     val authenticationSectionId: UUID,
+
+    @Column(columnDefinition = "BINARY(16)", nullable = false)
+    val authenticationFieldGroupId: UUID,
 
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     val authenticationFieldId:UUID,

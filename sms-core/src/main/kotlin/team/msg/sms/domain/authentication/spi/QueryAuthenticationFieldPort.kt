@@ -4,5 +4,5 @@ import team.msg.sms.domain.authentication.model.AuthenticationField
 import java.util.UUID
 
 interface QueryAuthenticationFieldPort {
-    fun queryAuthenticationFieldsBySectionId(sectionId: UUID): List<AuthenticationField>
+    fun queryAuthenticationFieldsByGroupId(groupId: UUID): List<AuthenticationField>
 }

@@ -7,5 +7,5 @@ import java.util.UUID
 
 @Repository
 interface AuthenticationFieldJpaRepository: CrudRepository<AuthenticationFieldJpaEntity, UUID> {
-    fun findAllBySectionId(sectionId: UUID): List<AuthenticationFieldJpaEntity>
+    fun findAllByGroupId(groupId: UUID): List<AuthenticationFieldJpaEntity>
 }

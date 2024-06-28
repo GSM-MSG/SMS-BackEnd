@@ -5,11 +5,11 @@ import team.msg.sms.domain.authentication.model.SelectorSectionValue
 import team.msg.sms.domain.authentication.spi.SelectorSectionValuePort
 import team.msg.sms.persistence.authentication.mapper.toDomain
 import team.msg.sms.persistence.authentication.mapper.toEntity
-import team.msg.sms.persistence.authentication.repository.SelectorSectionValueRepository
+import team.msg.sms.persistence.authentication.repository.SelectorSectionValueJpaRepository
 
 @Component
 class SelectorSectionValuePersistenceAdapter(
-    private val selectorSectionValueRepository: SelectorSectionValueRepository
+    private val selectorSectionValueRepository: SelectorSectionValueJpaRepository
 ) : SelectorSectionValuePort {
     override fun querySelectorSectionValue(): List<SelectorSectionValue> =
         selectorSectionValueRepository.findAll().map { it.toDomain() }

@@ -7,14 +7,11 @@ import team.msg.sms.domain.authentication.model.AuthenticationSection
 import team.msg.sms.domain.authentication.model.AuthenticationArea
 import team.msg.sms.domain.authentication.model.FieldType
 import team.msg.sms.domain.authentication.model.SelectorSectionValue
-import team.msg.sms.domain.authentication.service.AuthenticationFieldService
-import team.msg.sms.domain.authentication.service.AuthenticationSectionService
-import team.msg.sms.domain.authentication.service.AuthenticationAreaService
-import team.msg.sms.domain.authentication.service.SelectorSectionValueService
+import team.msg.sms.domain.authentication.service.*
 import team.msg.sms.domain.file.dto.res.FileResponseData
 import team.msg.sms.domain.file.service.FileService
-import team.msg.sms.domain.user.model.User
 import java.util.*
+import kotlin.math.max
 
 @UseCase
 class QueryAuthenticationFormUseCase(
@@ -22,35 +19,35 @@ class QueryAuthenticationFormUseCase(
     private val fileService: FileService,
     private val selectorSectionValueService: SelectorSectionValueService,
     private val authenticationFieldService: AuthenticationFieldService,
-    private val authenticationAreaService: AuthenticationAreaService
+    private val authenticationAreaService: AuthenticationAreaService,
+    private val authenticationFieldGroupService: AuthenticationFieldGroupService
 ) {
     @Transactional(readOnly = true)
     fun execute(authenticationFormId: UUID): QueryAuthenticationFormResponseData {
-        val files = getFilesForGroups(authenticationFormId)
-        val groups = getAuthenticationGroups(authenticationFormId)
-        val authenticationSections = getAuthenticationSectionsForGroups(groups)
+        val files = fetchFiles(authenticationFormId)
+        val groups = fetchAuthenticationGroups(authenticationFormId)
+        val authenticationSections = fetchAuthenticationSections(groups)
         val selectorSectionValues = selectorSectionValueService.getSelectorSectionValue()
 
         return buildQueryResponse(groups, files, authenticationSections, selectorSectionValues)
     }
 
-    private fun getAuthenticationGroups(authenticationFormId: UUID): List<AuthenticationArea> {
+    private fun fetchAuthenticationGroups(authenticationFormId: UUID): List<AuthenticationArea> {
         return authenticationAreaService.getGroupAuthenticationAreaByAuthenticationFormId(authenticationFormId)
     }
 
-    private fun getFilesForGroups(authenticationFormId: UUID): List<FileResponseData> {
-        return fileService.getFileByTargetUuidAndTypeEqualsAuthentication(targetId = authenticationFormId)
-            .map { file ->
-                FileResponseData(
-                    name = file.fileName,
-                    url = file.fileUrl
-                )
-            }
+    private fun fetchFiles(authenticationFormId: UUID): List<FileResponseData> {
+        return fileService.getFileByTargetUuidAndTypeEqualsAuthentication(authenticationFormId).map { file ->
+            FileResponseData(
+                name = file.fileName,
+                url = file.fileUrl
+            )
+        }
     }
 
-    private fun getAuthenticationSectionsForGroups(groups: List<AuthenticationArea>): List<AuthenticationSection> {
+    private fun fetchAuthenticationSections(groups: List<AuthenticationArea>): List<AuthenticationSection> {
         val groupIds = groups.map { it.id }
-        return authenticationSectionService.getAuthenticationSectionByGroupIds(groupIds = groupIds)
+        return authenticationSectionService.getAuthenticationSectionByGroupIds(groupIds)
     }
 
     private fun buildQueryResponse(
@@ -64,54 +61,65 @@ class QueryAuthenticationFormUseCase(
             content = groups.map { group ->
                 AuthenticationAreaFormResponseData(
                     title = group.title,
-                    sections = authenticationSections
-                        .filter { it.groupId == group.id }
-                        .map { authenticationSection ->
-                            AuthenticationSectionResponseData(
-                                sectionId = authenticationSection.id,
-                                sectionName = authenticationSection.sectionName,
-                                maxCount = authenticationSection.maxCount,
-                                fields = getAuthenticationFields(authenticationSection, selectorSectionValues)
-                            )
-                        }
+                    sections = filterSections(authenticationSections, group.id).map { section ->
+                        AuthenticationSectionResponseData(
+                            sectionId = section.id,
+                            sectionName = section.sectionName,
+                            maxCount = section.maxCount,
+                            groups = buildFieldGroups(section.id, selectorSectionValues)
+                        )
+                    }
                 )
             }
         )
     }
 
-    private fun getAuthenticationFields(
-        authenticationSection: AuthenticationSection,
-        selectorSectionValues: List<SelectorSectionValue>
-    ): List<AuthenticationSectionFieldResponseData> {
-        return authenticationFieldService.getAuthenticationFieldsBySectionId(authenticationSection.id)
-            .map { authenticationField ->
-                AuthenticationSectionFieldResponseData(
-                    fieldId = authenticationField.id,
-                    scoreDescription = authenticationField.description,
-                    example = authenticationField.placeHolder,
-                    fieldType = authenticationField.fieldInputType,
-                    values = generateSelectorValues(
-                        authenticationField.fieldInputType,
-                        selectorSectionValues,
-                        authenticationField.id
-                    )
-                )
-            }
+    private fun filterSections(authenticationSections: List<AuthenticationSection>, areaId: UUID): List<AuthenticationSection> {
+        return authenticationSections.filter { it.groupId == areaId }
     }
 
-    private fun generateSelectorValues(
+    private fun buildFieldGroups(
+        authenticationSectionId: UUID,
+        selectorSectionValues: List<SelectorSectionValue>
+    ): List<AuthenticationFieldGroupResponseData> {
+        val fieldGroups = authenticationFieldGroupService.findAuthenticationFieldGroupBySectionId(authenticationSectionId)
+        return fieldGroups.map { group ->
+            AuthenticationFieldGroupResponseData(
+                groupId = group.id,
+                maxScore = group.maxScore,
+                fields = buildFields(group.id, selectorSectionValues)
+            )
+        }
+    }
+
+    private fun buildFields(
+        authenticationFieldGroupId: UUID,
+        selectorSectionValues: List<SelectorSectionValue>
+    ): List<AuthenticationSectionFieldResponseData> {
+        val fields = authenticationFieldService.getAuthenticationFieldsByGroupId(authenticationFieldGroupId)
+        return fields.map { field ->
+            AuthenticationSectionFieldResponseData(
+                fieldId = field.id,
+                scoreDescription = field.description,
+                example = field.placeHolder,
+                fieldType = field.fieldInputType,
+                values = buildSelectorValues(field.fieldInputType, selectorSectionValues, field.id)
+            )
+        }
+    }
+
+    private fun buildSelectorValues(
         type: FieldType,
-        sectionValue: List<SelectorSectionValue>,
+        sectionValues: List<SelectorSectionValue>,
         authenticationFieldId: UUID
     ): List<AuthenticationSelectorValueResponseData>? {
         return if (type in listOf(FieldType.SELECT_VALUE, FieldType.SELECT, FieldType.BOOLEAN)) {
-            sectionValue.filter { it.authenticationFieldId == authenticationFieldId }
-                .map {
-                    AuthenticationSelectorValueResponseData(
-                        selectId = it.id,
-                        value = it.name
-                    )
-                }
+            sectionValues.filter { it.authenticationFieldId == authenticationFieldId }.map { value ->
+                AuthenticationSelectorValueResponseData(
+                    selectId = value.id,
+                    value = value.name
+                )
+            }
         } else {
             null
         }
