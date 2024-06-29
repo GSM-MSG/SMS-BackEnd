@@ -41,7 +41,8 @@ class CreateAuthenticationFormUseCase(
                 title = requestData.title,
                 version = requestData.version,
                 createdBy = teacher.id,
-                createdAt = LocalDateTime.now()
+                createdAt = LocalDateTime.now(),
+                active = false
             )
         )
 
