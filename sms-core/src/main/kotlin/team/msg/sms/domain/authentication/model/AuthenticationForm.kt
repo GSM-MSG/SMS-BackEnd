@@ -10,5 +10,6 @@ class AuthenticationForm(
     val title: String,
     val version: String,
     val createdBy: UUID,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    val active: Boolean
 )
