@@ -7,7 +7,6 @@ fun UserFormValueJpaEntity.toDomain() =
     UserFormValue(
         id = id,
         value = value,
-        score = score,
         fieldType = fieldType,
         targetId = targetId,
         createdBy = createdBy,
@@ -23,7 +22,6 @@ fun UserFormValue.toEntity() =
     UserFormValueJpaEntity(
         id = id,
         value = value,
-        score = score,
         fieldType = fieldType,
         targetId = targetId,
         createdBy = createdBy,
