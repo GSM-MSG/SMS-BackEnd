@@ -6,6 +6,7 @@ import team.msg.sms.domain.authentication.spi.AuthenticationFormPort
 import team.msg.sms.persistence.authentication.mapper.toDomain
 import team.msg.sms.persistence.authentication.mapper.toEntity
 import team.msg.sms.persistence.authentication.repository.AuthenticationFormJpaRepository
+import java.util.*
 
 @Component
 class AuthenticationFormPersistenceAdapter(
@@ -13,4 +14,8 @@ class AuthenticationFormPersistenceAdapter(
 ) : AuthenticationFormPort {
     override fun save(authenticationForm: AuthenticationForm): AuthenticationForm =
         authenticationFormJpaRepository.save(authenticationForm.toEntity()).toDomain()
+
+    override fun queryActiveAuthenticationFormId(): UUID {
+        return authenticationFormJpaRepository.findByActive(true).id
+    }
 }

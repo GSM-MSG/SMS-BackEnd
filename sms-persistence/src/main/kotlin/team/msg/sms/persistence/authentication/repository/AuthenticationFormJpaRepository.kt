@@ -7,4 +7,5 @@ import java.util.UUID
 
 @Repository
 interface AuthenticationFormJpaRepository : CrudRepository<AuthenticationFormJpaEntity, UUID> {
+    fun findByActive(active: Boolean): AuthenticationFormJpaEntity
 }
