@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.authentication.dto.req.*
 import team.msg.sms.domain.authentication.dto.res.*
+import team.msg.sms.domain.authentication.model.MarkingBoardType
 import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebResponse
 import team.msg.sms.domain.authentication.usecase.*
 import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
@@ -32,12 +33,23 @@ class AuthenticationWebAdapter(
     private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase,
     private val queryAuthenticationFormUseCase: QueryAuthenticationFormUseCase,
     private val submitUserFormDataUseCase: SubmitUserFormDataUseCase,
-    private val createAuthenticationFormUseCase: CreateAuthenticationFormUseCase
+    private val createAuthenticationFormUseCase: CreateAuthenticationFormUseCase,
+    private val queryStudentFormListUseCase: QueryStudentFormListUseCase
 ) {
     @GetMapping("/form/{uuid}")
     fun queryAuthenticationForm(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationFormWebResponse> =
         queryAuthenticationFormUseCase.execute(UUID.fromString(uuid))
             .let { ResponseEntity.ok(it.toResponse()) }
+
+    @GetMapping
+    fun queryStudentFormList(
+        @RequestParam(name = "page") page: Int,
+        @RequestParam(name = "size") size: Int,
+        @RequestParam(name = "type") type: List<MarkingBoardType>?
+    ): ResponseEntity<QueryStudentFormList> {
+        return queryStudentFormListUseCase.execute(page, size, type)
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
 
     @PostMapping("/submit/{uuid}")
     fun submitUserFormValue(
@@ -206,6 +218,15 @@ class AuthenticationWebAdapter(
         name = name,
         department = department
     )
+
+    private fun UserBoardPageResponseData.toResponse() =
+        QueryStudentFormList(
+            content = content,
+            page = page,
+            totalSize = totalSize,
+            contentSize = contentSize,
+            last = last
+        )
 
     private fun isValidUUID(uuid: String): Boolean {
         return try {
