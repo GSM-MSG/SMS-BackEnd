@@ -1,4 +1,4 @@
-package team.msg.sms.persistence.authentication.repository
+package team.msg.sms.persistence.authentication.repository.queryDSL
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository

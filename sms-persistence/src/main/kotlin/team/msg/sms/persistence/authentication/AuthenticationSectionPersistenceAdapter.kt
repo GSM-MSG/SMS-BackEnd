@@ -6,7 +6,7 @@ import team.msg.sms.domain.authentication.spi.AuthenticationSectionPort
 import team.msg.sms.persistence.authentication.mapper.toDomain
 import team.msg.sms.persistence.authentication.mapper.toEntity
 import team.msg.sms.persistence.authentication.repository.AuthenticationSectionJpaRepository
-import team.msg.sms.persistence.authentication.repository.AuthenticationSectionRepositoryCustom
+import team.msg.sms.persistence.authentication.repository.queryDSL.AuthenticationSectionRepositoryCustom
 import java.util.*
 
 @Component
