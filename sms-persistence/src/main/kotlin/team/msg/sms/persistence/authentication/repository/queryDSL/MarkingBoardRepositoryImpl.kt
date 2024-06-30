@@ -115,7 +115,7 @@ class MarkingBoardRepositoryImpl(
         val type: MarkingBoardType?,
         val studentId: UUID,
         val profileImgUrl: String,
-        val totalScore: Double?,
+        val totalScore: Double,
         val studentNumber: String,
         val name: String
     )
@@ -126,7 +126,7 @@ class MarkingBoardRepositoryImpl(
             title = userBoard.title ?: "${userBoard.name} ${userBoard.studentNumber}",
             type = userBoard.type ?: MarkingBoardType.NOT_SUBMITTED,
             profileImgUrl = userBoard.profileImgUrl,
-            totalScore = userBoard.totalScore ?: 0.0,
+            totalScore = userBoard.totalScore,
             studentId = userBoard.studentId
         )
     }
