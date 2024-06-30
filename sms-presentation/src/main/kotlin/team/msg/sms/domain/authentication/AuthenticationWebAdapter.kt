@@ -9,10 +9,6 @@ import team.msg.sms.domain.authentication.dto.res.*
 import team.msg.sms.domain.authentication.model.MarkingBoardType
 import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebResponse
 import team.msg.sms.domain.authentication.usecase.*
-import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
-import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
-import team.msg.sms.domain.authentication.usecase.QueryRequestedAuthenticationUseCase
-import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase
 import java.util.*
 import javax.validation.Valid
 
