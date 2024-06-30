@@ -32,7 +32,7 @@ class ModifyStudentPortfolioFileUseCase(
             )
 
             studentService.saveStudent(
-                student.copy(portfolioFileUrl = portfolioFileUrl, portfolioUrl = null),
+                student.copy(portfolioFileUrl = "${portfolioFileUrl}.pdf", portfolioUrl = null),
                 user
             )
         }
