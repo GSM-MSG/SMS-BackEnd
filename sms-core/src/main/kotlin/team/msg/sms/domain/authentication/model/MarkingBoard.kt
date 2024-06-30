@@ -7,6 +7,6 @@ data class MarkingBoard(
     val title: String,
     val authenticationId: UUID,
     val studentId: UUID,
-    val totalScore: Double,
+    val totalScore: Double = 0.0,
     val markingBoardType: MarkingBoardType
 )

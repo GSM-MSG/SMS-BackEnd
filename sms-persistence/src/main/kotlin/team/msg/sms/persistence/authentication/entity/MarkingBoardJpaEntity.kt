@@ -1,5 +1,6 @@
 package team.msg.sms.persistence.authentication.entity
 
+import org.hibernate.annotations.ColumnDefault
 import org.hibernate.annotations.GenericGenerator
 import team.msg.sms.domain.authentication.model.MarkingBoardType
 import team.msg.sms.persistence.BaseUuidEntity
@@ -22,6 +23,7 @@ class MarkingBoardJpaEntity(
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     val studentId: UUID,
 
+    @Column(columnDefinition = "DOUBLE DEFAULT 0.0")
     val totalScore: Double,
 
     @Enumerated(EnumType.STRING)
