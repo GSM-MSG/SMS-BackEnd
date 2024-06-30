@@ -47,7 +47,6 @@ class SubmitUserFormDataUseCase(
             markingBoardType = MarkingBoardType.PENDING_REVIEW,
             authenticationId = authenticationFormId,
             studentId = student.id,
-            totalScore = 0.0
         )
         markingBoardService.save(markingBoard)
     }
