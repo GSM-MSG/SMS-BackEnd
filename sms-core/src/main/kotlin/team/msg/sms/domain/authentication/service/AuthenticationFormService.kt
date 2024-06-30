@@ -5,4 +5,6 @@ import team.msg.sms.common.annotation.Service
 @Service
 class AuthenticationFormService(
     commandAuthenticationFormService: CommandAuthenticationFormService,
-) : CommandAuthenticationFormService by commandAuthenticationFormService
+    getAuthenticationFormService: GetAuthenticationFormService
+) : CommandAuthenticationFormService by commandAuthenticationFormService,
+    GetAuthenticationFormService by getAuthenticationFormService

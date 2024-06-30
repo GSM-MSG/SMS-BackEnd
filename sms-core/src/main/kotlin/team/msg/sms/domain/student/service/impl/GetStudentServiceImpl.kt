@@ -60,4 +60,7 @@ class GetStudentServiceImpl(
     override fun currentStudent(): Student.StudentWithUserInfo =
         studentPort.queryStudentUserInfoByUserId(userId = securityPort.getCurrentUserId())
             ?: throw StudentNotFoundException
+
+    override fun getStudentIds(): List<UUID> =
+        studentPort.queryStudentIds()
 }

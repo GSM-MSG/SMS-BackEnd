@@ -26,8 +26,6 @@ class UserFormValueJpaEntity(
 
     val value: String?,
 
-    val score: Int,
-
     @Enumerated(EnumType.STRING)
     val fieldType: FieldType,
 
