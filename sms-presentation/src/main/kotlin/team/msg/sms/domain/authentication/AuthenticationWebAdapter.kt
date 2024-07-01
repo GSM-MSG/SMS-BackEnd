@@ -30,7 +30,8 @@ class AuthenticationWebAdapter(
     private val queryAuthenticationFormUseCase: QueryAuthenticationFormUseCase,
     private val submitUserFormDataUseCase: SubmitUserFormDataUseCase,
     private val createAuthenticationFormUseCase: CreateAuthenticationFormUseCase,
-    private val queryStudentFormListUseCase: QueryStudentFormListUseCase
+    private val queryStudentFormListUseCase: QueryStudentFormListUseCase,
+    private val queryStudentAuthenticationFormDetailUseCase: QueryStudentAuthenticationFormDetailUseCase
 ) {
     @GetMapping("/form/{uuid}")
     fun queryAuthenticationForm(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationFormWebResponse> =
@@ -46,6 +47,13 @@ class AuthenticationWebAdapter(
         return queryStudentFormListUseCase.execute(page, size, type)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
+
+    @GetMapping("/{uuid}/form")
+    fun queryStudentDetail(
+        @PathVariable uuid: String
+    ): ResponseEntity<QueryStudentFormDetailWebResponse> =
+        queryStudentAuthenticationFormDetailUseCase.execute(UUID.fromString(uuid))
+            .let { ResponseEntity.ok(it.toResponse()) }
 
     @PostMapping("/submit/{uuid}")
     fun submitUserFormValue(
@@ -222,6 +230,13 @@ class AuthenticationWebAdapter(
             totalSize = totalSize,
             contentSize = contentSize,
             last = last
+        )
+
+    private fun StudentAuthenticationFormResponseData.toResponse() =
+        QueryStudentFormDetailWebResponse(
+            markingBoardId = markingBoardId,
+            title = title,
+            content = content
         )
 
     private fun isValidUUID(uuid: String): Boolean {
