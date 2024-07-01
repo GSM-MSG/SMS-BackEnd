@@ -33,9 +33,9 @@ class AuthenticationWebAdapter(
     private val queryStudentFormListUseCase: QueryStudentFormListUseCase,
     private val queryStudentAuthenticationFormDetailUseCase: QueryStudentAuthenticationFormDetailUseCase
 ) {
-    @GetMapping("/form/{uuid}")
-    fun queryAuthenticationForm(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationFormWebResponse> =
-        queryAuthenticationFormUseCase.execute(UUID.fromString(uuid))
+    @GetMapping("/form")
+    fun queryAuthenticationForm(): ResponseEntity<QueryAuthenticationFormWebResponse> =
+        queryAuthenticationFormUseCase.execute()
             .let { ResponseEntity.ok(it.toResponse()) }
 
     @GetMapping
