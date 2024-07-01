@@ -1,15 +1,12 @@
 package team.msg.sms.domain.authentication.usecase
 
-import team.msg.sms.common.annotation.ReadOnlyUseCase
+import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.res.StudentAuthenticationFormResponseData
-import team.msg.sms.domain.authentication.model.AuthenticationArea
-import team.msg.sms.domain.authentication.model.AuthenticationSection
-import team.msg.sms.domain.authentication.model.SelectorSectionValue
-import team.msg.sms.domain.authentication.model.UserFormValue
+import team.msg.sms.domain.authentication.model.*
 import team.msg.sms.domain.authentication.service.*
 import java.util.UUID
 
-@ReadOnlyUseCase
+@UseCase
 class QueryStudentAuthenticationFormDetailUseCase(
     private val markingBoardService: MarkingBoardService,
     private val authenticationAreaService: AuthenticationAreaService,
@@ -21,6 +18,16 @@ class QueryStudentAuthenticationFormDetailUseCase(
 ) {
     fun execute(markingBoardId: UUID): StudentAuthenticationFormResponseData {
         val markingBoard = markingBoardService.getMarkingBoardById(id = markingBoardId)
+
+        // 채점 전 상태인 학생 폼을 조회할시 채점 중으로 상태 변경
+        if(markingBoard.markingBoardType == MarkingBoardType.PENDING_REVIEW) {
+            markingBoardService.save(
+                markingBoard.copy(
+                    id = markingBoard.id,
+                    markingBoardType = MarkingBoardType.UNDER_REVIEW
+                )
+            )
+        }
 
         val authenticationAreas =
             authenticationAreaService.getGroupAuthenticationAreaByAuthenticationFormId(markingBoard.authenticationId)
@@ -41,6 +48,7 @@ class QueryStudentAuthenticationFormDetailUseCase(
             )
         )
     }
+
     private fun buildAreas(
         authenticationAreas: List<AuthenticationArea>,
         authenticationSections: List<AuthenticationSection>,
