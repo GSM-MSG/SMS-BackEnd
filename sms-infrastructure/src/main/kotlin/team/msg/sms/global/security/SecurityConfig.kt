@@ -63,6 +63,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/student/link").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.GET, "/student/link").permitAll()
             .antMatchers(HttpMethod.GET, "/student/{uuid}").hasAnyAuthority(STUDENT, TEACHER)
+            .antMatchers(HttpMethod.PUT, "/student").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.PUT, "/student/pdf").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET, "/student/anonymous/{uuid}").permitAll()
 
