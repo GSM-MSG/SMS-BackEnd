@@ -7,4 +7,5 @@ import java.util.UUID
 
 @Repository
 interface UserFormValueRepository : CrudRepository<UserFormValueJpaEntity, UUID> {
+    fun findAllByAuthenticationFieldIdAndCreatedBy(fieldId: UUID, createdBy: UUID): List<UserFormValueJpaEntity>
 }
