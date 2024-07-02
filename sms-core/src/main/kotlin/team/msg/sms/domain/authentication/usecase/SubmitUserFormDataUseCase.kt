@@ -16,17 +16,16 @@ import java.util.*
 @UseCase
 class SubmitUserFormDataUseCase(
     private val userFormValueService: UserFormValueService,
-    private val authenticationSectionService: AuthenticationSectionService,
     private val markingBoardService: MarkingBoardService,
     private val studentService: StudentService
 ) {
     fun execute(submitDataList: List<SubmitUserFormRequestData>, authenticationFormId: UUID) {
         val student = studentService.currentStudent()
         val userFormValues = submitDataList.flatMap { submitData ->
-            val maxCount = authenticationSectionService.getMaxCountById(submitData.sectionId)
-            val groupId = if (maxCount > 1) UUID.randomUUID() else null
 
             submitData.objects.flatMap { submitValue ->
+                val groupId = UUID.randomUUID()
+
                 submitValue.fields.map { submitFieldValue ->
                     createUserFormValue(
                         sectionId = submitData.sectionId,
@@ -54,7 +53,7 @@ class SubmitUserFormDataUseCase(
     private fun createUserFormValue(
         sectionId: UUID,
         submitData: SubmitUserFormRequestData.SubmitFieldValueRequestData,
-        groupId: UUID?,
+        groupId: UUID,
         authenticationFieldGroupId: UUID,
         studentId: UUID,
         authenticationFormId: UUID

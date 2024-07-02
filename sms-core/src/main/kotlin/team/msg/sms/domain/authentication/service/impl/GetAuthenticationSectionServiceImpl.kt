@@ -12,8 +12,8 @@ class GetAuthenticationSectionServiceImpl(
     private val authenticationSectionPort: AuthenticationSectionPort
 ) : GetAuthenticationSectionService {
     override fun getAuthenticationSectionByGroupIds(groupIds: List<UUID>): List<AuthenticationSection> =
-        authenticationSectionPort.getAuthenticationSectionByGroupIds(groupIds)
+        authenticationSectionPort.queryAuthenticationSectionByGroupIds(groupIds)
 
     override fun getMaxCountById(sectionId: UUID): Int =
-        authenticationSectionPort.getMaxCountById(id = sectionId) ?: throw InternalServerErrorException
+        authenticationSectionPort.queryMaxCountById(id = sectionId) ?: throw InternalServerErrorException
 }

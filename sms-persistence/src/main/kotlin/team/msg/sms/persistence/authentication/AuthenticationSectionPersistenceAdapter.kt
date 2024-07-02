@@ -14,10 +14,11 @@ class AuthenticationSectionPersistenceAdapter(
     private val authenticationSectionRepositoryCustom: AuthenticationSectionRepositoryCustom,
     private val authenticationSectionJpaRepository: AuthenticationSectionJpaRepository
 ) : AuthenticationSectionPort {
-    override fun getAuthenticationSectionByGroupIds(groupIds: List<UUID>): List<AuthenticationSection> =
+
+    override fun queryAuthenticationSectionByGroupIds(groupIds: List<UUID>): List<AuthenticationSection> =
         authenticationSectionRepositoryCustom.getAuthenticationSectionByGroupIds(groupIds).map { it.toDomain() }
 
-    override fun getMaxCountById(id: UUID): Int? = authenticationSectionRepositoryCustom.findMaxCountById(id)
+    override fun queryMaxCountById(id: UUID): Int? = authenticationSectionRepositoryCustom.findMaxCountById(id)
 
 
     override fun save(authenticationSection: AuthenticationSection): AuthenticationSection =

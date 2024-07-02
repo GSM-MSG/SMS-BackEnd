@@ -3,6 +3,8 @@ package team.msg.sms.domain.authentication.service.impl
 import team.msg.sms.common.annotation.Service
 import team.msg.sms.domain.authentication.dto.res.UserBoardPageResponseData
 import team.msg.sms.domain.authentication.dto.res.UserBoardWithStudentInfoResponseData
+import team.msg.sms.domain.authentication.exception.MarkingBoardNotFoundException
+import team.msg.sms.domain.authentication.model.MarkingBoard
 import team.msg.sms.domain.authentication.model.MarkingBoardType
 import team.msg.sms.domain.authentication.service.GetMarkingBoardService
 import team.msg.sms.domain.authentication.spi.MarkingBoardPort
@@ -12,6 +14,10 @@ import java.util.UUID
 class GetMarkingBoardServiceImpl(
     private val markingBoardPort: MarkingBoardPort
 ) : GetMarkingBoardService {
+    override fun getMarkingBoardById(id: UUID): MarkingBoard {
+        return markingBoardPort.queryMarkingBoardById(id) ?: throw MarkingBoardNotFoundException
+    }
+
     override fun getMarkingBoardByStudentIds(
         studentIds: List<UUID>,
         authenticationId: UUID,

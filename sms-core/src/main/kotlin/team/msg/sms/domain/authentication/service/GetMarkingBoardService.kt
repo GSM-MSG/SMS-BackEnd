@@ -1,10 +1,12 @@
 package team.msg.sms.domain.authentication.service
 
 import team.msg.sms.domain.authentication.dto.res.UserBoardPageResponseData
+import team.msg.sms.domain.authentication.model.MarkingBoard
 import team.msg.sms.domain.authentication.model.MarkingBoardType
 import java.util.*
 
 interface GetMarkingBoardService {
+    fun getMarkingBoardById(id: UUID): MarkingBoard
     fun getMarkingBoardByStudentIds(
         studentIds: List<UUID>,
         authenticationId: UUID,

@@ -20,10 +20,12 @@ class QueryAuthenticationFormUseCase(
     private val selectorSectionValueService: SelectorSectionValueService,
     private val authenticationFieldService: AuthenticationFieldService,
     private val authenticationAreaService: AuthenticationAreaService,
-    private val authenticationFieldGroupService: AuthenticationFieldGroupService
+    private val authenticationFieldGroupService: AuthenticationFieldGroupService,
+    private val authenticationFormService: AuthenticationFormService
 ) {
     @Transactional(readOnly = true)
-    fun execute(authenticationFormId: UUID): QueryAuthenticationFormResponseData {
+    fun execute(): QueryAuthenticationFormResponseData {
+        val authenticationFormId = authenticationFormService.getActiveAuthenticationFormId()
         val files = fetchFiles(authenticationFormId)
         val groups = fetchAuthenticationGroups(authenticationFormId)
         val authenticationSections = fetchAuthenticationSections(groups)
