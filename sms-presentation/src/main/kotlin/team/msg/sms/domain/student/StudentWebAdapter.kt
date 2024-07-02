@@ -127,6 +127,7 @@ class StudentWebAdapter(
             name = this.name,
             introduce = this.introduce,
             portfolioUrl = this.portfolioUrl,
+            portfolioFileUrl = this.portfolioFileUrl,
             grade = this.grade,
             classNum = this.classNum,
             number = this.number,
