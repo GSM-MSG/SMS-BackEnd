@@ -1,5 +1,6 @@
 package team.msg.sms.domain.authentication.dto.res
 
+import team.msg.sms.domain.authentication.model.FieldType
 import java.util.UUID
 
 data class StudentAuthenticationFormResponseData(
@@ -30,6 +31,7 @@ data class StudentAuthenticationFormResponseData(
     )
     data class Field(
         val fieldId: UUID,
+        val fieldType: FieldType,
         val value: String?
     )
 }

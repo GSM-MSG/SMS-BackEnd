@@ -124,6 +124,7 @@ class QueryStudentAuthenticationFormDetailUseCase(
             .map { userFormValue ->
                 StudentAuthenticationFormResponseData.Field(
                     fieldId = userFormValue.authenticationFieldId,
+                    fieldType = userFormValue.fieldType,
                     value = userFormValue.targetId?.let { targetId ->
                         selectorSectionValues.find { it.id == targetId }?.name
                     } ?: userFormValue.value
