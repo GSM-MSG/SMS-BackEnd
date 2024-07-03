@@ -2,7 +2,7 @@ name: sms-production-CD
 
 on:
   push:
-    branches: [ "ops/cd-test" ]
+    branches: [ "master" ]
 
 jobs:
   cd:
