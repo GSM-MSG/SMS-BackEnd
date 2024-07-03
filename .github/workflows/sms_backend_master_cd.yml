@@ -5,7 +5,7 @@ on:
     branches: [ "ops/cd-test" ]
 
 jobs:
-  CD:
+  cd:
     runs-on: ubuntu-latest
     environment: production
 
