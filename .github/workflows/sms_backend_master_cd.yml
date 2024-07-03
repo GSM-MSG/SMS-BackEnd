@@ -70,8 +70,8 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
-          sudo docker pull ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
-          sudo docker compose restart
+          docker pull ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
+          docker compose restart
           
     - name: SMS-Backend-CD Discord Notification (Success)
       uses: sarisia/actions-status-discord@v1
