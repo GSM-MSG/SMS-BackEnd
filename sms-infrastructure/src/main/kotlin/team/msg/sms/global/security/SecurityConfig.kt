@@ -95,7 +95,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/authentication/my").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET, "/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.GET, "/").hasAnyAuthority(STUDENT, TEACHER)
-            .antMatchers(HttpMethod.GET, "/authentication/form/{uuid}").hasAnyAuthority(STUDENT, TEACHER)
+            .antMatchers(HttpMethod.GET, "/authentication/form").hasAnyAuthority(STUDENT, TEACHER)
+            .antMatchers(HttpMethod.GET, "/authentication/{uuid}/form").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.GET, "/authentication").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.PUT, "/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST, "/authentication").hasAuthority(STUDENT)
@@ -119,4 +120,3 @@ class SecurityConfig(
         return http.build()
     }
 }
-
