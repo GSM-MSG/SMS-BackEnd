@@ -64,15 +64,15 @@ jobs:
         docker push ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
 
      - name: execute remote ssh
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.REMOTE_SSH_HOST }}
-        username: ${{ secrets.REMOTE_SSH_USERNAME }}
-        key: ${{ secrets.REMOTE_SSH_KEY }}
-        port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: |
-            sudo docker pull ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
-            sudo docker compose restart
+       uses: appleboy/ssh-action@master
+       with:
+         host: ${{ secrets.REMOTE_SSH_HOST }}
+         username: ${{ secrets.REMOTE_SSH_USERNAME }}
+         key: ${{ secrets.REMOTE_SSH_KEY }}
+         port: ${{ secrets.REMOTE_SSH_PORT }}
+           script: |
+             sudo docker pull ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
+             sudo docker compose restart
           
     - name: SMS-Backend-CD Discord Notification
       uses: sarisia/actions-status-discord@v1
