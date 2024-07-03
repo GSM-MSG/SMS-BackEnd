@@ -1,10 +1,11 @@
+name: sms-production-CD
+
 on:
   push:
     branches: [ "ops/cd-test" ]
 
 jobs:
   CD:
-    name: CD
     runs-on: ubuntu-latest
     environment: production
 
@@ -75,20 +76,20 @@ jobs:
           
     - name: SMS-Backend-CD Discord Notification
       uses: sarisia/actions-status-discord@v1
-      if: ${{ success() }}
+      if: success()
       with:
         title: ✅ SMS-Backend-CD 성공! ✅
         webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
         status: ${{ job.status }}
         image: ${{ secrets.CD_SUCCESS_IMAGE }}
-        description: 영역전개 CD 성공
+        description: 프로덕션 CD 성공
         color: 00FF00
         username: SMS CD 봇
         url: https://github.com/GSM-MSG/SMS-BackEnd
 
     - name: SMS-Backend-CD Discord Notification
       uses: sarisia/actions-status-discord@v1
-      if: ${{ failure() }}
+      if: failure()
       with:
         title: ❗️ SMS-Backend-CD 실패! ❗️
         webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
