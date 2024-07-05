@@ -15,7 +15,8 @@ enum class AuthenticationErrorCode(
     INVALID_GRADE_CLASS(ErrorStatus.FORBIDDEN, "담임 선생님만 조회할 수 있습니다."),
     ALREADY_GIVEN_SCORE(ErrorStatus.CONFLICT, "이미 활동에 점수가 부여되었습니다."),
     NO_REQUESTED_ACTIVITY(ErrorStatus.CONFLICT, "활동이 아직 요청되지 않았습니다."),
-    MARKING_BOARD_NOT_FOUND(ErrorStatus.NOT_FOUND, "학생이 제출한 폼이 조회되지 않습니다.")
+    MARKING_BOARD_NOT_FOUND(ErrorStatus.NOT_FOUND, "학생이 제출한 폼이 조회되지 않습니다."),
+    USER_FORM_VALUE_NOT_FOUND(ErrorStatus.NOT_FOUND, "채점 데이터의 존재하지 않는 폼 제출 데이터가 포함되어있습니다.")
     ;
 
     override fun status(): Int = status
