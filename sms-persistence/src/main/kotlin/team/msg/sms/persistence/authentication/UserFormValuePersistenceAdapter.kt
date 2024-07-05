@@ -26,8 +26,6 @@ class UserFormValuePersistenceAdapter(
             .where(qUserFormValue.setId.`in`(setIds))
             .fetch()
 
-        println(setIds)
-        println(setIds.all { it in userFormValueIds })
         return setIds.all { it in userFormValueIds }
     }
 
