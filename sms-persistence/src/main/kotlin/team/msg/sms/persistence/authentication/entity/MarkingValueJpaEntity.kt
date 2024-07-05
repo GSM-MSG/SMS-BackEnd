@@ -13,18 +13,17 @@ import javax.persistence.Enumerated
 class MarkingValueJpaEntity(
     override val id: UUID,
 
-    val score: Double,
+    val score: Double?,
 
     @Enumerated(EnumType.STRING)
     val type : MarkingType,
 
     @Column(columnDefinition = "BINARY(16)", nullable = false)
-    val fieldId: UUID,
+    val setId: UUID,
 
     @Column(columnDefinition = "BINARY(16)", nullable = false)
-    val groupId: UUID,
+    val markingBoardId: UUID,
 
-    @Column(columnDefinition = "BINARY(16)", nullable = false)
     val createdAt: LocalDateTime,
 
     @Column(columnDefinition = "BINARY(16)", nullable = false)
