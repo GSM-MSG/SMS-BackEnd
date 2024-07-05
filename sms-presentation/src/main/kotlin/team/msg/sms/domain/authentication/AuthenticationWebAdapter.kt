@@ -31,7 +31,8 @@ class AuthenticationWebAdapter(
     private val submitUserFormDataUseCase: SubmitUserFormDataUseCase,
     private val createAuthenticationFormUseCase: CreateAuthenticationFormUseCase,
     private val queryStudentFormListUseCase: QueryStudentFormListUseCase,
-    private val queryStudentAuthenticationFormDetailUseCase: QueryStudentAuthenticationFormDetailUseCase
+    private val queryStudentAuthenticationFormDetailUseCase: QueryStudentAuthenticationFormDetailUseCase,
+    private val gradingAuthenticationFormUseCase: GradingAuthenticationFormUseCase
 ) {
     @GetMapping("/form")
     fun queryAuthenticationForm(): ResponseEntity<QueryAuthenticationFormWebResponse> =
@@ -47,6 +48,14 @@ class AuthenticationWebAdapter(
         return queryStudentFormListUseCase.execute(page, size, type)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
+
+    @PostMapping("/grading/{markingBoardId}")
+    fun gradingAuthenticationForm(
+        @PathVariable markingBoardId: String,
+        @RequestBody gradingRequest: GradingRequest
+    ): ResponseEntity<Unit> =
+        gradingAuthenticationFormUseCase.execute(UUID.fromString(markingBoardId), gradingRequest.content)
+            .let { ResponseEntity.ok().build() }
 
     @GetMapping("/{uuid}/form")
     fun queryStudentDetail(
