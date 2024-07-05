@@ -70,6 +70,7 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_REPO_PATH}}
           docker pull ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
           docker compose restart
           
