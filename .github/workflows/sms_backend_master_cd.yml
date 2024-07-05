@@ -1,18 +1,17 @@
+name: sms-production-CD
+
 on:
   push:
     branches: [ "master" ]
-  workflow_dispatch:
 
 jobs:
-  CD:
-    name: CD
+  cd:
     runs-on: ubuntu-latest
     environment: production
 
     steps:
     - name: SMS-Backend-CD Discord Notification
       uses: sarisia/actions-status-discord@v1
-      if: ${{ success() }}
       with:
         title: ℹ️ SMS-Backend-CD 시작! ℹ️
         webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
@@ -63,30 +62,34 @@ jobs:
         docker tag ${{ secrets.ECR_REPOSITORY }}:${{ secrets.IMAGE_TAG }} ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
         docker push ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
 
-    - name : CodeDeploy Create Deployment
-      run: |
-        aws deploy create-deployment \
-        --application-name codedeploy-application \
-        --deployment-group-name codedeploy-group \
-        --deployment-config-name CodeDeployDefault.OneAtATime \
-        --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+    - name: Execute remote SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_SSH_HOST }}
+        username: ${{ secrets.REMOTE_SSH_USERNAME }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ secrets.REMOTE_SSH_PORT }}
+        script: |
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_REPO_PATH}}
+          docker pull ${{ secrets.REPO_URL }}:${{ secrets.IMAGE_TAG }}
+          docker compose restart
           
-    - name: SMS-Backend-CD Discord Notification
+    - name: SMS-Backend-CD Discord Notification (Success)
       uses: sarisia/actions-status-discord@v1
-      if: ${{ success() }}
+      if: success()
       with:
         title: ✅ SMS-Backend-CD 성공! ✅
         webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
         status: ${{ job.status }}
         image: ${{ secrets.CD_SUCCESS_IMAGE }}
-        description: 영역전개 CD 성공
+        description: 프로덕션 CD 성공
         color: 00FF00
         username: SMS CD 봇
         url: https://github.com/GSM-MSG/SMS-BackEnd
 
-    - name: SMS-Backend-CD Discord Notification
+    - name: SMS-Backend-CD Discord Notification (Failure)
       uses: sarisia/actions-status-discord@v1
-      if: ${{ failure() }}
+      if: failure()
       with:
         title: ❗️ SMS-Backend-CD 실패! ❗️
         webhook: ${{ secrets.SMS_DISCORD_WEBHOOK }}
