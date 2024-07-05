@@ -5,6 +5,8 @@ import team.msg.sms.common.annotation.Service
 @Service
 class UserFormValueService(
     getUserFormValueService: GetUserFormValueService,
-    commandUserFormValueService: CommandUserFormValueService
+    commandUserFormValueService: CommandUserFormValueService,
+    checkUserFormValueService: CheckUserFormValueService
 ) : GetUserFormValueService by getUserFormValueService,
-    CommandUserFormValueService by commandUserFormValueService
+    CommandUserFormValueService by commandUserFormValueService,
+    CheckUserFormValueService by checkUserFormValueService

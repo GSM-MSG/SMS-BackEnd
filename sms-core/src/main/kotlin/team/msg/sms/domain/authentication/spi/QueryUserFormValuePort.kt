@@ -5,4 +5,5 @@ import java.util.UUID
 
 interface QueryUserFormValuePort {
     fun queryUserFormValueListByFieldIdAndStudentId(fieldId: UUID, studentId: UUID): List<UserFormValue>
+    fun existsUserFormValueBySetIds(setIds: List<UUID>): Boolean
 }
