@@ -8,8 +8,8 @@ fun MarkingValueJpaEntity.toDomain() =
         id = id,
         score = score,
         type = type,
-        fieldId = fieldId,
-        groupId = groupId,
+        setId = setId,
+        markingBoardId = markingBoardId,
         createdAt = createdAt,
         createdBy = createdBy
     )
@@ -19,8 +19,8 @@ fun MarkingValue.toEntity() =
         id = id,
         score = score,
         type = type,
-        fieldId = fieldId,
-        groupId = groupId,
+        setId = setId,
+        markingBoardId = markingBoardId,
         createdAt = createdAt,
         createdBy = createdBy
     )
