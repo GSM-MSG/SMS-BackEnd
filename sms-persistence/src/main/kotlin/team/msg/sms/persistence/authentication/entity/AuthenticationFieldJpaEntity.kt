@@ -17,7 +17,7 @@ class AuthenticationFieldJpaEntity(
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     val groupId: UUID,
 
-    val placeHolder: String?,
+    val placeholder: String?,
 
     @Enumerated(EnumType.STRING)
     val fieldInputType: FieldType,

@@ -7,7 +7,7 @@ fun AuthenticationFieldJpaEntity.toDomain() =
     AuthenticationField(
         id = id,
         description = description,
-        placeHolder = placeHolder,
+        placeholder = placeholder,
         groupId = groupId,
         fieldInputType = fieldInputType,
         sort = sort
@@ -17,7 +17,7 @@ fun AuthenticationField.toEntity() =
     AuthenticationFieldJpaEntity(
         id = id,
         description = description,
-        placeHolder = placeHolder,
+        placeholder = placeholder,
         groupId = groupId,
         fieldInputType = fieldInputType,
         sort = sort

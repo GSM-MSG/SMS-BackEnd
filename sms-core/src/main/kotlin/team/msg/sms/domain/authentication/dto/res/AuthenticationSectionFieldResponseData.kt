@@ -8,5 +8,5 @@ data class AuthenticationSectionFieldResponseData(
     val fieldType: FieldType,
     val scoreDescription: String?,
     val values: List<AuthenticationSelectorValueResponseData>?,
-    val example: String?
+    val placeholder: String?
 )
