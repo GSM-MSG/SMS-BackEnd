@@ -103,7 +103,7 @@ class QueryAuthenticationFormUseCase(
             AuthenticationSectionFieldResponseData(
                 fieldId = field.id,
                 scoreDescription = field.description,
-                example = field.placeHolder,
+                placeholder = field.placeHolder,
                 fieldType = field.fieldInputType,
                 values = buildSelectorValues(field.fieldInputType, selectorSectionValues, field.id)
             )

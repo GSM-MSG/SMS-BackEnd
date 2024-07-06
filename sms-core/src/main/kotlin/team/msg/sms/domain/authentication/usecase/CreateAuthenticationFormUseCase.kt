@@ -142,7 +142,7 @@ class CreateAuthenticationFormUseCase(
             AuthenticationField(
                 id = UUID.randomUUID(),
                 description = fieldData.description,
-                placeHolder = fieldData.placeHolder,
+                placeHolder = fieldData.placeholder,
                 groupId = groupId,
                 fieldInputType = fieldData.fieldType,
                 sort = index
