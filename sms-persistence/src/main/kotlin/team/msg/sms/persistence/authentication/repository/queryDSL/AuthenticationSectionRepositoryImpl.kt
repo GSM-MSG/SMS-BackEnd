@@ -17,6 +17,7 @@ class AuthenticationSectionRepositoryImpl(
             .select(qAuthenticationSection)
             .from(qAuthenticationSection)
             .where(qAuthenticationSection.groupId.`in`(groupIds))
+            .orderBy(qAuthenticationSection.sort.asc())
             .fetch()
             .toList()
     }
