@@ -1,6 +1,5 @@
-package team.msg.sms.persistence.file.Repository
+package team.msg.sms.persistence.file.repository
 
-import org.springframework.data.repository.query.Param
 import team.msg.sms.persistence.file.entity.FileJpaEntity
 import java.util.*
 

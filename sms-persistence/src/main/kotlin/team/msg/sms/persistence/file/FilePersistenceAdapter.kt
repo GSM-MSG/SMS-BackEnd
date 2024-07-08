@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component
 import team.msg.sms.domain.file.model.File
 import team.msg.sms.domain.file.model.FileType
 import team.msg.sms.domain.file.spi.FilePort
-import team.msg.sms.persistence.file.Repository.FileRepository
-import team.msg.sms.persistence.file.Repository.FileRepositoryCustom
+import team.msg.sms.persistence.file.repository.FileRepository
+import team.msg.sms.persistence.file.repository.FileRepositoryCustom
 import team.msg.sms.persistence.file.mapper.toDomain
 import team.msg.sms.persistence.file.mapper.toEntity
 import java.util.*

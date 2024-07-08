@@ -1,4 +1,4 @@
-package team.msg.sms.persistence.file.Repository
+package team.msg.sms.persistence.file.repository
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
