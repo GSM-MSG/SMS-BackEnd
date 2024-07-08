@@ -9,7 +9,7 @@ object FileUtil {
 
     fun String.isHWPCorrectExtension() =
         when (this.lowercase()) {
-            "hwp", "hwpx" -> true
+            "hwp", "hwpx", "pdf" -> true
             else -> false
         }
 
