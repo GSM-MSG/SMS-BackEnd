@@ -4,6 +4,7 @@ import org.springframework.context.annotation.ComponentScan.Filter
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.FilterType
+import team.msg.sms.common.annotation.ReadOnlyUseCase
 import team.msg.sms.common.annotation.Service
 import team.msg.sms.common.annotation.UseCase
 
@@ -15,7 +16,8 @@ import team.msg.sms.common.annotation.UseCase
             type = FilterType.ANNOTATION,
             classes = [
                 UseCase::class,
-                Service::class
+                Service::class,
+                ReadOnlyUseCase::class
             ]
         )
     ]

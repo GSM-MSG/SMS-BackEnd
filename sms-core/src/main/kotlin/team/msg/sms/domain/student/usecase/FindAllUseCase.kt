@@ -20,11 +20,11 @@ class FindAllUseCase(
     private val securityService: SecurityService
 ) {
     @Transactional
-    @Cacheable(
-        value = ["StudentInfoListResponseData"],
-        key = "#root.target.generateCacheKey(#page, #size)",
-        cacheManager = "contentCacheManager",
-    )
+//    @Cacheable(
+//        value = ["StudentInfoListResponseData"],
+//        key = "#root.target.generateCacheKey(#page, #size)",
+//        cacheManager = "contentCacheManager",
+//    )
     fun execute(page: Int, size: Int, filtersData: FiltersRequestData): StudentInfoListResponseData {
         val students = studentService.getStudents()
         val techStacks = techStackService.getAllTechStack()

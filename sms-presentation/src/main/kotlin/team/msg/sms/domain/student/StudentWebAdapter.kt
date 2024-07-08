@@ -2,7 +2,9 @@ package team.msg.sms.domain.student
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import team.msg.sms.common.exception.InvalidUuidException
+import team.msg.sms.common.extension.toFile
 import team.msg.sms.domain.student.dto.req.CreateStudentLinkWebRequest
 import team.msg.sms.domain.student.dto.req.FindAllFiltersWebRequest
 import team.msg.sms.domain.student.dto.req.ModifyStudentInfoWebRequest
@@ -22,7 +24,8 @@ class StudentWebAdapter(
     private val studentInfoTeacherUseCase: StudentInfoTeacherUseCase,
     private val studentInfoTokenUseCase: StudentInfoTokenUseCase,
     private val modifyStudentInfoUseCase: ModifyStudentInfoUseCase,
-    private val createStudentLinkUseCase: CreateStudentLinkUseCase
+    private val createStudentLinkUseCase: CreateStudentLinkUseCase,
+    private val modifyStudentPortfolioFileUseCase: ModifyStudentPortfolioFileUseCase
 ) {
     @GetMapping
     fun findAll(
@@ -52,6 +55,11 @@ class StudentWebAdapter(
     @PutMapping
     fun modifyStudentInfo(@RequestBody modifyStudentInfoWebRequest: ModifyStudentInfoWebRequest) {
         modifyStudentInfoUseCase.execute(modifyStudentInfoWebRequest.toData())
+    }
+
+    @PutMapping("/pdf")
+    fun modifyStudentPortfolioFile(@RequestPart(name = "file", required = false) portfolioFile: MultipartFile?) {
+        modifyStudentPortfolioFileUseCase.execute(portfolioFile?.toFile())
     }
 
     @GetMapping("/anonymous/{uuid}")
@@ -119,6 +127,7 @@ class StudentWebAdapter(
             name = this.name,
             introduce = this.introduce,
             portfolioUrl = this.portfolioUrl,
+            portfolioFileUrl = this.portfolioFileUrl,
             grade = this.grade,
             classNum = this.classNum,
             number = this.number,
@@ -149,6 +158,7 @@ class StudentWebAdapter(
             name = this.name,
             introduce = this.introduce,
             portfolioUrl = this.portfolioUrl,
+            portfolioFileUrl = this.portfolioFileUrl,
             grade = this.grade,
             classNum = this.classNum,
             number = this.number,

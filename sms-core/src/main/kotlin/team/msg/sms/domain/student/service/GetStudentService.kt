@@ -25,4 +25,6 @@ interface GetStudentService {
     fun getStudentByUser(user: User): Student
 
     fun currentStudent(): Student.StudentWithUserInfo
+
+    fun getStudentIds(): List<UUID>
 }

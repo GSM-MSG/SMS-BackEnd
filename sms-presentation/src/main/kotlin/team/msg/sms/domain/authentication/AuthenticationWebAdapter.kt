@@ -6,12 +6,9 @@ import org.springframework.web.bind.annotation.*
 import team.msg.sms.common.exception.InvalidUuidException
 import team.msg.sms.domain.authentication.dto.req.*
 import team.msg.sms.domain.authentication.dto.res.*
+import team.msg.sms.domain.authentication.model.MarkingBoardType
 import team.msg.sms.domain.authentication.res.QueryAuthenticationHistoriesWebResponse
 import team.msg.sms.domain.authentication.usecase.*
-import team.msg.sms.domain.authentication.usecase.CreateAuthenticationUseCase
-import team.msg.sms.domain.authentication.usecase.QueryAuthenticationDetailsUseCase
-import team.msg.sms.domain.authentication.usecase.QueryRequestedAuthenticationUseCase
-import team.msg.sms.domain.authentication.usecase.RequestAuthenticationUseCase
 import java.util.*
 import javax.validation.Valid
 
@@ -29,8 +26,57 @@ class AuthenticationWebAdapter(
     private val queryStudentAuthenticationUseCase: QueryStudentAuthenticationUseCase,
     private val approveRequestAuthenticationUseCase: ApproveRequestAuthenticationUseCase,
     private val queryRequestedAuthenticationDetailsUseCase: QueryRequestedAuthenticationDetailsUseCase,
-    private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase
+    private val rejectRequestAuthenticationUseCase: RejectRequestAuthenticationUseCase,
+    private val queryAuthenticationFormUseCase: QueryAuthenticationFormUseCase,
+    private val submitUserFormDataUseCase: SubmitUserFormDataUseCase,
+    private val createAuthenticationFormUseCase: CreateAuthenticationFormUseCase,
+    private val queryStudentFormListUseCase: QueryStudentFormListUseCase,
+    private val queryStudentAuthenticationFormDetailUseCase: QueryStudentAuthenticationFormDetailUseCase,
+    private val gradingAuthenticationFormUseCase: GradingAuthenticationFormUseCase
 ) {
+    @GetMapping("/form")
+    fun queryAuthenticationForm(): ResponseEntity<QueryAuthenticationFormWebResponse> =
+        queryAuthenticationFormUseCase.execute()
+            .let { ResponseEntity.ok(it.toResponse()) }
+
+    @GetMapping
+    fun queryStudentFormList(
+        @RequestParam(name = "page") page: Int,
+        @RequestParam(name = "size") size: Int,
+        @RequestParam(name = "type") type: List<MarkingBoardType>?
+    ): ResponseEntity<QueryStudentFormList> {
+        return queryStudentFormListUseCase.execute(page, size, type)
+            .let { ResponseEntity.ok(it.toResponse()) }
+    }
+
+    @PostMapping("/grading/{markingBoardId}")
+    fun gradingAuthenticationForm(
+        @PathVariable markingBoardId: String,
+        @RequestBody gradingRequest: GradingRequest
+    ): ResponseEntity<Unit> =
+        gradingAuthenticationFormUseCase.execute(UUID.fromString(markingBoardId), gradingRequest.content)
+            .let { ResponseEntity.ok().build() }
+
+    @GetMapping("/{uuid}/form")
+    fun queryStudentDetail(
+        @PathVariable uuid: String
+    ): ResponseEntity<QueryStudentFormDetailWebResponse> =
+        queryStudentAuthenticationFormDetailUseCase.execute(UUID.fromString(uuid))
+            .let { ResponseEntity.ok(it.toResponse()) }
+
+    @PostMapping("/submit/{uuid}")
+    fun submitUserFormValue(
+        @RequestBody request: SubmitUserFormDataWebRequest,
+        @PathVariable uuid: String
+    ): ResponseEntity<Unit> =
+        submitUserFormDataUseCase.execute(request.contents, UUID.fromString(uuid))
+            .let { ResponseEntity.ok().build() }
+
+    @PostMapping("/create")
+    fun createAuthenticationForm(@Valid @RequestBody request: CreateAuthenticationFormWebRequest): ResponseEntity<Unit> =
+        createAuthenticationFormUseCase.execute(request.toData())
+            .run { ResponseEntity.status(HttpStatus.CREATED).build() }
+
     @PostMapping
     fun createAuthentication(@Valid @RequestBody request: CreateAuthenticationWebRequest): ResponseEntity<CreateAuthenticationWebResponse> =
         createAuthenticationUseCase.execute(request.toData())
@@ -44,7 +90,7 @@ class AuthenticationWebAdapter(
 
     @DeleteMapping("/{uuid}")
     fun deleteAuthentication(@PathVariable uuid: String): ResponseEntity<Unit> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         deleteAuthenticationUseCase.execute(uuid)
         return ResponseEntity.noContent().build()
     }
@@ -57,7 +103,10 @@ class AuthenticationWebAdapter(
     }
 
     @PutMapping("/{uuid}")
-    fun updateAuthentication(@PathVariable uuid: String, @Valid @RequestBody request: UpdateAuthenticationWebRequest): ResponseEntity<UpdateAuthenticationWebResponse> {
+    fun updateAuthentication(
+        @PathVariable uuid: String,
+        @Valid @RequestBody request: UpdateAuthenticationWebRequest
+    ): ResponseEntity<UpdateAuthenticationWebResponse> {
         if (!isValidUUID(uuid)) throw InvalidUuidException
         return updateAuthenticationUseCase.execute(uuid, request.toData())
             .let { ResponseEntity.ok(it.toResponse()) }
@@ -65,7 +114,7 @@ class AuthenticationWebAdapter(
 
     @GetMapping("/{uuid}/history")
     fun queryAuthenticationHistories(@PathVariable uuid: String): ResponseEntity<QueryAuthenticationHistoriesWebResponse> {
-        if(!isValidUUID(uuid)) throw InvalidUuidException
+        if (!isValidUUID(uuid)) throw InvalidUuidException
         return queryAuthenticationHistoriesUseCase.execute(uuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -94,7 +143,7 @@ class AuthenticationWebAdapter(
     }
 
     @GetMapping("/student/{student_id}")
-    fun queryStudentAuthentication(@PathVariable(name = "student_id") studentUuid: String){
+    fun queryStudentAuthentication(@PathVariable(name = "student_id") studentUuid: String) {
         queryStudentAuthenticationUseCase.execute(studentUuid)
             .let { ResponseEntity.ok(it.toResponse()) }
     }
@@ -116,6 +165,11 @@ class AuthenticationWebAdapter(
         rejectRequestAuthenticationUseCase.execute(rejectAuthenticationWebRequest.toData(), uuid)
         return ResponseEntity.noContent().build()
     }
+
+    private fun QueryAuthenticationFormResponseData.toResponse() = QueryAuthenticationFormWebResponse(
+        files = files,
+        contents = content
+    )
 
     private fun QueryStudentAuthenticationListResponseData.toResponse() = QueryStudentAuthenticationListWebResponse(
         activities = activities
@@ -147,14 +201,15 @@ class AuthenticationWebAdapter(
         activityStatus = activityStatus
     )
 
-    private fun QueryRequestedAuthenticationDetailsResponseData.toResponse() = QueryRequestedAuthenticationDetailsWebResponse(
-        id = id,
-        title = title,
-        content = content,
-        activityImages = activityImages,
-        lastModifiedDate = lastModifiedDate,
-        score = score
-    )
+    private fun QueryRequestedAuthenticationDetailsResponseData.toResponse() =
+        QueryRequestedAuthenticationDetailsWebResponse(
+            id = id,
+            title = title,
+            content = content,
+            activityImages = activityImages,
+            lastModifiedDate = lastModifiedDate,
+            score = score
+        )
 
     private fun RequestAuthenticationResponseData.toResponse() = RequestAuthenticationWebResponse(
         id = id
@@ -176,6 +231,22 @@ class AuthenticationWebAdapter(
         name = name,
         department = department
     )
+
+    private fun UserBoardPageResponseData.toResponse() =
+        QueryStudentFormList(
+            content = content,
+            page = page,
+            totalSize = totalSize,
+            contentSize = contentSize,
+            last = last
+        )
+
+    private fun StudentAuthenticationFormResponseData.toResponse() =
+        QueryStudentFormDetailWebResponse(
+            markingBoardId = markingBoardId,
+            title = title,
+            content = content
+        )
 
     private fun isValidUUID(uuid: String): Boolean {
         return try {

@@ -5,8 +5,7 @@ import team.msg.sms.domain.student.model.StudentLink
 import team.msg.sms.domain.student.spi.StudentLinkPort
 import team.msg.sms.persistence.student.mapper.toDomain
 import team.msg.sms.persistence.student.mapper.toEntity
-import team.msg.sms.persistence.student.repository.StudentJpaRepository
-import team.msg.sms.persistence.student.repository.StudentLinkRepository
+import team.msg.sms.persistence.student.redisRepository.StudentLinkRepository
 import java.util.*
 
 @Component
