@@ -12,14 +12,13 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import java.time.Duration
 
 @Configuration
-@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
+@EnableRedisRepositories(
+    enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP,
+    basePackages = ["team.msg.sms.persistence.auth.repository", "team.msg.sms.persistence.student.redisRepository"]
+)
 class RedisConfig(
-
-    @Value("\${spring.redis.host}")
-    private val redisHost: String,
-
-    @Value("\${spring.redis.port}")
-    private val redisPort: Int
+    @Value("\${spring.redis.host}") private val redisHost: String,
+    @Value("\${spring.redis.port}") private val redisPort: Int
 ) {
 
     @Bean

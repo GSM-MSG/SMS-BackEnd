@@ -16,7 +16,7 @@ class UserFormValuePersistenceAdapter(
     private val jpaQueryFactory: JPAQueryFactory
 ) : UserFormValuePort {
     override fun queryUserFormValueListByFieldIdAndStudentId(fieldId: UUID, studentId: UUID): List<UserFormValue> {
-        return userFormValueRepository.findAllByAuthenticationFieldIdAndCreatedBy(fieldId, studentId).map { it.toDomain() }
+        return userFormValueRepository.findAllByAuthenticationFieldIdAndCreatedByOrderByCreatedAt(fieldId, studentId).map { it.toDomain() }
     }
     override fun existsUserFormValueBySetIds(setIds: List<UUID>): Boolean {
         val qUserFormValue = QUserFormValueJpaEntity.userFormValueJpaEntity

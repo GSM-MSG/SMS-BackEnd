@@ -1,4 +1,4 @@
-package team.msg.sms.persistence.file.Repository
+package team.msg.sms.persistence.file.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository

@@ -18,6 +18,11 @@ spring:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
 
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
+
   servlet:
     multipart:
       max-file-size: 50MB

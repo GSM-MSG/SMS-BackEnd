@@ -20,7 +20,7 @@ class QueryStudentAuthenticationFormDetailUseCase(
         val markingBoard = markingBoardService.getMarkingBoardById(id = markingBoardId)
 
         // 채점 전 상태인 학생 폼을 조회할시 채점 중으로 상태 변경
-        if(markingBoard.markingBoardType == MarkingBoardType.PENDING_REVIEW) {
+        if (markingBoard.markingBoardType == MarkingBoardType.PENDING_REVIEW) {
             markingBoardService.save(
                 markingBoard.copy(
                     id = markingBoard.id,
@@ -101,18 +101,19 @@ class QueryStudentAuthenticationFormDetailUseCase(
         selectorSectionValues: List<SelectorSectionValue>,
         studentId: UUID
     ): List<StudentAuthenticationFormResponseData.FieldSet> {
-        return authenticationFieldService.getAuthenticationFieldsByGroupId(groupId)
+        //groupId로 필드 데이터 조회 후 필드 Id와 studentId로 user가 입력한 데이터 조회
+        val userFormValues = authenticationFieldService.getAuthenticationFieldsByGroupId(groupId)
             .flatMap { authenticationField ->
-                val userFormValues =
-                    userFormValueService.getUserFormValueListByFieldIdAndStudentId(authenticationField.id, studentId)
-                val setIds = userFormValues.map { it.setId }.distinct()
-                setIds.map { setId ->
-                    StudentAuthenticationFormResponseData.FieldSet(
-                        setId = setId,
-                        values = buildFields(userFormValues, setId, selectorSectionValues)
-                    )
-                }
+                userFormValueService.getUserFormValueListByFieldIdAndStudentId(authenticationField.id, studentId)
             }
+
+        // setId별로 그룹화하여 FieldSet 생성
+        return userFormValues.groupBy { it.setId }.map { (setId, values) ->
+            StudentAuthenticationFormResponseData.FieldSet(
+                setId = setId,
+                values = buildFields(values, setId, selectorSectionValues)
+            )
+        }
     }
 
     private fun buildFields(
