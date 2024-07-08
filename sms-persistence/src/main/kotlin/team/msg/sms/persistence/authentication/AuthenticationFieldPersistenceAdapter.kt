@@ -13,7 +13,7 @@ class AuthenticationFieldPersistenceAdapter(
     private val authenticationFieldJpaRepository: AuthenticationFieldJpaRepository
 ) : AuthenticationFieldPort {
     override fun queryAuthenticationFieldsByGroupId(groupId: UUID): List<AuthenticationField> =
-        authenticationFieldJpaRepository.findAllByGroupId(groupId).map { it.toDomain() }
+        authenticationFieldJpaRepository.findAllByGroupIdOrderBySortAsc(groupId).map { it.toDomain() }
 
 
     override fun save(authenticationField: AuthenticationField): AuthenticationField =
