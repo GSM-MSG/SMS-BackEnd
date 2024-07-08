@@ -3,6 +3,7 @@ package team.msg.sms.domain.authentication.usecase
 import team.msg.sms.common.annotation.UseCase
 import team.msg.sms.domain.authentication.dto.req.GradingRequestData
 import team.msg.sms.domain.authentication.exception.UserFormValueNotFoundException
+import team.msg.sms.domain.authentication.model.MarkingBoardType
 import team.msg.sms.domain.authentication.model.MarkingType
 import team.msg.sms.domain.authentication.model.MarkingValue
 import team.msg.sms.domain.authentication.service.MarkingBoardService
@@ -53,7 +54,8 @@ class GradingAuthenticationFormUseCase(
         markingBoardService.getMarkingBoardById(markingBoardId).let { markingBoard ->
             markingBoardService.save(
                 markingBoard.copy(
-                    totalScore = totalScore
+                    totalScore = totalScore,
+                    markingBoardType = MarkingBoardType.COMPLETED
                 )
             )
         }
