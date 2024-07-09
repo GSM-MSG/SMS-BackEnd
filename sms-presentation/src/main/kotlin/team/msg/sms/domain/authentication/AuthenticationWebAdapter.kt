@@ -64,12 +64,12 @@ class AuthenticationWebAdapter(
         queryStudentAuthenticationFormDetailUseCase.execute(UUID.fromString(uuid))
             .let { ResponseEntity.ok(it.toResponse()) }
 
-    @PostMapping("/submit/{uuid}")
+    @PostMapping("/submit")
     fun submitUserFormValue(
         @RequestBody request: SubmitUserFormDataWebRequest,
-        @PathVariable uuid: String
+        @RequestParam uuid: String?
     ): ResponseEntity<Unit> =
-        submitUserFormDataUseCase.execute(request.contents, UUID.fromString(uuid))
+        submitUserFormDataUseCase.execute(request.contents, uuid)
             .let { ResponseEntity.ok().build() }
 
     @PostMapping("/create")

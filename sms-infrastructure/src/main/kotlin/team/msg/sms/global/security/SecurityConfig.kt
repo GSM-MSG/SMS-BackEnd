@@ -100,7 +100,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/authentication").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.PUT, "/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST, "/authentication").hasAuthority(STUDENT)
-            .antMatchers(HttpMethod.POST, "/authentication/submit/{uuid}").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.POST, "/authentication/submit").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST, "/authentication/create").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.POST, "/authentication/grading/{markingBoardId}").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.PATCH, "/authentication/teacher/{uuid}/approve").hasAuthority(TEACHER)
