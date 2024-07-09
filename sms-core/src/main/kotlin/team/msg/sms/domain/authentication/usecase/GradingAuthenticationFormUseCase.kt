@@ -10,6 +10,7 @@ import team.msg.sms.domain.authentication.service.MarkingBoardService
 import team.msg.sms.domain.authentication.service.MarkingValueService
 import team.msg.sms.domain.authentication.service.UserFormValueService
 import team.msg.sms.domain.teacher.service.TeacherService
+import team.msg.sms.domain.user.service.UserService
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -18,13 +19,16 @@ class GradingAuthenticationFormUseCase(
     private val markingValueService: MarkingValueService,
     private val markingBoardService: MarkingBoardService,
     private val userFormValueService: UserFormValueService,
-    private val teacherService: TeacherService
+    private val teacherService: TeacherService,
+    private val userService: UserService
 ) {
     fun execute(markingBoardId: UUID, gradingDataList: List<GradingRequestData>) {
         //요청한 setId 들 중 실제 userFormValue 테이블에 없는 setId 일 경우 최종점수에 영향을 미칠 수 있어 예외처리
         if (!userFormValueService.checkUserFormValueBySetIds(gradingDataList.map { it.setId })) throw UserFormValueNotFoundException
 
         val teacher = teacherService.currentTeacher()
+
+        val user = userService.getUserById(teacher.userId)
 
         val markingValueList = markingValueService.findMarkingValueListByMarkingBoardId(markingBoardId)
 
@@ -55,7 +59,8 @@ class GradingAuthenticationFormUseCase(
             markingBoardService.save(
                 markingBoard.copy(
                     totalScore = totalScore,
-                    markingBoardType = MarkingBoardType.COMPLETED
+                    markingBoardType = MarkingBoardType.COMPLETED,
+                    graderName = user.name
                 )
             )
         }
