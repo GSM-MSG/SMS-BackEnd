@@ -21,6 +21,9 @@ class MarkingBoardPersistenceAdapter(
         markingBoardJpaRepository.save(markingBoard.toEntity())
     }
 
+    override fun verifyMarkingBoardByStudentId(studentId: UUID): MarkingBoard? =
+        markingBoardCustomRepository.findMarkingBoardWithStudentId(studentId)?.toDomain()
+
     override fun queryMarkingBoardById(id: UUID): MarkingBoard? =
         markingBoardJpaRepository.findByIdOrNull(id)?.toDomain()
 

@@ -6,6 +6,7 @@ import team.msg.sms.domain.authentication.model.MarkingBoardType
 import java.util.UUID
 
 interface QueryMarkingBoardPort {
+    fun verifyMarkingBoardByStudentId(studentId: UUID): MarkingBoard?
     fun queryMarkingBoardById(id: UUID): MarkingBoard?
     fun queryMarkingBoardByStudentIds(
         studentIds: List<UUID>,
