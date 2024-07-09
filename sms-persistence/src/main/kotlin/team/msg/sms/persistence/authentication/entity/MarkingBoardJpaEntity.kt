@@ -27,5 +27,7 @@ class MarkingBoardJpaEntity(
     val totalScore: Double,
 
     @Enumerated(EnumType.STRING)
-    val markingBoardType : MarkingBoardType
+    val markingBoardType : MarkingBoardType,
+
+    val graderName: String?
 ): BaseUuidEntity(id)
