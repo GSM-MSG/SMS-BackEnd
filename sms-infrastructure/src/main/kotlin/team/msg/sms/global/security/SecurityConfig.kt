@@ -49,7 +49,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/health").permitAll()
 
             // Auth
-            .antMatchers(HttpMethod.GET, "/auth/verity/access").authenticated()
+            .antMatchers(HttpMethod.GET, "/auth/verify/access").authenticated()
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
             .antMatchers(HttpMethod.PATCH, "/auth").permitAll()
             .antMatchers(HttpMethod.DELETE, "/auth").authenticated()
