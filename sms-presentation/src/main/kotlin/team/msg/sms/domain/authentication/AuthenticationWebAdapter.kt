@@ -67,7 +67,7 @@ class AuthenticationWebAdapter(
     @PostMapping("/submit")
     fun submitUserFormValue(
         @RequestBody request: SubmitUserFormDataWebRequest,
-        @RequestParam uuid: String?
+        @RequestParam(name = "uuid", required = false) uuid: String?
     ): ResponseEntity<Unit> =
         submitUserFormDataUseCase.execute(request.contents, uuid)
             .let { ResponseEntity.ok().build() }
