@@ -98,6 +98,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/authentication/form").hasAnyAuthority(STUDENT, TEACHER)
             .antMatchers(HttpMethod.GET, "/authentication/{uuid}/form").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.GET, "/authentication").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.GET, "/authentication/verify").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.PUT, "/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST, "/authentication").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST, "/authentication/submit").hasAuthority(STUDENT)
