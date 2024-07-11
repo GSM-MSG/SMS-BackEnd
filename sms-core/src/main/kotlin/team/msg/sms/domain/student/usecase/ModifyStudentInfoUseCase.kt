@@ -299,6 +299,7 @@ class ModifyStudentInfoUseCase(
             }
 
             else -> when (departmentCode) {
+                "0" -> Department.SW_DEVELOPMENT
                 "1", "2" -> Department.SW_DEVELOPMENT
                 "3", "4" -> Department.SMART_IOT_DEVELOPMENT
                 else -> throw StuNumNotRightException
