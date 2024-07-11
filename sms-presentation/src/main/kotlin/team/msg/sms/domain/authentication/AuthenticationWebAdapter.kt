@@ -32,8 +32,14 @@ class AuthenticationWebAdapter(
     private val createAuthenticationFormUseCase: CreateAuthenticationFormUseCase,
     private val queryStudentFormListUseCase: QueryStudentFormListUseCase,
     private val queryStudentAuthenticationFormDetailUseCase: QueryStudentAuthenticationFormDetailUseCase,
-    private val gradingAuthenticationFormUseCase: GradingAuthenticationFormUseCase
+    private val gradingAuthenticationFormUseCase: GradingAuthenticationFormUseCase,
+    private val queryAuthenticationVerifyUseCase: QueryAuthenticationVerifyUseCase
 ) {
+    @GetMapping("/verify")
+    fun verifyStudentAuthenticationForm(): ResponseEntity<QueryAuthenticationVerifyWebResponse> =
+        queryAuthenticationVerifyUseCase.execute()
+            .let { ResponseEntity.ok(it.toResponse()) }
+
     @GetMapping("/form")
     fun queryAuthenticationForm(): ResponseEntity<QueryAuthenticationFormWebResponse> =
         queryAuthenticationFormUseCase.execute()
@@ -64,12 +70,12 @@ class AuthenticationWebAdapter(
         queryStudentAuthenticationFormDetailUseCase.execute(UUID.fromString(uuid))
             .let { ResponseEntity.ok(it.toResponse()) }
 
-    @PostMapping("/submit/{uuid}")
+    @PostMapping("/submit")
     fun submitUserFormValue(
         @RequestBody request: SubmitUserFormDataWebRequest,
-        @PathVariable uuid: String
+        @RequestParam(name = "uuid", required = false) uuid: String?
     ): ResponseEntity<Unit> =
-        submitUserFormDataUseCase.execute(request.contents, UUID.fromString(uuid))
+        submitUserFormDataUseCase.execute(request.contents, uuid)
             .let { ResponseEntity.ok().build() }
 
     @PostMapping("/create")
@@ -246,6 +252,14 @@ class AuthenticationWebAdapter(
             markingBoardId = markingBoardId,
             title = title,
             content = content
+        )
+
+    private fun QueryAuthenticationVerifyResponseData.toResponse() =
+        QueryAuthenticationVerifyWebResponse(
+            name = name,
+            score = score,
+            grader = grader,
+            markingBoardType = markingBoardType
         )
 
     private fun isValidUUID(uuid: String): Boolean {

@@ -49,7 +49,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/health").permitAll()
 
             // Auth
-            .antMatchers(HttpMethod.GET, "/auth/verity/access").authenticated()
+            .antMatchers(HttpMethod.GET, "/auth/verify/access").authenticated()
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
             .antMatchers(HttpMethod.PATCH, "/auth").permitAll()
             .antMatchers(HttpMethod.DELETE, "/auth").authenticated()
@@ -98,9 +98,10 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/authentication/form").hasAnyAuthority(STUDENT, TEACHER)
             .antMatchers(HttpMethod.GET, "/authentication/{uuid}/form").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.GET, "/authentication").hasAuthority(TEACHER)
+            .antMatchers(HttpMethod.GET, "/authentication/verify").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.PUT, "/authentication/{uuid}").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST, "/authentication").hasAuthority(STUDENT)
-            .antMatchers(HttpMethod.POST, "/authentication/submit/{uuid}").hasAuthority(STUDENT)
+            .antMatchers(HttpMethod.POST, "/authentication/submit").hasAuthority(STUDENT)
             .antMatchers(HttpMethod.POST, "/authentication/create").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.POST, "/authentication/grading/{markingBoardId}").hasAuthority(TEACHER)
             .antMatchers(HttpMethod.PATCH, "/authentication/teacher/{uuid}/approve").hasAuthority(TEACHER)

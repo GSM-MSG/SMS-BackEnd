@@ -10,7 +10,8 @@ fun MarkingBoardJpaEntity.toDomain() =
         studentId = studentId,
         title = title,
         totalScore = totalScore,
-        markingBoardType = markingBoardType
+        markingBoardType = markingBoardType,
+        graderName = graderName
     )
 
 fun MarkingBoard.toEntity() =
@@ -20,5 +21,6 @@ fun MarkingBoard.toEntity() =
         studentId = studentId,
         title = title,
         totalScore = totalScore,
-        markingBoardType = markingBoardType
+        markingBoardType = markingBoardType,
+        graderName = graderName
     )

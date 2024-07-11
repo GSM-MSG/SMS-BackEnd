@@ -13,6 +13,7 @@ import team.msg.sms.domain.project.service.ProjectService
 import team.msg.sms.domain.project.service.ProjectTechStackService
 import team.msg.sms.domain.region.service.RegionService
 import team.msg.sms.domain.student.dto.res.DetailStudentInfoTeacherResponseData
+import team.msg.sms.domain.student.model.Student
 import team.msg.sms.domain.student.model.StudentTechStack
 import team.msg.sms.domain.student.service.StudentService
 import team.msg.sms.domain.student.service.StudentTechStackService
@@ -48,7 +49,7 @@ class StudentInfoTeacherUseCase(
         return DetailStudentInfoTeacherResponseData(
             name = student.name,
             introduce = student.introduce,
-            portfolioUrl = student.portfolioUrl,
+            portfolioUrl = getStudentPortfolioUrl(student),
             portfolioFileUrl = student.portfolioFileUrl,
             grade = student.stuNum.substring(0, 1).toInt(),
             classNum = student.stuNum.substring(1, 2).toInt(),
@@ -90,5 +91,13 @@ class StudentInfoTeacherUseCase(
 
     private fun toStudentTechStacks(techStacks: List<TechStack>, studentTechStack: StudentTechStack): TechStack? =
         techStacks.find { it.id == studentTechStack.techStackId }
+
+    private fun getStudentPortfolioUrl(student: Student.StudentWithUserInfo): String {
+        return when {
+            !student.portfolioUrl.isNullOrBlank() -> student.portfolioUrl
+            !student.portfolioFileUrl.isNullOrBlank() -> student.portfolioFileUrl
+            else -> ""
+        }
+    }
 }
 

@@ -6,6 +6,7 @@ import team.msg.sms.domain.authentication.model.FieldType
 import team.msg.sms.domain.authentication.model.MarkingBoard
 import team.msg.sms.domain.authentication.model.MarkingBoardType
 import team.msg.sms.domain.authentication.model.UserFormValue
+import team.msg.sms.domain.authentication.service.AuthenticationFormService
 import team.msg.sms.domain.authentication.service.AuthenticationSectionService
 import team.msg.sms.domain.authentication.service.MarkingBoardService
 import team.msg.sms.domain.authentication.service.UserFormValueService
@@ -15,11 +16,16 @@ import java.util.*
 
 @UseCase
 class SubmitUserFormDataUseCase(
+    private val authenticationFormService: AuthenticationFormService,
     private val userFormValueService: UserFormValueService,
     private val markingBoardService: MarkingBoardService,
     private val studentService: StudentService
 ) {
-    fun execute(submitDataList: List<SubmitUserFormRequestData>, authenticationFormId: UUID) {
+    fun execute(submitDataList: List<SubmitUserFormRequestData>, uuid: String?) {
+        val authenticationFormId =
+            if (uuid.equals(null)) authenticationFormService.getActiveAuthenticationFormId()
+            else UUID.fromString(uuid)
+
         val student = studentService.currentStudent()
         val userFormValues = submitDataList.flatMap { submitData ->
 
@@ -46,6 +52,7 @@ class SubmitUserFormDataUseCase(
             markingBoardType = MarkingBoardType.PENDING_REVIEW,
             authenticationId = authenticationFormId,
             studentId = student.id,
+            graderName = null
         )
         markingBoardService.save(markingBoard)
     }

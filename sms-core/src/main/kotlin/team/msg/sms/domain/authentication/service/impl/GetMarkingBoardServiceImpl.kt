@@ -14,6 +14,9 @@ import java.util.UUID
 class GetMarkingBoardServiceImpl(
     private val markingBoardPort: MarkingBoardPort
 ) : GetMarkingBoardService {
+    override fun verifyMarkingBoardByStudentId(studentId: UUID): MarkingBoard? =
+        markingBoardPort.verifyMarkingBoardByStudentId(studentId)
+
     override fun getMarkingBoardById(id: UUID): MarkingBoard {
         return markingBoardPort.queryMarkingBoardById(id) ?: throw MarkingBoardNotFoundException
     }

@@ -6,6 +6,7 @@ import team.msg.sms.domain.authentication.model.MarkingBoardType
 import java.util.*
 
 interface GetMarkingBoardService {
+    fun verifyMarkingBoardByStudentId(studentId: UUID): MarkingBoard?
     fun getMarkingBoardById(id: UUID): MarkingBoard
     fun getMarkingBoardByStudentIds(
         studentIds: List<UUID>,

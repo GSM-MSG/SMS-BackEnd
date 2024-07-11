@@ -7,7 +7,10 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 import team.msg.sms.domain.authentication.dto.res.UserBoardPageResponseData
 import team.msg.sms.domain.authentication.dto.res.UserBoardWithStudentInfoResponseData
+import team.msg.sms.domain.authentication.model.MarkingBoard
 import team.msg.sms.domain.authentication.model.MarkingBoardType
+import team.msg.sms.persistence.authentication.entity.MarkingBoardJpaEntity
+import team.msg.sms.persistence.authentication.entity.QAuthenticationFormJpaEntity
 import team.msg.sms.persistence.authentication.entity.QMarkingBoardJpaEntity
 import team.msg.sms.persistence.student.entity.QStudentJpaEntity
 import team.msg.sms.persistence.user.entity.QUserJpaEntity
@@ -17,6 +20,22 @@ import java.util.*
 class MarkingBoardRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory
 ) : MarkingBoardCustomRepository {
+    override fun findMarkingBoardWithStudentId(studentId: UUID): MarkingBoardJpaEntity? {
+        val qMarkingBoard = QMarkingBoardJpaEntity.markingBoardJpaEntity
+        val qAuthenticationForm = QAuthenticationFormJpaEntity.authenticationFormJpaEntity
+        val data = jpaQueryFactory
+            .select(qMarkingBoard)
+            .from(qMarkingBoard)
+            .join(qAuthenticationForm).on(qMarkingBoard.authenticationId.eq(qAuthenticationForm.id))
+            .where(
+                qMarkingBoard.studentId.eq(studentId)
+                    .and(qAuthenticationForm.active.isTrue)
+            )
+            .fetch()
+        return if (data.isEmpty()) null else {
+            data.first()
+        }
+    }
 
     override fun findMarkingBoardWithStudentInfoByStudentIds(
         studentIds: List<UUID>,
