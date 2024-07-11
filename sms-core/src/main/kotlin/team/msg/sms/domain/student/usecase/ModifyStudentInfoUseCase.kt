@@ -71,7 +71,7 @@ class ModifyStudentInfoUseCase(
         val checkStudentMismatch = studentService.checkStudentDataMismatch(student, modifyStudentInfoDataModel)
         if (checkStudentMismatch) {
             val portfolioFileUrl =
-                if(student.portfolioUrl != modifyStudentInfoDataModel.portfolioUrl
+                if(student.portfolioUrl != modifyStudentInfoDataModel.portfolioUrl // true && true) //해당 데이터가 다르면서 수정 데이터는 있으면 null
                     && modifyStudentInfoData.portfolioUrl != null) null
                 else student.portfolioFileUrl
 

@@ -52,7 +52,7 @@ class StudentInfoTokenUseCase(
         return DetailStudentInfoTokenResponseData(
             name = student.name,
             introduce = student.introduce,
-            portfolioUrl = student.portfolioUrl,
+            portfolioUrl = getStudentPortfolioUrl(student),
             portfolioFileUrl = student.portfolioFileUrl,
             grade = student.stuNum.substring(0, 1).toInt(),
             classNum = student.stuNum.substring(1, 2).toInt(),
@@ -94,5 +94,13 @@ class StudentInfoTokenUseCase(
 
     private fun toStudentTechStacks(techStacks: List<TechStack>, studentTechStack: StudentTechStack): TechStack? =
         techStacks.find { it.id == studentTechStack.techStackId }
+
+    private fun getStudentPortfolioUrl(student: Student.StudentWithUserInfo): String {
+        return when {
+            !student.portfolioUrl.isNullOrBlank() -> student.portfolioUrl
+            !student.portfolioFileUrl.isNullOrBlank() -> student.portfolioFileUrl
+            else -> ""
+        }
+    }
 }
 
