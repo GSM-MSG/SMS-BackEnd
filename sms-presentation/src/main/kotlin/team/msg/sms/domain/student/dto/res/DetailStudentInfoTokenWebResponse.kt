@@ -10,7 +10,7 @@ import team.msg.sms.domain.student.model.MilitaryService
 data class DetailStudentInfoTokenWebResponse(
     val name: String,
     val introduce: String,
-    val portfolioUrl: String?,
+    val portfolioUrl: String,
     val portfolioFileUrl: String?,
     val grade: Int,
     val classNum: Int,
