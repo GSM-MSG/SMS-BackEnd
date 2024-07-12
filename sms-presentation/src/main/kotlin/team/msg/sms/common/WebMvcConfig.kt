@@ -12,7 +12,8 @@ class WebMvcConfig : WebMvcConfigurer {
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             .allowedOrigins(
                 "http://localhost:3000",
-                "https://sms.msg-team.com"
+                "https://sms.msg-team.com",
+                "https://sms-test.msg-team.com"
             )
             .allowedHeaders("*")
             .allowCredentials(true)
