@@ -117,7 +117,6 @@ class QueryCurrentUserProfileDetailUseCase(
     private fun getStudentPortfolioUrl(student: Student.StudentWithUserInfo): String {
         return when {
             !student.portfolioUrl.isNullOrBlank() -> student.portfolioUrl
-            !student.portfolioFileUrl.isNullOrBlank() -> student.portfolioFileUrl
             else -> ""
         }
     }
