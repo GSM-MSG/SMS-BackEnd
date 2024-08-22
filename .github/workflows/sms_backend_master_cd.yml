@@ -3,6 +3,9 @@ name: sms-production-CD
 on:
   push:
     branches: [ "master" ]
+  workflow_dispatch:
+    branches:
+      - '*'
 
 jobs:
   cd:

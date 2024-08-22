@@ -115,10 +115,6 @@ class QueryCurrentUserProfileDetailUseCase(
         techStacks.find { it.id == studentTechStack.techStackId }
 
     private fun getStudentPortfolioUrl(student: Student.StudentWithUserInfo): String {
-        return when {
-            !student.portfolioUrl.isNullOrBlank() -> student.portfolioUrl
-            !student.portfolioFileUrl.isNullOrBlank() -> student.portfolioFileUrl
-            else -> ""
-        }
+        return if(!student.portfolioUrl.isNullOrBlank()) student.portfolioUrl else ""
     }
 }
