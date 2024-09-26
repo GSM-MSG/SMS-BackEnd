@@ -11,7 +11,6 @@ import team.msg.sms.domain.authentication.service.*
 import team.msg.sms.domain.file.dto.res.FileResponseData
 import team.msg.sms.domain.file.service.FileService
 import java.util.*
-import kotlin.math.max
 
 @UseCase
 class QueryAuthenticationFormUseCase(
@@ -25,7 +24,15 @@ class QueryAuthenticationFormUseCase(
 ) {
     @Transactional(readOnly = true)
     fun execute(): QueryAuthenticationFormResponseData {
-        val authenticationFormId = authenticationFormService.getActiveAuthenticationFormId()
+        val authenticationFormId = runCatching {
+            authenticationFormService.getActiveAuthenticationFormId()
+        }.getOrNull()
+
+        authenticationFormId ?: return QueryAuthenticationFormResponseData(
+            files = emptyList(),
+            content = emptyList()
+        )
+
         val files = fetchFiles(authenticationFormId)
         val groups = fetchAuthenticationGroups(authenticationFormId)
         val authenticationSections = fetchAuthenticationSections(groups)
