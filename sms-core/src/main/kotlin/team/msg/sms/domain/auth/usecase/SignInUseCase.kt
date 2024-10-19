@@ -1,6 +1,6 @@
 package team.msg.sms.domain.auth.usecase
 
-import gauth.GAuthUserInfo
+import gauth.response.GAuthUserInfo
 import gauth.exception.GAuthException
 import team.msg.sms.domain.auth.dto.req.SignInRequestData
 import team.msg.sms.common.annotation.UseCase
