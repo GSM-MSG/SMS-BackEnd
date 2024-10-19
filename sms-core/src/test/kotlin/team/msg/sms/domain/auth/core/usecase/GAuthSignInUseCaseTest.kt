@@ -1,7 +1,7 @@
 package team.msg.sms.domain.auth.core.usecase
 
-import gauth.GAuthToken
-import gauth.GAuthUserInfo
+import gauth.response.GAuthToken
+import gauth.response.GAuthUserInfo
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
