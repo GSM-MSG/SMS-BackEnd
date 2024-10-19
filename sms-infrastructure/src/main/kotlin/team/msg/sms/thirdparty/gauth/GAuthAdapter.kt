@@ -1,8 +1,8 @@
 package team.msg.sms.thirdparty.gauth
 
 import gauth.GAuth
-import gauth.GAuthToken
-import gauth.GAuthUserInfo
+import gauth.response.GAuthToken
+import gauth.response.GAuthUserInfo
 import org.springframework.stereotype.Component
 import team.msg.sms.common.spi.GAuthPort
 
