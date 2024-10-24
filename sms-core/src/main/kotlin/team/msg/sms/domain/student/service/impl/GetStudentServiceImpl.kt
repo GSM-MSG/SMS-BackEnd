@@ -63,4 +63,7 @@ class GetStudentServiceImpl(
 
     override fun getStudentIds(): List<UUID> =
         studentPort.queryStudentIds()
+
+    override fun getStudentIdsByGradeAndClassNum(grade: Int, classNum: Int): List<UUID> =
+        studentPort.queryStudentIdsByGradeAndClassNum(grade, classNum)
 }
