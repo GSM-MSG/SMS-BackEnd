@@ -53,6 +53,16 @@ class StudentPersistenceAdapter(
             .fetch()
     }
 
+    override fun queryStudentIdsByGradeAndClassNum(grade: Int, classNum: Int): List<UUID> {
+        val qStudent = QStudentJpaEntity.studentJpaEntity
+
+        return queryFactory
+            .select(qStudent.id)
+            .from(qStudent)
+            .where(qStudent.user.stuNum.startsWith("${grade}${classNum}"))
+            .fetch()
+    }
+
     override fun queryStudentByUserId(userId: UUID): Student =
         studentJpaRepository.findByUserId(userId)!!.toDomain()
 
