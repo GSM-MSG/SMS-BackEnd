@@ -9,6 +9,7 @@ interface QueryStudentPort {
     fun queryStudentById(uuid: UUID): Student?
     fun queryStudentsWithPage(page: Int, size: Int): Student.StudentWithPageInfo
     fun queryStudentIds(): List<UUID>
+    fun queryStudentIdsByGradeAndClassNum(grade: Int, classNum: Int): List<UUID>
     fun queryStudentByUserId(userId: UUID): Student
     fun queryStudentUserInfoByUserId(userId: UUID): Student.StudentWithUserInfo?
     fun queryStudentByUser(user: User): Student
